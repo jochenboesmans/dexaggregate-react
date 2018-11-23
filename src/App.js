@@ -1,51 +1,78 @@
 import React, { Component } from 'react';
-import {getCurrencies} from "./kyberAPIRequests/getCurrencies";
 import _ from "lodash";
-import {getMarket} from "./kyberAPIRequests/getMarket";
+
+import {getMarket}  from "./model/getMarket";
 
 /**
- * Simple React app that displays market data from the Kyber web API.
+ * Simple React app that displays market data from various exchanges.
+ *
+ * TODO: refactoring.
  */
 class App extends Component {
     constructor(props) {
         super(props);
-        this.state = ({market: []});
+        this.state = ({
+			market: {}
+        });
     }
     async componentDidMount() {
-        const currencies = await getCurrencies();
-		let market = await getMarket();
-		market = _.map(market, p => {
-		    let foundCurrency = _.find(currencies, c => c.symbol === p.quote_symbol);
-		    return {...p, ...foundCurrency};
-		});
-		market = _.orderBy(market, "usd_24h_volume", "desc");
+		const market = await getMarket();
         this.setState({market});
     }
-    /* TODO: Round to significant numbers */
+
     toDAI(priceInETH) {
-        const daiETH = _.find(this.state.market, p => p.pair === "DAI_ETH");
-        return (priceInETH / daiETH.last_traded).toFixed(2);
+        const DAI = _.find(this.state.market, p => p.quote_symbol === "DAI");
+        return (priceInETH / DAI.kyber_market_data.last_traded);
     }
+
+    p24hLow(p) {
+		return (p.idex_market_data ? this.toDAI(p.idex_market_data.past_24h_low).toPrecision(5) : 0)
+	}
+	pCurrentBid(p) {
+		return (p.idex_market_data ? this.toDAI(p.idex_market_data.current_bid).toPrecision(5) : 0);
+	}
+
+	pLastTraded(p) {
+		return (p.idex_market_data ? this.toDAI(p.idex_market_data.last_traded).toPrecision(5) : 0);
+	}
+	pCurrentAsk(p) {
+    	return (p.idex_market_data ? this.toDAI(p.idex_market_data.current_ask).toPrecision(5) : 0);
+	}
+	p24hHigh(p) {
+    	return (p.idex_market_data ? this.toDAI(p.idex_market_data.past_24h_high).toPrecision(5) : 0);
+	}
+	p24hVolume(p) {
+    	return (p.idex_market_data ? this.toDAI(p.idex_market_data.eth_24h_volume).toFixed(0) : 0);
+	}
+
     renderMarket() {
+    	const ordered = _.orderBy(this.state.market, p => p.kyber_market_data.eth_24h_volume, "desc");
         return (
-        	<table style={{width: "100%"}}>
-				<thead>
-					<tr>
-						<th>Name</th><th>Symbol</th><th>Spread (DAI)</th><th>Last Price (DAI)</th><th>Volume (DAI)</th>
-					</tr>
-				</thead>
-				<tbody>
-				{_.map(this.state.market,
-					p => <tr key={p.pair}><td>{p.name}</td><td>{p.quote_symbol}</td>
-						<td>{`$${this.toDAI(p.current_bid)} - $${this.toDAI(p.current_ask)}`}</td>
-						<td>{`$${this.toDAI(p.last_traded)}`}</td>
-						<td>{`$${p.usd_24h_volume.toFixed(2)}`}</td>
-					</tr>)}
-				</tbody>
-			</table>
+        	<div>
+				<table style={{width: "100%"}}>
+					<thead>
+						<tr>
+							<th>Token</th><th>Kyber Spread (DAI)</th><th>Kyber Volume (ETH)</th><th>Idex Spread (DAI)</th><th>Idex Volume (ETH)</th>
+						</tr>
+					</thead>
+					<tbody>
+					{_.map(ordered,
+						p =>
+							<tr key={p.quote_symbol}>
+								<td>{`${p.quote_symbol}`}</td>
+								<td>{`($${this.toDAI(p.kyber_market_data.current_bid).toPrecision(5)} | $${this.toDAI(p.kyber_market_data.last_traded).toPrecision(5)} | $${this.toDAI(p.kyber_market_data.current_ask).toPrecision(5)})`}</td>
+								<td>{`$${this.toDAI(p.kyber_market_data.eth_24h_volume).toFixed(0)}`}</td>
+								<td>{`($${this.pCurrentBid(p)} | $${this.pLastTraded(p)} | $${this.pCurrentAsk(p)})`}</td>
+								<td>{`$${this.p24hVolume(p)}`}</td>
+							</tr>
+					)}
+					</tbody>
+				</table>
+			</div>
 		)
     }
     render() {
+    	console.log(this.state);
         return (
             <div className="App" style={{textAlign: "center"}}>
                 {this.renderMarket()}
