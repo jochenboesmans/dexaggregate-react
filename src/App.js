@@ -1,12 +1,60 @@
+/* External libraries */
 import React, { Component } from 'react';
 import _ from "lodash";
+import axios from "axios";
 
-import {getMarket}  from "./model/getMarket";
+import Paper from '@material-ui/core/Paper'
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import { withStyles } from '@material-ui/core/styles';
+
+/* Stylesheet */
+
+import {
+	combinedVolume,
+	highestCurrentBid,
+	lowestCurrentAsk,
+	requoteRate,
+	volumeWeightedLastTraded
+} from "./util/marketFunctions";
+
+const styles = (theme) => ({
+	root: {
+		width: '100%',
+		marginTop: theme.spacing.unit * 3,
+		overflowX: 'auto',
+	},
+	table: {
+		minWidth: 700,
+	},
+});
+
+const formatPrice = (price) => {
+	return (new Intl.NumberFormat('en-US', {
+		style: 'currency',
+		currency: 'USD',
+		minimumSignificantDigits: 4,
+		maximumSignificantDigits: 4,
+		useGrouping: 'true'
+	}).format(price));
+};
+const formatVolume = (volume) => {
+	return (new Intl.NumberFormat('en-US', {
+		style: 'currency',
+		currency: 'USD',
+		useGrouping: 'true'
+	}).format(volume));
+};
+
+
+
+
 
 /**
  * Simple React app that displays market data from various exchanges.
- *
- * TODO: refactoring.
  */
 class App extends Component {
     constructor(props) {
@@ -16,61 +64,55 @@ class App extends Component {
         });
     }
     async componentDidMount() {
-		const market = await getMarket();
-        this.setState({market});
+		const result = await axios.get("/api/market");
+		const market = result.data;
+		const sortedMarket = _.orderBy(market, [p => combinedVolume(market, p.base_symbol, p.quote_symbol)], ['desc']);
+		this.setState({market: sortedMarket});
     }
 
-    toDAI(priceInETH) {
-        const DAI = _.find(this.state.market, p => p.quote_symbol === "DAI");
-        return (priceInETH / DAI.kyber_market_data.last_traded);
-    }
 
-    p24hLow(p) {
-		return (p.idex_market_data ? this.toDAI(p.idex_market_data.past_24h_low).toPrecision(5) : 0)
-	}
-	pCurrentBid(p) {
-		return (p.idex_market_data ? this.toDAI(p.idex_market_data.current_bid).toPrecision(5) : 0);
-	}
+	renderMarket() {
+    	return (
+    		<div>
+				<Paper>
+					<Table>
+						<TableHead>
+							<TableRow>
+								<TableCell>Token</TableCell>
+								<TableCell numeric>Spread</TableCell>
+								<TableCell numeric>Last Price</TableCell>
+								<TableCell numeric>Volume (24h)</TableCell>
+							</TableRow>
+						</TableHead>
+						<TableBody>
+							{_.map(this.state.market,
+								p => {
+									const innerBid = formatPrice(requoteRate(this.state.market, p.quote_symbol, "DAI",
+										highestCurrentBid(this.state.market, p.base_symbol, p.quote_symbol)));
+									const innerAsk = formatPrice(requoteRate(this.state.market, p.quote_symbol, "DAI",
+										lowestCurrentAsk(this.state.market, p.base_symbol, p.quote_symbol)));
+									const last = formatPrice(requoteRate(this.state.market, p.quote_symbol, "DAI",
+										volumeWeightedLastTraded(this.state.market, p.base_symbol, p.quote_symbol)));
+									const combVol = formatVolume(requoteRate(this.state.market, p.quote_symbol, "DAI",
+										combinedVolume(this.state.market, p.base_symbol, p.quote_symbol)));
 
-	pLastTraded(p) {
-		return (p.idex_market_data ? this.toDAI(p.idex_market_data.last_traded).toPrecision(5) : 0);
-	}
-	pCurrentAsk(p) {
-    	return (p.idex_market_data ? this.toDAI(p.idex_market_data.current_ask).toPrecision(5) : 0);
-	}
-	p24hHigh(p) {
-    	return (p.idex_market_data ? this.toDAI(p.idex_market_data.past_24h_high).toPrecision(5) : 0);
-	}
-	p24hVolume(p) {
-    	return (p.idex_market_data ? this.toDAI(p.idex_market_data.eth_24h_volume).toFixed(0) : 0);
-	}
-
-    renderMarket() {
-    	const ordered = _.orderBy(this.state.market, p => p.kyber_market_data.eth_24h_volume, "desc");
-        return (
-        	<div>
-				<table style={{width: "100%"}}>
-					<thead>
-						<tr>
-							<th>Token</th><th>Kyber Spread (DAI)</th><th>Kyber Volume (ETH)</th><th>Idex Spread (DAI)</th><th>Idex Volume (ETH)</th>
-						</tr>
-					</thead>
-					<tbody>
-					{_.map(ordered,
-						p =>
-							<tr key={p.quote_symbol}>
-								<td>{`${p.quote_symbol}`}</td>
-								<td>{`($${this.toDAI(p.kyber_market_data.current_bid).toPrecision(5)} | $${this.toDAI(p.kyber_market_data.last_traded).toPrecision(5)} | $${this.toDAI(p.kyber_market_data.current_ask).toPrecision(5)})`}</td>
-								<td>{`$${this.toDAI(p.kyber_market_data.eth_24h_volume).toFixed(0)}`}</td>
-								<td>{`($${this.pCurrentBid(p)} | $${this.pLastTraded(p)} | $${this.pCurrentAsk(p)})`}</td>
-								<td>{`$${this.p24hVolume(p)}`}</td>
-							</tr>
-					)}
-					</tbody>
-				</table>
+									return (
+										<TableRow key={`${p.base_symbol}/${p.quote_symbol}`}>
+											<TableCell>{`${p.quote_symbol}`}</TableCell>
+											<TableCell numeric>{`${innerBid} - ${innerAsk}`}</TableCell>
+											<TableCell numeric>{`${last}`}</TableCell>
+											<TableCell numeric>{`${combVol}`}</TableCell>
+										</TableRow>
+									);
+								}
+							)}
+						</TableBody>
+					</Table>
+				</Paper>
 			</div>
 		)
-    }
+	}
+
     render() {
     	console.log(this.state);
         return (
@@ -81,4 +123,4 @@ class App extends Component {
     }
 }
 
-export default App;
+export default withStyles(styles)(App);
