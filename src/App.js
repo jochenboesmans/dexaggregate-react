@@ -15,10 +15,10 @@ import { withStyles } from '@material-ui/core/styles';
 
 import {
 	combinedVolume,
-	highestCurrentBid,
-	lowestCurrentAsk,
-	requoteRate,
-	volumeWeightedLastTraded
+	rebaseCombinedVolume,
+	rebaseHighestCurrentBid,
+	rebaseLastPrice,
+	rebaseLowestCurrentAsk, rebaseRate, totalCombinedVolume,
 } from "./util/marketFunctions";
 
 const styles = (theme) => ({
@@ -66,7 +66,7 @@ class App extends Component {
     async componentDidMount() {
 		const result = await axios.get("/api/market");
 		const market = result.data;
-		const sortedMarket = _.orderBy(market, [p => combinedVolume(market, p.base_symbol, p.quote_symbol)], ['desc']);
+		const sortedMarket = _.orderBy(market, [p => rebaseCombinedVolume(market, p.base_symbol, p.quote_symbol, "DAI")], ['desc']);
 		this.setState({market: sortedMarket});
     }
 
@@ -75,30 +75,27 @@ class App extends Component {
     	return (
     		<div>
 				<Paper>
+					Combined Volume (24h): {formatVolume(_.sumBy(this.state.market, p => rebaseCombinedVolume(this.state.market, p.base_symbol, p.quote_symbol, "DAI")))}
 					<Table>
 						<TableHead>
 							<TableRow>
-								<TableCell>Token</TableCell>
-								<TableCell numeric>Spread</TableCell>
-								<TableCell numeric>Last Price</TableCell>
+								<TableCell>Base Token / Quote Token</TableCell>
+								<TableCell numeric>Quote Token Current Spread ($)</TableCell>
+								<TableCell numeric>Quote Token Last Price ($)</TableCell>
 								<TableCell numeric>Volume (24h)</TableCell>
 							</TableRow>
 						</TableHead>
 						<TableBody>
 							{_.map(this.state.market,
 								p => {
-									const innerBid = formatPrice(requoteRate(this.state.market, p.quote_symbol, "DAI",
-										highestCurrentBid(this.state.market, p.base_symbol, p.quote_symbol)));
-									const innerAsk = formatPrice(requoteRate(this.state.market, p.quote_symbol, "DAI",
-										lowestCurrentAsk(this.state.market, p.base_symbol, p.quote_symbol)));
-									const last = formatPrice(requoteRate(this.state.market, p.quote_symbol, "DAI",
-										volumeWeightedLastTraded(this.state.market, p.base_symbol, p.quote_symbol)));
-									const combVol = formatVolume(requoteRate(this.state.market, p.quote_symbol, "DAI",
-										combinedVolume(this.state.market, p.base_symbol, p.quote_symbol)));
+									const innerBid = formatPrice(rebaseHighestCurrentBid(this.state.market, p.base_symbol, p.quote_symbol, "DAI"));
+									const innerAsk = formatPrice(rebaseLowestCurrentAsk(this.state.market, p.base_symbol, p.quote_symbol, "DAI"));
+									const last = formatPrice(rebaseLastPrice(this.state.market, p.base_symbol, p.quote_symbol, "DAI"));
+									const combVol = formatVolume(rebaseCombinedVolume(this.state.market, p.base_symbol, p.quote_symbol, "DAI"));
 
 									return (
 										<TableRow key={`${p.base_symbol}/${p.quote_symbol}`}>
-											<TableCell>{`${p.quote_symbol}`}</TableCell>
+											<TableCell>{`${p.base_symbol}/${p.quote_symbol}`}</TableCell>
 											<TableCell numeric>{`${innerBid} - ${innerAsk}`}</TableCell>
 											<TableCell numeric>{`${last}`}</TableCell>
 											<TableCell numeric>{`${combVol}`}</TableCell>

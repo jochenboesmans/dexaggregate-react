@@ -18,27 +18,29 @@ module.exports = (app) => {
 				const oasisMarketInPromises = _.map(pairs, async p => {
 						if (p.active) {
 							const marketResponse = await axios.get(`http://api.oasisdex.com/v1/markets/${p.base}/${p.quote}`);
-							const market = marketResponse.data.data;
-							const returnObject = {
-								base_symbol: p.base,
-								quote_symbol: p.quote,
-								market_data: {
-									exchange: exchanges.OASIS_DEX,
-									last_traded: market.last,
-									current_bid: market.bid,
-									current_ask: market.ask,
-									past_24h_high: market.high,
-									past_24h_low: market.low,
-									volume: market.vol
-								}
-							};
-							return returnObject;
+							const m = marketResponse.data.data;
+							if (parseFloat(m.last) && parseFloat(m.bid) && parseFloat(m.ask) && parseFloat(m.high) && parseFloat(m.low) && parseFloat(m.vol)) {
+								const returnObject = {
+									base_symbol: p.quote,
+									quote_symbol: p.base,
+									market_data: {
+										exchange: exchanges.OASIS_DEX,
+										last_traded: parseFloat(m.last),
+										current_bid: parseFloat(m.bid),
+										current_ask: parseFloat(m.ask),
+										past_24h_high: parseFloat(m.high),
+										past_24h_low: parseFloat(m.low),
+										volume: parseFloat(m.vol)
+									}
+								};
+								return returnObject;
+							}
 						}
 					}
 				);
 				const oasisMarket = await Promise.all(oasisMarketInPromises);
-				const filtered = _.filter(oasisMarket, p => p);
-				res.send(filtered);
+				const filterNotNull = _.filter(oasisMarket, p => p);
+				res.send(filterNotNull);
 			}
 		} catch (error) {
 			console.log(`Error while trying to fetch market from Oasis API: ${error.message}`);

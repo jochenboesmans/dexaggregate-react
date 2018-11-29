@@ -32,6 +32,14 @@ const getBancorMarket = async () => {
 		console.log(`Error while trying to fetch data from ${url}: ${error}`);
 	}
 };
+const getDdexMarket = async () => {
+	const url = "http://localhost:5000/api/markets/ddex";
+	try {
+		return (await axios.get(url)).data
+	} catch (error) {
+		console.log(`Error while trying to fetch data from ${url}: ${error}`);
+	}
+};
 
 const KYBER_NETWORK = {
 	name: "Kyber Network",
@@ -49,8 +57,12 @@ const BANCOR = {
 	name: "Bancor",
 	getMarket: getBancorMarket()
 };
+const DDEX = {
+	name: "DDEX",
+	getMarket: getDdexMarket()
+};
 
 // TODO: Re-add BANCOR
-const exchanges = {KYBER_NETWORK, OASIS_DEX, IDEX};
+const exchanges = {KYBER_NETWORK, OASIS_DEX, IDEX, DDEX};
 
 module.exports = exchanges;

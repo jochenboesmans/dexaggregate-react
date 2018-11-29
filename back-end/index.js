@@ -8,5 +8,6 @@ require('./routes/kyber')(app);
 require('./routes/idex')(app);
 require('./routes/oasis')(app);
 require('./routes/bancor')(app);
+require('./routes/ddex')(app);
 
 app.listen(port, () => `Express server is now listening on port ${port}`);

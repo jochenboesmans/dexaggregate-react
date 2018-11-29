@@ -18,23 +18,27 @@ module.exports = (app) => {
 				return { pair: key, ...pairs[key] }
 			});
 			const idexMarket = _.map(listOfPairs, p => {
-				return (
-					{
-						base_symbol: parseBaseSymbol(p.pair),
-						quote_symbol: parseQuoteSymbol(p.pair),
-						market_data: {
-							exchange: exchanges.IDEX,
-							last_traded: parseFloat(p.last),
-							current_bid: parseFloat(p.highestBid),
-							current_ask: parseFloat(p.lowestAsk),
-							past_24h_high: parseFloat(p.high),
-							past_24h_low: parseFloat(p.low),
-							volume: parseFloat(p.baseVolume)
-						}
+					if (parseFloat(p.last) && parseFloat(p.highestBid) && parseFloat(p.lowestAsk) && parseFloat(p.high) && parseFloat(p.low) && parseFloat(p.baseVolume)) {
+						return (
+							{
+								base_symbol: parseBaseSymbol(p.pair),
+								quote_symbol: parseQuoteSymbol(p.pair),
+								market_data: {
+									exchange: exchanges.IDEX,
+									last_traded: parseFloat(p.last),
+									current_bid: parseFloat(p.highestBid),
+									current_ask: parseFloat(p.lowestAsk),
+									past_24h_high: parseFloat(p.high),
+									past_24h_low: parseFloat(p.low),
+									volume: parseFloat(p.baseVolume)
+								}
+							}
+						)
 					}
-				)}
+				}
 			);
-			res.send(idexMarket);
+			const filterNonNull = _.filter(idexMarket, p => p);
+			res.send(filterNonNull);
 		} catch (err) {
 			console.log(`Error while trying to fetch market from IDEX API: ${err})`);
 		}
@@ -42,14 +46,14 @@ module.exports = (app) => {
 };
 
 /**
- * Parses the base symbol from a string of type "{BASE_SYMBOL}/{QUOTE_SYMBOL}".
+ * Parses the base symbol from a string of type "{BASE_SYMBOL}_{QUOTE_SYMBOL}".
  */
 const parseBaseSymbol = (pair) => {
 	return pair.split('_')[0];
 };
 
 /**
- * Parses the quote symbol from a string of type "{BASE_SYMBOL}/{QUOTE_SYMBOL}".
+ * Parses the quote symbol from a string of type "{BASE_SYMBOL}_{QUOTE_SYMBOL}".
  */
 const parseQuoteSymbol = (pair) => {
 	return pair.split('_')[1];

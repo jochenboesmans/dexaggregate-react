@@ -26,14 +26,29 @@ export const volumeWeightedLastTraded = (market, baseSymbol, quoteSymbol) => {
 
 };
 
-export const requoteRate = (market, quoteSymbol, requoteSymbol, rate) => {
-	const pairTwo = findPair(market, quoteSymbol, requoteSymbol);
-	const testPair = findPair(market, "ETH", "DAI");
+//TODO: Add deep rebasing with some shortest path algo
+export const rebaseRate = (market, baseSymbol, quoteSymbol, rebaseSymbol, rate) => {
+	if (volumeWeightedLastTraded(market, rebaseSymbol, baseSymbol)) {
+		return rate * volumeWeightedLastTraded(market, rebaseSymbol, baseSymbol);
+	}
+	return rate;
 
-	const volWeight = volumeWeightedLastTraded(market, testPair.base_symbol, testPair.quote_symbol);
-	console.log(volWeight);
-	const newRate = 1/volWeight;
-	return rate * newRate;
+};
+
+export const rebaseLastPrice = (market, baseSymbol, quoteSymbol, rebaseSymbol) => {
+	return rebaseRate(market, baseSymbol, quoteSymbol, rebaseSymbol, volumeWeightedLastTraded(market, baseSymbol, quoteSymbol));
+};
+
+export const rebaseHighestCurrentBid = (market, baseSymbol, quoteSymbol, rebaseSymbol) => {
+	return rebaseRate(market, baseSymbol, quoteSymbol, rebaseSymbol, highestCurrentBid(market, baseSymbol, quoteSymbol));
+};
+
+export const rebaseLowestCurrentAsk = (market, baseSymbol, quoteSymbol, rebaseSymbol) => {
+	return rebaseRate(market, baseSymbol, quoteSymbol, rebaseSymbol, lowestCurrentAsk(market, baseSymbol, quoteSymbol));
+};
+
+export const rebaseCombinedVolume = (market, baseSymbol, quoteSymbol, rebaseSymbol) => {
+	return rebaseRate(market, baseSymbol, quoteSymbol, rebaseSymbol, combinedVolume(market, baseSymbol, quoteSymbol));
 };
 
 const findPair = (market, baseSymbol, quoteSymbol) => {
