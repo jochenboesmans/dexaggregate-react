@@ -1,68 +1,27 @@
-const axios = require("axios");
+const getBancorMarket = require("./exchangemarkets/getBancorMarket");
+const getDdexMarket = require("./exchangemarkets/getDdexMarket");
+const getIdexMarket = require("./exchangemarkets/getIdexMarket");
+const getKyberMarket = require("./exchangemarkets/getBancorMarket");
+const getOasisMarket = require("./exchangemarkets/getOasisMarket");
+const getParadexMarket = require("./exchangemarkets/getParadexMarket");
 
-const getKyberMarket = async () => {
-	const url = "http://localhost:5000/api/markets/kyber";
-	try {
-		return (await axios.get(url)).data
-	} catch (error) {
-		console.log(`Error while trying to fetch data from ${url}: ${error}`);
+module.exports = {
+	BANCOR: {
+		name: "Bancor"
+	},
+	DDEX: {
+		name: "Ddex"
+	},
+	IDEX: {
+		name: "Idex"
+	},
+	KYBER: {
+		name: "Kyber Network"
+	},
+	OASIS: {
+		name: "Oasis Dex"
+	},
+	PARADEX: {
+		name: "Paradex"
 	}
 };
-const getOasisMarket = async () => {
-	const url = "http://localhost:5000/api/markets/oasis";
-	try {
-		return (await axios.get(url)).data
-	} catch (error) {
-		console.log(`Error while trying to fetch data from ${url}: ${error}`);
-	}
-};
-const getIdexMarket = async () => {
-	const url = "http://localhost:5000/api/markets/idex";
-	try {
-		return (await axios.get(url)).data
-	} catch (error) {
-		console.log(`Error while trying to fetch data from ${url}: ${error}`);
-	}
-};
-const getBancorMarket = async () => {
-	const url = "http://localhost:5000/api/markets/bancor";
-	try {
-		return (await axios.get(url)).data
-	} catch (error) {
-		console.log(`Error while trying to fetch data from ${url}: ${error}`);
-	}
-};
-const getDdexMarket = async () => {
-	const url = "http://localhost:5000/api/markets/ddex";
-	try {
-		return (await axios.get(url)).data
-	} catch (error) {
-		console.log(`Error while trying to fetch data from ${url}: ${error}`);
-	}
-};
-
-const KYBER_NETWORK = {
-	name: "Kyber Network",
-	getMarket: getKyberMarket()
-};
-const OASIS_DEX = {
-	name: "Oasis Dex",
-	getMarket: getOasisMarket()
-};
-const IDEX = {
-	name: "Idex",
-	getMarket: getIdexMarket()
-};
-const BANCOR = {
-	name: "Bancor",
-	getMarket: getBancorMarket()
-};
-const DDEX = {
-	name: "DDEX",
-	getMarket: getDdexMarket()
-};
-
-// TODO: Re-add BANCOR
-const exchanges = {KYBER_NETWORK, OASIS_DEX, IDEX, DDEX};
-
-module.exports = exchanges;

@@ -2,12 +2,15 @@ const express = require('express');
 const app = express();
 const port = 5000;
 
+const update = require("./model/update");
 
-require('./routes/market')(app);
-require('./routes/kyber')(app);
-require('./routes/idex')(app);
-require('./routes/oasis')(app);
-require('./routes/bancor')(app);
-require('./routes/ddex')(app);
+update();
+/**
+ * Update model every 60 seconds
+ */
+setInterval(update, 30 * 1000);
+
+require("./routes/exchangeRoutes")(app);
+require("./routes/marketRoutes")(app);
 
 app.listen(port, () => `Express server is now listening on port ${port}`);
