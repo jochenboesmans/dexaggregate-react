@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import _ from "lodash";
 import axios from "axios";
 
+import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper'
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -11,10 +12,11 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import { withStyles } from '@material-ui/core/styles';
 
-/* Stylesheet */
+// stylesheet
+import 'typeface-roboto';
 
 import {
-	combinedVolume,
+	combinedVolume, getExchanges,
 	rebaseCombinedVolume,
 	rebaseHighestCurrentBid,
 	rebaseLastPrice,
@@ -75,14 +77,19 @@ class App extends Component {
     	return (
     		<div>
 				<Paper>
-					Combined Volume (24h): {formatVolume(_.sumBy(this.state.market, p => rebaseCombinedVolume(this.state.market, p.base_symbol, p.quote_symbol, "DAI")))}
+					<Typography variant="title" component="h1">
+						Combined Volume (24h): {formatVolume(_.sumBy(this.state.market, p => rebaseCombinedVolume(this.state.market, p.base_symbol, p.quote_symbol, "DAI")))}
+					</Typography>
+					<Typography variant="title" component="title">
+						Exchanges: {_.map(getExchanges(this.state.market), exchangeID => ` ${exchangeID}`)}
+					</Typography>
 					<Table>
 						<TableHead>
 							<TableRow>
 								<TableCell>Base Token / Quote Token</TableCell>
-								<TableCell numeric>Quote Token Current Spread ($)</TableCell>
-								<TableCell numeric>Quote Token Last Price ($)</TableCell>
-								<TableCell numeric>Volume (24h)</TableCell>
+								<TableCell numeric>Quote Token Current Spread [DAI]<br/> (innermost spread of all exchange spreads)</TableCell>
+								<TableCell numeric>Quote Token Last Price [DAI]<br/> (volume-weight of exchanges' last price)</TableCell>
+								<TableCell numeric>Volume [DAI]<br/> (24h combined volume of all exchanges)</TableCell>
 							</TableRow>
 						</TableHead>
 						<TableBody>

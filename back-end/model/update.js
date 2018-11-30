@@ -16,10 +16,18 @@ const getKyberMarket = require("./exchangemarkets/getKyberMarket");
 const getOasisMarket = require("./exchangemarkets/getOasisMarket");
 const getParadexMarket = require("./exchangemarkets/getParadexMarket");
 
-module.exports = () => {
-	_.forEach(exchanges, exchange => {
+const updateMarket = require("./getMarket");
+
+module.exports = async () => {
+	console.log("update");
+	await updateExchangeMarkets();
+	updateMarket();
+};
+
+const updateExchangeMarkets = async () => {
+	await _.forEach(exchanges, async exchange => {
 		if (exchange !== BANCOR) {
-			updateExchangeMarket(exchange)
+			await updateExchangeMarket(exchange);
 		}
 	});
 };
@@ -28,27 +36,21 @@ const updateExchangeMarket = async (exchange) => {
 	switch (exchange) {
 		case BANCOR:
 			BANCOR.market = await getBancorMarket();
-			console.log(`updated bancor`);
 			break;
 		case DDEX:
 			DDEX.market = await getDdexMarket();
-			console.log(`updated ddex`);
 			break;
 		case IDEX:
 			IDEX.market = await getIdexMarket();
-			console.log(`updated idex`);
 			break;
 		case KYBER:
 			KYBER.market = await getKyberMarket();
-			console.log(`updated kyber`);
 			break;
 		case OASIS:
 			OASIS.market = await getOasisMarket();
-			console.log(`updated oasis`);
 			break;
 		case PARADEX:
 			PARADEX.market = await getParadexMarket();
-			console.log(`updated paradex`);
 			break;
 		default:
 			break;

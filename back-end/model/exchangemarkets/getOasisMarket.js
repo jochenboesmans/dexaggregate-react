@@ -55,7 +55,7 @@ const formatOasisMarket = (p, m) => {
 			current_ask: parseFloat(m.ask),
 			past_24h_high: parseFloat(m.high),
 			past_24h_low: parseFloat(m.low),
-			volume: parseFloat(m.vol)
+			volume: parseFloat(m.vol) * parseFloat(m.last)
 		}
 	}
 };

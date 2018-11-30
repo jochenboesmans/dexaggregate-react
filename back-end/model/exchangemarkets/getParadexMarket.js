@@ -38,7 +38,6 @@ module.exports = async () => {
 		);
 		const paradexMarket = await Promise.all(paradexMarketInPromises);
 		const filtered = _.filter(paradexMarket, p => p);
-		console.log(filtered);
 		return filtered;
 	} catch (error) {
 		console.log(`Error while trying to fetch market from Paradex API: ${error}`);

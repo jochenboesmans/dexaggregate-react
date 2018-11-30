@@ -25,21 +25,23 @@ module.exports = async () => joinExchangeMarkets(gatherExchangeMarkets());
 /**
  * @returns A collection of market data from every exchange
  */
-const gatherExchangeMarkets = () => _.map(exchanges, exchange => {
-	console.log(exchange.market);
-	return exchange.market;
-});
+const gatherExchangeMarkets = () => {
+	const exchangeMarkets = _.map(exchanges, exchange => {
+		return exchange.market;
+	});
+	return _.filter(exchangeMarkets, em => em);
+};
 
 /**
- * @returns A collection of token pairs with market data from every exchange
+ * @returns Array array of token pairs with market data from every exchange
  */
-const joinExchangeMarkets= (exchangeMarkets) => {
-	let market = [];
+const joinExchangeMarkets = (exchangeMarkets) => {
+	let marketInTheMaking = [];
 
 	_.forEach(exchangeMarkets, exchangeMarket => {
 		_.forEach(exchangeMarket, exchangeMarketPair => {
 
-			const matchingPair = _.find(market, p => (p.quote_symbol === exchangeMarketPair.quote_symbol &&
+			const matchingPair = _.find(marketInTheMaking, p => (p.quote_symbol === exchangeMarketPair.quote_symbol &&
 				p.base_symbol === exchangeMarketPair.base_symbol));
 			if (matchingPair) {
 				matchingPair.market_data.push(exchangeMarketPair.market_data);
@@ -49,9 +51,9 @@ const joinExchangeMarkets= (exchangeMarkets) => {
 					quote_symbol: exchangeMarketPair.quote_symbol,
 					market_data: [exchangeMarketPair.market_data]
 				};
-				market.push(newPair);
+				marketInTheMaking.push(newPair);
 			}
 		})
 	});
-	return market;
+	return marketInTheMaking;
 };
