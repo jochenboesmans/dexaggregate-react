@@ -7,26 +7,24 @@ const exchanges = require("../exchanges");
  * Retrieves the current market from the Kyber API.
  */
 module.exports = async () => {
-	const retrievedKyberMarket = await retrieveKyberMarket();
+	try {
+		const retrievedKyberMarket = await retrieveKyberMarket();
 
-	if (outOfDate(retrievedKyberMarket.timestamp)) {
-		throw new Error(`Retrieved market from ${exchanges.KYBER.name} API is out of date.`);
+
+		/*if (outOfDate(retrievedKyberMarket.timestamp)) {
+			throw new Error(`Retrieved market from ${exchanges.KYBER.name} API is out of date.`);
+		}*/
+		return formatKyberMarket(retrievedKyberMarket);
+	} catch (error) {
+		console.log(`Error while trying to fetch market from ${exchanges.KYBER.name} API: ${error}`);
 	}
-
-	return formatKyberMarket(retrievedKyberMarket);
 };
 
 /**
  * (GET) Retrieves in-depth information about price and other information about assets.
  * 	More info at [Kyber Docs]{@link https://developer.kyber.network/docs/Trading/#market}.
  */
-const retrieveKyberMarket = async () => {
-	try {
-		return (await axios.get("https://api.kyber.network/market")).data.data;
-	} catch (error) {
-		console.log(`Error while trying to fetch market from ${exchanges.KYBER.name} API: ${error}`);
-	}
-};
+const retrieveKyberMarket = async () => (await axios.get("https://api.kyber.network/market")).data.data;
 
 /**
  * Formats a given retrievedKyberMarket into the application-specific exchangeMarket structure.
@@ -37,7 +35,7 @@ const formatKyberMarket = (retrievedKyberMarket) =>
 			base_symbol: p.base_symbol,
 			quote_symbol: p.quote_symbol,
 			market_data: {
-				exchange: exchanges.KYBER,
+				exchangeID: exchanges.KYBER.ID,
 				last_traded: p.last_traded,
 				current_bid: p.current_bid,
 				current_ask: p.current_ask,

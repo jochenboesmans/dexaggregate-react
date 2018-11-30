@@ -43,7 +43,7 @@ const formatIdexMarket = (filteredIdexMarket) => _.map(filteredIdexMarket, p => 
 		base_symbol: parseBaseSymbol(p.pair),
 		quote_symbol: parseQuoteSymbol(p.pair),
 		market_data: {
-			exchange: exchanges.IDEX,
+			exchangeID: exchanges.IDEX.ID,
 			last_traded: parseFloat(p.last),
 			current_bid: parseFloat(p.highestBid),
 			current_ask: parseFloat(p.lowestAsk),

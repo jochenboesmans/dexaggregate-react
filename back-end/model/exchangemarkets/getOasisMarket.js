@@ -8,52 +8,48 @@ const exchanges = require("../exchanges");
  * 	More info at [MakerDAO Docs]{@link https://developer.makerdao.com/oasis/api/1/markets}.
  */
 module.exports = async () => {
-	const retrievedOasisPairs = await retrieveOasisPairs();
-	/*if (outOfDate(retrievedOasisPairs.time)) {
-		throw new Error(`Retrieved pairs from ${exchanges.OASIS.name} API is out of date.`);
-	}*/
-	const actualOasisPairs = retrievedOasisPairs.data;
-	const activeOasisPairs = filterActivePairs(actualOasisPairs);
-	const oasisMarket = await getOasisMarkets(activeOasisPairs);
-	const filtered = _.filter(oasisMarket, m => m);
-	return filtered;
-};
-
-const retrieveOasisPairs = async () => {
 	try {
-		return (await axios.get("http://api.oasisdex.com/v1/pairs/")).data
+		const retrievedOasisPairs = await retrieveOasisPairs();
+		/*if (outOfDate(retrievedOasisPairs.time)) {
+		throw new Error(`Retrieved pairs from ${exchanges.OASIS.name} API is out of date.`);
+		}*/
+		const actualOasisPairs = retrievedOasisPairs.data;
+		const activeOasisPairs = filterActivePairs(actualOasisPairs);
+		const oasisMarket = await getOasisMarkets(activeOasisPairs);
+		const filtered = _.filter(oasisMarket, m => m);
+		return filtered;
 	} catch (error) {
 		console.log(`Error while trying to fetch pairs from Oasis API: ${error.message}`);
 	}
 };
 
+const retrieveOasisPairs = async () => (await axios.get("http://api.oasisdex.com/v1/pairs/")).data;
+
 const filterActivePairs = (actualOasisPairs) => _.filter(actualOasisPairs, p => p.active);
 
 const getOasisMarkets = async (activeOasisPairs) => {
 	const oasisMarketPromises = _.map(activeOasisPairs,  async p => {
-		const m = await retrieveOasisMarket(p);
-		if (m &&parseFloat(m.last) && parseFloat(m.bid) && parseFloat(m.ask)
-			&& parseFloat(m.high) && parseFloat(m.low) && parseFloat(m.vol)) {
-			return formatOasisMarket(p, m);
+		try {
+			const m = await retrieveOasisMarket(p);
+			if (m && parseFloat(m.last) && parseFloat(m.bid) && parseFloat(m.ask)
+				&& parseFloat(m.high) && parseFloat(m.low) && parseFloat(m.vol)) {
+				return formatOasisMarket(p, m);
+			}
+		} catch (error) {
+			console.log(`Error while trying to fetch market of pair ${p.base}/${p.quote} from Oasis API: ${error}`);
 		}
 	});
 	return (await Promise.all(oasisMarketPromises));
 };
 
-const retrieveOasisMarket = async (p) => {
-	try {
-		return (await axios.get(`http://api.oasisdex.com/v1/markets/${p.base}/${p.quote}`)).data.data
-	} catch (error) {
-		console.log(`Error while trying to fetch market from Oasis API: ${p.base}/${p.quote}`);
-	}
-};
+const retrieveOasisMarket = async (p) => (await axios.get(`http://api.oasisdex.com/v1/markets/${p.base}/${p.quote}`)).data.data;
 
 const formatOasisMarket = (p, m) => {
 	return {
 		base_symbol: p.quote,
 		quote_symbol: p.base,
 		market_data: {
-			exchange: exchanges.OASIS,
+			exchangeID: exchanges.OASIS.ID,
 			last_traded: parseFloat(m.last),
 			current_bid: parseFloat(m.bid),
 			current_ask: parseFloat(m.ask),

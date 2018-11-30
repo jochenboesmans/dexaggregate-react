@@ -8,7 +8,7 @@ update();
 /**
  * Update model every 60 seconds
  */
-setInterval(update, 30 * 1000);
+setInterval(update, 60 * 1000);
 
 require("./routes/exchangeRoutes")(app);
 require("./routes/marketRoutes")(app);

@@ -20,12 +20,12 @@ const exchanges = require("./exchanges");
 			}
  * }
  */
-module.exports = async () => joinExchangeMarketData(combineExchangeMarkets());
+module.exports = async () => joinExchangeMarkets(gatherExchangeMarkets());
 
 /**
  * @returns A collection of market data from every exchange
  */
-const combineExchangeMarkets = () => _.map(exchanges, exchange => {
+const gatherExchangeMarkets = () => _.map(exchanges, exchange => {
 	console.log(exchange.market);
 	return exchange.market;
 });
@@ -33,7 +33,7 @@ const combineExchangeMarkets = () => _.map(exchanges, exchange => {
 /**
  * @returns A collection of token pairs with market data from every exchange
  */
-const joinExchangeMarketData = (exchangeMarkets) => {
+const joinExchangeMarkets= (exchangeMarkets) => {
 	let market = [];
 
 	_.forEach(exchangeMarkets, exchangeMarket => {

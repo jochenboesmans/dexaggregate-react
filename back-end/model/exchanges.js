@@ -1,27 +1,26 @@
-const getBancorMarket = require("./exchangemarkets/getBancorMarket");
-const getDdexMarket = require("./exchangemarkets/getDdexMarket");
-const getIdexMarket = require("./exchangemarkets/getIdexMarket");
-const getKyberMarket = require("./exchangemarkets/getBancorMarket");
-const getOasisMarket = require("./exchangemarkets/getOasisMarket");
-const getParadexMarket = require("./exchangemarkets/getParadexMarket");
-
 module.exports = {
 	BANCOR: {
-		name: "Bancor"
+		name: "Bancor",
+		ID: "BANCOR"
 	},
 	DDEX: {
-		name: "Ddex"
+		name: "Ddex",
+		ID: "DDEX"
 	},
 	IDEX: {
-		name: "Idex"
+		name: "Idex",
+		ID: "IDEX"
 	},
 	KYBER: {
-		name: "Kyber Network"
+		name: "Kyber Network",
+		ID: "KYBER"
 	},
 	OASIS: {
-		name: "Oasis Dex"
+		name: "Oasis Dex",
+		ID: "OASIS"
 	},
 	PARADEX: {
-		name: "Paradex"
+		name: "Paradex",
+		ID: "PARADEX"
 	}
 };

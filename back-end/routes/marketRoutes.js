@@ -19,5 +19,5 @@ module.exports = (app) => {
 			}
 	 * }
 	 */
-	app.get("/api/market", async (req, res) => { res.send(await getMarket()) });
+	app.get("/api/market", (req, res) => { res.send(getMarket()) });
 };
