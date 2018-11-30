@@ -55,17 +55,3 @@ const findPair = (market, baseSymbol, quoteSymbol) => {
 	return _.find(market, p => p.quote_symbol === quoteSymbol && p.base_symbol === baseSymbol);
 };
 
-// TODO: Should come straight from a model supplied by back-end, rather than getting it from the market model.
-export const getExchanges = (market) => {
-	let exchanges = [];
-	_.forEach(market, p => {
-		_.forEach(p.market_data, emd => {
-			if (!_.find(exchanges, foundEMDID => foundEMDID === emd.exchangeID )) {
-				exchanges.push(emd.exchangeID);
-			}
-		})
-	});
-
-	return exchanges;
-};
-

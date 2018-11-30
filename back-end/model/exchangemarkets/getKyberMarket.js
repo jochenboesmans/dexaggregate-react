@@ -1,7 +1,7 @@
 const _ = require("lodash");
 const axios = require("axios");
 
-const exchanges = require("../exchanges");
+const exchanges = require("../market").exchanges;
 
 /**
  * Retrieves the current market from the Kyber API.
@@ -35,7 +35,7 @@ const formatKyberMarket = (retrievedKyberMarket) =>
 			base_symbol: p.base_symbol,
 			quote_symbol: p.quote_symbol,
 			market_data: {
-				exchangeID: exchanges.KYBER.ID,
+				exchange: exchanges.KYBER,
 				last_traded: p.last_traded,
 				current_bid: p.current_bid,
 				current_ask: p.current_ask,

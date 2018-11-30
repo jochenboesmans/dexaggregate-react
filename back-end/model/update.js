@@ -1,13 +1,13 @@
 const _ = require("lodash");
 
-const exchanges = require("./exchanges");
+const market = require("./market");
 
-const BANCOR = require("./exchanges").BANCOR;
-const DDEX = require("./exchanges").DDEX;
-const IDEX = require("./exchanges").IDEX;
-const KYBER = require("./exchanges").KYBER;
-const OASIS = require("./exchanges").OASIS;
-const PARADEX = require("./exchanges").PARADEX;
+const BANCOR = market.exchanges.BANCOR;
+const DDEX = market.exchanges.DDEX;
+const IDEX = market.exchanges.IDEX;
+const KYBER = market.exchanges.KYBER;
+const OASIS = market.exchanges.OASIS;
+const PARADEX = market.exchanges.PARADEX;
 
 const getBancorMarket = require("./exchangemarkets/getBancorMarket");
 const getDdexMarket = require("./exchangemarkets/getDdexMarket");
@@ -16,43 +16,84 @@ const getKyberMarket = require("./exchangemarkets/getKyberMarket");
 const getOasisMarket = require("./exchangemarkets/getOasisMarket");
 const getParadexMarket = require("./exchangemarkets/getParadexMarket");
 
-const updateMarket = require("./getMarket");
-
 module.exports = async () => {
 	console.log("update");
-	await updateExchangeMarkets();
-	updateMarket();
+	const exchangeMarkets = await updateExchangeMarkets();
+	updateGlobalMarket(exchangeMarkets);
 };
 
 const updateExchangeMarkets = async () => {
-	await _.forEach(exchanges, async exchange => {
-		if (exchange !== BANCOR) {
-			await updateExchangeMarket(exchange);
-		}
+	const exchangeMarketsInPromises = _.map(market.exchanges, async exchange => {
+		return (await updateExchangeMarket(exchange));
 	});
+	return (await Promise.all(exchangeMarketsInPromises));
 };
 
 const updateExchangeMarket = async (exchange) => {
 	switch (exchange) {
 		case BANCOR:
-			BANCOR.market = await getBancorMarket();
-			break;
+			const receivedBancorMarket = await getBancorMarket();
+			market.exchangeMarkets.BANCOR = receivedBancorMarket;
+			return receivedBancorMarket;
 		case DDEX:
-			DDEX.market = await getDdexMarket();
-			break;
+			const receivedDdexMarket = await getDdexMarket();
+			market.exchangeMarkets.DDEX = receivedDdexMarket;
+			return receivedDdexMarket;
 		case IDEX:
-			IDEX.market = await getIdexMarket();
-			break;
+			const receivedIdexMarket = await getIdexMarket();
+			market.exchangeMarkets.IDEX = receivedIdexMarket;
+			return receivedIdexMarket;
 		case KYBER:
-			KYBER.market = await getKyberMarket();
-			break;
+			const receivedKyberMarket = await getKyberMarket();
+			market.exchangeMarkets.KYBER = receivedKyberMarket;
+			return receivedKyberMarket;
 		case OASIS:
-			OASIS.market = await getOasisMarket();
-			break;
+			const receivedOasisMarket = await getOasisMarket();
+			market.exchangeMarkets.OASIS = receivedOasisMarket;
+			return receivedOasisMarket;
 		case PARADEX:
-			PARADEX.market = await getParadexMarket();
-			break;
+			const receivedParadexMarket = await getParadexMarket();
+			market.exchangeMarkets.PARADEX = receivedParadexMarket;
+			return receivedParadexMarket;
 		default:
 			break;
 	}
+};
+
+const updateGlobalMarket = (exchangeMarkets) => joinExchangeMarkets(gatherExchangeMarkets(exchangeMarkets));
+
+/**
+ * @returns A collection of market data from every exchange
+ */
+const gatherExchangeMarkets = (exchangeMarkets) => {
+	const exchangeMarketsInList = _.map(exchangeMarkets, exchangeMarket => {
+		return exchangeMarket;
+	});
+	return _.filter(exchangeMarketsInList, em => em);
+};
+
+/**
+ * @returns Array array of token pairs with market data from every exchange
+ */
+const joinExchangeMarkets = (exchangeMarkets) => {
+	let marketInTheMaking = [];
+
+	_.forEach(exchangeMarkets, exchangeMarket => {
+		_.forEach(exchangeMarket, exchangeMarketPair => {
+
+			const matchingPair = _.find(marketInTheMaking, p => (p.quote_symbol === exchangeMarketPair.quote_symbol &&
+				p.base_symbol === exchangeMarketPair.base_symbol));
+			if (matchingPair) {
+				matchingPair.market_data.push(exchangeMarketPair.market_data);
+			} else {
+				let newPair = {
+					base_symbol: exchangeMarketPair.base_symbol,
+					quote_symbol: exchangeMarketPair.quote_symbol,
+					market_data: [exchangeMarketPair.market_data]
+				};
+				marketInTheMaking.push(newPair);
+			}
+		})
+	});
+	market.globalMarket = marketInTheMaking;
 };

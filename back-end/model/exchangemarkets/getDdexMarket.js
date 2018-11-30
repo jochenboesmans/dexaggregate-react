@@ -1,7 +1,7 @@
 const _ = require("lodash");
 const axios = require("axios");
 
-const exchanges = require("../exchanges");
+const exchanges = require("../market").exchanges;
 
 /**
  * Retrieves the current market from the Ddex API.
@@ -38,7 +38,7 @@ const formatDdexMarket = (filteredDdexMarket) => _.map(filteredDdexMarket, p => 
 		base_symbol: parseBaseSymbol(p.marketId),
 		quote_symbol: parseQuoteSymbol(p.marketId),
 		market_data: {
-			exchangeID: exchanges.DDEX.ID,
+			exchange: exchanges.DDEX,
 			last_traded: parseFloat(p.price),
 			current_bid: parseFloat(p.bid),
 			current_ask: parseFloat(p.ask),

@@ -1,7 +1,7 @@
 const axios = require("axios");
 const _ = require("lodash");
 
-const exchanges = require("../exchanges");
+const exchanges = require("../market").exchanges;
 
 /**
  * TODO: Wait for Bancor to release an API that grants data for current_bid, current_ask, past_24h_high, past_24h_low
@@ -24,7 +24,7 @@ module.exports = async () => {
 							base_symbol: p.base_symbol,
 							quote_symbol: p.quote_symbol,
 							market_data: {
-								exchangeID: exchanges.BANCOR.ID,
+								exchange: exchanges.BANCOR,
 								last_traded: m.price,
 								//current_bid: market.bid,
 								//current_ask: market.ask,

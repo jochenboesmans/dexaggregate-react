@@ -2,7 +2,7 @@ const axios = require("axios");
 const _ = require("lodash");
 
 const {paradexAPIKey} = require("../../config/keys");
-const exchanges = require("../exchanges");
+const exchanges = require("../market").exchanges;
 
 // TODO: Docs, refactoring
 module.exports = async () => {
@@ -24,7 +24,7 @@ module.exports = async () => {
 						base_symbol: m.baseToken,
 						quote_symbol: m.quoteToken,
 						market_data: {
-							exchangeID: exchanges.PARADEX.ID,
+							exchange: exchanges.PARADEX,
 							last_traded: 1 / parseFloat(t.last),
 							current_bid: 1 / parseFloat(t.bid),
 							current_ask: 1 / parseFloat(t.ask),

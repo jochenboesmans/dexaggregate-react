@@ -66,10 +66,11 @@ class App extends Component {
         });
     }
     async componentDidMount() {
-		const result = await axios.get("/api/market");
-		const market = result.data;
+		const market = (await axios.get("/api/market")).data;
 		const sortedMarket = _.orderBy(market, [p => rebaseCombinedVolume(market, p.base_symbol, p.quote_symbol, "DAI")], ['desc']);
-		this.setState({market: sortedMarket});
+		const exchanges = (await axios.get("/api/exchanges")).data;
+		this.setState({market: sortedMarket, exchanges: exchanges});
+		console.log(this.state);
     }
 
 
@@ -81,7 +82,10 @@ class App extends Component {
 						Combined Volume (24h): {formatVolume(_.sumBy(this.state.market, p => rebaseCombinedVolume(this.state.market, p.base_symbol, p.quote_symbol, "DAI")))}
 					</Typography>
 					<Typography variant="title" component="title">
-						Exchanges: {_.map(getExchanges(this.state.market), exchangeID => ` ${exchangeID}`)}
+						Exchanges: {_.map(this.state.exchanges, exchange => `${exchange.name}, `)}
+					</Typography>
+					<Typography variant="title" component="title">
+						Pairs: {this.state.market.length}
 					</Typography>
 					<Table>
 						<TableHead>

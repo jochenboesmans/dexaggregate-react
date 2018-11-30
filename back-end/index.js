@@ -10,7 +10,7 @@ update();
  */
 setInterval(update, 60 * 1000);
 
-require("./routes/exchangeRoutes")(app);
-require("./routes/marketRoutes")(app);
+require("./routes/exchanges")(app);
+require("./routes/market")(app);
 
 app.listen(port, () => `Express server is now listening on port ${port}`);

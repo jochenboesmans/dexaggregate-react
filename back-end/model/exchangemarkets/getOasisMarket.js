@@ -1,7 +1,7 @@
 const _ = require("lodash");
 const axios = require("axios");
 
-const exchanges = require("../exchanges");
+const exchanges = require("../market").exchanges;
 
 /**
  * (GET) Retrieve in-depth information about price and other information about assets.
@@ -49,7 +49,7 @@ const formatOasisMarket = (p, m) => {
 		base_symbol: p.quote,
 		quote_symbol: p.base,
 		market_data: {
-			exchangeID: exchanges.OASIS.ID,
+			exchange: exchanges.OASIS,
 			last_traded: parseFloat(m.last),
 			current_bid: parseFloat(m.bid),
 			current_ask: parseFloat(m.ask),
