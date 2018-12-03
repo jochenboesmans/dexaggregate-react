@@ -1,4 +1,4 @@
-import {SET_MARKET, SET_PAGE, SET_EXCHANGES} from "./types";
+import {SET_MARKET, SET_PAGE, SET_EXCHANGES, SET_SEARCH_FILTER} from "./types";
 import axios from "axios";
 import _ from "lodash";
 import {rebaseCombinedVolume} from "../util/marketFunctions";
@@ -17,4 +17,8 @@ export const updateMarket = (market) => dispatch => {
 
 export const updateExchanges = (exchanges) => dispatch => {
 	dispatch({type: SET_EXCHANGES, payload: exchanges});
+};
+
+export const setSearchFilter = (searchFilter) => dispatch => {
+	dispatch({type: SET_SEARCH_FILTER, payload: searchFilter});
 };

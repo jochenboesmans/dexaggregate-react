@@ -27,6 +27,7 @@ import {
 	rebaseLastPrice,
 	rebaseLowestCurrentAsk, rebaseRate, totalCombinedVolume,
 } from "../util/marketFunctions";
+import TextField from "@material-ui/core/TextField/TextField";
 
 const styles = (theme) => ({
 	root: {
@@ -88,6 +89,13 @@ class Main extends Component {
 					Pairs: {this.renderMarketLength()}
 				</Typography>
 				<Paper>
+					<TextField
+						id="token-search"
+						label="Token search"
+						type="search"
+						margin="normal"
+						onChange={this.handleSearchChange}
+					/>
 					<Table>
 						<TableHead>
 							<TableRow>
@@ -98,29 +106,49 @@ class Main extends Component {
 							</TableRow>
 						</TableHead>
 						<TableBody>
-							{this.props.market ? _.map(this.props.market.slice(0,50),
-								p => {
-									const innerBid = formatPrice(rebaseHighestCurrentBid(this.props.market, p.base_symbol, p.quote_symbol, "DAI"));
-									const innerAsk = formatPrice(rebaseLowestCurrentAsk(this.props.market, p.base_symbol, p.quote_symbol, "DAI"));
-									const last = formatPrice(rebaseLastPrice(this.props.market, p.base_symbol, p.quote_symbol, "DAI"));
-									const combVol = formatVolume(rebaseCombinedVolume(this.props.market, p.base_symbol, p.quote_symbol, "DAI"));
-
-									return (
-										<TableRow onClick={() => this.props.setPage({...pages.PAIR, pair: p})} key={`${p.base_symbol}/${p.quote_symbol}`}>
-											<TableCell>{`${p.base_symbol}/${p.quote_symbol}`}</TableCell>
-											<TableCell numeric>{`${innerBid} - ${innerAsk}`}</TableCell>
-											<TableCell numeric>{`${last}`}</TableCell>
-											<TableCell numeric>{`${combVol}`}</TableCell>
-										</TableRow>
-									);
-								}
-							) : null}
+							{this.renderTableBody()}
 						</TableBody>
 					</Table>
 				</Paper>
 			</div>
 		)
 	}
+
+	renderTableBody() {
+		if (!this.props.market) {
+
+			return null;
+		} else {
+
+			let filteredMarket;
+			if (this.props.searchFilter) {
+				filteredMarket = _.filter(this.props.market, p =>  p.base_symbol.includes(this.props.searchFilter) || p.quote_symbol.includes(this.props.searchFilter))
+			} else {
+				filteredMarket = this.props.market;
+			}
+			return _.map(filteredMarket.slice(0,50),
+				p => {
+					const innerBid = formatPrice(rebaseHighestCurrentBid(this.props.market, p.base_symbol, p.quote_symbol, "DAI"));
+					const innerAsk = formatPrice(rebaseLowestCurrentAsk(this.props.market, p.base_symbol, p.quote_symbol, "DAI"));
+					const last = formatPrice(rebaseLastPrice(this.props.market, p.base_symbol, p.quote_symbol, "DAI"));
+					const combVol = formatVolume(rebaseCombinedVolume(this.props.market, p.base_symbol, p.quote_symbol, "DAI"));
+
+					return (
+						<TableRow onClick={() => this.props.setPage({...pages.PAIR, pair: p})} key={`${p.base_symbol}/${p.quote_symbol}`}>
+							<TableCell>{`${p.base_symbol}/${p.quote_symbol}`}</TableCell>
+							<TableCell numeric>{`${innerBid} - ${innerAsk}`}</TableCell>
+							<TableCell numeric>{`${last}`}</TableCell>
+							<TableCell numeric>{`${combVol}`}</TableCell>
+						</TableRow>
+					);
+				}
+			)
+		}
+	}
+
+	handleSearchChange = event => {
+		this.props.setSearchFilter((event.target.value).toUpperCase());
+	};
 
 	render() {
 		return (
@@ -131,8 +159,8 @@ class Main extends Component {
 	}
 }
 
-function mapStateToProps({market, exchanges}) {
-	return {market, exchanges};
+function mapStateToProps({market, searchFilter, exchanges}) {
+	return {market, searchFilter, exchanges};
 }
 
 export default connect(mapStateToProps, actions)(withStyles(styles)(Main));
