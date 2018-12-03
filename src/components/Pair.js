@@ -43,7 +43,7 @@ class Pair extends Component {
 		const sortedMarketData = _.orderBy(p.market_data, [emd => emd.volume], "desc");
 		return (
 			<div>
-				<button onClick={() => this.props.setPage(pages.MAIN)}>Back to MAIN</button>
+				<button onClick={() => {this.props.setPage(pages.MAIN);}}>Back to MAIN</button>
 				<Typography variant="title" component="title">
 					{`${p.base_symbol}/${p.quote_symbol}`}
 				</Typography>

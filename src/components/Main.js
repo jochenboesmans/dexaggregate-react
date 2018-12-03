@@ -134,7 +134,10 @@ class Main extends Component {
 					const combVol = formatVolume(rebaseCombinedVolume(this.props.market, p.base_symbol, p.quote_symbol, "DAI"));
 
 					return (
-						<TableRow onClick={() => this.props.setPage({...pages.PAIR, pair: p})} key={`${p.base_symbol}/${p.quote_symbol}`}>
+						<TableRow onClick={() => {
+							this.props.setPage({...pages.PAIR, pair: p});
+							this.props.setSearchFilter(null);
+						}} key={`${p.base_symbol}/${p.quote_symbol}`}>
 							<TableCell>{`${p.base_symbol}/${p.quote_symbol}`}</TableCell>
 							<TableCell numeric>{`${innerBid} - ${innerAsk}`}</TableCell>
 							<TableCell numeric>{`${last}`}</TableCell>

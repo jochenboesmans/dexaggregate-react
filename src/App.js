@@ -7,7 +7,6 @@ class App extends Component {
 	render() {
 		return (
 			<div className="container">
-
 				{this.props.activePage.view}
 			</div>
 		)
