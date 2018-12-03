@@ -5,8 +5,11 @@ import {Provider} from "react-redux";
 import {applyMiddleware, createStore} from "redux";
 import reducer from "./reducers";
 import reduxThunk from "redux-thunk";
+import {subscribeToSocketBroadcasts} from "./websocketclient";
 
-const store = createStore(reducer, {}, applyMiddleware(reduxThunk));
+export const store = createStore(reducer, {}, applyMiddleware(reduxThunk));
+subscribeToSocketBroadcasts();
+
 const reduxedApp = <Provider store={store}><App/></Provider>;
 
 ReactDOM.render(reduxedApp, document.getElementById('root'));

@@ -5,7 +5,7 @@ import {pages} from "../model/pages";
 export const navigationReducer = (state = pages.MAIN, action) => {
 	switch (action.type) {
 		case SET_PAGE:
-			return action.payload || false;
+			return action.payload || pages.MAIN;
 		default:
 			return state;
 	}

@@ -12,6 +12,7 @@
     "axios": "^0.18.0",
     "express": "^4.16.4",
     "express-generator": "^4.16.0",
-    "lodash": "^4.17.11"
+    "lodash": "^4.17.11",
+    "socket.io": "^2.2.0"
   }
 }

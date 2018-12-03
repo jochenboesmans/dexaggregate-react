@@ -69,6 +69,12 @@ class Main extends Component {
 		if (this.props.market) {return this.props.market.length} else {return 0}
 	}
 
+	renderExchanges() {
+		let list = [];
+		_.forEach(this.props.exchanges, exchange => list.push(exchange.name));
+		return list.join(", ");
+	}
+
 	renderMarket() {
 		return (
 			<div>
@@ -76,7 +82,7 @@ class Main extends Component {
 					Combined Volume (24h): {formatVolume(_.sumBy(this.props.market, p => rebaseCombinedVolume(this.props.market, p.base_symbol, p.quote_symbol, "DAI")))}
 				</Typography>
 				<Typography variant="title" component="title">
-					Exchanges: {_.map(this.props.exchanges, exchange => `${exchange.name}, `)}
+					Exchanges: {this.renderExchanges()}
 				</Typography>
 				<Typography variant="title" component="title">
 					Pairs: {this.renderMarketLength()}
@@ -92,7 +98,7 @@ class Main extends Component {
 							</TableRow>
 						</TableHead>
 						<TableBody>
-							{_.map(this.props.market,
+							{this.props.market ? _.map(this.props.market.slice(0,50),
 								p => {
 									const innerBid = formatPrice(rebaseHighestCurrentBid(this.props.market, p.base_symbol, p.quote_symbol, "DAI"));
 									const innerAsk = formatPrice(rebaseLowestCurrentAsk(this.props.market, p.base_symbol, p.quote_symbol, "DAI"));
@@ -108,7 +114,7 @@ class Main extends Component {
 										</TableRow>
 									);
 								}
-							)}
+							) : null}
 						</TableBody>
 					</Table>
 				</Paper>

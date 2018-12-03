@@ -2,11 +2,9 @@ import React, {Component} from "react";
 import {connect} from 'react-redux';
 import * as actions from "./actions";
 
-
 class App extends Component {
 
 	componentDidMount() {
-		this.props.updateMarket();
 		this.props.updateExchanges();
 	}
 	render() {

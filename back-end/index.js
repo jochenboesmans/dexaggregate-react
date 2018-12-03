@@ -1,16 +1,15 @@
-const express = require('express');
-const app = express();
-const port = 5000;
+const app = require('express')();
+const apiServer = require("http").createServer(app);
+const wsServer = require("http").createServer(app);
+const apiPort = 5000;
+const wsPort = 7000;
 
-const update = require("./model/update");
-
-update();
-/**
- * Update model every 60 seconds
- */
-setInterval(update, 60 * 1000);
+require("./model/periodicallyUpdate")();
 
 require("./routes/exchanges")(app);
 require("./routes/market")(app);
 
-app.listen(port, () => `Express server is now listening on port ${port}`);
+require("./websocketbroadcasts/market")(wsServer);
+
+apiServer.listen(apiPort, () => `API server is now listening on port ${apiPort}`);
+wsServer.listen(wsPort, () =>  `WS server is now listening on port ${wsPort}`);

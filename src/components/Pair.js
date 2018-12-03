@@ -51,8 +51,9 @@ const formatVolume = (volume) => {
 
 class Pair extends Component {
 	render() {
-		const p = this.props.activePage.pair;
+		const pair = this.props.activePage.pair;
 		const market = this.props.market;
+		const p = _.find(market, pairInMarket => pairInMarket.base_symbol === pair.base_symbol && pairInMarket.quote_symbol === pair.quote_symbol);
 		const sortedMarketData = _.orderBy(p.market_data, [emd => emd.volume], "desc");
 		return (
 			<div>
@@ -79,7 +80,10 @@ class Pair extends Component {
 									const combVol = formatVolume(rebaseRate(market, p.base_symbol, p.quote_symbol, "DAI", emd.volume));
 
 									return (
-										<TableRow onClick={() => this.props.setPage({...pages.PAIR, pair: p})} key={emd.exchange.ID}>
+										<TableRow onClick={() => this.props.setPage({...pages.PAIR, pair: {
+											base_symbol: p.base_symbol,
+											quote_symbol: p.quote_symbol
+										}})} key={emd.exchange.ID}>
 											<TableCell>{emd.exchange.name}</TableCell>
 											<TableCell numeric>{`${innerBid} - ${innerAsk}`}</TableCell>
 											<TableCell numeric>{`${last}`}</TableCell>
