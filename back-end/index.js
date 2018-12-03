@@ -9,7 +9,7 @@ require("./model/periodicallyUpdate")();
 require("./routes/exchanges")(app);
 require("./routes/market")(app);
 
-//require("./websocketbroadcasts/market")(wsServer);
+require("./websocketbroadcasts/market")(wsServer);
 
 apiServer.listen(apiPort, () => `API server is now listening on port ${apiPort}`);
 wsServer.listen(wsPort, () =>  `WS server is now listening on port ${wsPort}`);

@@ -1,15 +1,15 @@
 const socketio = require("socket.io");
 
-const market = require("../model/exchanges");
+const getMarket = require("../model/getMarket");
+const exchanges = require("../model/exchanges");
 
 module.exports = (server) => {
   const io = socketio(server);
 
   io.on("connection", (socket) => {
     setInterval(() => {
-      socket.emit("marketBroadcast", market.globalMarket);
-      socket.emit("exchangeBroadcast", market.exchanges);
-      console.log("marketBroadcast");
+      socket.emit("marketBroadcast", getMarket());
+      socket.emit("exchangeBroadcast", exchanges);
     }, 5 * 1000);
 
   })
