@@ -12,25 +12,9 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import { withStyles } from '@material-ui/core/styles';
 import _ from "lodash";
-import {
-	rebaseCombinedVolume,
-	rebaseHighestCurrentBid,
-	rebaseLastPrice,
-	rebaseLowestCurrentAsk, rebaseRate
-} from "../util/marketFunctions";
 
-const styles = (theme) => ({
-	root: {
-		width: '100%',
-		marginTop: theme.spacing.unit * 3,
-		overflowX: 'auto',
-	},
-	table: {
-		minWidth: 700,
-	},
-});
+import {rebaseRate} from "../util/marketFunctions";
 
 const formatPrice = (price) => {
 	return (new Intl.NumberFormat('en-US', {
@@ -74,16 +58,13 @@ class Pair extends Component {
 						<TableBody>
 							{_.map(sortedMarketData,
 								emd => {
-									const innerBid = formatPrice(rebaseRate(market, p.base_symbol, p.quote_symbol,"DAI", emd.current_bid));
+									const innerBid = formatPrice(rebaseRate(market, p.base_symbol, p.quote_symbol, "DAI", emd.current_bid));
 									const innerAsk = formatPrice(rebaseRate(market, p.base_symbol, p.quote_symbol, "DAI", emd.current_ask));
 									const last = formatPrice(rebaseRate(market, p.base_symbol, p.quote_symbol, "DAI", emd.last_traded));
 									const combVol = formatVolume(rebaseRate(market, p.base_symbol, p.quote_symbol, "DAI", emd.volume));
 
 									return (
-										<TableRow onClick={() => this.props.setPage({...pages.PAIR, pair: {
-											base_symbol: p.base_symbol,
-											quote_symbol: p.quote_symbol
-										}})} key={emd.exchange.ID}>
+										<TableRow onClick={() => this.handleClick(emd.exchange, p)} key={emd.exchange.ID}>
 											<TableCell>{emd.exchange.name}</TableCell>
 											<TableCell numeric>{`${innerBid} - ${innerAsk}`}</TableCell>
 											<TableCell numeric>{`${last}`}</TableCell>
@@ -97,7 +78,33 @@ class Pair extends Component {
 				</Paper>
 
 			</div>
-		)
+		);
+	}
+	handleClick = (exchange, p) => {
+		let url;
+		switch(exchange.ID) {
+			case "KYBER":
+				url = `https://kyber.network/swap/${p.base_symbol}_${p.quote_symbol}`;
+				break;
+			case "BANCOR":
+				url = "https://www.bancor.network/tokens";
+				break;
+			case "OASIS":
+				url = "https://oasis.direct/";
+				break;
+			case "PARADEX":
+				url = `https://paradex.io/market/${p.base_symbol}-${p.quote_symbol}`;
+				break;
+			case "DDEX":
+				url = `https://ddex.io/trade/${p.base_symbol}-${p.quote_symbol}`;
+				break;
+			case "IDEX":
+				url = `https://idex.market/${p.base_symbol}/${p.quote_symbol}`;
+				break;
+			default:
+				break;
+		}
+		window.open(url, "_blank");
 	}
 }
 

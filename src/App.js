@@ -4,11 +4,10 @@ import * as actions from "./actions";
 
 class App extends Component {
 
-	componentDidMount() {;
-	}
 	render() {
 		return (
 			<div className="container">
+
 				{this.props.activePage.view}
 			</div>
 		)
