@@ -1,7 +1,7 @@
 const _ = require("lodash");
 const axios = require("axios");
 
-const exchanges = require("../market").exchanges;
+const exchanges = require("../../exchanges");
 
 /**
  * (GET) Retrieve in-depth information about price and other information about assets.
@@ -29,14 +29,10 @@ const filterActivePairs = (actualOasisPairs) => _.filter(actualOasisPairs, p => 
 
 const getOasisMarkets = async (activeOasisPairs) => {
 	const oasisMarketPromises = _.map(activeOasisPairs,  async p => {
-		try {
-			const m = await retrieveOasisMarket(p);
-			if (m && parseFloat(m.last) && parseFloat(m.bid) && parseFloat(m.ask)
-				&& parseFloat(m.high) && parseFloat(m.low) && parseFloat(m.vol)) {
-				return formatOasisMarket(p, m);
-			}
-		} catch (error) {
-			console.log(`Error while trying to fetch market of pair ${p.base}/${p.quote} from Oasis API: ${error}`);
+		const m = await retrieveOasisMarket(p);
+		if (m && parseFloat(m.last) && parseFloat(m.bid) && parseFloat(m.ask)
+			&& parseFloat(m.high) && parseFloat(m.low) && parseFloat(m.vol)) {
+			return formatOasisMarket(p, m);
 		}
 	});
 	return (await Promise.all(oasisMarketPromises));

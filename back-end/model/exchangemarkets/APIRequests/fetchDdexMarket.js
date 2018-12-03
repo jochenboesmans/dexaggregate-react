@@ -1,7 +1,7 @@
 const _ = require("lodash");
 const axios = require("axios");
 
-const exchanges = require("../market").exchanges;
+const exchanges = require("../../exchanges");
 
 /**
  * Retrieves the current market from the Ddex API.

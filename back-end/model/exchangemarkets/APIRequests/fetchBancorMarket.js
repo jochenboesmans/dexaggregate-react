@@ -1,13 +1,13 @@
 const axios = require("axios");
 const _ = require("lodash");
 
-const exchanges = require("../market").exchanges;
+const exchanges = require("../../exchanges");
 
 /**
  * TODO: Wait for Bancor to release an API that grants data for current_bid, current_ask, past_24h_high, past_24h_low
  */
 module.exports = async () => {
-	try {
+	/*try {
 		const pairsResponse = await axios.get("http://api.bancor.network/0.1/currencies/convertiblePairs");
 		const pairs = pairsResponse.data.data;
 		const listOfPairs = Object.keys(pairs).map(key => {
@@ -43,7 +43,7 @@ module.exports = async () => {
 		return bancorMarket;
 	} catch (error) {
 		console.log(`Error while trying to fetch pairs from Bancor API: ${error}`);
-	}
+	}*/
 };
 
 const parseBaseSymbol = (key) => {

@@ -1,34 +1,27 @@
 const _ = require("lodash");
 
-const market = require("./market");
+const tryUpdateExchangeMarkets = require("./exchangemarkets/tryUpdateExchangeMarkets");
 
-const BANCOR = market.exchanges.BANCOR;
-const DDEX = market.exchanges.DDEX;
-const IDEX = market.exchanges.IDEX;
-const KYBER = market.exchanges.KYBER;
-const OASIS = market.exchanges.OASIS;
-const PARADEX = market.exchanges.PARADEX;
-
-const getBancorMarket = require("./exchangemarkets/getBancorMarket");
-const getDdexMarket = require("./exchangemarkets/getDdexMarket");
-const getIdexMarket = require("./exchangemarkets/getIdexMarket");
-const getKyberMarket = require("./exchangemarkets/getKyberMarket");
-const getOasisMarket = require("./exchangemarkets/getOasisMarket");
-const getParadexMarket = require("./exchangemarkets/getParadexMarket");
-
-module.exports = async () => {
-	await updateModel();
+module.exports = () => {
+	tryUpdateExchangeMarkets();
+	const intervalInSeconds = 30;
 	setInterval(async () => {
-		console.log("update");
-		await updateModel();
-	}, 20 * 1000);
+			await tryUpdateExchangeMarkets();
+		}, intervalInSeconds * 1000);
+
 };
 
-const updateModel = async () => {
+/*const updateModel = async () => {
 	const exchangeMarkets = await updateExchangeMarkets();
-	tryUpdateGlobalMarket(exchangeMarkets);
+	//tryUpdateGlobalMarket(exchangeMarkets);
 };
 
+const updateExchangeMarkets = () => {
+	const exchangeMarkets = fetchExchangeMarkets();
+	_.for
+};*/
+
+/*
 const updateExchangeMarkets = async () => {
 	const exchangeMarketsInPromises = _.map(market.exchanges, async exchange => {
 		return (await updateExchangeMarket(exchange));
@@ -93,7 +86,6 @@ const tryUpdateGlobalMarket = (exchangeMarkets) => {
 		let marketInTheMaking = [];
 
 		_.forEach(exchangeMarketsInList, exchangeMarket => {
-			console.log(exchangeMarketsInList);
 			_.forEach(exchangeMarket, exchangeMarketPair => {
 
 				const matchingPair = _.find(marketInTheMaking, p => (p.quote_symbol === exchangeMarketPair.quote_symbol &&
@@ -114,4 +106,4 @@ const tryUpdateGlobalMarket = (exchangeMarkets) => {
 	} catch (error) {
 		console.log(error.message);
 	}
-};
+};*/

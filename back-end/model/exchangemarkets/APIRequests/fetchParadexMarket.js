@@ -1,8 +1,8 @@
 const axios = require("axios");
 const _ = require("lodash");
 
-const {paradexAPIKey} = require("../../config/keys");
-const exchanges = require("../market").exchanges;
+const {paradexAPIKey} = require("../../../config/keys");
+const exchanges = require("../../exchanges");
 
 // TODO: Docs, refactoring
 module.exports = async () => {

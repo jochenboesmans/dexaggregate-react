@@ -1,4 +1,4 @@
-const exchanges = require("../model/market").exchanges;
+const exchanges = require("../model/exchanges");
 
 module.exports = (app) => {
 	app.get('/api/exchanges/bancor', (req, res) => { res.send(exchanges.BANCOR) });
