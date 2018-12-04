@@ -3,18 +3,12 @@ import React, { Component } from 'react';
 import {connect} from "react-redux";
 import _ from "lodash";
 
-import Typography from '@material-ui/core/Typography';
-import Paper from '@material-ui/core/Paper'
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
-
-// stylesheet
-import 'typeface-roboto';
 
 import * as actions from "../../actions";
 
@@ -29,17 +23,6 @@ import {
 import TextField from "@material-ui/core/TextField/TextField";
 import {formatPrice, formatVolume} from "../../util/formatFunctions";
 
-const styles = (theme) => ({
-	root: {
-		width: '100%',
-		marginTop: theme.spacing.unit * 3,
-		overflowX: 'auto',
-	},
-	table: {
-		minWidth: 700,
-	},
-});
-
 
 
 
@@ -52,44 +35,39 @@ class Main extends Component {
 	renderMarket() {
 		return (
 			<div>
-				<Paper>
-					<Grid
-						container
-						direction="column"
-						justify="center"
-						spacing={8}
-					>
-						<Grid item>
-							<Typography variant="h4">
-								Market Pairs
-							</Typography>
-						</Grid>
-						<Grid item>
-							<TextField
-								id="token-search"
-								label="Token search"
-								type="search"
-								variant="outlined"
-								onChange={this.handleSearchChange}
-							/>
-						</Grid>
-						<Grid item>
-							<Table>
-								<TableHead>
-									<TableRow>
-										<TableCell>Base Token / Quote Token</TableCell>
-										<TableCell numeric>Quote Token Current Spread [DAI]<br/> (innermost spread of all exchange spreads)</TableCell>
-										<TableCell numeric>Quote Token Last Price [DAI]<br/> (volume-weight of exchanges' last price)</TableCell>
-										<TableCell numeric>Volume [DAI]<br/> (24h combined volume of all exchanges)</TableCell>
-									</TableRow>
-								</TableHead>
-								<TableBody>
-									{this.renderTableBody()}
-								</TableBody>
-							</Table>
-						</Grid>
+				<Grid
+					container
+					direction="column"
+					justify="center"
+					spacing={8}
+					alignItems="center"
+				>
+					<Grid item >
+						<TextField
+							className="root"
+							id="token-search"
+							label="Token search"
+							type="search"
+							variant="outlined"
+							onChange={this.handleSearchChange}
+						/>
 					</Grid>
-				</Paper>
+					<Grid item>
+						<Table>
+							<TableHead className="tableHead">
+								<TableRow>
+									<TableCell>Base Token / Quote Token</TableCell>
+									<TableCell numeric>Quote Token Current Spread [DAI]<br/> (innermost spread of all exchange spreads)</TableCell>
+									<TableCell numeric>Quote Token Last Price [DAI]<br/> (volume-weight of exchanges' last price)</TableCell>
+									<TableCell numeric>Volume [DAI]<br/> (24h combined volume of all exchanges)</TableCell>
+								</TableRow>
+							</TableHead>
+							<TableBody>
+								{this.renderTableBody()}
+							</TableBody>
+						</Table>
+					</Grid>
+				</Grid>
 			</div>
 		)
 	}
@@ -146,4 +124,4 @@ function mapStateToProps({market, searchFilter, exchanges}) {
 	return {market, searchFilter, exchanges};
 }
 
-export default connect(mapStateToProps, actions)(withStyles(styles)(Main));
+export default connect(mapStateToProps, actions)(Main);

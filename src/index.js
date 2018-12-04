@@ -7,6 +7,9 @@ import reducer from "./reducers";
 import reduxThunk from "redux-thunk";
 import {subscribeToSocketBroadcasts} from "./websocketclient";
 
+import { install } from '@material-ui/styles';
+install();
+
 export const store = createStore(reducer, {}, applyMiddleware(reduxThunk));
 subscribeToSocketBroadcasts();
 
