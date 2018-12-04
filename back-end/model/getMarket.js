@@ -1,11 +1,17 @@
 const _ = require("lodash");
 
 const exchangeMarkets = require("./exchangemarkets/exchangeMarkets");
+const exchanges = require("./exchanges");
 
 module.exports = () => {
 	let marketInTheMaking = [];
+	let timestamp;
 
 	_.forEach(exchangeMarkets, exchangeMarket => {
+		// find oldest timestamp among exchangeMarkets
+		if (!timestamp || exchangeMarket.timestamp <= timestamp) {
+			timestamp = exchangeMarket.timestamp;
+		}
 		_.forEach(exchangeMarket.market, exchangeMarketPair => {
 
 			const matchingPair = _.find(marketInTheMaking, p => (p.quote_symbol === exchangeMarketPair.quote_symbol &&
@@ -21,5 +27,8 @@ module.exports = () => {
 			}
 		})
 	});
-	return marketInTheMaking;
+
+	const exchangesInMarket = _.map(Object.keys(exchangeMarkets), exchangeID => _.find(exchanges, exchange => exchange.ID === exchangeID));
+
+	return {market: marketInTheMaking, exchanges: exchangesInMarket, timestamp: timestamp};
 };

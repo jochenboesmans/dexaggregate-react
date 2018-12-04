@@ -11,12 +11,7 @@ export const setPage = (page) => dispatch => {
 };
 
 export const updateMarket = (market) => dispatch => {
-	const sortedMarket = _.orderBy(market, [p => rebaseCombinedVolume(market, p.base_symbol, p.quote_symbol, "DAI")], ['desc']);
-	dispatch({type: SET_MARKET, payload: sortedMarket});
-};
-
-export const updateExchanges = (exchanges) => dispatch => {
-	dispatch({type: SET_EXCHANGES, payload: exchanges});
+	dispatch({type: SET_MARKET, payload: {market: market.market, exchanges: market.exchanges, timestamp: market.timestamp}});
 };
 
 export const setSearchFilter = (searchFilter) => dispatch => {

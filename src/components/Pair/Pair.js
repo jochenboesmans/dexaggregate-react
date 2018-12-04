@@ -1,9 +1,9 @@
 import React, {Component} from "react";
 import {connect} from 'react-redux';
 
-import {pages} from "../model/pages";
+import {pages} from "../../model/pages";
 
-import * as actions from "../actions";
+import * as actions from "../../actions";
 
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper'
@@ -12,11 +12,14 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import TextField from '@material-ui/core/TextField';
+
+import Button from '@material-ui/core/Button';
 
 import _ from "lodash";
 
-import {rebaseRate} from "../util/marketFunctions";
+import {rebaseRate} from "../../util/marketFunctions";
+
+import BackButton from "./BackButton";
 
 const formatPrice = (price) => {
 	return (new Intl.NumberFormat('en-US', {
@@ -38,16 +41,18 @@ const formatVolume = (volume) => {
 class Pair extends Component {
 	render() {
 		const pair = this.props.activePage.pair;
-		const market = this.props.market;
+		const market = this.props.market.market;
 		const p = _.find(market, pairInMarket => pairInMarket.base_symbol === pair.base_symbol && pairInMarket.quote_symbol === pair.quote_symbol);
 		const sortedMarketData = _.orderBy(p.market_data, [emd => emd.volume], "desc");
 		return (
 			<div>
-				<button onClick={() => {this.props.setPage(pages.MAIN);}}>Back to MAIN</button>
-				<Typography variant="title" component="title">
-					{`${p.base_symbol}/${p.quote_symbol}`}
-				</Typography>
 				<Paper>
+					<Button onClick={() => {this.props.setPage(pages.MAIN)}} variant="contained" >
+						Back to {pages.MAIN.name}
+					</Button>
+					<Typography variant="h4" align="center">
+						{`${p.base_symbol}/${p.quote_symbol}`}
+					</Typography>
 					<Table>
 						<TableHead>
 							<TableRow>
@@ -78,7 +83,6 @@ class Pair extends Component {
 						</TableBody>
 					</Table>
 				</Paper>
-
 			</div>
 		);
 	}

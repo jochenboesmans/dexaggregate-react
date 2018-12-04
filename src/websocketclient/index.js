@@ -1,5 +1,5 @@
 import io from "socket.io-client";
-import {updateMarket, updateExchanges} from "../actions";
+import {updateMarket} from "../actions";
 import {store} from "../index";
 
 export const subscribeToSocketBroadcasts = () => {
@@ -7,7 +7,4 @@ export const subscribeToSocketBroadcasts = () => {
   socket.on("marketBroadcast", receivedMarket => {
     updateMarket(receivedMarket)(store.dispatch);
   });
-  socket.on("exchangeBroadcast", receivedExchanges => {
-    updateExchanges(receivedExchanges)(store.dispatch);
-  })
 };

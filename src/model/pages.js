@@ -1,7 +1,7 @@
 import React from 'react';
 
-import Main from "../components/Main";
-import Pair from "../components/Pair";
+import Main from "../components/Main/Main";
+import Pair from "../components/Pair/Pair";
 
 export const pages = {
 	MAIN: {

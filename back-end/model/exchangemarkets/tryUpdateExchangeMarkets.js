@@ -13,8 +13,9 @@ module.exports = async () => {
 	_.forEach(fetchedExchangeMarkets, em => {
 		if (em.market) {
 			const exchangeID = em.exchange.ID;
-			exchangeMarkets[exchangeID] = em;
+			exchangeMarkets[exchangeID] = {...em, timestamp: Date.now()};
 		}
 	});
+	console.log("Market model updated.");
 	setModelUpdated(true);
 };
