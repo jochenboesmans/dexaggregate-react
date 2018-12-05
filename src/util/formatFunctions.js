@@ -16,5 +16,13 @@ export const formatVolume = (volume) => {
 		useGrouping: 'true'
 	}).format(volume));
 };
+export const formatPercentage = (percentage) => {
+	return (new Intl.NumberFormat('en-US', {
+		style: 'percent',
+		useGrouping: 'true',
+		minimumFractionDigits: 2,
+		maximumFractionDigits: 2
+	}).format(percentage));
+};
 export const formatTime = (timestamp) =>
 	dateFormat(timestamp, "dddd, mmmm dS, yyyy, h:MM:ss TT");

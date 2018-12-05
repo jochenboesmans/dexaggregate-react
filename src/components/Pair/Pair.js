@@ -69,10 +69,10 @@ class Pair extends Component {
 						<Table>
 							<TableHead>
 								<TableRow>
-									<TableCell>Exchange</TableCell>
-									<TableCell numeric>Quote Token Current Spread [DAI]</TableCell>
-									<TableCell numeric>Quote Token Last Price [DAI]</TableCell>
-									<TableCell numeric>Volume (24h) [DAI]</TableCell>
+									<TableCell style={{color: "black"}}>Exchange</TableCell>
+									<TableCell style={{color: "black"}} numeric>Current Spread of {p.quote_symbol} [DAI]</TableCell>
+									<TableCell style={{color: "black"}} numeric>Last Price of {p.quote_symbol} [DAI]</TableCell>
+									<TableCell style={{color: "black"}} numeric>Volume (24h) [DAI]</TableCell>
 								</TableRow>
 							</TableHead>
 							<TableBody>
@@ -84,7 +84,7 @@ class Pair extends Component {
 										const combVol = formatVolume(rebaseRate(market, p.base_symbol, p.quote_symbol, "DAI", emd.volume));
 
 										return (
-											<TableRow onClick={() => this.handleClick(emd.exchange, p)} key={emd.exchange.ID}>
+											<TableRow hover onClick={() => this.handleClick(emd.exchange, p)} key={emd.exchange.ID}>
 												<TableCell>{emd.exchange.name}</TableCell>
 												<TableCell numeric>{`${innerBid} - ${innerAsk}`}</TableCell>
 												<TableCell numeric>{`${last}`}</TableCell>

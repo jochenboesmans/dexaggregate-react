@@ -18,10 +18,12 @@ import Typography from "@material-ui/core/es/Typography/Typography";
 import Divider from '@material-ui/core/Divider';
 import { createMuiTheme } from '@material-ui/core/styles';
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
+import purple from '@material-ui/core/colors/purple';
 
 const theme = createMuiTheme({
 	typography: {
-		fontFamily: '"Segoe UI"'
+		fontFamily: '"Segoe UI"',
+		useNextVariants: true
 	},
 	overrides: {
 		// Name of the component ⚛️ / style sheet
@@ -38,7 +40,10 @@ const theme = createMuiTheme({
 				boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
 			},
 		}
+	},
 
+	palette: {
+		primary: purple,
 	}
 });
 
@@ -98,19 +103,19 @@ class App extends Component {
 						container
 						direction="column"
 						alignItems="center"
-						justify="center"
+						justify="space-between"
 						spacing={8}
 					>
-						<Grid item>
+						<Grid item xs>
 						{this.renderTitle()}
 						</Grid>
-						<Grid item>
+						<Grid item xs>
 							{this.renderMarketInformation()}
 						</Grid>
-						<Grid item>
+						<Grid item xs>
 							<Divider/>
 						</Grid>
-						<Grid item>
+						<Grid item xs>
 							{this.renderActivePage()}
 						</Grid>
 					</Grid>

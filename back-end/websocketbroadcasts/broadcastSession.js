@@ -15,6 +15,7 @@ module.exports = (server) => {
 				socket.emit("marketBroadcast", getMarket());
 				setModelUpdated(false);
 			}
+
 		}, 1000);
 	});
 };
