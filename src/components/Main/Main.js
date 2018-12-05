@@ -136,7 +136,7 @@ class Main extends Component {
 		const innerBid = formatPrice(rebaseHighestCurrentBid(this.props.market.market, p.base_symbol, p.quote_symbol, "DAI"));
 		const innerAsk = formatPrice(rebaseLowestCurrentAsk(this.props.market.market, p.base_symbol, p.quote_symbol, "DAI"));
 		const spreadPercentage = `${formatPercentage(rebaseLowestCurrentAsk(this.props.market.market, p.base_symbol, p.quote_symbol, "DAI") / rebaseHighestCurrentBid(this.props.market.market, p.base_symbol, p.quote_symbol, "DAI") - 1)}`;
-		if (rebaseLowestCurrentAsk(this.props.market.market, p.base_symbol, p.quote_symbol, "DAI") / rebaseHighestCurrentBid(this.props.market.market, p.base_symbol, p.quote_symbol, "DAI") >= 1) {
+		if (rebaseLowestCurrentAsk(this.props.market.market, p.base_symbol, p.quote_symbol, "DAI") / rebaseHighestCurrentBid(this.props.market.market, p.base_symbol, p.quote_symbol, "DAI") >= 0.9999) {
 			return <TableCell numeric>{`${innerBid} - ${innerAsk} (${spreadPercentage})`}</TableCell>
 		} else {
 			return <TableCell style={{color: "red"}} numeric>{`${innerBid} - ${innerAsk} (${spreadPercentage})`}</TableCell>

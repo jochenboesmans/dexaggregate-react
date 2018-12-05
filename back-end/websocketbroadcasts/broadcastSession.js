@@ -10,12 +10,13 @@ module.exports = (server) => {
 
 	io.on("connection", (socket) => {
 		socket.emit("marketBroadcast", getMarket());
-		setInterval(() => {
-			if (getModelUpdated()) {
-				socket.emit("marketBroadcast", getMarket());
-				setModelUpdated(false);
-			}
-
-		}, 1000);
 	});
+
+	setInterval(() => {
+		if (getModelUpdated()) {
+			io.emit("marketBroadcast", getMarket());
+			setModelUpdated(false);
+		}
+
+	}, 1000);
 };

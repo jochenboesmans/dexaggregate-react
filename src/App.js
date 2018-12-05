@@ -106,16 +106,13 @@ class App extends Component {
 						justify="space-between"
 						spacing={8}
 					>
-						<Grid item xs>
+						<Grid item>
 						{this.renderTitle()}
 						</Grid>
-						<Grid item xs>
+						<Grid item>
 							{this.renderMarketInformation()}
 						</Grid>
-						<Grid item xs>
-							<Divider/>
-						</Grid>
-						<Grid item xs>
+						<Grid item>
 							{this.renderActivePage()}
 						</Grid>
 					</Grid>
