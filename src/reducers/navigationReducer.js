@@ -1,11 +1,12 @@
 import {SET_PAGE} from "../actions/types";
-
 import {pages} from "../model/pages";
 
-export const navigationReducer = (state = pages.MAIN, action) => {
+const defaultPage = pages.MAIN;
+
+export const navigationReducer = (state = defaultPage, action) => {
 	switch (action.type) {
 		case SET_PAGE:
-			return action.payload || pages.MAIN;
+			return action.payload || defaultPage;
 		default:
 			return state;
 	}

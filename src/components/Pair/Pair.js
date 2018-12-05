@@ -5,7 +5,7 @@ import {pages} from "../../model/pages";
 
 import {
 	formatVolume,
-	formatPrice
+	formatPrice, formatPercentage
 } from "../../util/formatFunctions";
 
 import * as actions from "../../actions";
@@ -57,7 +57,7 @@ class Pair extends Component {
 				>
 					<Grid item>
 						<Button className="root" onClick={() => {this.props.setPage(pages.MAIN)}}>
-							Back to {pages.MAIN.name}
+							Back
 						</Button>
 					</Grid>
 					<Grid item>
@@ -78,17 +78,23 @@ class Pair extends Component {
 							<TableBody>
 								{_.map(sortedMarketData,
 									emd => {
-										const innerBid = formatPrice(rebaseRate(market, p.base_symbol, p.quote_symbol, "DAI", emd.current_bid));
-										const innerAsk = formatPrice(rebaseRate(market, p.base_symbol, p.quote_symbol, "DAI", emd.current_ask));
-										const last = formatPrice(rebaseRate(market, p.base_symbol, p.quote_symbol, "DAI", emd.last_traded));
-										const combVol = formatVolume(rebaseRate(market, p.base_symbol, p.quote_symbol, "DAI", emd.volume));
+										const innerBid = rebaseRate(market, p.base_symbol, p.quote_symbol, "DAI", emd.current_bid);
+										const innerAsk = rebaseRate(market, p.base_symbol, p.quote_symbol, "DAI", emd.current_ask);
+										const last = rebaseRate(market, p.base_symbol, p.quote_symbol, "DAI", emd.last_traded);
+										const combVol = rebaseRate(market, p.base_symbol, p.quote_symbol, "DAI", emd.volume);
+										const fInnerBid = formatPrice(innerBid);
+										const fInnerAsk = formatPrice(innerAsk);
+										const fLast = formatPrice(last);
+										const fCombVol = formatPrice(combVol);
+										const spreadRatioDifference = (innerAsk / innerBid) - 1;
+										const fSpreadPercentage = formatPercentage(spreadRatioDifference);
 
 										return (
 											<TableRow hover onClick={() => this.handleClick(emd.exchange, p)} key={emd.exchange.ID}>
 												<TableCell>{emd.exchange.name}</TableCell>
-												<TableCell numeric>{`${innerBid} - ${innerAsk}`}</TableCell>
-												<TableCell numeric>{`${last}`}</TableCell>
-												<TableCell numeric>{`${combVol}`}</TableCell>
+												<TableCell numeric>{`${fInnerBid} - ${fInnerAsk} (${fSpreadPercentage})`}</TableCell>
+												<TableCell numeric>{`${fLast}`}</TableCell>
+												<TableCell numeric>{`${fCombVol}`}</TableCell>
 											</TableRow>
 										);
 									}
@@ -113,7 +119,7 @@ class Pair extends Component {
 				url = "https://oasis.direct/";
 				break;
 			case "PARADEX":
-				url = `https://paradex.io/market/${p.base_symbol}-${p.quote_symbol}`;
+				url = `https://paradex.io/market/${p.quote_symbol}-${p.base_symbol}`;
 				break;
 			case "DDEX":
 				url = `https://ddex.io/trade/${p.base_symbol}-${p.quote_symbol}`;

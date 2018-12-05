@@ -8,8 +8,8 @@ module.exports = () => {
 	let timestamp;
 
 	_.forEach(exchangeMarkets, exchangeMarket => {
-		// find oldest timestamp among exchangeMarkets
-		if (!timestamp || exchangeMarket.timestamp <= timestamp) {
+		// find newest timestamp among exchangeMarkets
+		if (!timestamp || exchangeMarket.timestamp >= timestamp) {
 			timestamp = exchangeMarket.timestamp;
 		}
 		_.forEach(exchangeMarket.market, exchangeMarketPair => {

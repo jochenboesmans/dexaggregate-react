@@ -21,16 +21,16 @@ module.exports = async () => {
 				})).data;
 				if (t.last && t.bid && t.ask && o.high && o.low && o.volume) {
 					return {
-						base_symbol: m.baseToken,
-						quote_symbol: m.quoteToken,
+						base_symbol: m.quoteToken,
+						quote_symbol: m.baseToken,
 						market_data: {
 							exchange: exchanges.PARADEX,
-							last_traded: 1 / parseFloat(t.last),
-							current_bid: 1 / parseFloat(t.bid),
-							current_ask: 1 / parseFloat(t.ask),
-							past_24h_high: 1 / parseFloat(o.high),
-							past_24h_low: 1 / parseFloat(o.low),
-							volume: parseFloat(o.volume) * (1 / parseFloat(t.last))
+							last_traded: parseFloat(t.last),
+							current_bid: parseFloat(t.bid),
+							current_ask: parseFloat(t.ask),
+							past_24h_high: parseFloat(o.high),
+							past_24h_low: parseFloat(o.low),
+							volume: parseFloat(o.volume) * parseFloat(t.last)
 						}
 					}
 				}

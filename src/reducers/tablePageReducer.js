@@ -1,9 +1,10 @@
 import {SET_TABLE_PAGE} from "../actions/types";
 
-export const tablePageReducer = (state = 0, action) => {
+const defaultTablePage = 0;
+export const tablePageReducer = (state = defaultTablePage, action) => {
 	switch (action.type) {
 		case SET_TABLE_PAGE:
-			return action.payload || 0;
+			return action.payload || defaultTablePage;
 		default:
 			return state;
 	}
