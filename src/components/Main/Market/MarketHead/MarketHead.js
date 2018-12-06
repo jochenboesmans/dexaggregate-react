@@ -30,7 +30,7 @@ const MarketHead = () => {
 		<TableHead className="tableHead">
 			<TableRow>
 				{_.map(columns, column => (
-					<TableCell key={column.text}>
+					<TableCell numeric key={column.text}>
 						<Tooltip title={column.tooltip} placement="top">
 							<Typography style={{color: "black", fontWeight: "bold"}}>{column.text}</Typography>
 						</Tooltip>
