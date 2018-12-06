@@ -29,13 +29,25 @@ const MarketHead = () => {
 	return (
 		<TableHead className="tableHead">
 			<TableRow>
-				{_.map(columns, column => (
-					<TableCell numeric key={column.text}>
-						<Tooltip title={column.tooltip} placement="top">
-							<Typography style={{color: "black", fontWeight: "bold"}}>{column.text}</Typography>
-						</Tooltip>
-					</TableCell>
-				))}
+				{_.map(columns, column => {
+					if (column.text === `Base/Quote`) {
+						return (
+							<TableCell key={column.text}>
+								<Tooltip title={column.tooltip} placement="top">
+									<Typography style={{color: "black", fontWeight: "bold"}}>{column.text}</Typography>
+								</Tooltip>
+							</TableCell>
+						)
+					} else {
+						return (
+							<TableCell numeric key={column.text}>
+								<Tooltip title={column.tooltip} placement="top">
+									<Typography style={{color: "black", fontWeight: "bold"}}>{column.text}</Typography>
+								</Tooltip>
+							</TableCell>
+						)
+					}
+				})}
 			</TableRow>
 		</TableHead>
 	)

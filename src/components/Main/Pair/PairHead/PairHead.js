@@ -12,7 +12,7 @@ const PairHead = ({p}) => (
 					<Typography style={{color: "black", fontWeight: "bold"}}>Exchange</Typography>
 				</TableCell>
 				<TableCell numeric>
-					<Typography style={{color: "black", fontWeight: "bold"}}>Current Spread of {p.quote_symbol} [DAI]</Typography>
+					<Typography style={{color: "black", fontWeight: "bold"}}>Spread of {p.quote_symbol} [DAI]</Typography>
 				</TableCell>
 				<TableCell numeric>
 					<Typography style={{color: "black", fontWeight: "bold"}}>Last Price of {p.quote_symbol} [DAI]</Typography>

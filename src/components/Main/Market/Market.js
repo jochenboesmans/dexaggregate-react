@@ -6,11 +6,14 @@ import Grid from "@material-ui/core/Grid/Grid";
 import TextField from "@material-ui/core/TextField/TextField";
 import {connect} from "react-redux";
 import * as actions from "../../../actions";
+import Typography from "@material-ui/core/Typography/Typography";
 
 class Market extends Component {
 	render() {
+		const deltaY = this.props.deltaY;
+		const marketSize = this.props.market.market ? this.props.market.market.length : 0
 		return (
-			<div className="Main">
+			<div>
 				<Grid
 					container
 					direction="column"
@@ -35,6 +38,9 @@ class Market extends Component {
 							<MarketBody/>
 						</Table>
 					</Grid>
+					<Grid item>
+						<Typography style={{textAlign: "center"}} variant="caption">Displaying {deltaY} - {Math.min(deltaY + 10, marketSize)}</Typography>
+					</Grid>
 				</Grid>
 			</div>
 		)
@@ -46,4 +52,4 @@ class Market extends Component {
 	};
 }
 
-export default connect(null, actions)(Market);
+export default connect(({market, deltaY}) => ({market, deltaY}), actions)(Market);
