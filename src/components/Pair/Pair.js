@@ -15,7 +15,6 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Typography from "@material-ui/core/Typography/Typography";
-import Tooltip from '@material-ui/core/Tooltip';
 
 import Button from '@material-ui/core/Button';
 
@@ -46,6 +45,8 @@ class Pair extends Component {
 		const market = this.props.market.market;
 		const p = _.find(market, pairInMarket => pairInMarket.base_symbol === pair.base_symbol && pairInMarket.quote_symbol === pair.quote_symbol);
 		const sortedMarketData = _.orderBy(p.market_data, [emd => emd.volume], "desc");
+		const lowestCurrentAsk = _.minBy(p.market_data, emd => emd.current_ask);
+		const highestCurrentBid = _.maxBy(p.market_data, emd => emd.current_bid);
 		return (
 			<div>
 				<Grid
@@ -61,7 +62,7 @@ class Pair extends Component {
 						</Button>
 					</Grid>
 					<Grid item>
-						<Typography variant="h4" align="center">
+						<Typography variant="h3" align="center">
 							{`${p.base_symbol}/${p.quote_symbol}`}
 						</Typography>
 					</Grid>

@@ -6,11 +6,9 @@ import * as actions from "../../actions";
 class Title extends Component {
 	render() {
 		return (
-			<div>
-				<Typography onClick={() => this.props.resetState()} variant="h1" align="center">
+				<Typography onClick={() => this.props.resetState()} variant="h3" align="center" style={{fontSize:"68px"}}>
 					{this.props.title}
 				</Typography>
-			</div>
 		)
 	}
 }
