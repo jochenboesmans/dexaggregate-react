@@ -1,15 +1,10 @@
-import React from 'react';
-
-import Main from "../components/Main/Main";
-import Pair from "../components/Pair/Pair";
-
 export const pages = {
-	MAIN: {
-		name: "Main Page",
-		view: <Main/>
+	MARKET: {
+		name: "Market Page",
+		ID: "MARKET"
 	},
 	PAIR: {
 		name: "Pair Page",
-		view: <Pair/>
+		ID: "PAIR"
 	}
 };
