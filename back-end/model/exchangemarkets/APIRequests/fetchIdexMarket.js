@@ -7,23 +7,21 @@ const exchanges = require("../../exchanges");
  * Retrieves the current market from the Idex API.
  */
 module.exports = async () => {
-	const retrievedIdexMarket = await retrieveIdexMarket();
-	const asListIdexMarket = convertToList(retrievedIdexMarket);
-	const filteredIdexMarket = filterPairs(asListIdexMarket);
-	return formatIdexMarket(filteredIdexMarket);
+	try {
+		const retrievedIdexMarket = await retrieveIdexMarket();
+		const asListIdexMarket = convertToList(retrievedIdexMarket);
+		const filteredIdexMarket = filterPairs(asListIdexMarket);
+		return formatIdexMarket(filteredIdexMarket);
+	} catch (error) {
+		console.log(`Error while trying to fetch market from ${exchanges.IDEX.name} API: ${error}`);
+	}
 };
 
 /**
  * (GET) Retrieves in-depth information about price and other information about assets.
  * 	More info at [Idex Docs]{@link https://github.com/AuroraDAO/idex-api-docs#returnticker}.
  */
-const retrieveIdexMarket = async () => {
-	try {
-		return (await axios.post("https://api.idex.market/returnTicker", {json: {}})).data;
-	} catch (error) {
-		console.log(`Error while trying to fetch market from ${exchanges.IDEX.name} API: ${error}`);
-	}
-};
+const retrieveIdexMarket = async () => (await axios.post("https://api.idex.market/returnTicker", {json: {}})).data;
 
 const convertToList = (retrievedIdexMarket) => {
 	return Object.keys(retrievedIdexMarket).map(key => { return { pair: key, ...retrievedIdexMarket[key] }});

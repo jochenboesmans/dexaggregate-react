@@ -16,17 +16,17 @@ const MarketHead = () => {
 			<TableRow>
 				<TableCell>
 					<Tooltip title={columnOneDescription} placement="top">
-						<Typography style={{color: "black", fontWeight: "bold"}}>Base Token / Quote Token</Typography>
+						<Typography style={{color: "black", fontWeight: "bold"}}>Base/Quote</Typography>
 					</Tooltip>
 				</TableCell>
 				<TableCell numeric>
 					<Tooltip title={columnTwoDescription} placement="top">
-						<Typography style={{color: "black", fontWeight: "bold"}}>Quote Token Current Spread [DAI]</Typography>
+						<Typography style={{color: "black", fontWeight: "bold"}}>Current Spread [DAI]</Typography>
 					</Tooltip>
 				</TableCell>
 				<TableCell numeric>
 					<Tooltip title={columnThreeDescription} placement="top">
-						<Typography style={{color: "black", fontWeight: "bold"}}>Quote Token Last Price [DAI]</Typography>
+						<Typography style={{color: "black", fontWeight: "bold"}}>Current Last Price [DAI]</Typography>
 					</Tooltip>
 				</TableCell>
 				<TableCell numeric>

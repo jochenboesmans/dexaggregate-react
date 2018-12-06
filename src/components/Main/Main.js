@@ -31,8 +31,8 @@ class Main extends Component {
 					container
 					direction="column"
 					justify="center"
+					alignItems="stretch"
 					spacing={8}
-					alignItems="center"
 				>
 					<Grid item>
 						<TextField
@@ -42,6 +42,7 @@ class Main extends Component {
 							type="search"
 							variant="outlined"
 							onChange={this.handleSearchChange}
+							fullWidth
 						/>
 					</Grid>
 					<Grid item>

@@ -34,9 +34,9 @@ class MarketBody extends Component {
 
 					return (
 						<TableBody onWheel={(e) => {
-							if (e.deltaY < 0 && this.props.deltaY > 9) {
+							if (e.deltaY < 0 && this.props.deltaY > 9 && !searchFilter) {
 								this.props.setDeltaY(this.props.deltaY - 10);
-							} else if (e.deltaY > 0 && this.props.deltaY <= (this.props.market ? this.props.market.market.length : 0) - 10) {
+							} else if (e.deltaY > 0 && this.props.deltaY <= (this.props.market ? this.props.market.market.length : 0) - 10 && !searchFilter) {
 								this.props.setDeltaY(this.props.deltaY + 10);
 							}
 						}}>

@@ -7,22 +7,20 @@ const exchanges = require("../../exchanges");
  * Retrieves the current market from the Ddex API.
  */
 module.exports = async () => {
-	const retrievedDdexMarket = await retrieveDdexMarket();
-	const filteredDdexMarket = filterPairs(retrievedDdexMarket);
-	return formatDdexMarket(filteredDdexMarket);
+	try {
+		const retrievedDdexMarket = await retrieveDdexMarket();
+		const filteredDdexMarket = filterPairs(retrievedDdexMarket);
+		return formatDdexMarket(filteredDdexMarket);
+	} catch (error) {
+		console.log(`Error while trying to fetch market from ddex API: ${error}`);
+	}
 };
 
 /**
  * (GET) Retrieves in-depth information about price and other information about assets.
  * 	More info at [Ddex Docs]{@link https://docs.ddex.io/#list-tickers}.
  */
-const retrieveDdexMarket = async () => {
-	try {
-		return (await axios.get("https://api.ddex.io/v2/markets/tickers")).data.data.tickers;
-	} catch (error) {
-		console.log(`Error while trying to fetch market from ddex API: ${error}`);
-	}
-};
+const retrieveDdexMarket = async () => (await axios.get("https://api.ddex.io/v2/markets/tickers")).data.data.tickers;
 
 /**
  * Filters a given retrievedDdexMarket based on them having the appropriate market data.

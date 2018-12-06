@@ -7,9 +7,9 @@ import {rebaseHighestCurrentBid, rebaseLowestCurrentAsk} from "../../../util/mar
 const Spread = ({market, p}) => {
 	const innerBid = rebaseHighestCurrentBid(market, p.base_symbol, p.quote_symbol, "DAI");
 	const innerAsk = rebaseLowestCurrentAsk(market, p.base_symbol, p.quote_symbol, "DAI");
-	const spreadRatioDifference = (innerAsk / innerBid) - 1;
 	const fInnerBid = formatPrice(innerBid);
 	const fInnerAsk = formatPrice(innerAsk);
+	const spreadRatioDifference = (innerAsk / innerBid) - 1;
 	const fSpreadPercentage = formatPercentage(spreadRatioDifference);
 
 	const arbitrageLimit = -0.01;

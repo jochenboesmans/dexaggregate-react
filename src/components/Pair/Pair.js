@@ -40,6 +40,29 @@ const styles = {
 };
 
 class Pair extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {hover: false};
+	}
+	renderPair(p) {
+		if (this.state.hover) {
+			return (
+				<Button fullWidth
+						onClick={() => {this.props.setPage(pages.MAIN)}}
+						style={{fontSize:"18px"}}
+				>
+					Back
+				</Button>
+			)
+		} else {
+			return (
+				<Button fullWidth
+						style={{fontSize:"18px"}}
+				>
+					{`${p.base_symbol}/${p.quote_symbol}`}
+				</Button>)
+		}
+	}
 	render() {
 		const pair = this.props.activePage.pair;
 		const market = this.props.market.market;
@@ -53,18 +76,19 @@ class Pair extends Component {
 					container
 					direction="column"
 					justify="center"
-					spacing={8}
-					alignItems="center"
+					alignItems="stretch"
 				>
-					<Grid item>
-						<Button className="root" onClick={() => {this.props.setPage(pages.MAIN)}}>
-							Back
-						</Button>
-					</Grid>
-					<Grid item>
-						<Typography variant="h3" align="center">
-							{`${p.base_symbol}/${p.quote_symbol}`}
-						</Typography>
+					<Grid item
+						  onMouseLeave={() => {
+							  console.log("mouseleave");
+							  this.setState({hover: false})
+						  }}
+						  onMouseEnter={() => {
+							  console.log("mouseenter");
+							  this.setState({hover: true})
+						  }}
+					>
+						{this.renderPair(p)}
 					</Grid>
 					<Grid item>
 						<Table>
