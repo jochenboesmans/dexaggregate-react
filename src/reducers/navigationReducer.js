@@ -1,7 +1,7 @@
 import {SET_PAGE} from "../actions/types";
 import {pages} from "../model/pages";
 
-const defaultPage = pages.MAIN;
+export const defaultPage = pages.MAIN;
 
 export const navigationReducer = (state = defaultPage, action) => {
 	switch (action.type) {

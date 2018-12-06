@@ -1,6 +1,7 @@
 import {SET_TITLE} from "../actions/types";
 
-const defaultTitle = "ΣDEX";
+export const defaultTitle = "ΣDEX";
+
 export const titleReducer = (state = defaultTitle, action) => {
 	switch (action.type) {
 		case SET_TITLE:

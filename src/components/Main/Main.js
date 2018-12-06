@@ -17,6 +17,7 @@ class Main extends Component {
 
 	handleSearchChange = event => {
 		this.props.setSearchFilter((event.target.value).toUpperCase());
+		this.props.setDeltaY(0);
 	};
 
 	handleChangePage = (event, page) => {

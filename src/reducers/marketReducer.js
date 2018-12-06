@@ -1,6 +1,6 @@
 import {SET_MARKET} from "../actions/types";
 
-const defaultMarket = {market: null, exchanges: null, timestamp: null};
+export const defaultMarket = {market: null, exchanges: null, timestamp: null};
 
 export const marketReducer = (state = defaultMarket, action) => {
 	switch (action.type) {

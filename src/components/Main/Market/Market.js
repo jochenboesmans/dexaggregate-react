@@ -12,7 +12,7 @@ class Market extends Component {
 					<MarketHead/>
 					<MarketBody/>
 				</Table>
-				<Pagination/>
+				{/*<Pagination/>*/}
 			</div>
 		)
 	}

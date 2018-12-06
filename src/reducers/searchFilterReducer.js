@@ -1,6 +1,6 @@
 import {SET_SEARCH_FILTER} from "../actions/types";
 
-const defaultSearchFilter = null;
+export const defaultSearchFilter = null;
 
 export const searchFilterReducer = (state = defaultSearchFilter, action) => {
 	switch (action.type) {

@@ -4,18 +4,18 @@ import {connect} from 'react-redux';
 import {pages} from "../../model/pages";
 
 import {
-	formatVolume,
 	formatPrice, formatPercentage
 } from "../../util/formatFunctions";
 
 import * as actions from "../../actions";
 
-import Typography from '@material-ui/core/Typography';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import Typography from "@material-ui/core/Typography/Typography";
+import Tooltip from '@material-ui/core/Tooltip';
 
 import Button from '@material-ui/core/Button';
 
@@ -69,10 +69,18 @@ class Pair extends Component {
 						<Table>
 							<TableHead>
 								<TableRow>
-									<TableCell style={{color: "black"}}>Exchange</TableCell>
-									<TableCell style={{color: "black"}} numeric>Current Spread of {p.quote_symbol} [DAI]</TableCell>
-									<TableCell style={{color: "black"}} numeric>Last Price of {p.quote_symbol} [DAI]</TableCell>
-									<TableCell style={{color: "black"}} numeric>Volume (24h) [DAI]</TableCell>
+									<TableCell>
+										<Typography style={{color: "black", fontWeight: "bold"}}>Exchange</Typography>
+									</TableCell>
+									<TableCell numeric>
+										<Typography style={{color: "black", fontWeight: "bold"}}>Current Spread of {p.quote_symbol} [DAI]</Typography>
+									</TableCell>
+									<TableCell numeric>
+										<Typography style={{color: "black", fontWeight: "bold"}}>Last Price of {p.quote_symbol} [DAI]</Typography>
+									</TableCell>
+									<TableCell numeric>
+										<Typography style={{color: "black", fontWeight: "bold"}}>Volume (24h) [DAI]</Typography>
+									</TableCell>
 								</TableRow>
 							</TableHead>
 							<TableBody>
