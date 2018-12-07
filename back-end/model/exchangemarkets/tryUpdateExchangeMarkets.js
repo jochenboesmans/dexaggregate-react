@@ -3,7 +3,7 @@ const _ = require("lodash");
 const fetchExchangeMarkets = require("./APIRequests/fetchExchangeMarkets");
 const exchangeMarkets = require("./exchangeMarkets");
 
-const setModelUpdated = require("../../websocketbroadcasts/modelUpdated").setModelUpdated;
+const {setModelNeedsBroadcast} = require("../../websocketbroadcasts/modelNeedsBroadcast");
 
 /**
  * Updates model of exchangeMarkets based on newly, successfully fetched exchangeMarkets.
@@ -17,5 +17,5 @@ module.exports = async () => {
 		}
 	});
 	console.log("Market model updated.");
-	setModelUpdated(true);
+	setModelNeedsBroadcast(true);
 };

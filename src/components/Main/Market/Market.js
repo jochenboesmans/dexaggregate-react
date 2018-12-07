@@ -39,7 +39,7 @@ class Market extends Component {
 						</Table>
 					</Grid>
 					<Grid item>
-						<Typography style={{textAlign: "center"}} variant="caption">Displaying {deltaY} - {Math.min(deltaY + 10, marketSize)}</Typography>
+						<Typography style={{textAlign: "center"}} variant="caption">Displaying {1 + deltaY} - {Math.min(deltaY + 10, marketSize)}</Typography>
 					</Grid>
 				</Grid>
 			</div>

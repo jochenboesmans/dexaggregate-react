@@ -1,22 +1,16 @@
 const _ = require("lodash");
 const axios = require("axios");
 
-const exchanges = require("../../exchanges");
+const {KYBER} = require("../../exchanges");
 
 /**
  * Retrieves the current market from the Kyber API.
  */
 module.exports = async () => {
 	try {
-		const retrievedKyberMarket = await retrieveKyberMarket();
-
-
-		/*if (outOfDate(retrievedKyberMarket.timestamp)) {
-			throw new Error(`Retrieved market from ${exchanges.KYBER.name} API is out of date.`);
-		}*/
-		return formatKyberMarket(retrievedKyberMarket);
+		return formatKyberMarket(await retrieveKyberMarket());
 	} catch (error) {
-		console.log(`Error while trying to fetch market from ${exchanges.KYBER.name} API: ${error}`);
+		console.log(`Error while trying to fetch market from ${KYBER.name} API: ${error}`);
 	}
 };
 
@@ -26,30 +20,17 @@ module.exports = async () => {
  */
 const retrieveKyberMarket = async () => (await axios.get("https://api.kyber.network/market")).data.data;
 
-/**
- * Formats a given retrievedKyberMarket into the application-specific exchangeMarket structure.
- */
-const formatKyberMarket = (retrievedKyberMarket) =>
-	_.map(retrievedKyberMarket, p => {
-		return {
-			base_symbol: p.base_symbol,
-			quote_symbol: p.quote_symbol,
-			market_data: {
-				exchange: exchanges.KYBER,
-				last_traded: p.last_traded,
-				current_bid: p.current_bid,
-				current_ask: p.current_ask,
-				past_24h_high: p.past_24h_high,
-				past_24h_low: p.past_24h_low,
-				volume: p.eth_24h_volume
-			}
-		}
-	});
-
-/**
- * Checks whether the given timestamp is more than 24 hours in the past.
- */
-const outOfDate = (timestamp) => {
-	let now = Date.now();
-	return (now - timestamp) >= 24 * 60 * 60 * 1000;
-};
+/* Formats a given retrievedKyberMarket into the application-specific exchangeMarket structure. */
+const formatKyberMarket = (retrievedKyberMarket) => _.map(retrievedKyberMarket, p => ({
+	base_symbol: p.base_symbol,
+	quote_symbol: p.quote_symbol,
+	market_data: {
+		exchange: KYBER,
+		last_traded: p.last_traded,
+		current_bid: p.current_bid,
+		current_ask: p.current_ask,
+		past_24h_high: p.past_24h_high,
+		past_24h_low: p.past_24h_low,
+		volume: p.eth_24h_volume
+	}
+}));

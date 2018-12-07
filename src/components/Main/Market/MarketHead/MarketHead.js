@@ -27,13 +27,13 @@ const MarketHead = () => {
 		}
 	];
 	return (
-		<TableHead className="tableHead">
+		<TableHead>
 			<TableRow>
 				{_.map(columns, column => {
 					if (column.text === `Base/Quote`) {
 						return (
 							<TableCell key={column.text}>
-								<Tooltip title={column.tooltip} placement="top">
+								<Tooltip title={column.tooltip} placement="bottom">
 									<Typography style={{color: "black", fontWeight: "bold"}}>{column.text}</Typography>
 								</Tooltip>
 							</TableCell>
@@ -41,7 +41,7 @@ const MarketHead = () => {
 					} else {
 						return (
 							<TableCell numeric key={column.text}>
-								<Tooltip title={column.tooltip} placement="top">
+								<Tooltip title={column.tooltip} placement="bottom">
 									<Typography style={{color: "black", fontWeight: "bold"}}>{column.text}</Typography>
 								</Tooltip>
 							</TableCell>

@@ -2,8 +2,7 @@ const socketio = require("socket.io");
 
 const getMarket = require("../model/getMarket");
 
-const getModelUpdated = require("./modelUpdated").getModelUpdated;
-const setModelUpdated = require("./modelUpdated").setModelUpdated;
+const {getModelNeedsBroadcast, setModelNeedsBroadcast} = require("./modelNeedsBroadcast");
 
 module.exports = (server) => {
 	const io = socketio(server);
@@ -13,9 +12,9 @@ module.exports = (server) => {
 	});
 
 	setInterval(() => {
-		if (getModelUpdated()) {
+		if (getModelNeedsBroadcast()) {
 			io.emit("marketBroadcast", getMarket());
-			setModelUpdated(false);
+			setModelNeedsBroadcast(false);
 		}
 
 	}, 1000);

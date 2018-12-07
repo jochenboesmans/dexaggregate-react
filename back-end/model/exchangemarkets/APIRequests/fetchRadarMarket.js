@@ -9,9 +9,7 @@ const exchanges = require("../../exchanges");
  */
 module.exports = async () => {
 	try {
-		const retrievedRadarPairs = await retrieveRadarPairs();
-		const activeRadarPairs = filterActivePairs(retrievedRadarPairs);
-		return _.map(activeRadarPairs, p => formatRadarMarket(p));
+		return _.map(filterActivePairs(await retrieveRadarPairs()), p => formatRadarMarket(p));
 	} catch (error) {
 		console.log(`Error while trying to fetch pairs from Radar API: ${error.message}`);
 	}
@@ -21,32 +19,16 @@ const retrieveRadarPairs = async () => (await axios.get("https://api.radarrelay.
 
 const filterActivePairs = (activeRadarPairs) => _.filter(activeRadarPairs, p => p.active === 1);
 
-const formatRadarMarket = (p) => {
-	return {
-		base_symbol: parseBaseSymbol(p.displayName),
-		quote_symbol: parseQuoteSymbol(p.displayName),
-		market_data: {
-			exchange: exchanges.RADAR,
-			last_traded: parseFloat(p.ticker.price),
-			current_bid: parseFloat(p.ticker.bestBid),
-			current_ask: parseFloat(p.ticker.bestAsk),
-			past_24h_high: _.maxBy(p.history.price24Hour, price => parseFloat(price)),
-			past_24h_low: _.minBy(p.history.price24Hour, price => parseFloat(price)),
-			volume: parseFloat(p.stats.volume24Hour)
-		}
+const formatRadarMarket = (p) => ({
+	base_symbol: p.displayName.split('/')[1],
+	quote_symbol: p.displayName.split('/')[0],
+	market_data: {
+		exchange: exchanges.RADAR,
+		last_traded: parseFloat(p.ticker.price),
+		current_bid: parseFloat(p.ticker.bestBid),
+		current_ask: parseFloat(p.ticker.bestAsk),
+		past_24h_high: _.maxBy(p.history.price24Hour, price => parseFloat(price)),
+		past_24h_low: _.minBy(p.history.price24Hour, price => parseFloat(price)),
+		volume: parseFloat(p.stats.volume24Hour)
 	}
-};
-
-/**
- * Parses the base symbol from a string of type "{BASE_SYMBOL}/{QUOTE_SYMBOL}".
- */
-const parseBaseSymbol = (pair) => {
-	return pair.split('/')[1];
-};
-
-/**
- * Parses the quote symbol from a string of type "{BASE_SYMBOL}/{QUOTE_SYMBOL}".
- */
-const parseQuoteSymbol = (pair) => {
-	return pair.split('/')[0];
-};
+});

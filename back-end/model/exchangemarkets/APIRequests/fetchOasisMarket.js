@@ -1,7 +1,7 @@
 const _ = require("lodash");
 const axios = require("axios");
 
-const exchanges = require("../../exchanges");
+const {OASIS} = require("../../exchanges");
 
 /**
  * (GET) Retrieve in-depth information about price and other information about assets.
@@ -9,21 +9,13 @@ const exchanges = require("../../exchanges");
  */
 module.exports = async () => {
 	try {
-		const retrievedOasisPairs = await retrieveOasisPairs();
-		/*if (outOfDate(retrievedOasisPairs.time)) {
-		throw new Error(`Retrieved pairs from ${exchanges.OASIS.name} API is out of date.`);
-		}*/
-		const actualOasisPairs = retrievedOasisPairs.data;
-		const activeOasisPairs = filterActivePairs(actualOasisPairs);
-		const oasisMarket = await getOasisMarkets(activeOasisPairs);
-		const filtered = _.filter(oasisMarket, m => m);
-		return filtered;
+		return (await getOasisMarkets(filterActivePairs((await retrieveOasisPairs()))));
 	} catch (error) {
-		console.log(`Error while trying to fetch pairs from Oasis API: ${error.message}`);
+		console.log(`Error while trying to fetch pairs from ${OASIS.name} API: ${error.message}`);
 	}
 };
 
-const retrieveOasisPairs = async () => (await axios.get("http://api.oasisdex.com/v1/pairs/")).data;
+const retrieveOasisPairs = async () => (await axios.get("http://api.oasisdex.com/v1/pairs/")).data.data;
 
 const filterActivePairs = (actualOasisPairs) => _.filter(actualOasisPairs, p => p.active);
 
@@ -35,31 +27,21 @@ const getOasisMarkets = async (activeOasisPairs) => {
 			return formatOasisMarket(p, m);
 		}
 	});
-	return (await Promise.all(oasisMarketPromises));
+	return _.filter((await Promise.all(oasisMarketPromises)), m => m);
 };
 
 const retrieveOasisMarket = async (p) => (await axios.get(`http://api.oasisdex.com/v1/markets/${p.base}/${p.quote}`)).data.data;
 
-const formatOasisMarket = (p, m) => {
-	return {
-		base_symbol: p.quote,
-		quote_symbol: p.base,
-		market_data: {
-			exchange: exchanges.OASIS,
-			last_traded: parseFloat(m.last),
-			current_bid: parseFloat(m.bid),
-			current_ask: parseFloat(m.ask),
-			past_24h_high: parseFloat(m.high),
-			past_24h_low: parseFloat(m.low),
-			volume: parseFloat(m.vol) * parseFloat(m.last)
-		}
+const formatOasisMarket = (p, m) => ({
+	base_symbol: p.quote,
+	quote_symbol: p.base,
+	market_data: {
+		exchange: OASIS,
+		last_traded: parseFloat(m.last),
+		current_bid: parseFloat(m.bid),
+		current_ask: parseFloat(m.ask),
+		past_24h_high: parseFloat(m.high),
+		past_24h_low: parseFloat(m.low),
+		volume: parseFloat(m.vol) * parseFloat(m.last)
 	}
-};
-
-/**
- * Checks whether the given timestamp is more than 24 hours in the past.
- */
-const outOfDate = (timestamp) => {
-	let now = Date.now() / 1000;
-	return (now - timestamp) >= 24 * 60 * 60 * 1000;
-};
+});

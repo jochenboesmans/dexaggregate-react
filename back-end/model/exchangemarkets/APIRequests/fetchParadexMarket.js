@@ -1,53 +1,41 @@
 const axios = require("axios");
 const _ = require("lodash");
 
-const {paradexAPIKey} = require("../../../config/keys");
-const exchanges = require("../../exchanges");
+const {paradexAPIKey} = require("../../../config");
+const {PARADEX} = require("../../exchanges");
 
-// TODO: Docs, refactoring
 module.exports = async () => {
 	try {
-		const result = await axios.get("https://api.paradex.io/consumer/v0/markets", {
-			headers: {"API-KEY" : paradexAPIKey}
-		});
-		const retrievedParadexMarket = result.data;
+		const retrievedParadexMarket = await retrieveParadexMarket();
 		const paradexMarketInPromises = _.map(retrievedParadexMarket, async m => {
 			if (m.state === 'enabled') {
-				const o = ((await axios.get(`https://api.paradex.io/consumer/v0/ohlcv?market=${m.symbol}&period=1d&amount=1`, {
-					headers: {"API-KEY" : paradexAPIKey}
-				})).data)[0];
-				const t = (await axios.get(`https://api.paradex.io/consumer/v0/ticker?market=${m.symbol}`, {
-					headers: {"API-KEY" : paradexAPIKey}
-				})).data;
+				const o = await retrieveParadexOhlcv(m);
+				const t = await retrieveParadexTicker(m);
 				if (t.last && t.bid && t.ask && o.high && o.low && o.volume) {
-					return {
-						base_symbol: m.quoteToken,
-						quote_symbol: m.baseToken,
-						market_data: {
-							exchange: exchanges.PARADEX,
-							last_traded: parseFloat(t.last),
-							current_bid: parseFloat(t.bid),
-							current_ask: parseFloat(t.ask),
-							past_24h_high: parseFloat(o.high),
-							past_24h_low: parseFloat(o.low),
-							volume: parseFloat(o.volume) * parseFloat(t.last)
-						}
-					}
+					return formatParadexMarketPair(m, o, t);
 				}
 			}}
 		);
-		const paradexMarket = await Promise.all(paradexMarketInPromises);
-		const filtered = _.filter(paradexMarket, p => p);
-		return filtered;
+		return _.filter((await Promise.all(paradexMarketInPromises)), p => p);
 	} catch (error) {
-		console.log(`Error while trying to fetch market from Paradex API: ${error}`);
+		console.log(`Error while trying to fetch market from ${PARADEX.name} API: ${error}`);
 	}
 };
 
-/**
- * Checks whether the given timestamp is more than 24 hours in the past.
- */
-const outOfDate = (timestamp) => {
-	let now = Date.now();
-	return (now - timestamp) >= 24 * 60 * 60 * 1000;
-};
+const retrieveParadexMarket = async () => (await axios.get("https://api.paradex.io/consumer/v0/markets", {headers: {"API-KEY" : paradexAPIKey}})).data;
+const retrieveParadexOhlcv = async (m) => ((await axios.get(`https://api.paradex.io/consumer/v0/ohlcv?market=${m.symbol}&period=1d&amount=1`, {headers: {"API-KEY" : paradexAPIKey}})).data)[0];
+const retrieveParadexTicker = async (m) => (await axios.get(`https://api.paradex.io/consumer/v0/ticker?market=${m.symbol}`, {headers: {"API-KEY" : paradexAPIKey}})).data;
+
+const formatParadexMarketPair = (m, o, t) => ({
+	base_symbol: m.quoteToken,
+	quote_symbol: m.baseToken,
+	market_data: {
+		exchange: PARADEX,
+		last_traded: parseFloat(t.last),
+		current_bid: parseFloat(t.bid),
+		current_ask: parseFloat(t.ask),
+		past_24h_high: parseFloat(o.high),
+		past_24h_low: parseFloat(o.low),
+		volume: parseFloat(o.volume) * parseFloat(t.last)
+	}
+});

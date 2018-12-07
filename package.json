@@ -27,6 +27,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "server": "node ./back-end/index.js",
+    "nodemon-server": "nodemon ./back-end/index.js",
     "client": "npm run start",
     "dev": "concurrently \"npm run server\" \"npm run client\""
   },

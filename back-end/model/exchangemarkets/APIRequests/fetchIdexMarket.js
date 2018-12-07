@@ -1,19 +1,14 @@
 const _ = require("lodash");
 const axios = require("axios");
 
-const exchanges = require("../../exchanges");
+const {IDEX} = require("../../exchanges");
 
-/**
- * Retrieves the current market from the Idex API.
- */
+/* Retrieves the current market from the Idex API. */
 module.exports = async () => {
 	try {
-		const retrievedIdexMarket = await retrieveIdexMarket();
-		const asListIdexMarket = convertToList(retrievedIdexMarket);
-		const filteredIdexMarket = filterPairs(asListIdexMarket);
-		return formatIdexMarket(filteredIdexMarket);
+		return formatIdexMarket(filterPairs(convertToList(await retrieveIdexMarket())));
 	} catch (error) {
-		console.log(`Error while trying to fetch market from ${exchanges.IDEX.name} API: ${error}`);
+		console.log(`Error while trying to fetch market from ${IDEX.name} API: ${error}`);
 	}
 };
 
@@ -23,46 +18,24 @@ module.exports = async () => {
  */
 const retrieveIdexMarket = async () => (await axios.post("https://api.idex.market/returnTicker", {json: {}})).data;
 
-const convertToList = (retrievedIdexMarket) => {
-	return Object.keys(retrievedIdexMarket).map(key => { return { pair: key, ...retrievedIdexMarket[key] }});
-};
+const convertToList = (retrievedIdexMarket) => Object.keys(retrievedIdexMarket).map(key =>
+	({ pair: key, ...retrievedIdexMarket[key] }));
 
-/**
- * Filters a given retrievedIdexMarket based on them having the appropriate market data.
- */
+/* Filters a given retrievedIdexMarket based on them having the appropriate market data. */
 const filterPairs = (retrievedIdexMarket) => _.filter(retrievedIdexMarket, p =>
 	(parseFloat(p.last) && parseFloat(p.highestBid) && parseFloat(p.lowestAsk) && parseFloat(p.high) && parseFloat(p.low) && parseFloat(p.baseVolume)));
 
-/**
- * Formats a given filteredIdexMarket into the application-specific exchangeMarket structure.
- */
-const formatIdexMarket = (filteredIdexMarket) => _.map(filteredIdexMarket, p => {
-	return {
-		base_symbol: parseBaseSymbol(p.pair),
-		quote_symbol: parseQuoteSymbol(p.pair),
-		market_data: {
-			exchange: exchanges.IDEX,
-			last_traded: parseFloat(p.last),
-			current_bid: parseFloat(p.highestBid),
-			current_ask: parseFloat(p.lowestAsk),
-			past_24h_high: parseFloat(p.high),
-			past_24h_low: parseFloat(p.low),
-			volume: parseFloat(p.baseVolume)
-		}
+/* Formats a given filteredIdexMarket into the application-specific exchangeMarket structure. */
+const formatIdexMarket = (filteredIdexMarket) => _.map(filteredIdexMarket, p => ({
+	base_symbol: p.pair.split('_')[0],
+	quote_symbol: p.pair.split('_')[1],
+	market_data: {
+		exchange: IDEX,
+		last_traded: parseFloat(p.last),
+		current_bid: parseFloat(p.highestBid),
+		current_ask: parseFloat(p.lowestAsk),
+		past_24h_high: parseFloat(p.high),
+		past_24h_low: parseFloat(p.low),
+		volume: parseFloat(p.baseVolume)
 	}
-});
-
-
-/**
- * Parses the base symbol from a string of type "{BASE_SYMBOL}_{QUOTE_SYMBOL}".
- */
-const parseBaseSymbol = (pair) => {
-	return pair.split('_')[0];
-};
-
-/**
- * Parses the quote symbol from a string of type "{BASE_SYMBOL}_{QUOTE_SYMBOL}".
- */
-const parseQuoteSymbol = (pair) => {
-	return pair.split('_')[1];
-};
+}));

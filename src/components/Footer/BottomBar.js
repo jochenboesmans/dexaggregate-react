@@ -5,7 +5,6 @@ import _ from "lodash";
 import Grid from "@material-ui/core/Grid/Grid";
 import IconButton from "@material-ui/core/IconButton/IconButton";
 import SvgIcon from "@material-ui/core/SvgIcon/SvgIcon";
-import Typography from "@material-ui/core/Typography/Typography";
 
 class BottomBar extends Component {
 	render() {
