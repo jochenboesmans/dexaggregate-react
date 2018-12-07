@@ -7,6 +7,7 @@ module.exports = async () => {
 		IDEX: {market: (await require("./fetchIdexMarket")()), exchange: exchanges.IDEX},
 		KYBER: {market: (await require("./fetchKyberMarket")()), exchange: exchanges.KYBER},
 		OASIS: {market: (await require("./fetchOasisMarket")()), exchange: exchanges.OASIS},
-		PARADEX: {market: (await require("./fetchParadexMarket")()), exchange: exchanges.PARADEX}
+		PARADEX: {market: (await require("./fetchParadexMarket")()), exchange: exchanges.PARADEX},
+		RADAR: {market: (await require("./fetchRadarMarket")()), exchange: exchanges.RADAR}
 	}
 };

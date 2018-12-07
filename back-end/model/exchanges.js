@@ -22,5 +22,9 @@ module.exports = {
 	PARADEX: {
 		name: "Paradex",
 		ID: "PARADEX",
-	}
+	},
+	RADAR: {
+		name: "Radar Relay",
+		ID: "RADAR",
+	},
 };
