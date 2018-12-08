@@ -24,5 +24,8 @@ require("./websocketbroadcasts/broadcastSession")(wsServer);
 
 require("./model/periodicallyUpdate")();
 
-apiServer.listen(config.apiPort, () => `API server is now listening on port ${config.apiPort}`);
-wsServer.listen(config.wsPort, () =>  `WS server is now listening on port ${config.wsPort}`);
+//const apiPort = process.env.PORT || 5000;
+const wsPort = process.env.PORT || 3000;
+
+//apiServer.listen(apiPort, () => `API server is now listening on port ${apiPort}`);
+wsServer.listen(wsPort, () =>  `WS server is now listening on port ${wsPort}`);

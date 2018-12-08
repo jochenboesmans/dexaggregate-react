@@ -3,7 +3,7 @@ import {updateMarket} from "../actions";
 import {store} from "../index";
 
 export const subscribeToSocketBroadcasts = () => {
-  const socket = io("http://localhost:7000");
+  const socket = io();
   socket.on("marketBroadcast", receivedMarket => {
     updateMarket(receivedMarket)(store.dispatch);
     console.log(receivedMarket);
