@@ -17,14 +17,13 @@ class PairBody extends Component {
 		super(props);
 		this.state = {
 			p: props.p,
-			market: props.market,
-			sortedMarketData: props.sortedMarketData
+			market: props.market
 		};
 	}
 	render() {
 		const market = this.state.market;
 		const p = this.state.p;
-		const sortedMarketData = this.state.sortedMarketData;
+		const sortedMarketData = p ? _.orderBy(p.market_data, [emd => emd.volume], "desc") : null;
 		return (
 			<TableBody>
 				{_.map(sortedMarketData, emd => {
@@ -101,6 +100,9 @@ class PairBody extends Component {
 				break;
 			case "IDEX":
 				url = `https://idex.market/${p.base_symbol}/${p.quote_symbol}`;
+				break;
+			case "RADAR":
+				url = `https://app.radarrelay.com/${p.quote_symbol}/${p.base_symbol}`;
 				break;
 			default:
 				break;

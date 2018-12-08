@@ -5,12 +5,13 @@ import * as actions from "../../actions";
 
 class TitleBar extends Component {
 	render() {
+		const title = "ΣDEX";
 		return (
 			<Typography onClick={() => this.props.resetState()} variant="h1" align="center">
-				{this.props.title}
+				{title}
 			</Typography>
 		)
 	}
 }
 
-export default connect(({title}) => ({title}), actions)(TitleBar);
+export default connect(null, actions)(TitleBar);

@@ -49,7 +49,7 @@ class MarketInformation extends Component {
 					{_.map(rows, row => (
 						<TableRow key={row.textLeft}>
 							<TableCell>
-								<Tooltip title={row.tooltip} placement="top">
+								<Tooltip title={row.tooltip} placement="bottom">
 									<Typography style={{fontWeight: "bold"}}>{row.textLeft}</Typography>
 								</Tooltip>
 							</TableCell>

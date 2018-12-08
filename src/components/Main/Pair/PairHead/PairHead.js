@@ -22,7 +22,7 @@ const PairHead = ({p}) => {
 			text: `Last Price of ${p.quote_symbol} [DAI]`
 		},
 		{
-			tooltip: `The 24-hour volume for ${p.base_symbol/p.quote_symbol} on a given exchange. All volumes are denominated in DAI for readability and ease of interpretation.`,
+			tooltip: `The 24-hour volume for ${p.base_symbol}/${p.quote_symbol} on a given exchange. All volumes are denominated in DAI for readability and ease of interpretation.`,
 			text: `Volume (24h) [DAI]`
 		}
 	];

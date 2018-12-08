@@ -11,7 +11,7 @@ import Typography from "@material-ui/core/Typography/Typography";
 class Market extends Component {
 	render() {
 		const deltaY = this.props.deltaY;
-		const marketSize = this.props.market.market ? this.props.market.market.length : 0
+		const marketSize = this.props.market.market ? this.props.market.market.length : 0;
 		return (
 			<div>
 				<Grid
