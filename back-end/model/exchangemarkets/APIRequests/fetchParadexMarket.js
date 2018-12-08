@@ -1,7 +1,7 @@
 const axios = require("axios");
 const _ = require("lodash");
 
-const {paradexAPIKey} = require("../../../config");
+const {paradexAPIKey} = process.env.PARADEX_API_KEY;
 const {PARADEX} = require("../../exchanges");
 
 module.exports = async () => {
