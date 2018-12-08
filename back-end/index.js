@@ -3,8 +3,6 @@ const app = express();
 /*const apiServer = require("http").createServer(app);*/
 const server = require("http").createServer(app);
 
-const config = require("./config");
-
 // TODO: Maybe use this in production
 if (process.env.NODE_ENV === "production") {
 	// Make Express serve front-end assets in react build
