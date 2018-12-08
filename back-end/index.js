@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
-const apiServer = require("http").createServer(app);
-const wsServer = require("http").createServer(app);
+/*const apiServer = require("http").createServer(app);*/
+const server = require("http").createServer(app);
 
 const config = require("./config");
 
@@ -17,15 +17,16 @@ if (process.env.NODE_ENV === "production") {
 	});
 }
 
-require("./routes/exchanges")(app);
-require("./routes/market")(app);
+//require("./routes/exchanges")(app);
+//require("./routes/market")(app);
 
-require("./websocketbroadcasts/broadcastSession")(wsServer);
+const wsPort = process.env.PORT || 5000;
+server.listen(wsPort, () =>  console.log(`WS server is now listening on port ${wsPort}`));
+require("./websocketbroadcasts/broadcastSession")(server);
 
 require("./model/periodicallyUpdate")();
 
 //const apiPort = process.env.PORT || 5000;
-const wsPort = process.env.PORT || 3000;
 
-//apiServer.listen(apiPort, () => `API server is now listening on port ${apiPort}`);
-wsServer.listen(wsPort, () =>  `WS server is now listening on port ${wsPort}`);
+
+//apiServer.listen(apiPort, () => console.log(`API server is now listening on port ${apiPort}`));
