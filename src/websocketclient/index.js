@@ -5,7 +5,8 @@ import {store} from "../index";
 export const subscribeToSocketBroadcasts = () => {
   const url = "https://dexaggregate-server.herokuapp.com";
 
-  const socket = io(url);
+
+  const socket = io();
   socket.on("marketBroadcast", receivedMarket => {
     updateMarket(receivedMarket)(store.dispatch);
     console.log(receivedMarket);
