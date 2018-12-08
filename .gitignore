@@ -1,8 +1,8 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # config
-/src/config
-/back-end/config
+/src/config/dev.js
+/back-end/config/dev.js
 
 # dependencies
 /node_modules
