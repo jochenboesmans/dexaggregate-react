@@ -16,6 +16,7 @@ module.exports = (server) => {
 	setInterval(() => {
 		if (getModelNeedsBroadcast()) {
 			io.emit("marketBroadcast", getMarket());
+			console.log("marketBroadcast");
 			setModelNeedsBroadcast(false);
 		}
 
