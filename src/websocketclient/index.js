@@ -3,7 +3,7 @@ import {updateMarket} from "../actions";
 import {store} from "../index";
 
 export const subscribeToSocketBroadcasts = () => {
-  const url = (process.env.NODE_ENV === "production") ? "https://dexaggregate-server.herokuapp.com" : "http://localhost:5000";
+  const url = "https://dexaggregate-server.herokuapp.com";
 
   const socket = io(url);
   socket.on("marketBroadcast", receivedMarket => {
