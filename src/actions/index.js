@@ -22,7 +22,6 @@ export const setDeltaY = (deltaY) => dispatch => {
 };
 
 export const resetState = () => dispatch => {
-	console.log("resetstate");
 	dispatch({type: SET_SEARCH_FILTER, payload: defaultSearchFilter});
 	dispatch({type: SET_PAGE, payload: defaultPage});
 	dispatch({type: SET_DELTA_Y, payload: defaultDeltaY});

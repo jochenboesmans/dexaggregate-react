@@ -9,7 +9,7 @@ const Spread = ({market, p}) => {
 	const innerAsk = rebaseLowestCurrentAsk(market, p.base_symbol, p.quote_symbol, "DAI");
 	const fInnerBid = formatPrice(innerBid);
 	const fInnerAsk = formatPrice(innerAsk);
-	const spreadRatioDifference = (innerAsk / innerBid) - 1;
+	const spreadRatioDifference = ((innerAsk / innerBid) - 1) || 0;
 	const fSpreadPercentage = formatPercentage(spreadRatioDifference);
 
 	const arbitrageLimit = -0.01;

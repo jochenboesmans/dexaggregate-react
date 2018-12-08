@@ -35,7 +35,7 @@ class PairBody extends Component {
 					const fInnerAsk = formatPrice(innerAsk);
 					const fLast = formatPrice(last);
 					const fCombVol = formatPrice(combVol);
-					const spreadRatioDifference = (innerAsk / innerBid) - 1;
+					const spreadRatioDifference = ((innerAsk / innerBid) - 1) || 0;
 					const fSpreadPercentage = formatPercentage(spreadRatioDifference);
 					if (emd === lowestCurrentAskEMDAcrossExchanges(market, p.base_symbol, p.quote_symbol) &&
 						emd === highestCurrentBidEMDAcrossExchanges(market, p.base_symbol, p.quote_symbol)) {

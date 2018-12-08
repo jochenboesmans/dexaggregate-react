@@ -16,11 +16,6 @@ import {pages} from "../../../model/pages";
 class Pair extends Component {
 
 	render() {
-		console.log({
-			activePage: this.props.activePage,
-			searchFilter: this.props.searchFilter,
-			deltaY: this.props.deltaY
-		});
 		const pair = this.props.activePage.pair;
 		const market = this.props.market.market;
 		const p = _.find(market, pairInMarket => pairInMarket.base_symbol === pair.base_symbol && pairInMarket.quote_symbol === pair.quote_symbol);
