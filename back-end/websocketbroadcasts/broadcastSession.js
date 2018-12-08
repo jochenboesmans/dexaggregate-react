@@ -8,15 +8,12 @@ module.exports = (server) => {
 	const io = socketio(server);
 
 	io.on("connection", (socket) => {
-		console.log("Client connected");
 		socket.emit("marketBroadcast", getMarket());
-		socket.on("disconnect", () => console.log("Client disconnected"));
 	});
 
 	setInterval(() => {
 		if (getModelNeedsBroadcast()) {
 			io.emit("marketBroadcast", getMarket());
-			console.log("marketBroadcast");
 			setModelNeedsBroadcast(false);
 		}
 
