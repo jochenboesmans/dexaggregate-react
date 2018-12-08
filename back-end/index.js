@@ -6,7 +6,7 @@ const wsServer = require("http").createServer(app);
 const config = require("./config");
 
 // TODO: Maybe use this in production
-/*if (process.env.NODE_ENV === "production") {
+if (process.env.NODE_ENV === "production") {
 	// Make Express serve front-end assets in react build
 	app.use(express.static('client/build'));
 
@@ -15,7 +15,7 @@ const config = require("./config");
 	app.get('*', (req, res) => {
 		res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
 	});
-}*/
+}
 
 require("./routes/exchanges")(app);
 require("./routes/market")(app);

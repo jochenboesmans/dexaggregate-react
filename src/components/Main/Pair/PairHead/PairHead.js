@@ -14,11 +14,11 @@ const PairHead = ({p}) => {
 			text: `Exchange`
 		},
 		{
-			tooltip: `The difference between the highest current bid ratio and the lowest current ask ratio for ${p.base_symbol}/${p.quote_symbol}. The exchange with the most competitive price for buying/selling ${p.quote_symbol} is highlighted in green/red respectively. Italic, green text indicates this exchange offers the most competitive prices for both buying and selling ${p.quote_symbol}. All ratios are denominated in DAI for readability and ease of interpretation.`,
+			tooltip: `The difference between the highest current bid ratio and the lowest current ask ratio for ${p.base_symbol}/${p.quote_symbol}. The exchange with the most competitive price for buying/selling ${p.quote_symbol} for ${p.base_symbol} is highlighted in green/red respectively. Italic, green text indicates this exchange offers the most competitive prices for both buying and selling ${p.quote_symbol} for ${p.base_symbol}. All ratios are denominated in DAI for readability and ease of interpretation.`,
 			text: `Spread of ${p.quote_symbol} [DAI]`
 		},
 		{
-			tooltip: `The last price for which ${p.quote_symbol} traded on a given exchange. All ratios are denominated in DAI for readability and ease of interpretation.`,
+			tooltip: `The last price for which ${p.quote_symbol} traded for ${p.base_symbol} on a given exchange. All ratios are denominated in DAI for readability and ease of interpretation.`,
 			text: `Last Price of ${p.quote_symbol} [DAI]`
 		},
 		{
