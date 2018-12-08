@@ -6,7 +6,7 @@ export const subscribeToSocketBroadcasts = () => {
   const url = "https://dexaggregate-server.herokuapp.com";
 
 
-  const socket = io.connect("http://dexaggregate-server.herokuapp.com/");
+  const socket = io.connect(":80");
   socket.on("marketBroadcast", receivedMarket => {
     updateMarket(receivedMarket)(store.dispatch);
     console.log(receivedMarket);
