@@ -6,7 +6,7 @@ import config from "../config";
 import axios from "axios";
 
 export const subscribeToSocketBroadcasts = async () => {
-	const socket = io(`${config.baseURL}:${config.serverPort}`);
+	const socket = io();
 	socket.on("marketBroadcast", receivedMarket => {
 		updateMarket(receivedMarket)(store.dispatch);
 		console.log(receivedMarket);
