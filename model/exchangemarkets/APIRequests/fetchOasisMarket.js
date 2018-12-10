@@ -24,7 +24,6 @@ const getOasisMarkets = async (activeOasisPairs) => {
 		const m = await retrieveOasisMarket(p);
 		if (m && parseFloat(m.price) && parseFloat(m.bid) && parseFloat(m.ask)
 			&& parseFloat(m.high) && parseFloat(m.low) && parseFloat(m.vol)) {
-			console.log(m);
 			return formatOasisMarket(p, m);
 		}
 	});

@@ -12,5 +12,10 @@ export const subscribeToSocketBroadcasts = async () => {
 		console.log(receivedMarket);
 	});*/
 	updateMarket((await axios.get("/api/market")).data)(store.dispatch);
-	setInterval(async () => updateMarket((await axios.get("/api/market")).data)(store.dispatch), 30 * 1000);
+	setInterval(async () => {
+		const result = (await axios.get("/api/market")).data;
+		console.log(result);
+		updateMarket((await axios.get("/api/market")).data)(store.dispatch)
+	}, 1 * 1000
+	)
 };
