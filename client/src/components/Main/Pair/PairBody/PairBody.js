@@ -5,7 +5,11 @@ import TableBody from "@material-ui/core/TableBody/TableBody";
 import TableRow from "@material-ui/core/TableRow/TableRow";
 import TableCell from "@material-ui/core/TableCell/TableCell";
 
-import {formatPercentage, formatPrice} from "../../../../util/formatFunctions";
+import {
+	formatPercentage,
+	formatPrice,
+	formatVolume
+} from "../../../../util/formatFunctions";
 import {
 	highestCurrentBidEMDAcrossExchanges,
 	lowestCurrentAskEMDAcrossExchanges,
@@ -34,7 +38,7 @@ class PairBody extends Component {
 					const fInnerBid = formatPrice(innerBid);
 					const fInnerAsk = formatPrice(innerAsk);
 					const fLast = formatPrice(last);
-					const fCombVol = formatPrice(combVol);
+					const fCombVol = formatVolume(combVol);
 					const spreadRatioDifference = ((innerAsk / innerBid) - 1) || 0;
 					const fSpreadPercentage = formatPercentage(spreadRatioDifference);
 					if (emd === lowestCurrentAskEMDAcrossExchanges(market, p.base_symbol, p.quote_symbol) &&
