@@ -17,5 +17,5 @@ module.exports = (server) => {
 			setModelNeedsBroadcast(false);
 		}
 
-	}, 1000);
+	}, 30 * 1000);
 };
