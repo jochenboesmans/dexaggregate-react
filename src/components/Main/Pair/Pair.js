@@ -28,6 +28,7 @@ class Pair extends Component {
 						direction="column"
 						justify="center"
 						alignItems="stretch"
+						spacing={8}
 					>
 						<PairButton p={p}/>
 						<Grid item>
@@ -47,6 +48,7 @@ class Pair extends Component {
 						direction="column"
 						justify="center"
 						alignItems="stretch"
+						spacing={8}
 					>
 						<Button fullWidth
 								onClick={() => {

@@ -22,8 +22,9 @@ const filterActivePairs = (actualOasisPairs) => _.filter(actualOasisPairs, p => 
 const getOasisMarkets = async (activeOasisPairs) => {
 	const oasisMarketPromises = _.map(activeOasisPairs,  async p => {
 		const m = await retrieveOasisMarket(p);
-		if (m && parseFloat(m.last) && parseFloat(m.bid) && parseFloat(m.ask)
+		if (m && parseFloat(m.price) && parseFloat(m.bid) && parseFloat(m.ask)
 			&& parseFloat(m.high) && parseFloat(m.low) && parseFloat(m.vol)) {
+			console.log(m);
 			return formatOasisMarket(p, m);
 		}
 	});
@@ -37,11 +38,11 @@ const formatOasisMarket = (p, m) => ({
 	quote_symbol: p.base,
 	market_data: {
 		exchange: OASIS,
-		last_traded: parseFloat(m.last),
+		last_traded: parseFloat(m.price),
 		current_bid: parseFloat(m.bid),
 		current_ask: parseFloat(m.ask),
 		past_24h_high: parseFloat(m.high),
 		past_24h_low: parseFloat(m.low),
-		volume: parseFloat(m.vol) * parseFloat(m.last)
+		volume: parseFloat(m.vol) * parseFloat(m.price)
 	}
 });

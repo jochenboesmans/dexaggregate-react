@@ -22,25 +22,25 @@ class MarketInformation extends Component {
 		const marketTime = formatTime(market.timestamp);
 		const rows = [
 			{
-				tooltip: `The sum of volumes of all market pairs across all exchanges. All volumes are denominated in DAI for readability and ease of interpretation.`,
-				textLeft: `Combined Volume (24h) [DAI]`,
-				textRight: combinedVolume
-			},
-			{
 				tooltip: `A list of all exchanges from which market data is included.`,
 				textLeft: `Exchanges`,
 				textRight: exchangeNames
+			},
+			{
+				tooltip: `The sum of volumes of all market pairs across all exchanges. All volumes are denominated in DAI for readability and ease of interpretation.`,
+				textLeft: `Combined Volume (24h) [DAI]`,
+				textRight: combinedVolume
 			},
 			{
 				tooltip: `The total amount of market pairs being listed.`,
 				textLeft: `Pairs`,
 				textRight: marketSize
 			},
-			{
+			/*{
 				tooltip: `The date on which the market currently being displayed was last updated.`,
 				textLeft: `Last Update`,
 				textRight: marketTime
-			}
+			}*/
 		];
 
 		return (
