@@ -33,8 +33,9 @@ const formatDdexMarket = (filteredDdexMarket) => _.map(filteredDdexMarket, p => 
 		current_ask: parseFloat(p.ask),
 		past_24h_high: parseFloat(p.high),
 		past_24h_low: parseFloat(p.low),
-		volume: parseFloat(p.volume) * parseFloat(p.price)
+		volume: parseFloat(p.volume) * twentyFourHourAverage(p)
 	}
 }));
 
 const outOfDate = (timestamp) => (Date.now() - timestamp) >= 24 * 60 * 60 * 1000;
+const twentyFourHourAverage = (p) => (parseFloat(p.high) + parseFloat(p.low)) / 2;

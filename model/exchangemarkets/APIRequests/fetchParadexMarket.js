@@ -36,6 +36,8 @@ const formatParadexMarketPair = (m, o, t) => ({
 		current_ask: parseFloat(t.ask),
 		past_24h_high: parseFloat(o.high),
 		past_24h_low: parseFloat(o.low),
-		volume: parseFloat(o.volume) * parseFloat(t.last)
+		volume: parseFloat(o.volume) * twentyFourHourAverage(o)
 	}
 });
+
+const twentyFourHourAverage = (o) => (parseFloat(o.high) + parseFloat(o.low)) / 2;

@@ -37,11 +37,13 @@ const formatOasisMarket = (p, m) => ({
 	quote_symbol: p.base,
 	market_data: {
 		exchange: OASIS,
-		last_traded: parseFloat(m.price),
+		last_traded: parseFloat(m.last),
 		current_bid: parseFloat(m.bid),
 		current_ask: parseFloat(m.ask),
 		past_24h_high: parseFloat(m.high),
 		past_24h_low: parseFloat(m.low),
-		volume: parseFloat(m.vol) * parseFloat(m.price)
+		volume: parseFloat(m.vol) * twentyFourHourAverage(m)
 	}
 });
+
+const twentyFourHourAverage = (m) => (parseFloat(m.high) + parseFloat(m.low)) / 2;
