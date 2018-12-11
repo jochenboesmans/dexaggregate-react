@@ -24,3 +24,5 @@ require("./websocketbroadcasts/broadcastSession")(server);
 require("./model/periodicallyUpdate")();
 
 server.listen(config.serverPort, () => `Server is now listening on port ${config.serverPort}`);
+
+require("./lookAlive");
