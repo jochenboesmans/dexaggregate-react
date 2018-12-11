@@ -23,4 +23,4 @@ require("./websocketbroadcasts/broadcastSession")(server);
 
 require("./model/periodicallyUpdate")();
 
-server.listen(5000, () => `Server is now listening on port 5000`);
+server.listen(process.env.PORT || 5000);

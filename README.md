@@ -2,7 +2,7 @@
 
 A simple explorer for aggregated market data from various decentralized exchanges. Currently the app uses data from `Ddex`, `Idex`, `Kyber Network`, `Oasis Dex`, `Paradex` and `Radar Relay`.
 
-A live version is available at [dexaggregate.com](dexaggregate.com).
+A live version is available at [dexaggregate.com](http://www.dexaggregate.com).
 
 ## Development Scripts
 
