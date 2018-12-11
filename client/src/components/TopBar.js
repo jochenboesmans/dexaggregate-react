@@ -55,11 +55,11 @@ class TopBar extends Component {
 						>
 							<Grid item>
 								<Tooltip title={row.tooltip} placement="bottom">
-									<Typography variant="caption" style={{fontWeight: "bold"}}>{row.textLeft}</Typography>
+									<Typography variant="caption" style={{fontWeight: "bold"}}>{row.textLeft + ": "}</Typography>
 								</Tooltip>
 							</Grid>
 							<Grid item>
-								<Typography variant="caption">{": " + row.textRight}</Typography>
+								<Typography variant="caption">{row.textRight}</Typography>
 							</Grid>
 						</Grid>
 					</Grid>
