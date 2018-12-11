@@ -9,6 +9,7 @@ import theme from "./themes/App";
 import Main from "./components/Main/Main";
 import BottomBar from "./components/Footer/BottomBar";
 import Header from "./components/Header/Header";
+import TopBar from "./components/TopBar";
 
 class App extends Component {
 
@@ -16,6 +17,7 @@ class App extends Component {
 		return (
 			<div className="App">
 				<MuiThemeProvider theme={theme}>
+
 					<Grid container
 						  direction="column"
 						  alignItems="center"
@@ -27,9 +29,12 @@ class App extends Component {
 								direction="column"
 								alignItems="stretch"
 								justify="space-between"
-								style={{width: "70vw"}}
+								style={{width: "80vw"}}
 								spacing={16}
 							>
+								<Grid item>
+									<TopBar />
+								</Grid>
 								<Grid item>
 									<Header/>
 								</Grid>

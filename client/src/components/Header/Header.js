@@ -10,7 +10,6 @@ const Header = () => {
 		<Grid container
 			  direction="column" justify="center">
 			<TitleBar />
-			<MarketInformation/>
 		</Grid>
 	)
 };

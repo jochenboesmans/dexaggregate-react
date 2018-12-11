@@ -23,7 +23,7 @@ class PairButton extends Component {
 						onClick={() => {
 							this.props.setPage(pages.MARKET)
 						}}
-						style={{fontSize: "24px"}}
+						style={{fontSize: 24, fontWeight: "bold"}}
 				>
 					Back
 				</Button>
@@ -31,7 +31,7 @@ class PairButton extends Component {
 		} else {
 			return (
 				<Button fullWidth
-						style={{fontSize: "24px"}}
+						style={{fontSize: 24, fontWeight: "bold"}}
 				>
 					{`${p.base_symbol}/${p.quote_symbol}`}
 				</Button>

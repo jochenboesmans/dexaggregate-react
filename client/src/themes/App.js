@@ -3,8 +3,8 @@ import purple from "@material-ui/core/colors/purple";
 
 const theme = createMuiTheme({
 	typography: {
-		fontFamily: '"Segoe UI"',
-		fontSize: "14",
+		fontFamily: '"Courier New"',
+		fontSize: "16",
 		useNextVariants: true
 	},
 	overrides: {

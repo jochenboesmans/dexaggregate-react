@@ -29,10 +29,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "server": "node ./back-end/index.js",
-    "nodemon-server": "nodemon ./back-end/index.js",
-    "client": "npm run start",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
+    "client": "nodemon index.js"
   },
   "eslintConfig": {
     "extends": "react-app"
