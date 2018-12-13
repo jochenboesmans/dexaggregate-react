@@ -9,15 +9,13 @@ const {OASIS} = require("../../exchanges");
  */
 module.exports = async () => {
 	try {
-		return (await getOasisMarkets(filterActivePairs((await retrieveOasisPairs()))));
+		return (await getOasisMarkets(await retrieveOasisPairs()));
 	} catch (error) {
 		console.log(`Error while trying to fetch pairs from ${OASIS.name} API: ${error.message}`);
 	}
 };
 
 const retrieveOasisPairs = async () => (await axios.get("http://api.oasisdex.com/v1/pairs/")).data.data;
-
-const filterActivePairs = (actualOasisPairs) => _.filter(actualOasisPairs, p => p.active);
 
 const getOasisMarkets = async (activeOasisPairs) => {
 	const oasisMarketPromises = _.map(activeOasisPairs,  async p => {
@@ -27,6 +25,7 @@ const getOasisMarkets = async (activeOasisPairs) => {
 			return formatOasisMarket(p, m);
 		}
 	});
+
 	return _.filter((await Promise.all(oasisMarketPromises)), m => m);
 };
 

@@ -52,6 +52,7 @@ class TopBar extends Component {
 							  direction="row"
 							  alignContent="stretch"
 							  justify="stretch"
+							  spacing={8}
 						>
 							<Grid item>
 								<Tooltip title={row.tooltip} placement="bottom">

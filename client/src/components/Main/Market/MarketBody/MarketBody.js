@@ -42,10 +42,10 @@ class MarketBody extends Component {
 						const last = formatPrice(rebaseLastPrice(market, p.base_symbol, p.quote_symbol, "DAI"));
 						const combVol = formatVolume(rebaseCombinedVolume(market, p.base_symbol, p.quote_symbol, "DAI"));
 						return (
-							<TableRow hover onClick={() => {
-								this.props.setPage({...pages.PAIR, pair: p});
-								this.props.setSearchFilter(null);
-							}} key={`${p.base_symbol}/${p.quote_symbol}`}>
+							<TableRow hover
+									  onClick={ () => {this.props.setPage({...pages.PAIR, pair: p});this.props.setSearchFilter(null);} }
+									  key={`${p.base_symbol}/${p.quote_symbol}`}
+							>
 								<TableCell>{`${p.base_symbol}/${p.quote_symbol}`}</TableCell>
 								<Spread p={p} market={market}/>
 								<TableCell numeric>{`${last}`}</TableCell>

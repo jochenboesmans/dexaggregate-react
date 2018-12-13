@@ -44,7 +44,10 @@ class PairBody extends Component {
 					if (emd === lowestCurrentAskEMDAcrossExchanges(market, p.base_symbol, p.quote_symbol) &&
 						emd === highestCurrentBidEMDAcrossExchanges(market, p.base_symbol, p.quote_symbol)) {
 						return (
-							<TableRow hover onClick={() => this.handleClick(emd.exchange, p)} key={emd.exchange.ID}>
+							<TableRow hover
+									  onClick={() => this.handleClick(emd.exchange, p)}
+									  key={emd.exchange.ID}
+							>
 								<TableCell style={{fontStyle: "italic", color: "green"}}>{emd.exchange.name}</TableCell>
 								<TableCell style={{fontStyle: "italic", color: "green"}} numeric>{`${fInnerBid} - ${fInnerAsk} (${fSpreadPercentage})`}</TableCell>
 								<TableCell style={{fontStyle: "italic", color: "green"}} numeric>{`${fLast}`}</TableCell>
@@ -54,7 +57,10 @@ class PairBody extends Component {
 					}
 					if (emd === lowestCurrentAskEMDAcrossExchanges(market, p.base_symbol, p.quote_symbol) && sortedMarketData.length > 1){
 						return (
-							<TableRow hover onClick={() => this.handleClick(emd.exchange, p)} key={emd.exchange.ID}>
+							<TableRow hover
+									  onClick={() => this.handleClick(emd.exchange, p)}
+									  key={emd.exchange.ID}
+							>
 								<TableCell style={{color: "green"}}>{emd.exchange.name}</TableCell>
 								<TableCell style={{color: "green"}} numeric>{`${fInnerBid} - ${fInnerAsk} (${fSpreadPercentage})`}</TableCell>
 								<TableCell style={{color: "green"}} numeric>{`${fLast}`}</TableCell>
@@ -63,7 +69,10 @@ class PairBody extends Component {
 						);
 					} else if (emd === highestCurrentBidEMDAcrossExchanges(market, p.base_symbol, p.quote_symbol) && sortedMarketData.length > 1) {
 						return (
-							<TableRow hover onClick={() => this.handleClick(emd.exchange, p)} key={emd.exchange.ID}>
+							<TableRow hover
+									  onClick={() => this.handleClick(emd.exchange, p)}
+									  key={emd.exchange.ID}
+							>
 								<TableCell style={{color: "red"}}>{emd.exchange.name}</TableCell>
 								<TableCell style={{color: "red"}} numeric>{`${fInnerBid} - ${fInnerAsk} (${fSpreadPercentage})`}</TableCell>
 								<TableCell style={{color: "red"}} numeric>{`${fLast}`}</TableCell>
@@ -72,7 +81,10 @@ class PairBody extends Component {
 						)
 					} else {
 						return (
-							<TableRow hover onClick={() => this.handleClick(emd.exchange, p)} key={emd.exchange.ID}>
+							<TableRow hover
+									  onClick={() => this.handleClick(emd.exchange, p)}
+									  key={emd.exchange.ID}
+							>
 								<TableCell >{emd.exchange.name}</TableCell>
 								<TableCell numeric>{`${fInnerBid} - ${fInnerAsk} (${fSpreadPercentage})`}</TableCell>
 								<TableCell numeric>{`${fLast}`}</TableCell>

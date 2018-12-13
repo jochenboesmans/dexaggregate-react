@@ -25,7 +25,9 @@ class TitleBar extends Component {
 		} else {
 			return (
 				<Typography variant="h1"
-							align="center">
+							align="center"
+							onClick={() => {this.props.resetState()}}
+				>
 					{title}
 				</Typography>
 			)
