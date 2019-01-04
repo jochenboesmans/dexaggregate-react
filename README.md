@@ -1,8 +1,20 @@
-# dexAggregate
+# DexAggregate
 
 A simple explorer for aggregated market data from various decentralized exchanges. Currently the app uses data from `Ddex`, `Idex`, `Kyber Network`, `Oasis Dex`, `Paradex` and `Radar Relay`.
 
-A live version is available at [dexaggregate.com](http://www.dexaggregate.com).
+A live version is available at [dexaggregate.com](https://www.dexaggregate.com).
+
+## Stack
+
+##### Back-end:
+* Node
+* Express
+* Socket.io
+
+##### Front-end:
+* Node
+* React, Redux
+* Material UI
 
 ## Development Scripts
 
