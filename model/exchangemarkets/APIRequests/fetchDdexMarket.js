@@ -16,7 +16,9 @@ module.exports = async () => {
  * (GET) Retrieves in-depth information about price and other information about assets.
  * 	More info at [Ddex Docs]{@link https://docs.ddex.io/#list-tickers}.
  */
+
 const retrieveDdexMarket = async () => (await axios.get("https://api.ddex.io/v3/markets/tickers")).data.data.tickers;
+
 
 /* Filters a given retrievedDdexMarket based on its pairs having the appropriate market data. */
 const filterPairs = (retrievedDdexMarket) => _.filter(retrievedDdexMarket, p =>
