@@ -1,8 +1,8 @@
-import {SET_SEARCH_FILTER} from "../actions/types";
+import { SET_SEARCH_FILTER } from "../actions/types";
 
-export const defaultSearchFilter = null;
+const defaultSearchFilter = null;
 
-export const searchFilterReducer = (state = defaultSearchFilter, action) => {
+const searchFilterReducer = (state = defaultSearchFilter, action) => {
 	switch (action.type) {
 		case SET_SEARCH_FILTER:
 			return action.payload || defaultSearchFilter;
@@ -10,3 +10,5 @@ export const searchFilterReducer = (state = defaultSearchFilter, action) => {
 			return state;
 	}
 };
+
+export { defaultSearchFilter, searchFilterReducer };

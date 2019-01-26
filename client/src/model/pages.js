@@ -1,10 +1,12 @@
-export const pages = {
+const pages = {
 	MARKET: {
-		name: "Market Page",
-		ID: "MARKET"
+		name: `Market Page`,
+		ID: `MARKET`,
 	},
 	PAIR: {
-		name: "Pair Page",
-		ID: "PAIR"
+		name: `Pair Page`,
+		ID: `PAIR`,
 	}
 };
+
+export { pages };

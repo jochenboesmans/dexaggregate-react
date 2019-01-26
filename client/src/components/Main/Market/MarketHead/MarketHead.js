@@ -5,7 +5,7 @@ import TableRow from "@material-ui/core/TableRow/TableRow";
 import TableCell from "@material-ui/core/TableCell/TableCell";
 import TableHead from "@material-ui/core/TableHead/TableHead";
 import Typography from "@material-ui/core/Typography/Typography";
-import Tooltip from '@material-ui/core/Tooltip';
+import Tooltip from "@material-ui/core/Tooltip";
 
 const MarketHead = () => {
 	const columns = [
@@ -53,4 +53,4 @@ const MarketHead = () => {
 	)
 };
 
-export default MarketHead;
+export { MarketHead };

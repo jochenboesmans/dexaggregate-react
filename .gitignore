@@ -1,5 +1,3 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
 # config
 config/dev.js
 
@@ -11,6 +9,9 @@ config/dev.js
 
 # testing
 /coverage
+
+# build
+/client/build
 
 # misc
 .DS_Store

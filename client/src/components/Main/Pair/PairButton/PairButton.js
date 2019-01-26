@@ -1,56 +1,54 @@
-import React, {Component} from "react";
-import {connect} from "react-redux";
+import React, { useState } from "react";
+import { connect } from "react-redux";
 
 import Button from "@material-ui/core/Button/Button";
 
-import {pages} from "../../../../model/pages";
 import * as actions from "../../../../actions";
+
+import { pages } from "../../../../model/pages";
 import Grid from "@material-ui/core/Grid/Grid";
 
-class PairButton extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			p: props.p,
-			hover: false
-		}
-	}
-	renderActualPairButton() {
-		const p = this.state.p;
-		if (this.state.hover) {
-			return (
-				<Button fullWidth
-						onClick={() => {
-							this.props.setPage(pages.MARKET)
-						}}
-						style={{fontSize: 24, fontWeight: "bold"}}
-				>
-					Back
-				</Button>
-			)
-		} else {
-			return (
-				<Button fullWidth
-						onClick={() => {
-							this.props.setPage(pages.MARKET)
-						}}
-						style={{fontSize: 24, fontWeight: "bold"}}
-				>
-					{`${p.base_symbol}/${p.quote_symbol}`}
-				</Button>
-			)
-		}
-	}
-	render() {
+
+const unconnectedPairButton = ({ p, setPage }) => {
+	const [state, setState] = useState({
+		hover: false,
+	});
+	return (
+		<Grid item
+			  onMouseLeave={() => { setState({ hover: false }) }}
+			  onMouseEnter={() => { setState({ hover: true }) }}
+		>
+			{renderActualPairButton(p, state.hover, setPage)}
+		</Grid>
+	)
+};
+
+const renderActualPairButton = (p, hover, setPage) => {
+	if (hover) {
 		return (
-			<Grid item
-				  onMouseLeave={() => {this.setState({hover: false})}}
-				  onMouseEnter={() => {this.setState({hover: true})}}
+			<Button fullWidth
+					onClick={() => {
+						setPage(pages.MARKET)
+					}}
+					style={{ fontSize: 24, fontWeight: "bold" }}
 			>
-			{this.renderActualPairButton()}
-			</Grid>
+				Back
+			</Button>
+		)
+	} else {
+		return (
+			<Button fullWidth
+					onClick={() => {
+						setPage(pages.MARKET)
+					}}
+					style={{ fontSize: 24, fontWeight: "bold" }}
+			>
+				{`${p.base_symbol}/${p.quote_symbol}`}
+			</Button>
 		)
 	}
-}
+};
 
-export default connect(null, actions)(PairButton);
+const PairButton = connect(null, actions)(unconnectedPairButton);
+
+export { PairButton };

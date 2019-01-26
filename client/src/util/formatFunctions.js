@@ -1,6 +1,6 @@
 import dateFormat from "dateformat";
 
-export const formatPrice = (price) => {
+const formatPrice = (price) => {
 	return (new Intl.NumberFormat('en-US', {
 		style: 'currency',
 		currency: 'USD',
@@ -9,14 +9,16 @@ export const formatPrice = (price) => {
 		useGrouping: 'true'
 	}).format(price));
 };
-export const formatVolume = (volume) => {
+
+const formatVolume = (volume) => {
 	return (new Intl.NumberFormat('en-US', {
 		style: 'currency',
 		currency: 'USD',
 		useGrouping: 'true'
 	}).format(volume));
 };
-export const formatPercentage = (percentage) => {
+
+const formatPercentage = (percentage) => {
 	return (new Intl.NumberFormat('en-US', {
 		style: 'percent',
 		useGrouping: 'true',
@@ -24,5 +26,13 @@ export const formatPercentage = (percentage) => {
 		maximumFractionDigits: 2
 	}).format(percentage));
 };
-export const formatTime = (timestamp) =>
+
+const formatTime = (timestamp) =>
 	dateFormat(timestamp, "dddd, mmmm dS, yyyy, h:MM:ss TT");
+
+export {
+	formatPrice,
+	formatVolume,
+	formatPercentage,
+	formatTime,
+}

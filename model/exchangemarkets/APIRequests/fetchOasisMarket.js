@@ -20,6 +20,7 @@ const retrieveOasisPairs = async () => (await axios.get("http://api.oasisdex.com
 const getOasisMarkets = async (activeOasisPairs) => {
 	const oasisMarketPromises = _.map(activeOasisPairs,  async p => {
 		const m = await retrieveOasisMarket(p);
+		console.log(m);
 		if (m && parseFloat(m.price) && parseFloat(m.bid) && parseFloat(m.ask)
 			&& parseFloat(m.high) && parseFloat(m.low) && parseFloat(m.vol)) {
 			return formatOasisMarket(p, m);

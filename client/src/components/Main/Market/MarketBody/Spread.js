@@ -1,10 +1,11 @@
 import React from "react";
+
 import TableCell from "@material-ui/core/TableCell/TableCell";
 
-import {formatPercentage, formatPrice} from "../../../../util/formatFunctions";
-import {rebaseHighestCurrentBid, rebaseLowestCurrentAsk} from "../../../../util/marketFunctions";
+import { formatPercentage, formatPrice } from "../../../../util/formatFunctions";
+import { rebaseHighestCurrentBid, rebaseLowestCurrentAsk } from "../../../../util/marketFunctions";
 
-const Spread = ({market, p}) => {
+const Spread = ({ market, p }) => {
 	const innerBid = rebaseHighestCurrentBid(market, p.base_symbol, p.quote_symbol, "DAI");
 	const innerAsk = rebaseLowestCurrentAsk(market, p.base_symbol, p.quote_symbol, "DAI");
 	const fInnerBid = formatPrice(innerBid);
@@ -21,4 +22,4 @@ const Spread = ({market, p}) => {
 	}
 };
 
-export default Spread;
+export { Spread };

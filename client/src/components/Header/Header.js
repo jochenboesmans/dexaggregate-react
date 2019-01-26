@@ -2,16 +2,16 @@ import React from "react";
 
 import Grid from "@material-ui/core/Grid/Grid";
 
-import TitleBar from "./TitleBar";
-import MarketInformation from "./MarketInformation";
+import { TitleBar } from "./TitleBar";
 
-const Header = () => {
-	return (
-		<Grid container
-			  direction="column" justify="center">
+const Header = () => (
+	<Grid container
+		  direction="column"
+		  justify="center">
+		<Grid item>
 			<TitleBar />
 		</Grid>
-	)
-};
+	</Grid>
+);
 
-export default Header;
+export { Header };

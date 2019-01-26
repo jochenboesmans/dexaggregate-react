@@ -30,5 +30,9 @@ module.exports = () => {
 
 	const exchangesInMarket = _.map(Object.keys(exchangeMarkets), exchangeID => _.find(exchanges, exchange => exchange.ID === exchangeID));
 
-	return {market: marketInTheMaking, exchanges: exchangesInMarket, timestamp: timestamp};
+	return {
+		market: marketInTheMaking,
+		exchanges: exchangesInMarket,
+		timestamp: timestamp,
+	};
 };

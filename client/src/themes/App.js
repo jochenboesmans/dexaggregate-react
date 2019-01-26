@@ -1,4 +1,4 @@
-import {createMuiTheme} from "@material-ui/core";
+import { createMuiTheme } from "@material-ui/core";
 import purple from "@material-ui/core/colors/purple";
 
 const theme = createMuiTheme({
@@ -13,12 +13,12 @@ const theme = createMuiTheme({
 			// Name of the rule
 			root: {
 				// Some CSS
-				background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
+				background: "linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)",
 				borderRadius: 3,
 				border: 0,
-				color: 'white',
+				color: "white",
 				height: 58,
-				padding: '0 30px',
+				padding: "0 30px",
 			},
 		}
 	},
@@ -28,4 +28,4 @@ const theme = createMuiTheme({
 	}
 });
 
-export default theme;
+export { theme };

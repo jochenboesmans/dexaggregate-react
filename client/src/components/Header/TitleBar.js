@@ -1,49 +1,50 @@
-import React, {Component} from "react";
-import Typography from '@material-ui/core/Typography';
-import {connect} from "react-redux";
-import * as actions from "../../actions";
+import React, { useState } from "react";
+import { connect } from "react-redux";
+
 import Grid from "@material-ui/core/Grid/Grid";
+import Typography from '@material-ui/core/Typography';
 
-class TitleBar extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {hover: false};
-	}
+import * as actions from "../../actions";
 
-	renderActualTitle() {
-		const title = "ΣDEX";
-		if (this.state.hover) {
-			return (
-				<Typography variant="h1"
-							align="center"
-							onClick={() => {this.props.resetState()}}
-							style={{cursor: "pointer", color: "grey"}}
-				>
-					{title}
-				</Typography>
-			)
-		} else {
-			return (
-				<Typography variant="h1"
-							align="center"
-							onClick={() => {this.props.resetState()}}
-				>
-					{title}
-				</Typography>
-			)
-		}
-	}
+const unconnectedTitleBar = ({ resetState }) => {
+	const [state, setState] = useState({
+		hover: false,
+	});
 
-	render() {
+	return (
+		<Grid item
+			  onMouseLeave={() => { setState({ hover: false }) }}
+			  onMouseEnter={() => { setState({ hover: true}) }}
+		>
+			{renderActualTitle(state.hover, resetState)}
+		</Grid>
+	);
+};
+
+const renderActualTitle = (hover, resetReduxState) => {
+	const title = "ΣDEX";
+	if (hover) {
 		return (
-			<Grid item
-				  onMouseLeave={() => {this.setState({hover: false})}}
-				  onMouseEnter={() => {this.setState({hover: true})}}
+			<Typography variant="h1"
+						align="center"
+						onClick={() => { resetReduxState() }}
+						style={{ cursor: "pointer", color: "grey" }}
 			>
-				{this.renderActualTitle()}
-			</Grid>
+				{title}
+			</Typography>
+		)
+	} else {
+		return (
+			<Typography variant="h1"
+						align="center"
+						onClick={() => { resetReduxState() }}
+			>
+				{title}
+			</Typography>
 		)
 	}
-}
+};
 
-export default connect(null, actions)(TitleBar);
+const TitleBar = connect(null, actions)(unconnectedTitleBar);
+
+export { TitleBar };

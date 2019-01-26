@@ -1,8 +1,7 @@
 const socketio = require("socket.io");
 
 const getMarket = require("../model/getMarket");
-
-const {getModelNeedsBroadcast, setModelNeedsBroadcast} = require("./modelNeedsBroadcast");
+const { getModelNeedsBroadcast, setModelNeedsBroadcast } = require("./modelNeedsBroadcast");
 
 module.exports = (server) => {
 	const io = socketio(server);

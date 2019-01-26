@@ -1,9 +1,9 @@
-import {SET_PAGE} from "../actions/types";
-import {pages} from "../model/pages";
+import { SET_PAGE } from "../actions/types";
+import { pages } from "../model/pages";
 
-export const defaultPage = pages.MARKET;
+const defaultPage = pages.MARKET;
 
-export const navigationReducer = (state = defaultPage, action) => {
+const navigationReducer = (state = defaultPage, action) => {
 	switch (action.type) {
 		case SET_PAGE:
 			return action.payload || defaultPage;
@@ -11,3 +11,5 @@ export const navigationReducer = (state = defaultPage, action) => {
 			return state;
 	}
 };
+
+export { defaultPage, navigationReducer };

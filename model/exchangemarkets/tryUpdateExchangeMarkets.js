@@ -10,6 +10,7 @@ const {setModelNeedsBroadcast} = require("../../websocketbroadcasts/modelNeedsBr
  */
 module.exports = async () => {
 	const fetchedExchangeMarkets = await fetchExchangeMarkets();
+
 	_.forEach(fetchedExchangeMarkets, em => {
 		if (em.market) {
 			const exchangeID = em.exchange.ID;
