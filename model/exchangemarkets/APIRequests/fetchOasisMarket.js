@@ -9,18 +9,16 @@ const {OASIS} = require("../../exchanges");
  */
 module.exports = async () => {
 	try {
-		return (await getOasisMarkets(await retrieveOasisPairs()));
+		return (await getOasisMarkets());
 	} catch (error) {
 		console.log(`Error while trying to fetch pairs from ${OASIS.name} API: ${error.message}`);
 	}
 };
 
-const retrieveOasisPairs = async () => (await axios.get("http://api.oasisdex.com/v1/pairs/")).data.data;
-
-const getOasisMarkets = async (activeOasisPairs) => {
+const getOasisMarkets = async () => {
+	const activeOasisPairs = [{ base: "MKR", quote: "ETH" }, { base: "ETH", quote: "DAI" }, { base: "MKR", quote: "DAI" }];
 	const oasisMarketPromises = _.map(activeOasisPairs,  async p => {
 		const m = await retrieveOasisMarket(p);
-		console.log(m);
 		if (m && parseFloat(m.price) && parseFloat(m.bid) && parseFloat(m.ask)
 			&& parseFloat(m.high) && parseFloat(m.low) && parseFloat(m.vol)) {
 			return formatOasisMarket(p, m);
