@@ -15,11 +15,13 @@ if (process.env.NODE_ENV === "production") {
 	});
 }
 
+require("./model/periodicallyUpdate")();
+
 require("./routes/exchanges")(app);
 require("./routes/market")(app);
 
 require("./websocketbroadcasts/broadcastSession")(server);
 
-require("./model/periodicallyUpdate")();
+
 
 server.listen(process.env.PORT || 5000);

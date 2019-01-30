@@ -2,7 +2,7 @@ const tryUpdateExchangeMarkets = require("./exchangemarkets/tryUpdateExchangeMar
 
 module.exports = () => {
 	tryUpdateExchangeMarkets();
-	const intervalInSeconds = 30;
+	const intervalInSeconds = 10;
 	setInterval(async () => {
 			await tryUpdateExchangeMarkets();
 		}, intervalInSeconds * 1000);
