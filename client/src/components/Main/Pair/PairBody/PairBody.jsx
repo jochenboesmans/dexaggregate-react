@@ -1,19 +1,13 @@
-import React from "react";
 import _ from "lodash";
+import React from "react";
 
 import TableBody from "@material-ui/core/TableBody/TableBody";
-import TableRow from "@material-ui/core/TableRow/TableRow";
 import TableCell from "@material-ui/core/TableCell/TableCell";
+import TableRow from "@material-ui/core/TableRow/TableRow";
 
+import { formatPercentage, formatPrice, formatVolume } from "../../../../util/formatFunctions";
 import {
-	formatPercentage,
-	formatPrice,
-	formatVolume
-} from "../../../../util/formatFunctions";
-import {
-	highestCurrentBidEMDAcrossExchanges,
-	lowestCurrentAskEMDAcrossExchanges,
-	rebaseRate
+	highestCurrentBidEMDAcrossExchanges, lowestCurrentAskEMDAcrossExchanges, rebaseRate
 } from "../../../../util/marketFunctions";
 
 const PairBody = ({ p, market }) => {
@@ -35,8 +29,8 @@ const PairBody = ({ p, market }) => {
 					emd === highestCurrentBidEMDAcrossExchanges(market, p.base_symbol, p.quote_symbol)) {
 					return (
 						<TableRow hover
-								  onClick={() => handleClick(emd.exchange, p)}
-								  key={emd.exchange.ID}
+						          onClick={() => handleClick(emd.exchange, p)}
+						          key={emd.exchange.ID}
 						>
 							<TableCell style={{fontStyle: "italic", color: "green"}}>{emd.exchange.name}</TableCell>
 							<TableCell style={{fontStyle: "italic", color: "green"}} numeric>{`${fInnerBid} - ${fInnerAsk} (${fSpreadPercentage})`}</TableCell>
@@ -48,8 +42,8 @@ const PairBody = ({ p, market }) => {
 				if (emd === lowestCurrentAskEMDAcrossExchanges(market, p.base_symbol, p.quote_symbol) && sortedMarketData.length > 1){
 					return (
 						<TableRow hover
-								  onClick={() => handleClick(emd.exchange, p)}
-								  key={emd.exchange.ID}
+						          onClick={() => handleClick(emd.exchange, p)}
+						          key={emd.exchange.ID}
 						>
 							<TableCell style={{color: "green"}}>{emd.exchange.name}</TableCell>
 							<TableCell style={{color: "green"}} numeric>{`${fInnerBid} - ${fInnerAsk} (${fSpreadPercentage})`}</TableCell>
@@ -60,8 +54,8 @@ const PairBody = ({ p, market }) => {
 				} else if (emd === highestCurrentBidEMDAcrossExchanges(market, p.base_symbol, p.quote_symbol) && sortedMarketData.length > 1) {
 					return (
 						<TableRow hover
-								  onClick={() => handleClick(emd.exchange, p)}
-								  key={emd.exchange.ID}
+						          onClick={() => handleClick(emd.exchange, p)}
+						          key={emd.exchange.ID}
 						>
 							<TableCell style={{color: "red"}}>{emd.exchange.name}</TableCell>
 							<TableCell style={{color: "red"}} numeric>{`${fInnerBid} - ${fInnerAsk} (${fSpreadPercentage})`}</TableCell>
@@ -72,8 +66,8 @@ const PairBody = ({ p, market }) => {
 				} else {
 					return (
 						<TableRow hover
-								  onClick={() => handleClick(emd.exchange, p)}
-								  key={emd.exchange.ID}
+						          onClick={() => handleClick(emd.exchange, p)}
+						          key={emd.exchange.ID}
 						>
 							<TableCell >{emd.exchange.name}</TableCell>
 							<TableCell numeric>{`${fInnerBid} - ${fInnerAsk} (${fSpreadPercentage})`}</TableCell>
@@ -87,34 +81,19 @@ const PairBody = ({ p, market }) => {
 	)
 };
 
+const exchangeURL = {
+	"KYBER": (p) => `https://kyber.network/swap/${p.base_symbol}_${p.quote_symbol}`,
+	"BANCOR": (p) => `https://www.bancor.network/tokens`,
+	"OASIS": (p) => `https://oasis.direct/`,
+	"PARADEX": (p) => `https://paradex.io/market/${p.quote_symbol}-${p.base_symbol}`,
+	"DDEX": (p) => `https://ddex.io/trade/${p.base_symbol}-${p.quote_symbol}`,
+	"IDEX": (p) => `https://idex.market/${p.base_symbol}/${p.quote_symbol}`,
+	"RADAR": (p) => `https://app.radarrelay.com/${p.quote_symbol}/${p.base_symbol}`,
+};
+
 const handleClick = (exchange, p) => {
-	let url;
-	switch(exchange.ID) {
-		case "KYBER":
-			url = `https://kyber.network/swap/${p.base_symbol}_${p.quote_symbol}`;
-			break;
-		case "BANCOR":
-			url = "https://www.bancor.network/tokens";
-			break;
-		case "OASIS":
-			url = "https://oasis.direct/";
-			break;
-		case "PARADEX":
-			url = `https://paradex.io/market/${p.quote_symbol}-${p.base_symbol}`;
-			break;
-		case "DDEX":
-			url = `https://ddex.io/trade/${p.base_symbol}-${p.quote_symbol}`;
-			break;
-		case "IDEX":
-			url = `https://idex.market/${p.base_symbol}/${p.quote_symbol}`;
-			break;
-		case "RADAR":
-			url = `https://app.radarrelay.com/${p.quote_symbol}/${p.base_symbol}`;
-			break;
-		default:
-			break;
-	}
-	window.open(url, "_blank");
+	const URL = exchangeURL[exchange.ID](p);
+	window.open(URL, "_blank");
 };
 
 export { PairBody };

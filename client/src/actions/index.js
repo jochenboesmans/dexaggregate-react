@@ -1,7 +1,7 @@
-import { SET_MARKET, SET_PAGE, SET_SEARCH_FILTER, SET_DELTA_Y } from "./types";
-import { defaultSearchFilter } from "../reducers/searchFilterReducer";
-import { defaultPage } from "../reducers/navigationReducer";
 import { defaultDeltaY } from "../reducers/deltaYReducer";
+import { defaultPage } from "../reducers/navigationReducer";
+import { defaultSearchFilter } from "../reducers/searchFilterReducer";
+import { SET_DELTA_Y, SET_MARKET, SET_PAGE, SET_SEARCH_FILTER } from "./types";
 
 /* Action creator functions */
 const setPage = (page) => dispatch => {
@@ -9,11 +9,11 @@ const setPage = (page) => dispatch => {
 };
 
 const updateMarket = (market) => dispatch => {
-	dispatch({ type: SET_MARKET, payload: {
-		market: market.market,
-		exchanges: market.exchanges,
-		timestamp: market.timestamp,
-	}});
+	dispatch({
+		         type: SET_MARKET, payload: {
+			market: market.market, exchanges: market.exchanges, timestamp: market.timestamp,
+		}
+	         });
 };
 
 const setSearchFilter = (searchFilter) => dispatch => {
@@ -21,7 +21,7 @@ const setSearchFilter = (searchFilter) => dispatch => {
 };
 
 const setDeltaY = (deltaY) => dispatch => {
-	dispatch({ type: SET_DELTA_Y, payload: deltaY })
+	dispatch({ type: SET_DELTA_Y, payload: deltaY });
 };
 
 const resetState = () => dispatch => {

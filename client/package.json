@@ -1,43 +1,136 @@
 {
-  "name": "dexaggregate",
-  "version": "0.1.0",
-  "private": true,
-  "engines": {
-    "node": "10.3.0"
-  },
-  "dependencies": {
-    "@material-ui/core": "^3.6.1",
-    "@material-ui/styles": "^3.0.0-alpha.2",
-    "@types/node": "^10.12.11",
-    "axios": "^0.18.0",
-    "concurrently": "^4.1.0",
-    "dateformat": "^3.0.3",
-    "http-proxy-middleware": "latest",
-    "lodash": "^4.17.11",
-    "nodemon": "^1.18.7",
-    "react": "^16.7.0-alpha.2",
-    "react-dom": "^16.7.0-alpha.2",
-    "react-redux": "^5.1.1",
-    "react-router-dom": "^4.3.1",
-    "react-scripts": "^2.1.1",
-    "redux": "^4.0.1",
-    "redux-thunk": "^2.3.0",
-    "socket.io-client": "^2.2.0"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "client": "nodemon index.js"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
-  "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not ie <= 11",
-    "not op_mini all"
-  ]
+	"name": "dexaggregate",
+	"version": "0.1.0",
+	"private": true,
+	"engines": {
+		"node": "11.9.0",
+		"npm": "6.7.0"
+	},
+	"dependencies": {
+		"@babel/core": "latest",
+		"@material-ui/core": "latest",
+		"@material-ui/styles": "latest",
+		"@svgr/webpack": "latest",
+		"@types/node": "latest",
+		"axios": "^0.18.0",
+		"babel-core": "^6.26.3",
+		"babel-eslint": "^10.0.1",
+		"babel-jest": "latest",
+		"babel-loader": "^8.0.5",
+		"babel-plugin-named-asset-import": "^0.3.0",
+		"babel-preset-react-app": "^7.0.0",
+		"bfj": "latest",
+		"case-sensitive-paths-webpack-plugin": "latest",
+		"chalk": "latest",
+		"concurrently": "latest",
+		"css-loader": "latest",
+		"dateformat": "latest",
+		"dotenv": "^6.2.0",
+		"dotenv-expand": "latest",
+		"eslint": "^5.13.0",
+		"eslint-config-react-app": "^3.0.6",
+		"eslint-loader": "latest",
+		"eslint-plugin-flowtype": "latest",
+		"eslint-plugin-import": "latest",
+		"eslint-plugin-jsx-a11y": "latest",
+		"eslint-plugin-react": "^7.12.4",
+		"file-loader": "latest",
+		"fork-ts-checker-webpack-plugin-alt": "latest",
+		"fs-extra": "latest",
+		"html-webpack-plugin": "^4.0.0-beta.5",
+		"http-proxy-middleware": "latest",
+		"identity-obj-proxy": "latest",
+		"jest": "latest",
+		"jest-pnp-resolver": "latest",
+		"jest-resolve": "latest",
+		"jss": "latest",
+		"lodash": "latest",
+		"mini-css-extract-plugin": "latest",
+		"nodemon": "latest",
+		"optimize-css-assets-webpack-plugin": "latest",
+		"pnp-webpack-plugin": "latest",
+		"postcss-flexbugs-fixes": "latest",
+		"postcss-loader": "latest",
+		"postcss-preset-env": "latest",
+		"postcss-safe-parser": "latest",
+		"react": "next",
+		"react-app-polyfill": "next",
+		"react-dev-utils": "latest",
+		"react-dom": "next",
+		"react-redux": "next",
+		"react-router-dom": "next",
+		"redux": "^4.0.1",
+		"redux-thunk": "latest",
+		"resolve": "latest",
+		"sass-loader": "latest",
+		"socket.io-client": "latest",
+		"style-loader": "latest",
+		"terser-webpack-plugin": "latest",
+		"url-loader": "^1.1.2",
+		"webpack": "latest",
+		"webpack-dev-server": "latest",
+		"webpack-manifest-plugin": "latest",
+		"workbox-webpack-plugin": "latest"
+	},
+	"scripts": {
+		"start": "node scripts/start.js",
+		"build": "node scripts/build.js",
+		"test": "node scripts/test.js",
+		"client": "nodemon index.js"
+	},
+	"eslintConfig": {
+		"extends": "react-app"
+	},
+	"browserslist": [
+		">0.2%",
+		"not dead",
+		"not ie <= 11",
+		"not op_mini all"
+	],
+	"jest": {
+		"collectCoverageFrom": [
+			"src/**/*.{js,jsx,ts,tsx}",
+			"!src/**/*.d.ts"
+		],
+		"resolver": "jest-pnp-resolver",
+		"setupFiles": [
+			"react-app-polyfill/jsdom"
+		],
+		"testMatch": [
+			"<rootDir>/src/**/__tests__/**/*.{js,jsx,ts,tsx}",
+			"<rootDir>/src/**/?(*.)(spec|test).{js,jsx,ts,tsx}"
+		],
+		"testEnvironment": "jsdom",
+		"testURL": "http://localhost",
+		"transform": {
+			"^.+\\.(js|jsx|ts|tsx)$": "<rootDir>/node_modules/babel-jest",
+			"^.+\\.css$": "<rootDir>/config/jest/cssTransform.js",
+			"^(?!.*\\.(js|jsx|ts|tsx|css|json)$)": "<rootDir>/config/jest/fileTransform.js"
+		},
+		"transformIgnorePatterns": [
+			"[/\\\\]node_modules[/\\\\].+\\.(js|jsx|ts|tsx)$",
+			"^.+\\.module\\.(css|sass|scss)$"
+		],
+		"moduleNameMapper": {
+			"^react-native$": "react-native-web",
+			"^.+\\.module\\.(css|sass|scss)$": "identity-obj-proxy"
+		},
+		"moduleFileExtensions": [
+			"web.js",
+			"js",
+			"web.ts",
+			"ts",
+			"web.tsx",
+			"tsx",
+			"json",
+			"web.jsx",
+			"jsx",
+			"node"
+		]
+	},
+	"babel": {
+		"presets": [
+			"react-app"
+		]
+	}
 }

@@ -18,7 +18,6 @@ const Spread = ({ market, p }) => {
 		return <TableCell style={{color: "red"}} numeric>{`${fInnerBid} - ${fInnerAsk} (${fSpreadPercentage})`}</TableCell>
 	} else {
 		return <TableCell numeric>{`${fInnerBid} - ${fInnerAsk} (${fSpreadPercentage})`}</TableCell>
-
 	}
 };
 

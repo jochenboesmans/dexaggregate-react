@@ -1,23 +1,22 @@
-import React from "react";
-import { connect } from 'react-redux';
-import _ from "lodash";
-
 import Button from "@material-ui/core/Button/Button";
-import Table from '@material-ui/core/Table/Table';
 import Grid from "@material-ui/core/Grid/Grid";
+import Table from "@material-ui/core/Table/Table";
+import { PairBody } from "./PairBody/PairBody";
+import _ from "lodash";
+import React from "react";
+import { connect } from "react-redux";
 
 import * as actions from "../../../actions";
+import { pages } from "../../../model/pages";
 
 import { PairButton } from "./PairButton/PairButton";
 import { PairHead } from "./PairHead/PairHead";
-import { PairBody } from "./PairBody/PairBody";
-import { pages } from "../../../model/pages";
 
 const unconnectedPair = ({ market, activePage, setPage }) => {
 	const { pair } = activePage;
 	const m = market.market;
-	const p = _.find(m, pairInMarket => pairInMarket.base_symbol === pair.base_symbol
-		&& pairInMarket.quote_symbol === pair.quote_symbol);
+	const p = _.find(m,
+	                 pairInMarket => pairInMarket.base_symbol === pair.base_symbol && pairInMarket.quote_symbol === pair.quote_symbol);
 
 	if (p) {
 		return (
@@ -27,6 +26,7 @@ const unconnectedPair = ({ market, activePage, setPage }) => {
 					direction="column"
 					justify="center"
 					alignItems="stretch"
+					style={{width: "80vw"}}
 					spacing={8}
 				>
 					<PairButton p={p}/>
@@ -50,10 +50,10 @@ const unconnectedPair = ({ market, activePage, setPage }) => {
 					spacing={8}
 				>
 					<Button fullWidth
-							onClick={() => {
-								setPage(pages.MARKET)
-							}}
-							style={{ fontSize: "24px" }}
+					        onClick={() => {
+						        setPage(pages.MARKET)
+					        }}
+					        style={{ fontSize: "24px" }}
 					>
 						Back
 					</Button>

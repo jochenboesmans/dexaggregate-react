@@ -6,11 +6,11 @@ import { TitleBar } from "./TitleBar";
 
 const Header = () => (
 	<Grid container
-		  direction="column"
-		  justify="center">
-		<Grid item>
-			<TitleBar />
-		</Grid>
+	      direction="column"
+	      justify="center">
+	  <Grid item>
+	    <TitleBar />
+	  </Grid>
 	</Grid>
 );
 

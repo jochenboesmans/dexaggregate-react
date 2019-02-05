@@ -7,8 +7,7 @@ const subscribeToSocketBroadcasts = () => {
 	socket.on("marketBroadcast", receivedMarket => {
 		updateMarket(receivedMarket)(store.dispatch);
 		console.log(receivedMarket);
-	})
+	});
 };
-
 
 export { subscribeToSocketBroadcasts };

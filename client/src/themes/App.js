@@ -2,12 +2,9 @@ import { createMuiTheme } from "@material-ui/core";
 import purple from "@material-ui/core/colors/purple";
 
 const theme = createMuiTheme({
-	typography: {
-		fontFamily: '"Courier New"',
-		fontSize: "16",
-		useNextVariants: true
-	},
-	overrides: {
+	                             typography: {
+		                             fontFamily: "\"Courier New\"", fontSize: "16", useNextVariants: true
+	                             }, overrides: {
 		// Name of the component ⚛️ / style sheet
 		MuiButton: {
 			// Name of the rule
@@ -23,9 +20,9 @@ const theme = createMuiTheme({
 		}
 	},
 
-	palette: {
-		primary: purple,
-	}
-});
+	                             palette: {
+		                             primary: purple,
+	                             }
+                             });
 
 export { theme };

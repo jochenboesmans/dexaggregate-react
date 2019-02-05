@@ -5,7 +5,7 @@ import { Market } from "./Market/Market";
 import { Pair } from "./Pair/Pair";
 
 const unconnectedMain = ({ activePage }) => {
-	switch (activePage.ID) {
+	switch(activePage.ID) {
 		case "MARKET":
 			return <Market/>;
 		case "PAIR":

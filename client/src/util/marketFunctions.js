@@ -12,12 +12,12 @@ const lowestCurrentAsk = (market, baseSymbol, quoteSymbol) => {
 
 const combinedVolume = (market, baseSymbol, quoteSymbol) => {
 	const pair = findPair(market, baseSymbol, quoteSymbol);
-	return pair ?  _.sumBy(pair.market_data, exchange => exchange.volume) : 0;
+	return pair ? _.sumBy(pair.market_data, exchange => exchange.volume) : 0;
 };
 
 const volumeWeightedLastTraded = (market, baseSymbol, quoteSymbol) => {
 	const pair = findPair(market, baseSymbol, quoteSymbol);
-	if (pair && combinedVolume(market, baseSymbol, quoteSymbol)) {
+	if(pair && combinedVolume(market, baseSymbol, quoteSymbol)) {
 		const weightedSumOfLastTradedValues = _.sumBy(pair.market_data, exchange => exchange.volume * exchange.last_traded);
 		return weightedSumOfLastTradedValues / combinedVolume(market, baseSymbol, quoteSymbol);
 	} else {
@@ -28,7 +28,7 @@ const volumeWeightedLastTraded = (market, baseSymbol, quoteSymbol) => {
 
 //TODO: Add deep rebasing with some shortest path algo
 const rebaseRate = (market, baseSymbol, quoteSymbol, rebaseSymbol, rate) => {
-	if (volumeWeightedLastTraded(market, rebaseSymbol, baseSymbol)) {
+	if(volumeWeightedLastTraded(market, rebaseSymbol, baseSymbol)) {
 		return rate * volumeWeightedLastTraded(market, rebaseSymbol, baseSymbol);
 	}
 	return rate;
@@ -36,7 +36,11 @@ const rebaseRate = (market, baseSymbol, quoteSymbol, rebaseSymbol, rate) => {
 };
 
 const rebaseLastPrice = (market, baseSymbol, quoteSymbol, rebaseSymbol) => {
-	return rebaseRate(market, baseSymbol, quoteSymbol, rebaseSymbol, volumeWeightedLastTraded(market, baseSymbol, quoteSymbol));
+	return rebaseRate(market,
+	                  baseSymbol,
+	                  quoteSymbol,
+	                  rebaseSymbol,
+	                  volumeWeightedLastTraded(market, baseSymbol, quoteSymbol));
 };
 
 const rebaseHighestCurrentBid = (market, baseSymbol, quoteSymbol, rebaseSymbol) => {
@@ -54,7 +58,6 @@ const rebaseCombinedVolume = (market, baseSymbol, quoteSymbol, rebaseSymbol) => 
 const findPair = (market, baseSymbol, quoteSymbol) => {
 	return _.find(market, p => p.quote_symbol === quoteSymbol && p.base_symbol === baseSymbol);
 };
-
 
 const lowestCurrentAskEMDAcrossExchanges = (market, baseSymbol, quoteSymbol) => {
 	const p = findPair(market, baseSymbol, quoteSymbol);
@@ -79,5 +82,5 @@ export {
 	findPair,
 	lowestCurrentAskEMDAcrossExchanges,
 	highestCurrentBidEMDAcrossExchanges,
-}
+};
 

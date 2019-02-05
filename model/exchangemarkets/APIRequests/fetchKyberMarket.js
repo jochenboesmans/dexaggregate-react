@@ -19,14 +19,14 @@ module.exports = async () => {
 		kyberCurrencies = await retrieveKyberCurrencies();
 		kyberNetworkProxyContract = await getKyberNetworkProxyContact();
 		return await formatKyberMarket(await retrieveKyberMarket());
-	} catch (error) {
+	} catch(error) {
 		console.log(`Error while trying to fetch market from ${KYBER.name} API: ${error}`);
 	}
 };
 
 /**
  * (GET) Retrieves in-depth information about price and other information about assets.
- * 	More info at [Kyber Docs]{@link https://developer.kyber.network/docs/Trading/#market}.
+ *  More info at [Kyber Docs]{@link https://developer.kyber.network/docs/Trading/#market}.
  */
 const retrieveKyberMarket = async () => (await axios.get("https://api.kyber.network/market")).data.data;
 const retrieveKyberCurrencies = async () => (await axios.get("https://api.kyber.network/currencies")).data.data;
@@ -42,7 +42,7 @@ const getContractABI = async (address) => {
 		const etherscanEndpoint = `http://api.etherscan.io/api?module=contract&action=getabi&address=${address}`;
 		const result = await axios.get(etherscanEndpoint);
 		return JSON.parse(result.data.result);
-	} catch (err) {
+	} catch(err) {
 		console.log(err);
 	}
 
@@ -53,7 +53,7 @@ const getExpectedRate = async (srcSymbol, destSymbol) => {
 	const dest = _.find(kyberCurrencies, currency => currency.symbol === destSymbol);
 	const srcAddress = src ? src.address : null;
 	const destAddress = dest ? dest.address : null;
-	if (srcAddress && destAddress) {
+	if(srcAddress && destAddress) {
 		const rates = await kyberNetworkProxyContract.methods.getExpectedRate(srcAddress, destAddress, 1).call();
 		return rates.expectedRate / 10 ** 18;
 	} else {
@@ -68,11 +68,9 @@ const formatKyberMarket = async (retrievedKyberMarket) => {
 		const rate = (await getExpectedRate(p.base_symbol, p.quote_symbol));
 		const currentAsk = rate ? (1 / rate) : null;
 
-		if (currentBid && currentAsk) {
+		if(currentBid && currentAsk) {
 			return {
-				base_symbol: p.base_symbol,
-				quote_symbol: p.quote_symbol,
-				market_data: {
+				base_symbol: p.base_symbol, quote_symbol: p.quote_symbol, market_data: {
 					exchange: KYBER,
 					last_traded: p.last_traded,
 					current_bid: currentBid,
@@ -81,7 +79,7 @@ const formatKyberMarket = async (retrievedKyberMarket) => {
 					past_24h_low: p.past_24h_low,
 					volume: p.eth_24h_volume
 				}
-			}
+			};
 		}
 	}));
 	return _.filter(unfiltered, pair => pair);
