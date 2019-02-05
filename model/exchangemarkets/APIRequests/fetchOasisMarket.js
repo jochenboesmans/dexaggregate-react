@@ -3,10 +3,6 @@ const axios = require("axios");
 
 const { OASIS } = require("../../exchanges");
 
-/**
- * (GET) Retrieve in-depth information about price and other information about assets.
- *  More info at [MakerDAO Docs]{@link https://developer.makerdao.com/oasis/api/1/markets}.
- */
 module.exports = async () => {
 	try {
 		return (await getOasisMarkets());
@@ -15,19 +11,20 @@ module.exports = async () => {
 	}
 };
 
+const pairs = [{ base: "MKR", quote: "ETH" },
+							 { base: "ETH", quote: "DAI" },
+							 { base: "MKR", quote: "DAI" },];
+
 const getOasisMarkets = async () => {
-	const activeOasisPairs = [{ base: "MKR", quote: "ETH" },
-		{ base: "ETH", quote: "DAI" },
-		{ base: "MKR", quote: "DAI" }];
-	const oasisMarketPromises = _.map(activeOasisPairs, async p => {
+	const oasisMarket = await Promise.all(_.map(pairs, async p => {
 		const m = await retrieveOasisMarket(p);
 		if(m && parseFloat(m.price) && parseFloat(m.bid) && parseFloat(m.ask) && parseFloat(m.high) && parseFloat(m.low) && parseFloat(
 			m.vol)) {
 			return formatOasisMarket(p, m);
 		}
-	});
+	}));
 
-	return _.filter((await Promise.all(oasisMarketPromises)), m => m);
+	return _.filter(oasisMarket, m => m);
 };
 
 const retrieveOasisMarket = async (p) => (await axios.get(`http://api.oasisdex.com/v1/markets/${p.base}/${p.quote}`)).data.data;
