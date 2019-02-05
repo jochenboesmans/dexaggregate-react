@@ -8,8 +8,8 @@ const { setModelNeedsBroadcast } = require("../../websocketbroadcasts/modelNeeds
 /**
  * Updates model of exchangeMarkets based on newly, successfully fetched exchangeMarkets.
  */
-module.exports = async () => {
-	const fetchedExchangeMarkets = await fetchExchangeMarkets();
+module.exports = async (web3) => {
+	const fetchedExchangeMarkets = await fetchExchangeMarkets(web3);
 
 	_.forEach(fetchedExchangeMarkets, em => {
 		if(em.market) {

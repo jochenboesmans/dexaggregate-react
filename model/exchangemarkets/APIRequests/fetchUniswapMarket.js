@@ -29,6 +29,58 @@ const tokens = {
 		symbol: "OMG",
 		address: "0xd26114cd6EE289AccF82350c8d8487fedB8A0C07",
 	},
+	SPANK: {
+		symbol: "SPANK",
+		address: "0x42d6622dece394b54999fbd73d108123806f6a18",
+	},
+	RLC: {
+		symbol: "RLC",
+		address: "0x607F4C5BB672230e8672085532f7e901544a7375",
+	},
+	TKN: {
+		symbol: "TKN",
+		address: "0xaaaf91d9b90df800df4f55c205fd6989c977e73a",
+	},
+	NEXO: {
+		symbol: "NEXO",
+		address: "0xb62132e35a6c13ee1ee0f84dc5d40bad8d815206",
+	},
+	FUN: {
+		symbol: "FUN",
+		address: "0x419d0d8bdd9af5e606ae2232ed285aff190e711b",
+	},
+	ANT: {
+		symbol: "ANT",
+		address: "0x960b236A07cf122663c4303350609A66A7B288C0",
+	},
+	ULT: {
+		symbol: "ULT",
+		address: "0xe884cc2795b9c45beeac0607da9539fd571ccf85",
+	},
+	REP: {
+		symbol: "REP",
+		address: "0x1985365e9f78359a9B6AD760e32412f4a445E862",
+	},
+	RDN: {
+		symbol: "RDN",
+		address: "0x255aa6df07540cb5d3d297f0d0d4d84cb52bc8e6",
+	},
+	ZRX: {
+		symbol: "ZRX",
+		address: "0xe41d2489571d322189246dafa5ebde1f4699f498",
+	},
+	XCHF: {
+		symbol: "XCHF",
+		address: "0xb4272071ecadd69d933adcd19ca99fe80664fc08",
+	},
+	DGD: {
+		symbol: "DGD",
+		address: "0xe0b7927c4af23765cb51314a0e0521a9645f0e2a",
+	},
+	WBTC: {
+		symbol: "WBTC",
+		address: "0x2260fac5e5542a773aa44fbcfedf7c193bc2c599",
+	},
 };
 
 const exchangeAddress = async (token) => (await factoryContract.methods.getExchange(token.address).call()).out;
