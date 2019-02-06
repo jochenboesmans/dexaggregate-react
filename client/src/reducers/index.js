@@ -1,3 +1,4 @@
+import { timeReducer } from "./timeReducer";
 import { combineReducers } from "redux";
 import { deltaYReducer } from "./deltaYReducer";
 import { marketReducer } from "./marketReducer";
@@ -8,7 +9,8 @@ const reducer = combineReducers({
 	                                activePage: navigationReducer,
 	                                market: marketReducer,
 	                                searchFilter: searchFilterReducer,
-	                                deltaY: deltaYReducer
+	                                deltaY: deltaYReducer,
+	time: timeReducer,
                                 });
 
 export { reducer };

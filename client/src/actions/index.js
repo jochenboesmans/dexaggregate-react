@@ -1,7 +1,7 @@
 import { defaultDeltaY } from "../reducers/deltaYReducer";
 import { defaultPage } from "../reducers/navigationReducer";
 import { defaultSearchFilter } from "../reducers/searchFilterReducer";
-import { SET_DELTA_Y, SET_MARKET, SET_PAGE, SET_SEARCH_FILTER } from "./types";
+import { SET_DELTA_Y, SET_MARKET, SET_PAGE, SET_SEARCH_FILTER, UPDATE_TIME} from "./types";
 
 /* Action creator functions */
 const setPage = (page) => dispatch => {
@@ -30,4 +30,8 @@ const resetState = () => dispatch => {
 	dispatch({ type: SET_DELTA_Y, payload: defaultDeltaY });
 };
 
-export { setPage, updateMarket, setSearchFilter, setDeltaY, resetState };
+const updateTime = () => dispatch => {
+	dispatch({ type: UPDATE_TIME });
+};
+
+export { setPage, updateMarket, setSearchFilter, setDeltaY, resetState, updateTime };

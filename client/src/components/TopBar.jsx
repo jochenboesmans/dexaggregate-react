@@ -9,7 +9,7 @@ import Typography from "@material-ui/core/Typography/Typography";
 import { formatTime, formatVolume } from "../util/formatFunctions";
 import { rebaseCombinedVolume } from "../util/marketFunctions";
 
-const unconnectedTopBar = ({ market }) => {
+const unconnectedTopBar = ({ market, time }) => {
 	const combinedVolume = formatVolume(_.sumBy(market.market,
 	                                            p => rebaseCombinedVolume(market.market,
 	                                                                      p.base_symbol,
@@ -17,7 +17,7 @@ const unconnectedTopBar = ({ market }) => {
 	                                                                      "DAI")));
 	const exchangeNames = _.map(market.exchanges, exchange => exchange.name).join(", ");
 	const marketSize = market.market ? market.market.length : 0;
-	const timeSinceUpdate = market.timestamp - Date.now();
+	const secondsSinceUpdate = Math.round((time - market.timestamp) / 1000);
 	const rows = [{
 		tooltip: `A list of all exchanges from which market data is included.`,
 		textLeft: `Exchanges`,
@@ -31,7 +31,7 @@ const unconnectedTopBar = ({ market }) => {
 	}, {
 		tooltip: `The time, in seconds, since the last update to the market data.`,
 		textLeft: `Time Since Last Update`,
-		textRight: `${timeSinceUpdate} ms`
+		textRight: `${secondsSinceUpdate} seconds`
 	}];
 
 	return (
@@ -63,6 +63,6 @@ const unconnectedTopBar = ({ market }) => {
 	);
 };
 
-const TopBar = connect(({ market }) => ({ market }))(unconnectedTopBar);
+const TopBar = connect(({ market, time }) => ({ market, time }))(unconnectedTopBar);
 
 export { TopBar };
