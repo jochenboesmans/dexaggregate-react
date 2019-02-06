@@ -18,9 +18,9 @@ A live version is available at [dexaggregate.com](https://www.dexaggregate.com).
 
 In the project directory, you can run:
 
-### Development mode: `npm run dev` 
+* `npm run dev` 
 
-### Server in isolation: `npm run server`
+* `npm run server`
 
 ##### Example server endpoints:
 
