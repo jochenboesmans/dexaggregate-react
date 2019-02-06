@@ -89,6 +89,9 @@ const exchangeURL = {
 	"DDEX": (p) => `https://ddex.io/trade/${p.base_symbol}-${p.quote_symbol}`,
 	"IDEX": (p) => `https://idex.market/${p.base_symbol}/${p.quote_symbol}`,
 	"RADAR": (p) => `https://app.radarrelay.com/${p.quote_symbol}/${p.base_symbol}`,
+	"UNISWAP": (p) => `https://uniswap.exchange/swap`,
+	"TOKENSTORE": (p) => `https://token.store/trade/${p.quote_symbol}`,
+	"ETHERDELTA": (p) => `https://etherdelta.com/#${p.quote_symbol}-${p.base_symbol}`
 };
 
 const handleClick = (exchange, p) => {
