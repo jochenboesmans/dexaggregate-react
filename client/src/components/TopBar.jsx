@@ -17,7 +17,7 @@ const unconnectedTopBar = ({ market }) => {
 	                                                                      "DAI")));
 	const exchangeNames = _.map(market.exchanges, exchange => exchange.name).join(", ");
 	const marketSize = market.market ? market.market.length : 0;
-	const marketTime = formatTime(market.timestamp);
+	const timeSinceUpdate = Date.now() - market.timestamp;
 	const rows = [{
 		tooltip: `A list of all exchanges from which market data is included.`,
 		textLeft: `Exchanges`,
@@ -29,9 +29,9 @@ const unconnectedTopBar = ({ market }) => {
 	}, {
 		tooltip: `The total amount of market pairs being listed.`, textLeft: `Pairs`, textRight: marketSize
 	}, {
-		tooltip: `The date on which the market currently being displayed was last updated.`,
-		textLeft: `Last Update`,
-		textRight: marketTime
+		tooltip: `The time, in seconds, since the last update to the market data.`,
+		textLeft: `Time Since Last Update`,
+		textRight: `${timeSinceUpdate} ms`
 	}];
 
 	return (
