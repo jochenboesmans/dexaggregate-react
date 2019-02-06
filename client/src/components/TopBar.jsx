@@ -17,7 +17,7 @@ const unconnectedTopBar = ({ market }) => {
 	                                                                      "DAI")));
 	const exchangeNames = _.map(market.exchanges, exchange => exchange.name).join(", ");
 	const marketSize = market.market ? market.market.length : 0;
-	const timeSinceUpdate = Date.now() - market.timestamp;
+	const timeSinceUpdate = market.timestamp - Date.now();
 	const rows = [{
 		tooltip: `A list of all exchanges from which market data is included.`,
 		textLeft: `Exchanges`,
