@@ -14,7 +14,7 @@ import { theme } from "./themes/App";
 import * as actions from "./actions";
 
 const unconnectedApp = ({ updateTime }) => {
-	setInterval(() => updateTime(), 1000);
+	setInterval(() => updateTime(), 100);
 	return (
 		<div className="App">
 			<MuiThemeProvider theme={theme}>
