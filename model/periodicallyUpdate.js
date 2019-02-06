@@ -10,15 +10,23 @@ const tryUpdateExchangeMarkets = require("./exchangemarkets/tryUpdateExchangeMar
 let lastUpdate = 0;
 
 module.exports = async () => {
+	if (Date.now() - lastUpdate >= 10 * 1000) {
+		tryUpdateExchangeMarkets(web3);
+		lastUpdate = Date.now();
+	}
+
+	web3.eth.clearSubscriptions();
+
 	const subscription = web3.eth.subscribe("newBlockHeaders", (error, result) => {
-		console.log("new block");
-	})
-	.on("data", (blockHeader) => {
+		error ? console.log(error) : console.log(result);
+	});
+
+	subscription.on("data", (blockHeader) => {
 		console.log("new data");
 		if (Date.now() - lastUpdate >= 10 * 1000) {
 			tryUpdateExchangeMarkets(web3);
 			lastUpdate = Date.now();
 		}
-	})
+	});
 
 };

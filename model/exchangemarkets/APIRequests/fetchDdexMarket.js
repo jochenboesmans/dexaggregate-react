@@ -6,10 +6,13 @@ const { DDEX } = require("../../exchanges");
 
 const getMarketIds = async () => _.map(((await axios.get("https://api.ddex.io/v3/markets")).data.data.markets), m => m.id);
 
+let subscribedChannels;
+let retrievedMarket = {};
+
 const wsURL = "wss://ws.ddex.io/v3";
 const ws = new WebSocket(wsURL);
 ws.on("open", async () => {
-	ws.send("subcribe", {
+	ws.send(JSON.stringify({
 		        "type": "subscribe",
 		        "channels": [
 			        {
@@ -17,18 +20,24 @@ ws.on("open", async () => {
 				        "marketIds": await getMarketIds(),
 			        },
 		        ]
-	        });
-	ws.on("message", (message) => {
-		console.log(message);
-	});
+	        }));
+	ws.onmessage = (message) => {
+		const data = JSON.parse(message.data);
+		if (data.type === "subscriptions") {
+			subscribedChannels = data.channels;
+		} else if (data.type === "ticker") {
+			retrievedMarket[data.marketId] = data;
+		}
+	}
 });
 
-
-/* Retrieves the current market from the Ddex API. */
 module.exports = async () => {
 	try {
 		console.log(`DDEX START: ${Date.now()}`);
-		return formatDdexMarket(filterPairs(await retrieveDdexMarket()));
+		if (Object.keys(retrievedMarket).length === 0) {
+			await retrieveDdexMarket();
+		}
+		return formatDdexMarket(filterPairs());
 	} catch(error) {
 		console.log(`Error while trying to fetch market from ${DDEX.name} API: ${error}`);
 	}
@@ -39,10 +48,15 @@ module.exports = async () => {
  *  More info at [Ddex Docs]{@link https://docs.ddex.io/#list-tickers}.
  */
 
-const retrieveDdexMarket = async () => (await axios.get("https://api.ddex.io/v3/markets/tickers")).data.data.tickers;
+const retrieveDdexMarket = async () => {
+	const tickers = (await axios.get("https://api.ddex.io/v3/markets/tickers")).data.data.tickers;
+	_.forEach(tickers, t => {
+		retrievedMarket[t.marketId] = t
+	});
+};
 
 /* Filters a given retrievedDdexMarket based on its pairs having the appropriate market data. */
-const filterPairs = (retrievedDdexMarket) => _.filter(retrievedDdexMarket,
+const filterPairs = () => _.filter(retrievedMarket,
                                                       p => (p.marketId && p.price && p.bid && p.ask && p.high && p.low && p.volume));
 
 /* Formats a given filteredDdexMarket into the application-specific exchangeMarket structure. */
