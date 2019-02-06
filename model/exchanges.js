@@ -7,9 +7,9 @@ module.exports = {
 		name: "Kyber Network", ID: "KYBER",
 	}, OASIS: {
 		name: "Oasis Dex", ID: "OASIS",
-	}, PARADEX: {
+	},/* PARADEX: {
 		name: "Paradex", ID: "PARADEX",
-	}, RADAR: {
+	},*/ RADAR: {
 		name: "Radar Relay", ID: "RADAR",
 	}, TOKENSTORE: {
 		name: "Token Store", ID: "TOKENSTORE",

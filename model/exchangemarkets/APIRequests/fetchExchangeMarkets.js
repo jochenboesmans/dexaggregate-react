@@ -6,7 +6,7 @@ module.exports = async (web3) => {
 		IDEX: { market: (await require("./fetchIdexMarket")()), exchange: exchanges.IDEX },
 		KYBER: { market: (await require("./fetchKyberMarket")(web3)), exchange: exchanges.KYBER },
 		OASIS: { market: (await require("./fetchOasisMarket")()), exchange: exchanges.OASIS },
-		PARADEX: { market: (await require("./fetchParadexMarket")()), exchange: exchanges.PARADEX },
+		//PARADEX: { market: (await require("./fetchParadexMarket")()), exchange: exchanges.PARADEX },
 		RADAR: { market: (await require("./fetchRadarMarket")()), exchange: exchanges.RADAR },
 		TOKENSTORE: { market: (await require("./fetchTokenstoreMarket")()), exchange: exchanges.TOKENSTORE },
 		ETHERDELTA: { market: (await require("./fetchEtherdeltaMarket")()), exchange: exchanges.ETHERDELTA },

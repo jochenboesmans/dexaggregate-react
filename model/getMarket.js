@@ -1,11 +1,13 @@
 const _ = require("lodash");
 
-const exchangeMarkets = require("./exchangemarkets/exchangeMarkets");
+const { getExchangeMarkets } = require("./exchangemarkets/exchangeMarkets");
 const exchanges = require("./exchanges");
 
 module.exports = () => {
 	let marketInTheMaking = [];
-	let timestamp;
+	let timestamp = 0;
+
+	const exchangeMarkets = getExchangeMarkets();
 
 	_.forEach(exchangeMarkets, exchangeMarket => {
 		// find newest timestamp among exchangeMarkets
