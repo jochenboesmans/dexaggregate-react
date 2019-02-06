@@ -8,6 +8,7 @@ const { TOKENSTORE } = require("../../exchanges");
  */
 module.exports = async () => {
 	try {
+		console.log(`TOKENSTORE START: ${Date.now()}`);
 		return formatTokenstoreMarket(await retrieveTokenstoreMarket());
 	} catch(error) {
 		console.log(`Error while trying to fetch market from ${TOKENSTORE.name} API: ${error}`);

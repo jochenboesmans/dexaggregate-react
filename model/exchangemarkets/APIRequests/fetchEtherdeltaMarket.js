@@ -2,19 +2,19 @@ const _ = require("lodash");
 const io = require("socket.io-client");
 
 const socketURL = "https://socket.etherdelta.com";
-
-const { ETHERDELTA } = require("../../exchanges");
-
 const socket = io.connect(socketURL, { transports: ['websocket'] });
 socket.emit("getMarket", "{}");
 socket.on("market", (market) => {
 	receivedMarket = market;
 });
 
+const { ETHERDELTA } = require("../../exchanges");
+
 let receivedMarket = {};
 
-module.exports = async () => {
+module.exports = () => {
 	try {
+		console.log(`ETHERDELTA START: ${Date.now()}`);
 		if (receivedMarket["returnTicker"]) {
 			return _.map(Object.keys(receivedMarket["returnTicker"]), pairName => ({
 				base_symbol: pairName.split("_")[0], quote_symbol: pairName.split("_")[1], market_data: {

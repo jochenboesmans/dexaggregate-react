@@ -6,6 +6,7 @@ const { IDEX } = require("../../exchanges");
 /* Retrieves the current market from the Idex API. */
 module.exports = async () => {
 	try {
+		console.log(`IDEX START: ${Date.now()}`);
 		return formatIdexMarket(filterPairs(convertToList(await retrieveIdexMarket())));
 	} catch(error) {
 		console.log(`Error while trying to fetch market from ${IDEX.name} API: ${error}`);

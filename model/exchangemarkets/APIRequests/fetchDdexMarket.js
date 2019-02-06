@@ -1,11 +1,33 @@
 const _ = require("lodash");
 const axios = require("axios");
+const WebSocket = require("ws");
 
 const { DDEX } = require("../../exchanges");
+
+const getMarketIds = async () => _.map(((await axios.get("https://api.ddex.io/v3/markets")).data.data.markets), m => m.id);
+
+const wsURL = "wss://ws.ddex.io/v3";
+const ws = new WebSocket(wsURL);
+ws.on("open", async () => {
+	ws.send("subcribe", {
+		        "type": "subscribe",
+		        "channels": [
+			        {
+				        "name": "ticker",
+				        "marketIds": await getMarketIds(),
+			        },
+		        ]
+	        });
+	ws.on("message", (message) => {
+		console.log(message);
+	});
+});
+
 
 /* Retrieves the current market from the Ddex API. */
 module.exports = async () => {
 	try {
+		console.log(`DDEX START: ${Date.now()}`);
 		return formatDdexMarket(filterPairs(await retrieveDdexMarket()));
 	} catch(error) {
 		console.log(`Error while trying to fetch market from ${DDEX.name} API: ${error}`);

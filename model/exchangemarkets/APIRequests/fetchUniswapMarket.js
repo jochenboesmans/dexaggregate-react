@@ -2,15 +2,12 @@ const Web3 = require("web3");
 const _ = require("lodash");
 const axios = require("axios");
 
-// connect to infura node
-const projectID = `3623107a49ce48a9b3687ec820e8a222`;
-const web3 = new Web3(`wss://mainnet.infura.io/ws/v3/${projectID}`);
-
 const { UNISWAP } = require("../../exchanges");
+const { getContractABI } = require("./util/getContractABI");
 
-const factoryAddress = "0xc0a47dFe034B400B47bDaD5FecDa2621de6c4d95";
+const factoryAddress = `0xc0a47dFe034B400B47bDaD5FecDa2621de6c4d95`;
 const factoryABI = [{"name": "NewExchange", "inputs": [{"type": "address", "name": "token", "indexed": true}, {"type": "address", "name": "exchange", "indexed": true}], "anonymous": false, "type": "event"}, {"name": "initializeFactory", "outputs": [], "inputs": [{"type": "address", "name": "template"}], "constant": false, "payable": false, "type": "function", "gas": 35725}, {"name": "createExchange", "outputs": [{"type": "address", "name": "out"}], "inputs": [{"type": "address", "name": "token"}], "constant": false, "payable": false, "type": "function", "gas": 187911}, {"name": "getExchange", "outputs": [{"type": "address", "name": "out"}], "inputs": [{"type": "address", "name": "token"}], "constant": true, "payable": false, "type": "function", "gas": 715}, {"name": "getToken", "outputs": [{"type": "address", "name": "out"}], "inputs": [{"type": "address", "name": "exchange"}], "constant": true, "payable": false, "type": "function", "gas": 745}, {"name": "getTokenWithId", "outputs": [{"type": "address", "name": "out"}], "inputs": [{"type": "uint256", "name": "token_id"}], "constant": true, "payable": false, "type": "function", "gas": 736}, {"name": "exchangeTemplate", "outputs": [{"type": "address", "name": "out"}], "inputs": [], "constant": true, "payable": false, "type": "function", "gas": 633}, {"name": "tokenCount", "outputs": [{"type": "uint256", "name": "out"}], "inputs": [], "constant": true, "payable": false, "type": "function", "gas": 663}];
-const factoryContract = new web3.eth.Contract(factoryABI, factoryAddress);
+let factoryContract;
 
 const tokens = {
 	BAT: {
@@ -83,14 +80,16 @@ const tokens = {
 	},
 };
 
-const exchangeAddress = async (token) => (await factoryContract.methods.getExchange(token.address).call()).out;
+const getExchangeAddress = async (token) => (await factoryContract.methods.getExchange(token.address).call()).out;
 
-module.exports = async () => {
+module.exports = async (web3) => {
 	try {
+		console.log(`UNISWAP START: ${Date.now()}`);
+		factoryContract = new web3.eth.Contract(factoryABI, factoryAddress);
 		const tickers = await Promise.all(_.map(tokens, async token => {
-			const p = (await axios.get(`https://uniswap-analytics.appspot.com/api/v1/ticker?exchangeAddress=${(await exchangeAddress(token))}`)).data;
+			const p = (await axios.get(`https://uniswap-analytics.appspot.com/api/v1/ticker?exchangeAddress=${(await getExchangeAddress(token))}`)).data;
 			if (p.symbol) {
-				const market = {
+				return {
 					base_symbol: "ETH", quote_symbol: p.symbol, market_data: {
 						exchange: UNISWAP,
 						last_traded: Math.pow(p.lastTradePrice, -1),
@@ -101,7 +100,6 @@ module.exports = async () => {
 						volume: p.tradeVolume / Math.pow(10, 18),
 					}
 				};
-				return market;
 			}
 		}));
 		return _.filter(tickers, el => el);

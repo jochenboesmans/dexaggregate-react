@@ -8,6 +8,7 @@ let kyberCurrencies;
 
 module.exports = async (web3) => {
 	try {
+		console.log(`KYBER START: ${Date.now()}`);
 		kyberCurrencies = retrieveKyberCurrencies();
 		return await constructKyberMarket(web3);
 	} catch(error) {

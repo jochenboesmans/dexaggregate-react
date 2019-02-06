@@ -1,7 +1,5 @@
 module.exports = {
-	BANCOR: {
-		name: "Bancor", ID: "BANCOR",
-	}, DDEX: {
+	DDEX: {
 		name: "Ddex", ID: "DDEX",
 	}, IDEX: {
 		name: "Idex", ID: "IDEX",

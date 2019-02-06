@@ -5,6 +5,7 @@ const { OASIS } = require("../../exchanges");
 
 module.exports = async () => {
 	try {
+		console.log(`OASIS START: ${Date.now()}`);
 		return (await getOasisMarkets());
 	} catch(error) {
 		console.log(`Error while trying to fetch pairs from ${OASIS.name} API: ${error.message}`);

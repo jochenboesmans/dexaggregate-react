@@ -2,7 +2,6 @@ const exchanges = require("../../exchanges");
 
 module.exports = async (web3) => {
 	return {
-		BANCOR: { market: (await require("./fetchBancorMarket")()), exchange: exchanges.BANCOR },
 		DDEX: { market: (await require("./fetchDdexMarket")()), exchange: exchanges.DDEX },
 		IDEX: { market: (await require("./fetchIdexMarket")()), exchange: exchanges.IDEX },
 		KYBER: { market: (await require("./fetchKyberMarket")(web3)), exchange: exchanges.KYBER },
@@ -11,6 +10,6 @@ module.exports = async (web3) => {
 		RADAR: { market: (await require("./fetchRadarMarket")()), exchange: exchanges.RADAR },
 		TOKENSTORE: { market: (await require("./fetchTokenstoreMarket")()), exchange: exchanges.TOKENSTORE },
 		ETHERDELTA: { market: (await require("./fetchEtherdeltaMarket")()), exchange: exchanges.ETHERDELTA },
-		UNISWAP: { market: (await require("./fetchUniswapMarket")()), exchange: exchanges.UNISWAP },
+		UNISWAP: { market: (await require("./fetchUniswapMarket")(web3)), exchange: exchanges.UNISWAP },
 	};
 };
