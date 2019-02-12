@@ -4,15 +4,14 @@
 	"description": "",
 	"main": "index.js",
 	"engines": {
-		"node": "11.9.0",
-		"npm": "6.7.0"
+		"node": "11.9.0"
 	},
 	"scripts": {
 		"start": "node index.js",
 		"server": "node index.js",
-		"client": "npm run client --prefix client",
-		"dev": "concurrently \"npm run server\" \"npm run client\"",
-		"heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
+		"client": "yarn run client --prefix client",
+		"dev": "concurrently \"yarn run server\" \"yarn run client\"",
+		"heroku-postbuild": "NPM_CONFIG_PRODUCTION=false yarn install --prefix client && yarn run build --prefix client"
 	},
 	"author": "Jochen Boesmans",
 	"license": "ISC",
