@@ -4,7 +4,7 @@ const server = require("http").createServer(app);
 
 if(process.env.NODE_ENV === "production") {
 	// Make Express serve front-end assets in react build
-	server.use(express.static("client/build"));
+	app.use(express.static("client/build"));
 
 	const path = require("path");
 	app.get("*", (req, res) => {
