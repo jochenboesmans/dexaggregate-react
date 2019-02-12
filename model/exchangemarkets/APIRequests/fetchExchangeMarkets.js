@@ -1,15 +1,27 @@
 const exchanges = require("../../exchanges");
 
-module.exports = async (web3) => {
+const marketFetchers = {
+	DDEX: require("./DdexFetcher").getDdexMarket,
+	ETHERDELTA: require("./EtherdeltaFetcher").getEtherdeltaMarket,
+	IDEX: require("./IdexFetcher").getIdexMarket,
+	KYBER: require("./KyberFetcher").getKyberMarket,
+	RADAR: require("./RadarFetcher").getRadarMarket,
+	TOKENSTORE: require("./TokenstoreFetcher").getTokenstoreMarket,
+	UNISWAP: require("./UniswapFetcher").getUniswapMarket,
+	PARADEX: require("./ParadexFetcher").getParadexMarket,
+	OASIS: require("./OasisFetcher").getOasisMarket,
+};
+
+module.exports = () => {
 	return {
-		DDEX: { market: (await require("./fetchDdexMarket")()), exchange: exchanges.DDEX },
-		IDEX: { market: (await require("./fetchIdexMarket")()), exchange: exchanges.IDEX },
-		KYBER: { market: (await require("./fetchKyberMarket")(web3)), exchange: exchanges.KYBER },
-		OASIS: { market: (await require("./fetchOasisMarket")()), exchange: exchanges.OASIS },
-		//PARADEX: { market: (await require("./fetchParadexMarket")()), exchange: exchanges.PARADEX },
-		RADAR: { market: (await require("./fetchRadarMarket")()), exchange: exchanges.RADAR },
-		TOKENSTORE: { market: (await require("./fetchTokenstoreMarket")()), exchange: exchanges.TOKENSTORE },
-		ETHERDELTA: { market: (await require("./fetchEtherdeltaMarket")()), exchange: exchanges.ETHERDELTA },
-		UNISWAP: { market: (await require("./fetchUniswapMarket")(web3)), exchange: exchanges.UNISWAP },
+		DDEX: { market: (marketFetchers.DDEX)(), exchange: exchanges.DDEX },
+		IDEX: { market: (marketFetchers.IDEX)(), exchange: exchanges.IDEX },
+		KYBER: { market: (marketFetchers.KYBER)(), exchange: exchanges.KYBER },
+		RADAR: { market: (marketFetchers.RADAR)(), exchange: exchanges.RADAR },
+		TOKENSTORE: { market: (marketFetchers.TOKENSTORE)(), exchange: exchanges.TOKENSTORE },
+		ETHERDELTA: { market: (marketFetchers.ETHERDELTA)(), exchange: exchanges.ETHERDELTA },
+		UNISWAP: { market: (marketFetchers.UNISWAP)(), exchange: exchanges.UNISWAP },
+		PARADEX: { market: (marketFetchers.PARADEX)(), exchange: exchanges.PARADEX },
+		OASIS: { market: (marketFetchers.OASIS)(), exchange: exchanges.OASIS },
 	};
 };

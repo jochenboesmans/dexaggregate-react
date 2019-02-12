@@ -6,7 +6,7 @@ import Grid from "@material-ui/core/Grid/Grid";
 import Tooltip from "@material-ui/core/Tooltip/Tooltip";
 import Typography from "@material-ui/core/Typography/Typography";
 
-import { formatTime, formatVolume } from "../util/formatFunctions";
+import { formatVolume } from "../util/formatFunctions";
 import { rebaseCombinedVolume } from "../util/marketFunctions";
 
 const unconnectedTopBar = ({ market, time }) => {

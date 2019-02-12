@@ -1,26 +1,19 @@
 const _ = require("lodash");
 
-const { getExchangeMarkets } = require("./exchangemarkets/exchangeMarkets");
+const fetchExchangeMarkets = require("./exchangemarkets/APIRequests/fetchExchangeMarkets");
 const exchanges = require("./exchanges");
 
 module.exports = () => {
 	let marketInTheMaking = [];
-	let timestamp = 0;
 
-	const exchangeMarkets = getExchangeMarkets();
+	const exchangeMarkets = fetchExchangeMarkets();
 
-	_.forEach(exchangeMarkets, exchangeMarket => {
-		// find newest timestamp among exchangeMarkets
-		if(!timestamp || exchangeMarket.timestamp >= timestamp) {
-			timestamp = exchangeMarket.timestamp;
-		}
-		_.forEach(exchangeMarket.market, exchangeMarketPair => {
-
-			const matchingPair = _.find(marketInTheMaking,
-			                            p => (p.quote_symbol === exchangeMarketPair.quote_symbol && p.base_symbol === exchangeMarketPair.base_symbol));
+	_.forEach(exchangeMarkets, em => {
+		_.forEach(em.market, exchangeMarketPair => {
+			const matchingPair = _.find(marketInTheMaking, p => (p.quote_symbol === exchangeMarketPair.quote_symbol && p.base_symbol === exchangeMarketPair.base_symbol));
 			if(matchingPair) {
 				const exchange = exchangeMarketPair.market_data.exchange;
-				if (! _.find(matchingPair.market_data, emd => emd.exchange === exchange)) {
+				if(!_.find(matchingPair.market_data, emd => emd.exchange === exchange)) {
 					matchingPair.market_data.push(exchangeMarketPair.market_data);
 				}
 			} else {
@@ -37,6 +30,6 @@ module.exports = () => {
 	                                exchangeID => _.find(exchanges, exchange => exchange.ID === exchangeID));
 
 	return {
-		market: marketInTheMaking, exchanges: exchangesInMarket, timestamp: timestamp,
+		market: marketInTheMaking, exchanges: exchangesInMarket, timestamp: Date.now(),
 	};
 };

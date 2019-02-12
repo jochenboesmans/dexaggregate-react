@@ -1,6 +1,5 @@
 /* Temporary solution for usage of alpha version of MUI styles */
 import { install } from "@material-ui/styles";
-import { updateTime } from "./actions";
 import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
