@@ -7,14 +7,9 @@ import Tooltip from "@material-ui/core/Tooltip/Tooltip";
 import Typography from "@material-ui/core/Typography/Typography";
 
 import { formatVolume } from "../util/formatFunctions";
-import { rebaseCombinedVolume } from "../util/marketFunctions";
 
 const unconnectedTopBar = ({ market, time }) => {
-	const combinedVolume = formatVolume(_.sumBy(market.market,
-	                                            p => rebaseCombinedVolume(market.market,
-	                                                                      p.base_symbol,
-	                                                                      p.quote_symbol,
-	                                                                      "DAI")));
+	const combinedVolume = formatVolume(_.sumBy(market.market, p => _.sumBy(p.market_data, emd => emd.volume_dai)));
 	const exchangeNames = _.map(market.exchanges, exchange => exchange.name).join(", ");
 	const marketSize = market.market ? market.market.length : 0;
 	const secondsSinceUpdate = Math.round((time - market.timestamp) / 1000);

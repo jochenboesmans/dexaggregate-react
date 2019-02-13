@@ -1,6 +1,7 @@
 const _ = require("lodash");
 
 const { getExchanges } = require("./exchanges");
+const { rebaseMarket } = require("../util/marketFunctions");
 
 const marketFetchers = {
 	DDEX: require("./marketFetchers/DdexFetcher"),
@@ -44,10 +45,12 @@ const getMarket = () => {
 		});
 	});
 
+	const rebasedMarket = rebaseMarket(market);
+
 	const exchangesInMarket = _.map(Object.keys(exchangeMarkets), emKey => getExchanges()[emKey]);
 
 	return {
-		market: market, exchanges: exchangesInMarket, timestamp: Date.now(),
+		market: rebasedMarket, exchanges: exchangesInMarket, timestamp: Date.now(),
 	};
 };
 

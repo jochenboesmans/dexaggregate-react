@@ -9,18 +9,19 @@ import TableRow from "@material-ui/core/TableRow/TableRow";
 import * as actions from "../../../../actions";
 import { pages } from "../../../../model/pages";
 import { formatPrice, formatVolume } from "../../../../util/formatFunctions";
-import { rebaseCombinedVolume, rebaseLastPrice } from "../../../../util/marketFunctions";
 import { Spread } from "./Spread";
 
 const unconnectedMarketBody = ({ market, searchFilter, deltaY, setDeltaY, setPage, setSearchFilter }) => {
+	// TODO: Replace by suspense
 	if(!market.market) {
 		return null;
 	}
 	const m = market.market;
-	const displayedMarket = _.orderBy(m, [p => rebaseCombinedVolume(m, p.base_symbol, p.quote_symbol, "DAI")], ["desc"]);
-	const filteredMarket = searchFilter ? _.filter(displayedMarket,
-	                                               p => p.base_symbol.includes(searchFilter.toUpperCase()) || p.quote_symbol.includes(
-		                                               searchFilter.toUpperCase())) : displayedMarket;
+	const orderedMarket = _.orderBy(m, [p => _.sumBy(p.market_data, emd => emd.volume_dai)], ["desc"]);
+	const filteredMarket = searchFilter ? _.filter(orderedMarket,
+	                                               p => p.base_symbol.includes(searchFilter.toUpperCase())
+	                                               || p.quote_symbol.includes(searchFilter.toUpperCase()))
+																									: orderedMarket;
 	const start = 0;
 	const end = 10;
 	const slicedMarket = filteredMarket.slice(start + deltaY, end + deltaY);
@@ -33,23 +34,28 @@ const unconnectedMarketBody = ({ market, searchFilter, deltaY, setDeltaY, setPag
 			}
 		}}>
 			{_.map(slicedMarket, p => {
-				       const last = formatPrice(rebaseLastPrice(m, p.base_symbol, p.quote_symbol, "DAI"));
-				       const combVol = formatVolume(rebaseCombinedVolume(m, p.base_symbol, p.quote_symbol, "DAI"));
-				       return (
-					       <TableRow hover
-					                 onClick={() => {
-						                 setPage({...pages.PAIR, pair: p});
-						                 setSearchFilter(null);
-					                 }}
-					                 key={`${p.base_symbol}/${p.quote_symbol}`}
-					       >
-						       <TableCell>{`${p.base_symbol}/${p.quote_symbol}`}</TableCell>
-						       <Spread p={p} market={m}/>
-						       <TableCell numeric>{`${last}`}</TableCell>
-						       <TableCell numeric>{`${combVol}`}</TableCell>
-					       </TableRow>
-				       );
-			       }
+				const combinedVolume = _.sumBy(p.market_data, emd => emd.volume_dai);
+				const weightedSumLastTraded = _.sumBy(p.market_data, emd => emd.volume_dai * emd.last_traded_dai);
+				const volumeWeightedLastTraded =  weightedSumLastTraded / combinedVolume;
+
+				const formattedVolumeWeightedLastTraded = formatPrice(volumeWeightedLastTraded);
+				const formattedCombinedVolume = formatVolume(combinedVolume);
+
+				return (
+				 <TableRow hover
+				           onClick={() => {
+				             setPage({...pages.PAIR, pair: p});
+				             setSearchFilter(null);
+				           }}
+				           key={`${p.base_symbol}/${p.quote_symbol}`}
+				 >
+				   <TableCell>{`${p.base_symbol}/${p.quote_symbol}`}</TableCell>
+				   <Spread p={p} market={m}/>
+				   <TableCell numeric>{`${formattedVolumeWeightedLastTraded}`}</TableCell>
+				   <TableCell numeric>{`${formattedCombinedVolume}`}</TableCell>
+				 </TableRow>
+				);
+				}
 			)}
 		</TableBody>
 	)

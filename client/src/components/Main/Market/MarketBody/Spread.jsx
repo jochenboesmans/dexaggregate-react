@@ -1,13 +1,13 @@
+import _ from "lodash";
 import React from "react";
 
 import TableCell from "@material-ui/core/TableCell/TableCell";
 
 import { formatPercentage, formatPrice } from "../../../../util/formatFunctions";
-import { rebaseHighestCurrentBid, rebaseLowestCurrentAsk } from "../../../../util/marketFunctions";
 
 const Spread = ({ market, p }) => {
-	const innerBid = rebaseHighestCurrentBid(market, p.base_symbol, p.quote_symbol, "DAI");
-	const innerAsk = rebaseLowestCurrentAsk(market, p.base_symbol, p.quote_symbol, "DAI");
+	const innerBid = _.maxBy(p.market_data, emd => emd.current_bid_dai).current_bid_dai;
+	const innerAsk = _.minBy(p.market_data, emd => emd.current_ask_dai).current_ask_dai;
 	const fInnerBid = formatPrice(innerBid);
 	const fInnerAsk = formatPrice(innerAsk);
 	const spreadRatioDifference = ((innerAsk / innerBid) - 1) || 0;

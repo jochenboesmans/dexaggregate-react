@@ -1,22 +1,24 @@
-import Button from "@material-ui/core/Button/Button";
-import Grid from "@material-ui/core/Grid/Grid";
-import Table from "@material-ui/core/Table/Table";
-import { PairBody } from "./PairBody/PairBody";
 import _ from "lodash";
 import React from "react";
 import { connect } from "react-redux";
+
+import Button from "@material-ui/core/Button/Button";
+import Grid from "@material-ui/core/Grid/Grid";
+import Table from "@material-ui/core/Table/Table";
 
 import * as actions from "../../../actions";
 import { pages } from "../../../model/pages";
 
 import { PairButton } from "./PairButton/PairButton";
 import { PairHead } from "./PairHead/PairHead";
+import { PairBody } from "./PairBody/PairBody";
 
 const unconnectedPair = ({ market, activePage, setPage }) => {
 	const { pair } = activePage;
 	const m = market.market;
-	const p = _.find(m,
-	                 pairInMarket => pairInMarket.base_symbol === pair.base_symbol && pairInMarket.quote_symbol === pair.quote_symbol);
+	const p = _.find(m, pairInMarket =>
+		pairInMarket.base_symbol === pair.base_symbol
+		&& pairInMarket.quote_symbol === pair.quote_symbol);
 
 	if (p) {
 		return (
