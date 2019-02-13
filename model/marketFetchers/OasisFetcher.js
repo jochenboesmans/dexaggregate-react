@@ -1,12 +1,12 @@
 const _ = require("lodash");
 const axios = require("axios");
 
-const { OASIS } = require("../../exchanges");
-const { setModelNeedsBroadcast } = require("../../../websocketbroadcasts/modelNeedsBroadcast");
+const { getExchanges } = require("../exchanges");
+const { setModelNeedsBroadcast } = require("../../websocketbroadcasts/modelNeedsBroadcast");
 
 let market = {};
 
-const initializeOasisFetcher = async () => {
+const initialize = async () => {
 	await updateOasisMarket();
 	setInterval(async () => {
 		await updateOasisMarket();
@@ -25,7 +25,7 @@ const updateOasisMarket = async () => {
 			if(m && parseFloat(m.price) && parseFloat(m.bid) && parseFloat(m.ask) && parseFloat(m.vol)) {
 				return({
 					            base_symbol: pair.quote, quote_symbol: pair.base, market_data: {
-						exchange: OASIS,
+						exchange: getExchanges().OASIS,
 						last_traded: parseFloat(m.last),
 						current_bid: parseFloat(m.bid),
 						current_ask: parseFloat(m.ask),
@@ -36,10 +36,10 @@ const updateOasisMarket = async () => {
 		})));
 		setModelNeedsBroadcast(true);
 	} catch(error) {
-		console.log(`Error while trying to fetch pairs from ${OASIS.name} API: ${error.message}`);
+		console.log(`Error while trying to fetch pairs from ${getExchanges().OASIS.name} API: ${error.message}`);
 	}
 };
 
-const getOasisMarket = () => market;
+const getMarket = () => market;
 
-module.exports = { initializeOasisFetcher, getOasisMarket };
+module.exports = { initialize, getMarket };

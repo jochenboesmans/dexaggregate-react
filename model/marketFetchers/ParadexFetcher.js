@@ -1,14 +1,13 @@
 const axios = require("axios");
 const _ = require("lodash");
-const io = require("socket.io-client");
 
-const { paradexAPIKey } = require("../../../config");
-const { PARADEX } = require("../../exchanges");
-const { setModelNeedsBroadcast } = require("../../../websocketbroadcasts/modelNeedsBroadcast");
+const { paradexAPIKey } = require("../../config");
+const { getExchanges } = require("../exchanges");
+const { setModelNeedsBroadcast } = require("../../websocketbroadcasts/modelNeedsBroadcast");
 
 let market = {};
 
-const initializeParadexFetcher = async () => {
+const initialize = async () => {
 	await updateParadexMarket();
 	setInterval(async () => {
 		await updateParadexMarket();
@@ -32,7 +31,7 @@ const updateParadexMarket = async () => {
 						base_symbol: m.quoteToken,
 						quote_symbol: m.baseToken,
 						market_data: {
-							exchange: PARADEX,
+							exchange: getExchanges().PARADEX,
 							last_traded: parseFloat(t.last),
 							current_bid: parseFloat(t.bid),
 							current_ask: parseFloat(t.ask),
@@ -45,7 +44,7 @@ const updateParadexMarket = async () => {
 		market = _.filter(paradexMarket, p => p);
 		setModelNeedsBroadcast(true);
 	} catch (error) {
-		console.log(`Error while trying to fetch market from ${PARADEX.name} API: ${error}`);
+		console.log(`Error while trying to fetch market from ${getExchanges().PARADEX.name} API: ${error}`);
 	}
 };
 
@@ -75,6 +74,6 @@ socket.on("message", (message) => {
 	console.log(message);
 });*/
 
-const getParadexMarket = () => market;
+const getMarket = () => market;
 
-module.exports = { initializeParadexFetcher, getParadexMarket };
+module.exports = { initialize, getMarket };

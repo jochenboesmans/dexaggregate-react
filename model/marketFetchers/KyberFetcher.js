@@ -1,12 +1,12 @@
 const _ = require("lodash");
 const axios = require("axios");
 
-const { KYBER } = require("../../exchanges");
-const { setModelNeedsBroadcast } = require("../../../websocketbroadcasts/modelNeedsBroadcast");
+const { getExchanges } = require("../exchanges");
+const { setModelNeedsBroadcast } = require("../../websocketbroadcasts/modelNeedsBroadcast");
 
 let market = {};
 
-const initializeKyberFetcher = async () => {
+const initialize = async () => {
 	await updateKyberMarket();
 	setInterval(async () => {
 		await updateKyberMarket();
@@ -22,7 +22,7 @@ const updateKyberMarket = async () => {
 					            base_symbol: pair.base_symbol,
 					            quote_symbol: pair.quote_symbol,
 					            market_data: {
-						            exchange: KYBER,
+						            exchange: getExchanges().KYBER,
 						            last_traded: pair.last_traded,
 						            current_bid: pair.current_bid,
 						            current_ask: pair.current_ask,
@@ -34,10 +34,10 @@ const updateKyberMarket = async () => {
 		}, []);
 		setModelNeedsBroadcast(true);
 	} catch(error) {
-		console.log(`Error while trying to fetch market from ${KYBER.name} API: ${error}`);
+		console.log(`Error while trying to fetch market from ${getExchanges().KYBER.name} API: ${error}`);
 	}
 };
 
-const getKyberMarket = () => market;
+const getMarket = () => market;
 
-module.exports = { initializeKyberFetcher, getKyberMarket };
+module.exports = { initialize, getMarket };

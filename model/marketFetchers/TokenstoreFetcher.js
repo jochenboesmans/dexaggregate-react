@@ -1,12 +1,12 @@
 const _ = require("lodash");
 const axios = require("axios");
 
-const { TOKENSTORE } = require("../../exchanges");
-const { setModelNeedsBroadcast } = require("../../../websocketbroadcasts/modelNeedsBroadcast");
+const { getExchanges } = require("../exchanges");
+const { setModelNeedsBroadcast } = require("../../websocketbroadcasts/modelNeedsBroadcast");
 
 let market = {};
 
-const initializeTokenstoreFetcher = async () => {
+const initialize = async () => {
 	await updateTokenstoreMarket();
 	setInterval(async () => {
 		await updateTokenstoreMarket();
@@ -19,7 +19,7 @@ const updateTokenstoreMarket = async () => {
 		market = _.reduce(fetchedMarket, (result, p) => {
 			result.push({
 				            base_symbol: "ETH", quote_symbol: p.symbol, market_data: {
-					exchange: TOKENSTORE,
+					exchange: getExchanges().TOKENSTORE,
 					last_traded: p.last,
 					current_bid: p.ask,
 					current_ask: p.bid,
@@ -30,10 +30,10 @@ const updateTokenstoreMarket = async () => {
 		}, []);
 		setModelNeedsBroadcast(true);
 	} catch(error) {
-		console.log(`Error while trying to fetch market from ${TOKENSTORE.name} API: ${error}`);
+		console.log(`Error while trying to fetch market from ${getExchanges().TOKENSTORE.name} API: ${error}`);
 	}
 };
 
-const getTokenstoreMarket = () => market;
+const getMarket = () => market;
 
-module.exports = { initializeTokenstoreFetcher, getTokenstoreMarket };
+module.exports = { initialize, getMarket };

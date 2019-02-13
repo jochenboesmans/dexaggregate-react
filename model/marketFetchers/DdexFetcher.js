@@ -1,13 +1,13 @@
 const _ = require("lodash");
 const axios = require("axios");
 
-const { DDEX } = require("../../exchanges");
-const { setModelNeedsBroadcast } = require("../../../websocketbroadcasts/modelNeedsBroadcast");
+const { getExchanges } = require("../exchanges");
+const { setModelNeedsBroadcast } = require("../../websocketbroadcasts/modelNeedsBroadcast");
 
 let subscribedChannels;
 let market = {};
 
-const initializeDdexFetcher = async () => {
+const initialize = async () => {
 	const fetch = (await axios.get("https://api.ddex.io/v3/markets/tickers")).data.data.tickers;
 	market = _.reduce(fetch, (market, pair) => {
 		market[pair.marketId] = pair;
@@ -42,14 +42,14 @@ const initializeWSConnection = () => {
 	});
 };
 
-const getDdexMarket = () => _.reduce(market, (result, pair) => {
+const getMarket = () => _.reduce(market, (result, pair) => {
 	const twentyFourHourAverage = (p) => (parseFloat(p.high) + parseFloat(p.low)) / 2;
 	if (pair.marketId && pair.price && pair.bid && pair.ask && pair.high && pair.low && pair.volume) {
 		result.push({
 			            base_symbol: pair.marketId.split("-")[1],
 			            quote_symbol: pair.marketId.split("-")[0],
 			            market_data: {
-				            exchange: DDEX,
+				            exchange: getExchanges().DDEX,
 				            last_traded: parseFloat(pair.price),
 				            current_bid: parseFloat(pair.bid),
 				            current_ask: parseFloat(pair.ask),
@@ -60,5 +60,5 @@ const getDdexMarket = () => _.reduce(market, (result, pair) => {
 	return result;
 }, []);
 
-module.exports = { initializeDdexFetcher, getDdexMarket };
+module.exports = { initialize, getMarket };
 

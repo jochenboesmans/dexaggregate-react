@@ -1,11 +1,11 @@
 const _ = require("lodash");
 
-const { ETHERDELTA } = require("../../exchanges");
-const { setModelNeedsBroadcast } = require("../../../websocketbroadcasts/modelNeedsBroadcast");
+const { getExchanges } = require("../exchanges");
+const { setModelNeedsBroadcast } = require("../../websocketbroadcasts/modelNeedsBroadcast");
 
 let receivedMarket = {};
 
-const initializeEtherdeltaFetcher = () => {
+const initialize = () => {
 	initializeWSConnection();
 };
 
@@ -16,11 +16,11 @@ const initializeWSConnection = () => {
 	socket.emit("getMarket", "{}");
 	socket.on("market", (market) => {
 		receivedMarket = market;
-		setModelNeedsBroadcast(true)
+		setModelNeedsBroadcast(true);
 	});
 };
 
-const getEtherdeltaMarket = () => {
+const getMarket = () => {
 	if(receivedMarket["returnTicker"]) {
 		return _.reduce(Object.keys(receivedMarket["returnTicker"]), (result, pairName) => {
 			const pair = receivedMarket["returnTicker"][pairName];
@@ -29,7 +29,7 @@ const getEtherdeltaMarket = () => {
 					            base_symbol: pairName.split("_")[0],
 					            quote_symbol: pairName.split("_")[1],
 					            market_data: {
-						            exchange: ETHERDELTA,
+						            exchange: getExchanges().ETHERDELTA,
 						            last_traded: pair.last,
 						            current_bid: pair.bid,
 						            current_ask: pair.ask,
@@ -42,4 +42,4 @@ const getEtherdeltaMarket = () => {
 	}
 };
 
-module.exports = { initializeEtherdeltaFetcher, getEtherdeltaMarket };
+module.exports = { initialize, getMarket };

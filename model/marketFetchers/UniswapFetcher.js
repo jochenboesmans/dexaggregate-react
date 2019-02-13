@@ -1,8 +1,8 @@
 const _ = require("lodash");
 const axios = require("axios");
 
-const { UNISWAP } = require("../../exchanges");
-const { setModelNeedsBroadcast } = require("../../../websocketbroadcasts/modelNeedsBroadcast");
+const { getExchanges } = require("../exchanges");
+const { setModelNeedsBroadcast } = require("../../websocketbroadcasts/modelNeedsBroadcast");
 
 let storedWeb3;
 let market = {};
@@ -35,7 +35,7 @@ const getExchangeAddress = async (token) => {
 	return (await factoryContract.methods.getExchange(token.address).call()).out;
 };
 
-const initializeUniswapFetcher = async (web3) => {
+const initialize = async (web3) => {
 	storedWeb3 = web3;
 	await updateUniswapMarket();
 	setInterval(async () => {
@@ -50,7 +50,7 @@ const updateUniswapMarket = async () => {
 			if (p.symbol) {
 				return {
 					base_symbol: "ETH", quote_symbol: p.symbol, market_data: {
-						exchange: UNISWAP,
+						exchange: getExchanges().UNISWAP,
 						last_traded: Math.pow(p.lastTradePrice, -1),
 						current_bid: p.invPrice,
 						current_ask: p.invPrice,
@@ -62,11 +62,11 @@ const updateUniswapMarket = async () => {
 		market = _.filter(tickers, el => el);
 		setModelNeedsBroadcast(true);
 	} catch(error) {
-		console.log(`Error while trying to fetch market from ${UNISWAP.name} API: ${error}`);
+		console.log(`Error while trying to fetch market from ${getExchanges().UNISWAP.name} API: ${error}`);
 	}
 
 };
 
-const getUniswapMarket = () => market;
+const getMarket = () => market;
 
-module.exports = { initializeUniswapFetcher, getUniswapMarket };
+module.exports = { initialize, getMarket };

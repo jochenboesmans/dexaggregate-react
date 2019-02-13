@@ -12,11 +12,11 @@ if(process.env.NODE_ENV === "production") {
 	});
 }
 
-require("./model/initializeFetchers")();
+require("./model/market").initializeFetchers();
 
 require("./routes/exchanges")(app);
 require("./routes/market")(app);
 
-require("./websocketbroadcasts/broadcastSession")(server);
+require("./websocketbroadcasts/broadcastSession").initialize(server);
 
 server.listen(process.env.PORT || 5000);

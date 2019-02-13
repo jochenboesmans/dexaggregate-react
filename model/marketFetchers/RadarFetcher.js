@@ -1,12 +1,12 @@
 const _ = require("lodash");
 const axios = require("axios");
 
-const { RADAR } = require("../../exchanges");
-const { setModelNeedsBroadcast } = require("../../../websocketbroadcasts/modelNeedsBroadcast");
+const { getExchanges } = require("../exchanges");
+const { setModelNeedsBroadcast } = require("../../websocketbroadcasts/modelNeedsBroadcast");
 
 let market = {};
 
-const initializeRadarFetcher = async () => {
+const initialize = async () => {
 	await updateRadarMarket();
 	setInterval(async () => {
 		await updateRadarMarket();
@@ -21,7 +21,7 @@ const updateRadarMarket = async () => {
 			&& parseFloat(pair.ticker.bestBid) && parseFloat(pair.ticker.bestAsk) && parseFloat(pair.stats.volume24Hour)) {
 				result.push({
 					            base_symbol: pair.displayName.split("/")[1], quote_symbol: pair.displayName.split("/")[0], market_data: {
-						exchange: RADAR,
+						exchange: getExchanges().RADAR,
 						last_traded: parseFloat(pair.ticker.price),
 						current_bid: parseFloat(pair.ticker.bestBid),
 						current_ask: parseFloat(pair.ticker.bestAsk),
@@ -33,10 +33,10 @@ const updateRadarMarket = async () => {
 		}, []);
 		setModelNeedsBroadcast(true);
 	} catch(error) {
-		console.log(`Error while trying to fetch market from ${RADAR.name} API: ${error}`);
+		console.log(`Error while trying to fetch market from ${getExchanges().RADAR.name} API: ${error}`);
 	}
 };
 
-const getRadarMarket = () => market;
+const getMarket = () => market;
 
-module.exports = { initializeRadarFetcher, getRadarMarket };
+module.exports = { initialize, getMarket };
