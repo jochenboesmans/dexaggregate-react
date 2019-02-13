@@ -15,9 +15,9 @@ const Spread = ({ market, p }) => {
 
 	const arbitrageLimit = -0.01;
 	if (spreadRatioDifference <= arbitrageLimit) {
-		return <TableCell style={{color: "red"}} numeric>{`${fInnerBid} - ${fInnerAsk} (${fSpreadPercentage})`}</TableCell>
+		return <TableCell style={{color: "red"}} align="right">{`${fInnerBid} - ${fInnerAsk} (${fSpreadPercentage})`}</TableCell>
 	} else {
-		return <TableCell numeric>{`${fInnerBid} - ${fInnerAsk} (${fSpreadPercentage})`}</TableCell>
+		return <TableCell align="right">{`${fInnerBid} - ${fInnerAsk} (${fSpreadPercentage})`}</TableCell>
 	}
 };
 

@@ -1,11 +1,11 @@
 const _ = require("lodash");
 const axios = require("axios");
+const Web3 = require("web3");
 
 const { getExchanges } = require("../exchanges");
 const { setModelNeedsBroadcast } = require("../../websocketbroadcasts/modelNeedsBroadcast");
 
-let storedWeb3;
-let market = {};
+let market;
 
 const tokens = {
 	BAT: { symbol: "BAT", address: "0x0d8775f648430679a709e98d2b0cb6250d2887ef", },
@@ -27,16 +27,9 @@ const tokens = {
 	WBTC: { symbol: "WBTC", address: "0x2260fac5e5542a773aa44fbcfedf7c193bc2c599", },
 };
 
-const getExchangeAddress = async (token) => {
-	const factoryAddress = `0xc0a47dFe034B400B47bDaD5FecDa2621de6c4d95`;
-	const factoryABI = [{"name": "NewExchange", "inputs": [{"type": "address", "name": "token", "indexed": true}, {"type": "address", "name": "exchange", "indexed": true}], "anonymous": false, "type": "event"}, {"name": "initializeFactory", "outputs": [], "inputs": [{"type": "address", "name": "template"}], "constant": false, "payable": false, "type": "function", "gas": 35725}, {"name": "createExchange", "outputs": [{"type": "address", "name": "out"}], "inputs": [{"type": "address", "name": "token"}], "constant": false, "payable": false, "type": "function", "gas": 187911}, {"name": "getExchange", "outputs": [{"type": "address", "name": "out"}], "inputs": [{"type": "address", "name": "token"}], "constant": true, "payable": false, "type": "function", "gas": 715}, {"name": "getToken", "outputs": [{"type": "address", "name": "out"}], "inputs": [{"type": "address", "name": "exchange"}], "constant": true, "payable": false, "type": "function", "gas": 745}, {"name": "getTokenWithId", "outputs": [{"type": "address", "name": "out"}], "inputs": [{"type": "uint256", "name": "token_id"}], "constant": true, "payable": false, "type": "function", "gas": 736}, {"name": "exchangeTemplate", "outputs": [{"type": "address", "name": "out"}], "inputs": [], "constant": true, "payable": false, "type": "function", "gas": 633}, {"name": "tokenCount", "outputs": [{"type": "uint256", "name": "out"}], "inputs": [], "constant": true, "payable": false, "type": "function", "gas": 663}];
-	const factoryContract = new storedWeb3.eth.Contract(factoryABI, factoryAddress);
+const getExchangeAddress = async (token, factoryContract) => (await factoryContract.methods.getExchange(token.address).call()).out;
 
-	return (await factoryContract.methods.getExchange(token.address).call()).out;
-};
-
-const initialize = async (web3) => {
-	storedWeb3 = web3;
+const initialize = async () => {
 	await updateUniswapMarket();
 	setInterval(async () => {
 		await updateUniswapMarket();
@@ -45,8 +38,14 @@ const initialize = async (web3) => {
 
 const updateUniswapMarket = async () => {
 	try {
+		const projectID = `3623107a49ce48a9b3687ec820e8a222`;
+		const web3 = new Web3(`wss://mainnet.infura.io/ws/v3/${projectID}`);
+		const factoryAddress = `0xc0a47dFe034B400B47bDaD5FecDa2621de6c4d95`;
+		const factoryABI = [{"name": "NewExchange", "inputs": [{"type": "address", "name": "token", "indexed": true}, {"type": "address", "name": "exchange", "indexed": true}], "anonymous": false, "type": "event"}, {"name": "initializeFactory", "outputs": [], "inputs": [{"type": "address", "name": "template"}], "constant": false, "payable": false, "type": "function", "gas": 35725}, {"name": "createExchange", "outputs": [{"type": "address", "name": "out"}], "inputs": [{"type": "address", "name": "token"}], "constant": false, "payable": false, "type": "function", "gas": 187911}, {"name": "getExchange", "outputs": [{"type": "address", "name": "out"}], "inputs": [{"type": "address", "name": "token"}], "constant": true, "payable": false, "type": "function", "gas": 715}, {"name": "getToken", "outputs": [{"type": "address", "name": "out"}], "inputs": [{"type": "address", "name": "exchange"}], "constant": true, "payable": false, "type": "function", "gas": 745}, {"name": "getTokenWithId", "outputs": [{"type": "address", "name": "out"}], "inputs": [{"type": "uint256", "name": "token_id"}], "constant": true, "payable": false, "type": "function", "gas": 736}, {"name": "exchangeTemplate", "outputs": [{"type": "address", "name": "out"}], "inputs": [], "constant": true, "payable": false, "type": "function", "gas": 633}, {"name": "tokenCount", "outputs": [{"type": "uint256", "name": "out"}], "inputs": [], "constant": true, "payable": false, "type": "function", "gas": 663}];
+		const factoryContract = new web3.eth.Contract(factoryABI, factoryAddress);
+
 		const tickers = await Promise.all(_.map(tokens, async token => {
-			const p = (await axios.get(`https://uniswap-analytics.appspot.com/api/v1/ticker?exchangeAddress=${(await getExchangeAddress(token))}`)).data;
+			const p = (await axios.get(`https://uniswap-analytics.appspot.com/api/v1/ticker?exchangeAddress=${(await getExchangeAddress(token, factoryContract))}`)).data;
 			if (p.symbol) {
 				return {
 					base_symbol: "ETH", quote_symbol: p.symbol, market_data: {

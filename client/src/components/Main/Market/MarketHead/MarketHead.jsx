@@ -35,7 +35,7 @@ const MarketHead = () => {
 						)
 					} else {
 						return (
-							<TableCell numeric key={column.text}>
+							<TableCell align="right" key={column.text}>
 								<Tooltip title={column.tooltip} placement="bottom">
 									<Typography style={{color: "black", fontWeight: "bold"}}>{column.text}</Typography>
 								</Tooltip>

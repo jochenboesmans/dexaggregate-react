@@ -36,11 +36,10 @@ const unconnectedTopBar = ({ market, time }) => {
 		      spacing={8}
 		>
 			{_.map(rows, row => (
-				<Grid item>
+				<Grid key={row.tooltip} item>
 					<Grid container
 					      direction="row"
 					      alignContent="stretch"
-					      justify="stretch"
 					      spacing={8}
 					>
 						<Grid item>

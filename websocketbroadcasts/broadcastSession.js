@@ -6,9 +6,9 @@ const { getModelNeedsBroadcast, setModelNeedsBroadcast } = require("./modelNeeds
 const initialize = (server) => {
 	const io = socketio(server);
 
-	/*io.on("connection", (socket) => {
+	io.on("connection", (socket) => {
 		socket.emit("marketBroadcast", getMarket());
-	});*/
+	});
 
 	setInterval(() => {
 		if(getModelNeedsBroadcast()) {

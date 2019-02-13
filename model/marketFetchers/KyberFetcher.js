@@ -4,7 +4,7 @@ const axios = require("axios");
 const { getExchanges } = require("../exchanges");
 const { setModelNeedsBroadcast } = require("../../websocketbroadcasts/modelNeedsBroadcast");
 
-let market = {};
+let market;
 
 const initialize = async () => {
 	await updateKyberMarket();

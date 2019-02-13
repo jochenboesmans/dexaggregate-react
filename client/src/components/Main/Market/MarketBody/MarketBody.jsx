@@ -51,8 +51,8 @@ const unconnectedMarketBody = ({ market, searchFilter, deltaY, setDeltaY, setPag
 				 >
 				   <TableCell>{`${p.base_symbol}/${p.quote_symbol}`}</TableCell>
 				   <Spread p={p} market={m}/>
-				   <TableCell numeric>{`${formattedVolumeWeightedLastTraded}`}</TableCell>
-				   <TableCell numeric>{`${formattedCombinedVolume}`}</TableCell>
+				   <TableCell align="right">{`${formattedVolumeWeightedLastTraded}`}</TableCell>
+				   <TableCell align="right">{`${formattedCombinedVolume}`}</TableCell>
 				 </TableRow>
 				);
 				}

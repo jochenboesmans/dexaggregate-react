@@ -34,9 +34,9 @@ const PairBody = ({ p, market }) => {
 						          key={emd.exchange.ID}
 						>
 							<TableCell style={{fontStyle: "italic", color: "green"}}>{emd.exchange.name}</TableCell>
-							<TableCell style={{fontStyle: "italic", color: "green"}} numeric>{`${fInnerBid} - ${fInnerAsk} (${fSpreadPercentage})`}</TableCell>
-							<TableCell style={{fontStyle: "italic", color: "green"}} numeric>{`${fLastTraded}`}</TableCell>
-							<TableCell style={{fontStyle: "italic", color: "green"}} numeric>{`${fCombinedVolume}`}</TableCell>
+							<TableCell style={{fontStyle: "italic", color: "green"}} align="right">{`${fInnerBid} - ${fInnerAsk} (${fSpreadPercentage})`}</TableCell>
+							<TableCell style={{fontStyle: "italic", color: "green"}} align="right">{`${fLastTraded}`}</TableCell>
+							<TableCell style={{fontStyle: "italic", color: "green"}} align="right">{`${fCombinedVolume}`}</TableCell>
 						</TableRow>
 					)
 				}
@@ -47,9 +47,9 @@ const PairBody = ({ p, market }) => {
 						          key={emd.exchange.ID}
 						>
 							<TableCell style={{color: "green"}}>{emd.exchange.name}</TableCell>
-							<TableCell style={{color: "green"}} numeric>{`${fInnerBid} - ${fInnerAsk} (${fSpreadPercentage})`}</TableCell>
-							<TableCell style={{color: "green"}} numeric>{`${fLastTraded}`}</TableCell>
-							<TableCell style={{color: "green"}} numeric>{`${fCombinedVolume}`}</TableCell>
+							<TableCell style={{color: "green"}} align="right">{`${fInnerBid} - ${fInnerAsk} (${fSpreadPercentage})`}</TableCell>
+							<TableCell style={{color: "green"}} align="right">{`${fLastTraded}`}</TableCell>
+							<TableCell style={{color: "green"}} align="right">{`${fCombinedVolume}`}</TableCell>
 						</TableRow>
 					);
 				} else if (emd === highestCurrentBidEMDAcrossExchanges(market, p.base_symbol, p.quote_symbol) && sortedMarketData.length > 1) {
@@ -59,9 +59,9 @@ const PairBody = ({ p, market }) => {
 						          key={emd.exchange.ID}
 						>
 							<TableCell style={{color: "red"}}>{emd.exchange.name}</TableCell>
-							<TableCell style={{color: "red"}} numeric>{`${fInnerBid} - ${fInnerAsk} (${fSpreadPercentage})`}</TableCell>
-							<TableCell style={{color: "red"}} numeric>{`${fLastTraded}`}</TableCell>
-							<TableCell style={{color: "red"}} numeric>{`${fCombinedVolume}`}</TableCell>
+							<TableCell style={{color: "red"}} align="right">{`${fInnerBid} - ${fInnerAsk} (${fSpreadPercentage})`}</TableCell>
+							<TableCell style={{color: "red"}} align="right">{`${fLastTraded}`}</TableCell>
+							<TableCell style={{color: "red"}} align="right">{`${fCombinedVolume}`}</TableCell>
 						</TableRow>
 					)
 				} else {
@@ -71,9 +71,9 @@ const PairBody = ({ p, market }) => {
 						          key={emd.exchange.ID}
 						>
 							<TableCell >{emd.exchange.name}</TableCell>
-							<TableCell numeric>{`${fInnerBid} - ${fInnerAsk} (${fSpreadPercentage})`}</TableCell>
-							<TableCell numeric>{`${fLastTraded}`}</TableCell>
-							<TableCell numeric>{`${fCombinedVolume}`}</TableCell>
+							<TableCell align="right">{`${fInnerBid} - ${fInnerAsk} (${fSpreadPercentage})`}</TableCell>
+							<TableCell align="right">{`${fLastTraded}`}</TableCell>
+							<TableCell align="right">{`${fCombinedVolume}`}</TableCell>
 						</TableRow>
 					);
 				}

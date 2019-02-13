@@ -5,7 +5,7 @@ const { paradexAPIKey } = require("../../config");
 const { getExchanges } = require("../exchanges");
 const { setModelNeedsBroadcast } = require("../../websocketbroadcasts/modelNeedsBroadcast");
 
-let market = {};
+let market;
 
 const initialize = async () => {
 	await updateParadexMarket();

@@ -54,13 +54,9 @@ const getMarket = () => {
 	};
 };
 
-const initializeFetchers = async () => {
-	const Web3 = require("web3");
-	const projectID = `3623107a49ce48a9b3687ec820e8a222`;
-	const web3 = new Web3(`wss://mainnet.infura.io/ws/v3/${projectID}`);
-
+const initializeFetchers = () => {
 	_.forEach(Object.keys(marketFetchers), mfKey => {
-		marketFetchers[mfKey].initialize(web3);
+		marketFetchers[mfKey].initialize();
 	});
 };
 
