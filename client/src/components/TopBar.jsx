@@ -9,9 +9,15 @@ import Typography from "@material-ui/core/Typography/Typography";
 import { formatVolume } from "../util/formatFunctions";
 
 const unconnectedTopBar = ({ market, time }) => {
-	const combinedVolume = formatVolume(_.sumBy(market.market, p => _.sumBy(p.market_data, emd => emd.volume_dai)));
+	if (!(market.market)) {
+		return null;
+	}
+
+
+	const combinedVolume = formatVolume(_.reduce(market.market, (totalSum, p) =>
+		totalSum + _.reduce(p.market_data, (sum, emd) => sum + emd.volume_dai, 0), 0));
 	const exchangeNames = _.map(market.exchanges, exchange => exchange.name).join(", ");
-	const marketSize = market.market ? market.market.length : 0;
+	const marketSize = market.market ? Object.keys(market.market).length : 0;
 	const secondsSinceUpdate = Math.round((time - market.timestamp) / 1000);
 	const rows = [{
 		tooltip: `A list of all exchanges from which market data is included.`,

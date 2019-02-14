@@ -18,12 +18,11 @@ const updateTokenstoreMarket = async () => {
 		const fetchedMarket = (await axios.get("https://v1-1.api.token.store/ticker")).data;
 		market = _.reduce(fetchedMarket, (result, p) => {
 			result.push({
-				            base_symbol: "ETH", quote_symbol: p.symbol, market_data: {
-					exchange: getExchanges().TOKENSTORE,
-					last_traded: p.last,
-					current_bid: p.ask,
-					current_ask: p.bid,
-					volume: p.baseVolume,
+				            b: "ETH", q: p.symbol, m: {
+					l: p.last,
+					b: p.ask,
+					a: p.bid,
+					v: p.baseVolume,
 				}
 			            });
 			return result;

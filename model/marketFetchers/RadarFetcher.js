@@ -20,12 +20,11 @@ const updateRadarMarket = async () => {
 			if(pair.active && pair.displayName.split("/")[1] && pair.displayName.split("/")[0] && parseFloat(pair.ticker.price)
 			&& parseFloat(pair.ticker.bestBid) && parseFloat(pair.ticker.bestAsk) && parseFloat(pair.stats.volume24Hour)) {
 				result.push({
-					            base_symbol: pair.displayName.split("/")[1], quote_symbol: pair.displayName.split("/")[0], market_data: {
-						exchange: getExchanges().RADAR,
-						last_traded: parseFloat(pair.ticker.price),
-						current_bid: parseFloat(pair.ticker.bestBid),
-						current_ask: parseFloat(pair.ticker.bestAsk),
-						volume: parseFloat(pair.stats.volume24Hour),
+					            b: pair.displayName.split("/")[1], q: pair.displayName.split("/")[0], m: {
+						l: parseFloat(pair.ticker.price),
+						b: parseFloat(pair.ticker.bestBid),
+						a: parseFloat(pair.ticker.bestAsk),
+						v: parseFloat(pair.stats.volume24Hour),
 					}
 				            });
 			}

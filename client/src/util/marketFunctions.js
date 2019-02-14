@@ -6,12 +6,12 @@ const findPair = (market, baseSymbol, quoteSymbol) => {
 
 const lowestCurrentAskEMDAcrossExchanges = (market, baseSymbol, quoteSymbol) => {
 	const p = findPair(market, baseSymbol, quoteSymbol);
-	return _.minBy(p.market_data, emd => emd.current_ask);
+	return _.minBy(_.values(p.market_data), emd => emd.current_ask_dai);
 };
 
 const highestCurrentBidEMDAcrossExchanges = (market, baseSymbol, quoteSymbol) => {
 	const p = findPair(market, baseSymbol, quoteSymbol);
-	return _.maxBy(p.market_data, emd => emd.current_bid);
+	return _.maxBy(_.values(p.market_data), emd => emd.current_bid_dai);
 };
 
 export {

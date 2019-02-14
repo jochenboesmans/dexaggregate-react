@@ -6,8 +6,12 @@ import TableCell from "@material-ui/core/TableCell/TableCell";
 import { formatPercentage, formatPrice } from "../../../../util/formatFunctions";
 
 const Spread = ({ market, p }) => {
-	const innerBid = _.maxBy(p.market_data, emd => emd.current_bid_dai).current_bid_dai;
-	const innerAsk = _.minBy(p.market_data, emd => emd.current_ask_dai).current_ask_dai;
+	const innerBid = _.reduce(p.market_data, (max, emd) => {
+		return (emd.current_bid_dai > max) ?  emd.current_bid_dai : max
+	}, 0);
+	const innerAsk = _.reduce(p.market_data, (min, emd) => {
+		return (emd.current_ask_dai < min) ? emd.current_ask_dai : min
+	}, Number.MAX_VALUE);
 	const fInnerBid = formatPrice(innerBid);
 	const fInnerAsk = formatPrice(innerAsk);
 	const spreadRatioDifference = ((innerAsk / innerBid) - 1) || 0;

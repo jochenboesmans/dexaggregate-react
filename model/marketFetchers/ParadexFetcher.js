@@ -28,14 +28,13 @@ const updateParadexMarket = async () => {
 				const t = await retrieveParadexTicker(m);
 				if (t.last && t.bid && t.ask && o.high && o.low && o.volume) {
 					return {
-						base_symbol: m.quoteToken,
-						quote_symbol: m.baseToken,
-						market_data: {
-							exchange: getExchanges().PARADEX,
-							last_traded: parseFloat(t.last),
-							current_bid: parseFloat(t.bid),
-							current_ask: parseFloat(t.ask),
-							volume: parseFloat(o.volume) * twentyFourHourAverage(o)
+						b: m.quoteToken,
+						q: m.baseToken,
+						m: {
+							l: parseFloat(t.last),
+							b: parseFloat(t.bid),
+							a: parseFloat(t.ask),
+							v: parseFloat(o.volume) * twentyFourHourAverage(o)
 						}
 					}
 				}

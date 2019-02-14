@@ -5,7 +5,7 @@ const axios = require("axios");
 const { getExchanges } = require("../exchanges");
 const { setModelNeedsBroadcast } = require("../../websocketbroadcasts/modelNeedsBroadcast");
 
-let retrievedMarket = {};
+let market = [];
 
 const initialize =  async () => {
 	await updateIdexMarket();
@@ -17,7 +17,23 @@ const initialize =  async () => {
 
 const updateIdexMarket = async () => {
 	try {
-		retrievedMarket = (await axios.post("https://api.idex.market/returnTicker", { json: {} })).data;
+		const retrievedMarket = (await axios.post("https://api.idex.market/returnTicker", { json: {} })).data;
+		market = _.reduce(Object.keys(retrievedMarket), (result, key) => {
+			const pair = retrievedMarket[key];
+			if((parseFloat(pair.last) && parseFloat(pair.highestBid) && parseFloat(pair.lowestAsk) && parseFloat(pair.high) && parseFloat(pair.low) && parseFloat(pair.baseVolume))) {
+				result.push({
+					            b: key.split("_")[0],
+					            q: key.split("_")[1],
+					            m: {
+						            l: parseFloat(pair.last),
+						            b: parseFloat(pair.highestBid),
+						            a: parseFloat(pair.lowestAsk),
+						            v: parseFloat(pair.baseVolume)
+					            }
+				            });
+			}
+			return result;
+		}, []);
 		setModelNeedsBroadcast(true);
 	} catch(error) {
 		console.log(`Error while trying to fetch market from ${getExchanges().IDEX.name} API: ${error}`);
@@ -53,22 +69,6 @@ ws.on("open", async () => {
 	}
 });*/
 
-const getMarket = () => _.reduce(Object.keys(retrievedMarket), (result, key) => {
-	const pair = retrievedMarket[key];
-	if((parseFloat(pair.last) && parseFloat(pair.highestBid) && parseFloat(
-		pair.lowestAsk) && parseFloat(pair.high) && parseFloat(pair.low) && parseFloat(
-		pair.baseVolume))) {
-		result.push({
-			base_symbol: key.split("_")[0], quote_symbol: key.split("_")[1], market_data: {
-				exchange: getExchanges().IDEX,
-				last_traded: parseFloat(pair.last),
-				current_bid: parseFloat(pair.highestBid),
-				current_ask: parseFloat(pair.lowestAsk),
-				volume: parseFloat(pair.baseVolume)
-			}
-		});
-	}
-	return result;
-}, []);
+const getMarket = () => market;
 
 module.exports = { initialize, getMarket };

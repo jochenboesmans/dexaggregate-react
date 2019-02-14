@@ -19,14 +19,13 @@ const updateKyberMarket = async () => {
 		market = _.reduce(retrievedMarket, (result, pair) => {
 			if(pair.base_symbol && pair.quote_symbol && pair.last_traded && pair.current_bid && pair.current_ask && pair.eth_24h_volume) {
 				result.push({
-					            base_symbol: pair.base_symbol,
-					            quote_symbol: pair.quote_symbol,
-					            market_data: {
-						            exchange: getExchanges().KYBER,
-						            last_traded: pair.last_traded,
-						            current_bid: pair.current_bid,
-						            current_ask: pair.current_ask,
-						            volume: pair.eth_24h_volume
+					            b: pair.base_symbol,
+					            q: pair.quote_symbol,
+					            m: {
+						            l: pair.last_traded,
+						            b: pair.current_bid,
+						            a: pair.current_ask,
+						            v: pair.eth_24h_volume
 					            }
 				            });
 			}

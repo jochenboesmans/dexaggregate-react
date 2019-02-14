@@ -1,4 +1,3 @@
-import _ from "lodash";
 import React from "react";
 import { connect } from "react-redux";
 
@@ -16,10 +15,7 @@ import { PairBody } from "./PairBody/PairBody";
 const unconnectedPair = ({ market, activePage, setPage }) => {
 	const { pair } = activePage;
 	const m = market.market;
-	const p = _.find(m, pairInMarket =>
-		pairInMarket.base_symbol === pair.base_symbol
-		&& pairInMarket.quote_symbol === pair.quote_symbol);
-
+	const p = m[pair.base_symbol + "/" + pair.quote_symbol];
 	if (p) {
 		return (
 			<div>
@@ -35,7 +31,7 @@ const unconnectedPair = ({ market, activePage, setPage }) => {
 					<Grid item>
 						<Table>
 							<PairHead p={p}/>
-							<PairBody p={p} market={m}/>
+							<PairBody p={p} market={m} exchanges={market.exchanges}/>
 						</Table>
 					</Grid>
 				</Grid>

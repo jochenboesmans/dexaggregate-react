@@ -23,34 +23,37 @@ const fetchExchangeMarkets = () => _.reduce(Object.keys(getExchanges()), (result
 	}, {});
 
 const getMarket = () => {
-	let market = [];
+	let market = {};
 
 	const exchangeMarkets = fetchExchangeMarkets();
 
 	_.forEach(exchangeMarkets, em => {
+		const { exchange } = em;
 		_.forEach(em.market, emp => {
-			const { exchange } = emp.market_data;
-			const pairAlreadyInMarket = _.find(market, mp =>
-				(mp.quote_symbol === emp.quote_symbol && mp.base_symbol === emp.base_symbol));
-
-			if(pairAlreadyInMarket && !_.find(pairAlreadyInMarket.market_data, emd => emd.exchange === exchange)) {
-				pairAlreadyInMarket.market_data.push(emp.market_data);
+			const ID = emp.b + "/" + emp.q;
+			if (!market[ID]) {
+				market[ID] = {
+					b: emp.b,
+					q: emp.q,
+					m: {
+						[exchange.ID]: { ...emp.m, exchangeID: exchange.ID }
+					},
+				}
 			} else {
-				market.push({
-					base_symbol: emp.base_symbol,
-					quote_symbol: emp.quote_symbol,
-					market_data: [emp.market_data],
-				});
+				market[ID].m[exchange.ID] = { ...emp.m, exchangeID: exchange.ID };
 			}
 		});
 	});
 
-	const rebasedMarket = rebaseMarket(market);
-
-	const exchangesInMarket = _.map(Object.keys(exchangeMarkets), emKey => getExchanges()[emKey]);
+	const exchangesInMarket = _.reduce(Object.keys(exchangeMarkets), (result, exchangeID) => {
+		if (exchangeMarkets[exchangeID].market) {
+			result.push(getExchanges()[exchangeID])
+		}
+		return result;
+	}, []);
 
 	return {
-		market: rebasedMarket, exchanges: exchangesInMarket, timestamp: Date.now(),
+		market: rebaseMarket(market, "DAI"), exchanges: exchangesInMarket, timestamp: Date.now(),
 	};
 };
 

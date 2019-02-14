@@ -24,12 +24,11 @@ const updateOasisMarket = async () => {
 			const m = (await axios.get(`http://api.oasisdex.com/v1/markets/${pair.base}/${pair.quote}`)).data.data;
 			if(m && parseFloat(m.price) && parseFloat(m.bid) && parseFloat(m.ask) && parseFloat(m.vol)) {
 				return({
-					            base_symbol: pair.quote, quote_symbol: pair.base, market_data: {
-						exchange: getExchanges().OASIS,
-						last_traded: parseFloat(m.last),
-						current_bid: parseFloat(m.bid),
-						current_ask: parseFloat(m.ask),
-						volume: parseFloat(m.vol) * twentyFourHourAverage(m),
+					            b: pair.quote, q: pair.base, m: {
+						l: parseFloat(m.last),
+						b: parseFloat(m.bid),
+						a: parseFloat(m.ask),
+						v: parseFloat(m.vol) * twentyFourHourAverage(m),
 					}
 				});
 			}

@@ -11,7 +11,7 @@ import { MarketBody } from "./MarketBody/MarketBody";
 import { MarketHead } from "./MarketHead/MarketHead";
 
 const unconnectedMarket = ({ market, deltaY, setSearchFilter, setDeltaY }) => {
-	const marketSize = market.market ? market.market.length : 0;
+	const marketSize = market.market ? Object.keys(market.market).length : 0;
 	return (
 		<Grid
 			container

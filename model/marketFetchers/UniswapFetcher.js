@@ -27,8 +27,6 @@ const tokens = {
 	WBTC: { symbol: "WBTC", address: "0x2260fac5e5542a773aa44fbcfedf7c193bc2c599", },
 };
 
-const getExchangeAddress = async (token, factoryContract) => (await factoryContract.methods.getExchange(token.address).call()).out;
-
 const initialize = async () => {
 	await updateUniswapMarket();
 	setInterval(async () => {
@@ -43,17 +41,17 @@ const updateUniswapMarket = async () => {
 		const factoryAddress = `0xc0a47dFe034B400B47bDaD5FecDa2621de6c4d95`;
 		const factoryABI = [{"name": "NewExchange", "inputs": [{"type": "address", "name": "token", "indexed": true}, {"type": "address", "name": "exchange", "indexed": true}], "anonymous": false, "type": "event"}, {"name": "initializeFactory", "outputs": [], "inputs": [{"type": "address", "name": "template"}], "constant": false, "payable": false, "type": "function", "gas": 35725}, {"name": "createExchange", "outputs": [{"type": "address", "name": "out"}], "inputs": [{"type": "address", "name": "token"}], "constant": false, "payable": false, "type": "function", "gas": 187911}, {"name": "getExchange", "outputs": [{"type": "address", "name": "out"}], "inputs": [{"type": "address", "name": "token"}], "constant": true, "payable": false, "type": "function", "gas": 715}, {"name": "getToken", "outputs": [{"type": "address", "name": "out"}], "inputs": [{"type": "address", "name": "exchange"}], "constant": true, "payable": false, "type": "function", "gas": 745}, {"name": "getTokenWithId", "outputs": [{"type": "address", "name": "out"}], "inputs": [{"type": "uint256", "name": "token_id"}], "constant": true, "payable": false, "type": "function", "gas": 736}, {"name": "exchangeTemplate", "outputs": [{"type": "address", "name": "out"}], "inputs": [], "constant": true, "payable": false, "type": "function", "gas": 633}, {"name": "tokenCount", "outputs": [{"type": "uint256", "name": "out"}], "inputs": [], "constant": true, "payable": false, "type": "function", "gas": 663}];
 		const factoryContract = new web3.eth.Contract(factoryABI, factoryAddress);
+		const getExchangeAddress = async (token, factoryContract) => (await factoryContract.methods.getExchange(token.address).call()).out;
 
 		const tickers = await Promise.all(_.map(tokens, async token => {
 			const p = (await axios.get(`https://uniswap-analytics.appspot.com/api/v1/ticker?exchangeAddress=${(await getExchangeAddress(token, factoryContract))}`)).data;
 			if (p.symbol) {
 				return {
-					base_symbol: "ETH", quote_symbol: p.symbol, market_data: {
-						exchange: getExchanges().UNISWAP,
-						last_traded: Math.pow(p.lastTradePrice, -1),
-						current_bid: p.invPrice,
-						current_ask: p.invPrice,
-						volume: p.tradeVolume / Math.pow(10, 18),
+					b: "ETH", q: p.symbol, m: {
+						l: Math.pow(p.lastTradePrice, -1),
+						b: p.invPrice,
+						a: p.invPrice,
+						v: p.tradeVolume / Math.pow(10, 18),
 					}
 				};
 			}

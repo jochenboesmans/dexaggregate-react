@@ -17,10 +17,13 @@ const unconnectedMarketBody = ({ market, searchFilter, deltaY, setDeltaY, setPag
 		return null;
 	}
 	const m = market.market;
-	const orderedMarket = _.orderBy(m, [p => _.sumBy(p.market_data, emd => emd.volume_dai)], ["desc"]);
+	const orderedMarket = _.orderBy(m, [p => _.reduce(p.market_data, (sum, emd) => {
+		return sum + emd.volume_dai;
+	}, 0)], ["desc"]);
 	const filteredMarket = searchFilter ? _.filter(orderedMarket,
 	                                               p => p.base_symbol.includes(searchFilter.toUpperCase())
-	                                               || p.quote_symbol.includes(searchFilter.toUpperCase()))
+	                                               || p.quote_symbol.includes(searchFilter.toUpperCase())
+																									|| _.find(p.market_data, emd => emd.exchangeID.includes(searchFilter.toUpperCase())))
 																									: orderedMarket;
 	const start = 0;
 	const end = 10;
@@ -29,13 +32,14 @@ const unconnectedMarketBody = ({ market, searchFilter, deltaY, setDeltaY, setPag
 		<TableBody onWheel={(e) => {
 			if (e.deltaY < 0 && deltaY > 9 && !searchFilter) {
 				setDeltaY(deltaY - 10);
-			} else if (e.deltaY > 0 && (deltaY < m.length - 10) && !searchFilter) {
+			} else if (e.deltaY > 0 && (deltaY < Object.keys(m).length - 10) && !searchFilter) {
 				setDeltaY(deltaY + 10);
 			}
+
 		}}>
 			{_.map(slicedMarket, p => {
-				const combinedVolume = _.sumBy(p.market_data, emd => emd.volume_dai);
-				const weightedSumLastTraded = _.sumBy(p.market_data, emd => emd.volume_dai * emd.last_traded_dai);
+				const combinedVolume = _.reduce(p.market_data, (sum, emd) => sum + emd.volume_dai, 0);
+				const weightedSumLastTraded = _.reduce(p.market_data, (sum, emd) => sum + (emd.volume_dai * emd.last_traded_dai), 0);
 				const volumeWeightedLastTraded =  weightedSumLastTraded / combinedVolume;
 
 				const formattedVolumeWeightedLastTraded = formatPrice(volumeWeightedLastTraded);

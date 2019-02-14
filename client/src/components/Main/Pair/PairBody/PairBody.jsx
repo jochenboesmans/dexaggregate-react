@@ -11,8 +11,8 @@ import {
 	lowestCurrentAskEMDAcrossExchanges
 } from "../../../../util/marketFunctions";
 
-const PairBody = ({ p, market }) => {
-	const sortedMarketData = p ? _.orderBy(p.market_data, [emd => emd.volume], "desc") : null;
+const PairBody = ({ p, market, exchanges }) => {
+	const sortedMarketData = p ? _.orderBy(p.market_data, [emd => emd.volume_dai], "desc") : null;
 	return (
 		<TableBody>
 			{_.map(sortedMarketData, emd => {
@@ -26,14 +26,15 @@ const PairBody = ({ p, market }) => {
 				const fCombinedVolume = formatVolume(combinedVolume);
 				const spreadRatioDifference = ((innerAsk / innerBid) - 1) || 0;
 				const fSpreadPercentage = formatPercentage(spreadRatioDifference);
+				const exchange = _.find(exchanges, e => e.ID === emd.exchangeID);
 				if (emd === lowestCurrentAskEMDAcrossExchanges(market, p.base_symbol, p.quote_symbol) &&
 					emd === highestCurrentBidEMDAcrossExchanges(market, p.base_symbol, p.quote_symbol)) {
 					return (
 						<TableRow hover
-						          onClick={() => handleClick(emd.exchange, p)}
-						          key={emd.exchange.ID}
+						          onClick={() => handleClick(exchange, p)}
+						          key={exchange.ID}
 						>
-							<TableCell style={{fontStyle: "italic", color: "green"}}>{emd.exchange.name}</TableCell>
+							<TableCell style={{fontStyle: "italic", color: "green"}}>{exchange.name}</TableCell>
 							<TableCell style={{fontStyle: "italic", color: "green"}} align="right">{`${fInnerBid} - ${fInnerAsk} (${fSpreadPercentage})`}</TableCell>
 							<TableCell style={{fontStyle: "italic", color: "green"}} align="right">{`${fLastTraded}`}</TableCell>
 							<TableCell style={{fontStyle: "italic", color: "green"}} align="right">{`${fCombinedVolume}`}</TableCell>
@@ -43,10 +44,10 @@ const PairBody = ({ p, market }) => {
 				if (emd === lowestCurrentAskEMDAcrossExchanges(market, p.base_symbol, p.quote_symbol) && sortedMarketData.length > 1){
 					return (
 						<TableRow hover
-						          onClick={() => handleClick(emd.exchange, p)}
-						          key={emd.exchange.ID}
+						          onClick={() => handleClick(exchange, p)}
+						          key={exchange.ID}
 						>
-							<TableCell style={{color: "green"}}>{emd.exchange.name}</TableCell>
+							<TableCell style={{color: "green"}}>{exchange.name}</TableCell>
 							<TableCell style={{color: "green"}} align="right">{`${fInnerBid} - ${fInnerAsk} (${fSpreadPercentage})`}</TableCell>
 							<TableCell style={{color: "green"}} align="right">{`${fLastTraded}`}</TableCell>
 							<TableCell style={{color: "green"}} align="right">{`${fCombinedVolume}`}</TableCell>
@@ -55,10 +56,10 @@ const PairBody = ({ p, market }) => {
 				} else if (emd === highestCurrentBidEMDAcrossExchanges(market, p.base_symbol, p.quote_symbol) && sortedMarketData.length > 1) {
 					return (
 						<TableRow hover
-						          onClick={() => handleClick(emd.exchange, p)}
-						          key={emd.exchange.ID}
+						          onClick={() => handleClick(exchange, p)}
+						          key={exchange.ID}
 						>
-							<TableCell style={{color: "red"}}>{emd.exchange.name}</TableCell>
+							<TableCell style={{color: "red"}}>{exchange.name}</TableCell>
 							<TableCell style={{color: "red"}} align="right">{`${fInnerBid} - ${fInnerAsk} (${fSpreadPercentage})`}</TableCell>
 							<TableCell style={{color: "red"}} align="right">{`${fLastTraded}`}</TableCell>
 							<TableCell style={{color: "red"}} align="right">{`${fCombinedVolume}`}</TableCell>
@@ -67,10 +68,10 @@ const PairBody = ({ p, market }) => {
 				} else {
 					return (
 						<TableRow hover
-						          onClick={() => handleClick(emd.exchange, p)}
-						          key={emd.exchange.ID}
+						          onClick={() => handleClick(exchange, p)}
+						          key={exchange.ID}
 						>
-							<TableCell >{emd.exchange.name}</TableCell>
+							<TableCell >{exchange.name}</TableCell>
 							<TableCell align="right">{`${fInnerBid} - ${fInnerAsk} (${fSpreadPercentage})`}</TableCell>
 							<TableCell align="right">{`${fLastTraded}`}</TableCell>
 							<TableCell align="right">{`${fCombinedVolume}`}</TableCell>
@@ -83,7 +84,7 @@ const PairBody = ({ p, market }) => {
 };
 
 const exchangeURL = {
-	"KYBER": (p) => `https://kyber.network/swap/${p.base_symbol}_${p.quote_symbol}`,
+	"KYBER": (p) => `https://kyberswap.com/swap/${p.base_symbol}_${p.quote_symbol}`,
 	"OASIS": (p) => `https://oasis.direct/`,
 	"PARADEX": (p) => `https://paradex.io/market/${p.quote_symbol}-${p.base_symbol}`,
 	"DDEX": (p) => `https://ddex.io/trade/${p.base_symbol}-${p.quote_symbol}`,
