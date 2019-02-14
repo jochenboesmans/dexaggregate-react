@@ -30,9 +30,9 @@ const unconnectedMarketBody = ({ market, searchFilter, deltaY, setDeltaY, setPag
 	const slicedMarket = filteredMarket.slice(start + deltaY, end + deltaY);
 	return (
 		<TableBody onWheel={(e) => {
-			if (e.deltaY < 0 && deltaY > 9 && !searchFilter) {
+			if (e.deltaY < 0 && deltaY > 9) {
 				setDeltaY(deltaY - 10);
-			} else if (e.deltaY > 0 && (deltaY < Object.keys(m).length - 10) && !searchFilter) {
+			} else if (e.deltaY > 0 && (deltaY < Object.keys(filteredMarket).length - 10)) {
 				setDeltaY(deltaY + 10);
 			}
 
