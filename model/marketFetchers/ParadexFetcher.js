@@ -7,9 +7,9 @@ const { setModelNeedsBroadcast } = require("../../websocketbroadcasts/modelNeeds
 
 let market;
 
-const initialize = () => {
+const initialize = async () => {
 	updateParadexMarket();
-	setInterval( () => {
+	setInterval(async () => {
 		updateParadexMarket();
 	}, 15 * 1000);
 };
@@ -22,6 +22,7 @@ const updateParadexMarket = async () => {
 
 	try {
 		const retrievedParadexMarket = await retrieveParadexMarket();
+		console.log(retrievedParadexMarket);
 		const paradexMarket = await Promise.all(_.map(retrievedParadexMarket, async m => {
 			if (m.state === 'enabled') {
 				const o = await retrieveParadexOhlcv(m);

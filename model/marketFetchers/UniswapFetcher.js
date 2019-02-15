@@ -36,7 +36,6 @@ const tokens = {
 
 const initialize = async () => {
 	const extendedTokens = await fetchExchangeAddresses();
-	console.log(extendedTokens);
 	updateUniswapMarket(extendedTokens);
 	setInterval(async () => {
 		updateUniswapMarket(extendedTokens);
