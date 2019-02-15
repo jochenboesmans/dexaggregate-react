@@ -32,7 +32,7 @@ const tryUpdateMarket = async () => {
 			});
 			return result;
 		}, []);
-		if (!_.isEqual(newMarket, market)) {
+		if (newMarket && !_.isEqual(newMarket, market)) {
 			market = newMarket;
 			timestamp = Date.now();
 			setModelNeedsBroadcast(true);

@@ -175,7 +175,7 @@ const tryUpdateMarket = async (extendedTokens) => {
 			}
 		}));
 		const newMarket = _.filter(tickers, el => el);
-		if (!_.isEqual(newMarket, market)) {
+		if (newMarket && !_.isEqual(newMarket, market)) {
 			market = newMarket;
 			timestamp = Date.now();
 			setModelNeedsBroadcast(true);

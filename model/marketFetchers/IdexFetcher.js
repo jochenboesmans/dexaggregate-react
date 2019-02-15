@@ -21,7 +21,7 @@ const initialize = async () => {
 const tryUpdateMarket = async () => {
 	try {
 		const receivedMarket = (await axios.post("https://api.idex.market/returnTicker", { json: {} })).data;
-		updateMarket(receivedMarket);
+		if (receivedMarket) updateMarket(receivedMarket);
 	} catch(error) {
 		console.log(`Error while trying to fetch market from ${getExchanges().IDEX.name} API: ${error}`);
 	}

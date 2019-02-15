@@ -34,7 +34,7 @@ const tryUpdateMarket = async () => {
 			const m = (await axios.get(`http://api.oasisdex.com/v1/markets/${pair.base}/${pair.quote}`)).data.data;
 			return filterMeaningfulValues(m, pair);
 		})));
-		if (!_.isEqual(newMarket, market)) {
+		if (newMarket && !_.isEqual(newMarket, market)) {
 			market = newMarket;
 			timestamp = Date.now();
 			setModelNeedsBroadcast(true);

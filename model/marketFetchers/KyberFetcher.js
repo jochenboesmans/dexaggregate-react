@@ -19,7 +19,7 @@ const initialize = async () => {
 const tryUpdateMarket = async () => {
 	try {
 		const receivedMarket = (await axios.get("https://api.kyber.network/market")).data.data;
-		updateMarket(receivedMarket);
+		if (receivedMarket) updateMarket(receivedMarket);
 	} catch(error) {
 		console.log(`Error while trying to fetch market from ${getExchanges().KYBER.name} API: ${error}`);
 	}
