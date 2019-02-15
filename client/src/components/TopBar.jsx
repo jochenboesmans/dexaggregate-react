@@ -24,6 +24,8 @@ const unconnectedTopBar = ({ market, time }) => {
 		tooltip: `The total amount of market pairs being listed.`, textLeft: `Pairs`, textRight: marketSize
 	}, {
 		tooltip: `The time, in seconds, since the last update to the market data.`, textLeft: `Last Market Update`, textRight: `${secondsSinceUpdate} seconds ago`
+	}, {
+		tooltip: `The exchange with the latest update to their market data.`, textLeft: `Latest Update Comes From`, textRight: `${(_.find(market.exchanges, e => e.ID === market.lastUpdateExchangeID)).name}`
 	}];
 
 	return (<Grid container

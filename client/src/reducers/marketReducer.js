@@ -1,7 +1,7 @@
 import { SET_MARKET } from "../actions/types";
 
 const defaultMarket = {
-	market: null, exchanges: null, timestamp: null
+	market: null, exchanges: null, timestamp: null, lastUpdateExchangeID: null,
 };
 
 const marketReducer = (state = defaultMarket, action) => {

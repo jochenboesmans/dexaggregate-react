@@ -2,11 +2,11 @@ const exchanges = {
 	DDEX: {
 		name: "Ddex",
 		ID: "DDEX"
-	},
+	},/*
 	ETHERDELTA: {
 		name: "Ether Delta",
 		ID: "ETHERDELTA"
-	},
+	},*/
 	IDEX: {
 		name: "Idex",
 		ID: "IDEX"

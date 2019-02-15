@@ -5,7 +5,7 @@ const { rebaseMarket } = require("../util/marketFunctions");
 
 const marketFetchers = {
 	DDEX: require("./marketFetchers/DdexFetcher"),
-	ETHERDELTA: require("./marketFetchers/EtherdeltaFetcher"),
+	/*ETHERDELTA: require("./marketFetchers/EtherdeltaFetcher"),*/
 	IDEX: require("./marketFetchers/IdexFetcher"),
 	KYBER: require("./marketFetchers/KyberFetcher"),
 	RADAR: require("./marketFetchers/RadarFetcher"),
@@ -61,14 +61,14 @@ const getMarket = () => {
 		return result;
 	}, []);
 
-	const latestTimestamp = _.reduce(marketFetchers, (latest, mf) => {
-		return mf.getTimestamp() > latest ? mf.getTimestamp() : latest
-	}, 0);
+	const lastUpdate = _.reduce(marketFetchers, (latest, mf, mfKey) => {
+		return mf.getTimestamp() > latest.timestamp ? ({ exchangeID: mfKey, timestamp: mf.getTimestamp() }) : latest;
+	}, { exchangeID: null, timestamp: 0 });
 
 	return {
 		market: rebaseMarket(market, "DAI"),
 		exchanges: exchangesInMarket,
-		timestamp: latestTimestamp,
+		lastUpdate: lastUpdate,
 	};
 };
 

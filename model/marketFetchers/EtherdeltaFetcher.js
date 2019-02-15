@@ -1,3 +1,5 @@
+/*
+TODO: EtherDelta and ForkDelta currently provide shit websocket APIs that don't update. Not worth including currently.
 const _ = require("lodash");
 
 const { setModelNeedsBroadcast } = require("../../websocketbroadcasts/modelNeedsBroadcast");
@@ -10,10 +12,20 @@ const getTimestamp = () => timestamp;
 const initialize = () => {
 	const io = require("socket.io-client");
 	const socketURL = "https://socket.etherdelta.com";
+	const forkURL = "https://api.forkdelta.com";
 	const socket = io.connect(socketURL, { transports: ["websocket"] });
-	socket.emit("getMarket", "{}");
+	const forkSocket = io.connect(forkURL, { transports: ["websocket"] });
+	forkSocket.on("connect", () => {
+		console.log("connected");
+		forkSocket.emit("getMarket", {});
+	});
+	socket.emit("getMarket", {});
 	socket.on("market", (receivedMarket) => {
 		updateMarket(receivedMarket);
+		console.log(Object.keys(receivedMarket["returnTicker"]).slice(0,5));
+	});
+	forkSocket.on("market", (receivedMarket) => {
+		console.log(Object.keys(receivedMarket["returnTicker"]).slice(0,5));
 	});
 };
 
@@ -41,4 +53,4 @@ module.exports = {
 	initialize,
 	getMarket,
 	getTimestamp
-};
+};*/

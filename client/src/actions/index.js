@@ -11,7 +11,10 @@ const setPage = (page) => dispatch => {
 const updateMarket = (market) => dispatch => {
 	dispatch({
 		type: SET_MARKET, payload: {
-			market: market.market, exchanges: market.exchanges, timestamp: Date.now(),
+			market: market.market,
+			exchanges: market.exchanges,
+			timestamp: market.lastUpdate.timestamp,
+			lastUpdateExchangeID: market.lastUpdate.exchangeID,
 		}
 	});
 };
