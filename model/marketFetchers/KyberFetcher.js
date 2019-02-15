@@ -5,38 +5,52 @@ const { getExchanges } = require("../exchanges");
 const { setModelNeedsBroadcast } = require("../../websocketbroadcasts/modelNeedsBroadcast");
 
 let market;
+let timestamp;
+const getMarket = () => market;
+const getTimestamp = () => timestamp;
 
-const initialize = () => {
-	updateKyberMarket();
-	setInterval( () => {
-		updateKyberMarket();
-	}, 15 * 1000);
+const initialize = async () => {
+	await tryUpdateMarket();
+	setInterval(async () => {
+		await tryUpdateMarket();
+	},  5 * 1000);
 };
 
-const updateKyberMarket = async () => {
+const tryUpdateMarket = async () => {
 	try {
-		const retrievedMarket = (await axios.get("https://api.kyber.network/market")).data.data;
-		market = _.reduce(retrievedMarket, (result, pair) => {
-			if(pair.base_symbol && pair.quote_symbol && pair.last_traded && pair.current_bid && pair.current_ask && pair.eth_24h_volume) {
-				result.push({
-					            b: pair.base_symbol,
-					            q: pair.quote_symbol,
-					            m: {
-						            l: pair.last_traded,
-						            b: pair.current_bid,
-						            a: pair.current_ask,
-						            v: pair.eth_24h_volume
-					            }
-				            });
-			}
-			return result;
-		}, []);
-		setModelNeedsBroadcast(true);
+		const receivedMarket = (await axios.get("https://api.kyber.network/market")).data.data;
+		updateMarket(receivedMarket);
 	} catch(error) {
 		console.log(`Error while trying to fetch market from ${getExchanges().KYBER.name} API: ${error}`);
 	}
 };
 
-const getMarket = () => market;
+const updateMarket = (receivedMarket) => {
+	const newMarket = _.reduce(receivedMarket, (result, pair) => {
+		if(pair.base_symbol && pair.quote_symbol && pair.last_traded && pair.current_bid && pair.current_ask && pair.eth_24h_volume) {
+			result.push({
+				b: pair.base_symbol,
+				q: pair.quote_symbol,
+				m: {
+					l: pair.last_traded,
+					b: pair.current_bid,
+					a: pair.current_ask,
+					v: pair.eth_24h_volume
+				}
+			});
+		}
+		return result;
+	}, []);
+	if (!_.isEqual(newMarket, market)) {
+		market = newMarket;
+		timestamp = Date.now();
+		setModelNeedsBroadcast(true);
+		console.log("kyber update");
+	}
+};
 
-module.exports = { initialize, getMarket };
+module.exports = {
+	initialize,
+	getMarket,
+	getTimestamp
+};

@@ -16,11 +16,14 @@ const marketFetchers = {
 };
 
 const fetchExchangeMarkets = () => _.reduce(Object.keys(getExchanges()), (result, exchangeKey) => {
-		const market = marketFetchers[exchangeKey].getMarket();
-		const exchange = getExchanges()[exchangeKey];
-		result[exchangeKey] = { market, exchange };
-		return result;
-	}, {});
+	const market = marketFetchers[exchangeKey].getMarket();
+	const exchange = getExchanges()[exchangeKey];
+	result[exchangeKey] = {
+		market,
+		exchange
+	};
+	return result;
+}, {});
 
 const getMarket = () => {
 	let market = {};
@@ -31,36 +34,48 @@ const getMarket = () => {
 		const { exchange } = em;
 		_.forEach(em.market, emp => {
 			const ID = emp.b + "/" + emp.q;
-			if (!market[ID]) {
+			if(!market[ID]) {
 				market[ID] = {
 					b: emp.b,
 					q: emp.q,
 					m: {
-						[exchange.ID]: { ...emp.m, exchangeID: exchange.ID }
+						[exchange.ID]: {
+							...emp.m,
+							exchangeID: exchange.ID
+						}
 					},
-				}
+				};
 			} else {
-				market[ID].m[exchange.ID] = { ...emp.m, exchangeID: exchange.ID };
+				market[ID].m[exchange.ID] = {
+					...emp.m,
+					exchangeID: exchange.ID
+				};
 			}
 		});
 	});
 
 	const exchangesInMarket = _.reduce(Object.keys(exchangeMarkets), (result, exchangeID) => {
-		if (exchangeMarkets[exchangeID].market) {
+		if(exchangeMarkets[exchangeID].market) {
 			result.push(getExchanges()[exchangeID]);
 		}
 		return result;
 	}, []);
 
+	const latestTimestamp = _.reduce(marketFetchers, (latest, mf) => {
+		return mf.getTimestamp() > latest ? mf.getTimestamp() : latest
+	}, 0);
+
 	return {
-		market: rebaseMarket(market, "DAI"), exchanges: exchangesInMarket, timestamp: Date.now(),
+		market: rebaseMarket(market, "DAI"),
+		exchanges: exchangesInMarket,
+		timestamp: latestTimestamp,
 	};
 };
 
-const initializeFetchers = () => {
-	_.forEach(Object.keys(marketFetchers), mfKey => {
-		marketFetchers[mfKey].initialize();
-	});
-};
+const initializeFetchers = () => _.forEach(marketFetchers, mf => mf.initialize());
 
-module.exports = { fetchExchangeMarkets, getMarket, initializeFetchers };
+module.exports = {
+	fetchExchangeMarkets,
+	getMarket,
+	initializeFetchers
+};

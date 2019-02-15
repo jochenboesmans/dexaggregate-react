@@ -15,8 +15,6 @@ const highestCurrentBidEMDAcrossExchanges = (market, baseSymbol, quoteSymbol) =>
 };
 
 export {
-	findPair,
-	lowestCurrentAskEMDAcrossExchanges,
-	highestCurrentBidEMDAcrossExchanges,
+	findPair, lowestCurrentAskEMDAcrossExchanges, highestCurrentBidEMDAcrossExchanges,
 };
 

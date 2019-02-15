@@ -2,7 +2,7 @@ const _ = require("lodash");
 
 const rebaseMarket = (market, rebaseSymbol) => {
 	const rebaseRate = (baseSymbol, rate) => {
-		if (baseSymbol === rebaseSymbol) {
+		if(baseSymbol === rebaseSymbol) {
 			return rate;
 		} else {
 			// TODO: could use some deep rebasing here.

@@ -40,19 +40,23 @@ const sassModuleRegex = /\.module\.(scss|sass)$/;
 // common function to get style loaders
 const getStyleLoaders = (cssOptions, preProcessor) => {
 	const loaders = [require.resolve("style-loader"), {
-		loader: require.resolve("css-loader"), options: cssOptions,
+		loader: require.resolve("css-loader"),
+		options: cssOptions,
 	}, {
 		// Options for PostCSS as we reference these options twice
 		// Adds vendor prefixing based on your specified browser support in
 		// package.json
-		loader: require.resolve("postcss-loader"), options: {
+		loader: require.resolve("postcss-loader"),
+		options: {
 			// Necessary for external CSS imports to work
 			// https://github.com/facebook/create-react-app/issues/2677
-			ident: "postcss", plugins: () => [require("postcss-flexbugs-fixes"), require("postcss-preset-env")({
-				                                                                                                   autoprefixer: {
-					                                                                                                   flexbox: "no-2009",
-				                                                                                                   }, stage: 3,
-			                                                                                                   }),],
+			ident: "postcss",
+			plugins: () => [require("postcss-flexbugs-fixes"), require("postcss-preset-env")({
+				autoprefixer: {
+					flexbox: "no-2009",
+				},
+				stage: 3,
+			}),],
 		},
 	},];
 	if(preProcessor) {
@@ -83,7 +87,8 @@ module.exports = {
 		paths.appIndexJs, // We include the app code last so that if there is a runtime error during
 		// initialization, it doesn't blow up the WebpackDevServer client, and
 		// changing JS code would still trigger a refresh.
-	], output: {
+	],
+	output: {
 		// Add /* filename */ comments to generated require()s in the output.
 		pathinfo: true, // This does not produce a real file. It's just the virtual path that is
 		// served by WebpackDevServer in development. This is the JS bundle
@@ -92,36 +97,38 @@ module.exports = {
 		chunkFilename: "static/js/[name].chunk.js", // This is the URL that app is served from. We use "/" in development.
 		publicPath: publicPath, // Point sourcemap entries to original disk location (format as URL on Windows)
 		devtoolModuleFilenameTemplate: info => path.resolve(info.absoluteResourcePath).replace(/\\/g, "/"),
-	}, optimization: {
+	},
+	optimization: {
 		// Automatically split vendor and commons
 		// https://twitter.com/wSokra/status/969633336732905474
 		// https://medium.com/webpack/webpack-4-code-splitting-chunk-graph-and-the-splitchunks-optimization-be739a861366
 		splitChunks: {
-			chunks: "all", name: false,
+			chunks: "all",
+			name: false,
 		}, // Keep the runtime chunk seperated to enable long term caching
 		// https://twitter.com/wSokra/status/969679223278505985
 		runtimeChunk: true,
-	}, resolve: {
+	},
+	resolve: {
 		// This allows you to set a fallback for where Webpack should look for modules.
 		// We placed these paths second because we want `node_modules` to "win"
 		// if there are any conflicts. This matches Node resolution mechanism.
 		// https://github.com/facebook/create-react-app/issues/253
 		modules: ["node_modules"].concat(// It is guaranteed to exist because we tweak it in `env.js`
-		                                 process.env.NODE_PATH.split(path.delimiter)
-		                                        .filter(Boolean)), // These are the reasonable defaults supported by the
-		                                                           // Node ecosystem.
+			process.env.NODE_PATH.split(path.delimiter).filter(Boolean)), // These are the reasonable defaults supported by
+	                                                                  // the Node ecosystem.
 		// We also include JSX as a common component filename extension to support
 		// some tools, although we do not recommend using it, see:
 		// https://github.com/facebook/create-react-app/issues/290
 		// `web` extension prefixes have been added for better support
 		// for React Native Web.
-		extensions: paths.moduleFileExtensions
-		                 .map(ext => `.${ext}`)
-		                 .filter(ext => useTypeScript || !ext.includes("ts")), alias: {
+		extensions: paths.moduleFileExtensions.map(ext => `.${ext}`).filter(ext => useTypeScript || !ext.includes("ts")),
+		alias: {
 			// Support React Native Web
 			// https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
 			"react-native": "react-native-web",
-		}, plugins: [// Adds support for installing with Plug'n'Play, leading to faster installs and adding
+		},
+		plugins: [// Adds support for installing with Plug'n'Play, leading to faster installs and adding
 			// guards against forgotten dependencies and such.
 			PnpWebpackPlugin, // Prevents users from importing files from outside of src/ (or node_modules/).
 			// This often causes confusion because we only process files within src/ with babel.
@@ -129,23 +136,31 @@ module.exports = {
 			// please link the files into your node_modules/ and let module-resolution kick in.
 			// Make sure your source files are compiled, as they will not be processed in any way.
 			new ModuleScopePlugin(paths.appSrc, [paths.appPackageJson]),],
-	}, resolveLoader: {
+	},
+	resolveLoader: {
 		plugins: [// Also related to Plug'n'Play, but this time it tells Webpack to load its loaders
 			// from the current package.
 			PnpWebpackPlugin.moduleLoader(module),],
-	}, module: {
-		strictExportPresence: true, rules: [// Disable require.ensure as it's not a standard language feature.
+	},
+	module: {
+		strictExportPresence: true,
+		rules: [// Disable require.ensure as it's not a standard language feature.
 			{ parser: { requireEnsure: false } },
 
 			// First, run the linter.
 			// It's important to do this before Babel processes the JS.
 			{
-				test: /\.(js|mjs|jsx)$/, enforce: "pre", use: [{
+				test: /\.(js|mjs|jsx)$/,
+				enforce: "pre",
+				use: [{
 					options: {
-						formatter: require.resolve("react-dev-utils/eslintFormatter"), eslintPath: require.resolve("eslint"),
+						formatter: require.resolve("react-dev-utils/eslintFormatter"),
+						eslintPath: require.resolve("eslint"),
 
-					}, loader: require.resolve("eslint-loader"),
-				},], include: paths.appSrc,
+					},
+					loader: require.resolve("eslint-loader"),
+				},],
+				include: paths.appSrc,
 			}, {
 				// "oneOf" will traverse all following loaders until one will
 				// match the requirements. When no loader matches it will fall
@@ -154,13 +169,19 @@ module.exports = {
 					// smaller than specified limit in bytes as data URLs to avoid requests.
 					// A missing `test` is equivalent to a match.
 					{
-						test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/], loader: require.resolve("url-loader"), options: {
-							limit: 10000, name: "static/media/[name].[hash:8].[ext]",
+						test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/],
+						loader: require.resolve("url-loader"),
+						options: {
+							limit: 10000,
+							name: "static/media/[name].[hash:8].[ext]",
 						},
 					}, // Process application JS with Babel.
 					// The preset includes JSX, Flow, and some ESnext features.
 					{
-						test: /\.(js|mjs|jsx|ts|tsx)$/, include: paths.appSrc, loader: require.resolve("babel-loader"), options: {
+						test: /\.(js|mjs|jsx|ts|tsx)$/,
+						include: paths.appSrc,
+						loader: require.resolve("babel-loader"),
+						options: {
 							customize: require.resolve("babel-preset-react-app/webpack-overrides"),
 
 							plugins: [[require.resolve("babel-plugin-named-asset-import"), {
@@ -202,32 +223,38 @@ module.exports = {
 					// in development "style" loader enables hot editing of CSS.
 					// By default we support CSS Modules with the extension .module.css
 					{
-						test: cssRegex, exclude: cssModuleRegex, use: getStyleLoaders({
-							                                                              importLoaders: 1,
-						                                                              }),
+						test: cssRegex,
+						exclude: cssModuleRegex,
+						use: getStyleLoaders({
+							importLoaders: 1,
+						}),
 					}, // Adds support for CSS Modules (https://github.com/css-modules/css-modules)
 					// using the extension .module.css
 					{
-						test: cssModuleRegex, use: getStyleLoaders({
-							                                           importLoaders: 1,
-							                                           modules: true,
-							                                           getLocalIdent: getCSSModuleLocalIdent,
-						                                           }),
+						test: cssModuleRegex,
+						use: getStyleLoaders({
+							importLoaders: 1,
+							modules: true,
+							getLocalIdent: getCSSModuleLocalIdent,
+						}),
 					}, // Opt-in support for SASS (using .scss or .sass extensions).
 					// Chains the sass-loader with the css-loader and the style-loader
 					// to immediately apply all styles to the DOM.
 					// By default we support SASS Modules with the
 					// extensions .module.scss or .module.sass
 					{
-						test: sassRegex, exclude: sassModuleRegex, use: getStyleLoaders({ importLoaders: 2 }, "sass-loader"),
+						test: sassRegex,
+						exclude: sassModuleRegex,
+						use: getStyleLoaders({ importLoaders: 2 }, "sass-loader"),
 					}, // Adds support for CSS Modules, but using SASS
 					// using the extension .module.scss or .module.sass
 					{
-						test: sassModuleRegex, use: getStyleLoaders({
-							                                            importLoaders: 2,
-							                                            modules: true,
-							                                            getLocalIdent: getCSSModuleLocalIdent,
-						                                            }, "sass-loader"),
+						test: sassModuleRegex,
+						use: getStyleLoaders({
+							importLoaders: 2,
+							modules: true,
+							getLocalIdent: getCSSModuleLocalIdent,
+						}, "sass-loader"),
 					}, // "file" loader makes sure those assets get served by WebpackDevServer.
 					// When you `import` an asset, you get its (virtual) filename.
 					// In production, they would get copied to the `build` folder.
@@ -247,75 +274,71 @@ module.exports = {
 			}, // ** STOP ** Are you adding a new loader?
 			// Make sure to add the new loader(s) before the "file" loader.
 		],
-	}, plugins: [// Generates an `index.html` file with the <script> injected.
+	},
+	plugins: [// Generates an `index.html` file with the <script> injected.
 		new HtmlWebpackPlugin({
-			                      inject: true, template: paths.appHtml,
-		                      }),
-		// Makes some environment variables available in index.html.
+			inject: true,
+			template: paths.appHtml,
+		}), // Makes some environment variables available in index.html.
 		// The public URL is available as %PUBLIC_URL% in index.html, e.g.:
 		// <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
 		// In development, this will be an empty string.
-		new InterpolateHtmlPlugin(HtmlWebpackPlugin, env.raw),
-		// This gives some necessary context to module not found errors, such as
+		new InterpolateHtmlPlugin(HtmlWebpackPlugin, env.raw), // This gives some necessary context to module not found
+	                                                         // errors, such as
 		// the requesting resource.
-		new ModuleNotFoundPlugin(paths.appPath),
-		// Makes some environment variables available to the JS code, for example:
+		new ModuleNotFoundPlugin(paths.appPath), // Makes some environment variables available to the JS code, for example:
 		// if (process.env.NODE_ENV === 'development') { ... }. See `./env.js`.
-		new webpack.DefinePlugin(env.stringified),
-		// This is necessary to emit hot updates (currently CSS only):
-		new webpack.HotModuleReplacementPlugin(),
-		// Watcher doesn't work well if you mistype casing in a path so we use
+		new webpack.DefinePlugin(env.stringified), // This is necessary to emit hot updates (currently CSS only):
+		new webpack.HotModuleReplacementPlugin(), // Watcher doesn't work well if you mistype casing in a path so we use
 		// a plugin that prints an error when you attempt to do this.
 		// See https://github.com/facebook/create-react-app/issues/240
-		new CaseSensitivePathsPlugin(),
-		// If you require a missing module and then `npm install` it, you still have
+		new CaseSensitivePathsPlugin(), // If you require a missing module and then `npm install` it, you still have
 		// to restart the development server for Webpack to discover it. This plugin
 		// makes the discovery automatic so you don't have to restart.
 		// See https://github.com/facebook/create-react-app/issues/186
-		new WatchMissingNodeModulesPlugin(paths.appNodeModules),
-		// Moment.js is an extremely popular library that bundles large locale files
+		new WatchMissingNodeModulesPlugin(paths.appNodeModules), // Moment.js is an extremely popular library that bundles
+	                                                           // large locale files
 		// by default due to how Webpack interprets its code. This is a practical
 		// solution that requires the user to opt into importing specific locales.
 		// https://github.com/jmblog/how-to-optimize-momentjs-with-webpack
 		// You can remove this if you don't use Moment.js:
-		new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
-		// Generate a manifest file which contains a mapping of all asset filenames
+		new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/), // Generate a manifest file which contains a mapping of all
+	                                                       // asset filenames
 		// to their corresponding output file so that tools can pick it up without
 		// having to parse `index.html`.
 		new ManifestPlugin({
-			                   fileName: "asset-manifest.json", publicPath: publicPath,
-		                   }),
-		// TypeScript type checking
+			fileName: "asset-manifest.json",
+			publicPath: publicPath,
+		}), // TypeScript type checking
 		useTypeScript && new ForkTsCheckerWebpackPlugin({
-			                                                typescript: resolve.sync("typescript", {
-				                                                basedir: paths.appNodeModules,
-			                                                }),
-			                                                async: false,
-			                                                checkSyntacticErrors: true,
-			                                                tsconfig: paths.appTsConfig,
-			                                                compilerOptions: {
-				                                                module: "esnext",
-				                                                moduleResolution: "node",
-				                                                resolveJsonModule: true,
-				                                                isolatedModules: true,
-				                                                noEmit: true,
-				                                                jsx: "preserve",
-			                                                },
-			                                                reportFiles: ["**",
-			                                                              "!**/*.json",
-			                                                              "!**/__tests__/**",
-			                                                              "!**/?(*.)(spec|test).*",
-			                                                              "!src/setupProxy.js",
-			                                                              "!src/setupTests.*",],
-			                                                watch: paths.appSrc,
-			                                                silent: true,
-			                                                formatter: typescriptFormatter,
-		                                                }),].filter(Boolean),
+			typescript: resolve.sync("typescript", {
+				basedir: paths.appNodeModules,
+			}),
+			async: false,
+			checkSyntacticErrors: true,
+			tsconfig: paths.appTsConfig,
+			compilerOptions: {
+				module: "esnext",
+				moduleResolution: "node",
+				resolveJsonModule: true,
+				isolatedModules: true,
+				noEmit: true,
+				jsx: "preserve",
+			},
+			reportFiles: ["**", "!**/*.json", "!**/__tests__/**", "!**/?(*.)(spec|test).*", "!src/setupProxy.js", "!src/setupTests.*",],
+			watch: paths.appSrc,
+			silent: true,
+			formatter: typescriptFormatter,
+		}),].filter(Boolean),
 
 	// Some libraries import Node modules but don't use them in the browser.
 	// Tell Webpack to provide empty mocks for them so importing them works.
 	node: {
-		dgram: "empty", fs: "empty", net: "empty", tls: "empty", child_process: "empty",
+		dgram: "empty",
+		fs: "empty",
+		net: "empty",
+		tls: "empty",
+		child_process: "empty",
 	}, // Turn off performance processing because we utilize
 	// our own hints via the FileSizeReporter
 	performance: false,

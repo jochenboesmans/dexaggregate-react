@@ -1,7 +1,7 @@
 import { defaultDeltaY } from "../reducers/deltaYReducer";
 import { defaultPage } from "../reducers/navigationReducer";
 import { defaultSearchFilter } from "../reducers/searchFilterReducer";
-import { SET_DELTA_Y, SET_MARKET, SET_PAGE, SET_SEARCH_FILTER, UPDATE_TIME} from "./types";
+import { SET_DELTA_Y, SET_MARKET, SET_PAGE, SET_SEARCH_FILTER, UPDATE_TIME } from "./types";
 
 /* Action creator functions */
 const setPage = (page) => dispatch => {
@@ -10,10 +10,10 @@ const setPage = (page) => dispatch => {
 
 const updateMarket = (market) => dispatch => {
 	dispatch({
-		         type: SET_MARKET, payload: {
+		type: SET_MARKET, payload: {
 			market: market.market, exchanges: market.exchanges, timestamp: Date.now(),
 		}
-	         });
+	});
 };
 
 const setSearchFilter = (searchFilter) => dispatch => {
