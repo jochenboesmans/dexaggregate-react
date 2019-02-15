@@ -35,23 +35,25 @@ const tokens = {
 };
 
 const initialize = async () => {
-	const exchangeAddresses = await getExchangeAddresses();
-	updateUniswapMarket(exchangeAddresses);
-	setInterval(() => {
-		updateUniswapMarket(exchangeAddresses);
+	const extendedTokens = await fetchExchangeAddresses();
+	console.log(extendedTokens);
+	updateUniswapMarket(extendedTokens);
+	setInterval(async () => {
+		updateUniswapMarket(extendedTokens);
 	}, 15 * 1000);
 };
 
-const getExchangeAddresses = async () => {
-	return _.map(tokens, async t => ({
-		[t.symbol]: await getExchangeAddress(t, factoryContract)
-	}));
+const fetchExchangeAddresses = async () => {
+	return await Promise.all(_.map(tokens, async t => ({
+		...t,
+		exchangeAddress: await getExchangeAddress(t, factoryContract)
+	})));
 };
 
-const updateUniswapMarket = async (exchangeAddresses) => {
+const updateUniswapMarket = async (extendedTokens) => {
 	try {
-		const tickers = await Promise.all(_.map(tokens, async token => {
-			const p = (await axios.get(`https://uniswap-analytics.appspot.com/api/v1/ticker?exchangeAddress=${exchangeAddresses[token.symbol]}`)).data;
+		const tickers = await Promise.all(_.map(extendedTokens, async token => {
+			const p = (await axios.get(`https://uniswap-analytics.appspot.com/api/v1/ticker?exchangeAddress=${token.exchangeAddress}`)).data;
 			if (p.symbol) {
 				return {
 					b: "ETH", q: p.symbol, m: {
