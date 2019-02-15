@@ -8,9 +8,9 @@ const { setModelNeedsBroadcast } = require("../../websocketbroadcasts/modelNeeds
 let market = [];
 
 const initialize =  async () => {
-	await updateIdexMarket();
+	updateIdexMarket();
 	setInterval( async () => {
-		await updateIdexMarket();
+		updateIdexMarket();
 	}, 15 * 1000);
 
 };

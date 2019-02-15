@@ -6,10 +6,10 @@ const { setModelNeedsBroadcast } = require("../../websocketbroadcasts/modelNeeds
 
 let market;
 
-const initialize = async () => {
-	await updateKyberMarket();
-	setInterval(async () => {
-		await updateKyberMarket();
+const initialize = () => {
+	updateKyberMarket();
+	setInterval( () => {
+		updateKyberMarket();
 	}, 15 * 1000);
 };
 

@@ -24,7 +24,7 @@ const unconnectedMarket = ({ market, deltaY, setSearchFilter, setDeltaY }) => {
 				<TextField
 					className="root"
 					id="token-search"
-					label="Search Token/Exchange"
+					label="Search"
 					type="search"
 					variant="outlined"
 					onChange={(e) => {

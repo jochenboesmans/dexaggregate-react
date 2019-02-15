@@ -47,7 +47,7 @@ const getMarket = () => {
 
 	const exchangesInMarket = _.reduce(Object.keys(exchangeMarkets), (result, exchangeID) => {
 		if (exchangeMarkets[exchangeID].market) {
-			result.push(getExchanges()[exchangeID])
+			result.push(getExchanges()[exchangeID]);
 		}
 		return result;
 	}, []);

@@ -7,9 +7,9 @@ const { setModelNeedsBroadcast } = require("../../websocketbroadcasts/modelNeeds
 let market;
 
 const initialize = async () => {
-	await updateOasisMarket();
+	updateOasisMarket();
 	setInterval(async () => {
-		await updateOasisMarket();
+		updateOasisMarket();
 	}, 30 * 1000);
 };
 
