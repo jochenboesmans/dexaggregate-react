@@ -13,7 +13,7 @@ const updateMarket = (market) => dispatch => {
 		type: SET_MARKET, payload: {
 			market: market.market,
 			exchanges: market.exchanges,
-			timestamp: market.lastUpdate.timestamp,
+			timestamp: Date.now(),
 			lastUpdateExchangeID: market.lastUpdate.exchangeID,
 		}
 	});
