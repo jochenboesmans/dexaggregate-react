@@ -7,8 +7,8 @@ import TableRow from "@material-ui/core/TableRow/TableRow";
 
 import { formatPercentage, formatPrice, formatVolume } from "../../../../util/formatFunctions";
 import {
-	highestCurrentBidEMDAcrossExchanges,
-	lowestCurrentAskEMDAcrossExchanges
+	highestCurrentBidAcrossExchanges,
+	lowestCurrentAskAcrossExchanges
 } from "../../../../util/marketFunctions";
 
 const PairBody = ({ p, market, exchanges }) => {
@@ -27,8 +27,8 @@ const PairBody = ({ p, market, exchanges }) => {
 				const spreadRatioDifference = ((innerAsk / innerBid) - 1) || 0;
 				const fSpreadPercentage = formatPercentage(spreadRatioDifference);
 				const exchange = _.find(exchanges, e => e.ID === emd.exchangeID);
-				if (emd === lowestCurrentAskEMDAcrossExchanges(market, p.base_symbol, p.quote_symbol) &&
-					emd === highestCurrentBidEMDAcrossExchanges(market, p.base_symbol, p.quote_symbol)) {
+				if (innerAsk === lowestCurrentAskAcrossExchanges(market, p.base_symbol, p.quote_symbol) &&
+					innerBid === highestCurrentBidAcrossExchanges(market, p.base_symbol, p.quote_symbol)) {
 					return (
 						<TableRow hover
 						          onClick={() => handleClick(exchange, p)}
@@ -41,7 +41,7 @@ const PairBody = ({ p, market, exchanges }) => {
 						</TableRow>
 					)
 				}
-				if (emd === lowestCurrentAskEMDAcrossExchanges(market, p.base_symbol, p.quote_symbol) && sortedMarketData.length > 1){
+				if (innerAsk === lowestCurrentAskAcrossExchanges(market, p.base_symbol, p.quote_symbol) && sortedMarketData.length > 1){
 					return (
 						<TableRow hover
 						          onClick={() => handleClick(exchange, p)}
@@ -53,7 +53,7 @@ const PairBody = ({ p, market, exchanges }) => {
 							<TableCell style={{color: "green"}} align="right">{`${fCombinedVolume}`}</TableCell>
 						</TableRow>
 					);
-				} else if (emd === highestCurrentBidEMDAcrossExchanges(market, p.base_symbol, p.quote_symbol) && sortedMarketData.length > 1) {
+				} else if (innerBid === highestCurrentBidAcrossExchanges(market, p.base_symbol, p.quote_symbol) && sortedMarketData.length > 1) {
 					return (
 						<TableRow hover
 						          onClick={() => handleClick(exchange, p)}
@@ -85,7 +85,7 @@ const PairBody = ({ p, market, exchanges }) => {
 
 const exchangeURL = {
 	"KYBER": (p) => `https://kyberswap.com/swap/${p.base_symbol}_${p.quote_symbol}`,
-	"OASIS": (p) => `https://oasis.direct/`,
+	"OASIS": (p) => `https://eth2dai.com/`,
 	"PARADEX": (p) => `https://paradex.io/market/${p.quote_symbol}-${p.base_symbol}`,
 	"DDEX": (p) => `https://ddex.io/trade/${p.base_symbol}-${p.quote_symbol}`,
 	"IDEX": (p) => `https://idex.market/${p.base_symbol}/${p.quote_symbol}`,

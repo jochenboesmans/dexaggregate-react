@@ -4,17 +4,17 @@ const findPair = (market, baseSymbol, quoteSymbol) => {
 	return _.find(market, p => p.quote_symbol === quoteSymbol && p.base_symbol === baseSymbol);
 };
 
-const lowestCurrentAskEMDAcrossExchanges = (market, baseSymbol, quoteSymbol) => {
+const lowestCurrentAskAcrossExchanges = (market, baseSymbol, quoteSymbol) => {
 	const p = findPair(market, baseSymbol, quoteSymbol);
-	return _.minBy(_.values(p.market_data), emd => emd.current_ask_dai);
+	return _.reduce(p.market_data, (min, emd) => emd.current_ask_dai < min ? emd.current_ask_dai : min, Number.MAX_VALUE);
 };
 
-const highestCurrentBidEMDAcrossExchanges = (market, baseSymbol, quoteSymbol) => {
+const highestCurrentBidAcrossExchanges = (market, baseSymbol, quoteSymbol) => {
 	const p = findPair(market, baseSymbol, quoteSymbol);
-	return _.maxBy(_.values(p.market_data), emd => emd.current_bid_dai);
+	return _.reduce(p.market_data, (max, emd) => emd.current_bid_dai > max ? emd.current_bid_dai : max, 0);
 };
 
 export {
-	findPair, lowestCurrentAskEMDAcrossExchanges, highestCurrentBidEMDAcrossExchanges,
+	findPair, lowestCurrentAskAcrossExchanges, highestCurrentBidAcrossExchanges,
 };
 

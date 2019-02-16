@@ -34,7 +34,7 @@ const unconnectedMarketBody = ({ market, searchFilter, deltaY, setDeltaY, setPag
 			{_.map(slicedMarket, p => {
 				const combinedVolume = _.reduce(p.market_data, (sum, emd) => sum + emd.volume_dai, 0);
 				const weightedSumLastTraded = _.reduce(p.market_data, (sum, emd) => sum + (emd.volume_dai * emd.last_traded_dai), 0);
-				const volumeWeightedLastTraded = weightedSumLastTraded / combinedVolume;
+				const volumeWeightedLastTraded = (weightedSumLastTraded / combinedVolume) || 0;
 
 				const formattedVolumeWeightedLastTraded = formatPrice(volumeWeightedLastTraded);
 				const formattedCombinedVolume = formatVolume(combinedVolume);
