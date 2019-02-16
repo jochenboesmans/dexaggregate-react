@@ -50,7 +50,7 @@ const unconnectedMarketBody = ({ market, searchFilter, deltaY, setDeltaY, setPag
 				                  key={`${p.base_symbol}/${p.quote_symbol}`}
 					>
 						<TableCell>{`${p.base_symbol}/${p.quote_symbol}`}</TableCell>
-						<Spread p={p} market={m}/>
+						<Spread p={p} />
 						<TableCell align="right">{`${formattedVolumeWeightedLastTraded}`}</TableCell>
 						<TableCell align="right">{`${formattedCombinedVolume}`}</TableCell>
 					</TableRow>);

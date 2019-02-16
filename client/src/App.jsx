@@ -1,6 +1,6 @@
 import Grid from "@material-ui/core/Grid";
 import MuiThemeProvider from "@material-ui/core/styles/MuiThemeProvider";
-import React from "react";
+import React, { Fragment } from "react";
 import { connect } from "react-redux";
 
 import * as actions from "./actions";
@@ -21,7 +21,7 @@ const unconnectedApp = ({ updateTime }) => {
 			      alignItems="center"
 			      justify="space-between"
 			>
-				<div>
+				<>
 					<Grid
 						container
 						direction="column"
@@ -43,7 +43,7 @@ const unconnectedApp = ({ updateTime }) => {
 							<BottomBar/>
 						</Grid>
 					</Grid>
-				</div>
+				</>
 			</Grid>
 		</MuiThemeProvider>
 	</div>);

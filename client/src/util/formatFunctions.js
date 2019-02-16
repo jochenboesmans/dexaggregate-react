@@ -1,8 +1,23 @@
-import dateFormat from "dateformat";
+//import dateFormat from "dateformat";
 
 const formatPrice = (price) => {
+	const sd = (price) => {
+		if (price < 0.01) {
+			return 1;
+		} else if (price < 0.1) {
+			return 2;
+		} else if (price < 1) {
+			return 3;
+		} else {
+			return 4;
+		}
+	};
 	return (new Intl.NumberFormat("en-US", {
-		style: "currency", currency: "USD", minimumSignificantDigits: 4, maximumSignificantDigits: 4, useGrouping: "true"
+		style: "currency",
+		currency: "USD",
+		minimumSignificantDigits: sd(price),
+		maximumSignificantDigits: sd(price),
+		useGrouping: "true"
 	}).format(price));
 };
 
@@ -18,8 +33,8 @@ const formatPercentage = (percentage) => {
 	}).format(percentage));
 };
 
-const formatTime = (timestamp) => dateFormat(timestamp, "dddd, mmmm dS, yyyy, h:MM:ss TT");
+//const formatTime = (timestamp) => dateFormat(timestamp, "dddd, mmmm dS, yyyy, h:MM:ss TT");
 
 export {
-	formatPrice, formatVolume, formatPercentage, formatTime,
+	formatPrice, formatVolume, formatPercentage,
 };

@@ -5,7 +5,7 @@ import TableCell from "@material-ui/core/TableCell/TableCell";
 
 import { formatPercentage, formatPrice } from "../../../../util/formatFunctions";
 
-const Spread = ({ market, p }) => {
+const Spread = ({ p }) => {
 	const innerBid = _.reduce(p.market_data, (max, emd) => {
 		return (emd.current_bid_dai > max) ?  emd.current_bid_dai : max
 	}, 0);

@@ -12,9 +12,11 @@ import { subscribeToSocketBroadcasts } from "./websocketclient";
 
 install();
 
-export const store = createStore(reducer, {}, applyMiddleware(reduxThunk));
+const store = createStore(reducer, {}, applyMiddleware(reduxThunk));
 subscribeToSocketBroadcasts();
 
 const reduxedApp = <Provider store={store}><App/></Provider>;
 
 ReactDOM.render(reduxedApp, document.getElementById("root"));
+
+export { store };
