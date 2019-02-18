@@ -25,11 +25,11 @@ const unconnectedApp = ({ updateTime, updateViewport, viewport }) => {
 	const vw = viewport.width || initialVW;
 	const vh = viewport.height || initialVH;
 
-	const width = vw > 1000 ? "50vw" : "90vw";
+	const width = vw > 1300 ? "50vw" : "95vw";
 	const heights = ["12vh", "18vh", "60vh", "10vh"];
 	const heights2 = ["17.5vh", "72.5vh", "10vh"];
 
-	if (vh < 860) {
+	if (vh < 960) {
 		return (
 			<MuiThemeProvider theme={theme}>
 				<Grid
@@ -46,6 +46,9 @@ const unconnectedApp = ({ updateTime, updateViewport, viewport }) => {
 						>
 							<Grid item>
 								<Header/>
+							</Grid>
+							<Grid item>
+								<TopBar/>
 							</Grid>
 							<Grid item>
 								<Main/>
@@ -71,7 +74,6 @@ const unconnectedApp = ({ updateTime, updateViewport, viewport }) => {
 						container
 						direction="column"
 						style={{ width: `${width}` }}
-						spacing={16}
 					>
 						<Grid item style={{ height: `${heights[0]}` }}>
 							<Header/>
