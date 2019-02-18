@@ -1,5 +1,6 @@
 import _ from "lodash";
 import React from "react";
+import { connect } from "react-redux";
 
 import TableBody from "@material-ui/core/TableBody/TableBody";
 import TableCell from "@material-ui/core/TableCell/TableCell";
@@ -11,7 +12,7 @@ import {
 	lowestCurrentAskAcrossExchanges
 } from "../../../../util/marketFunctions";
 
-const PairBody = ({ p, market, exchanges }) => {
+const unconnectedPairBody = ({ p, market, exchanges, viewport }) => {
 	const sortedMarketData = p ? _.orderBy(p.market_data, [emd => emd.volume_dai], "desc") : null;
 	return (
 		<TableBody>
@@ -27,56 +28,116 @@ const PairBody = ({ p, market, exchanges }) => {
 				const spreadRatioDifference = ((innerAsk / innerBid) - 1) || 0;
 				const fSpreadPercentage = formatPercentage(spreadRatioDifference);
 				const exchange = _.find(exchanges, e => e.ID === emd.exchangeID);
-				if (innerAsk === lowestCurrentAskAcrossExchanges(market, p.base_symbol, p.quote_symbol) &&
-					innerBid === highestCurrentBidAcrossExchanges(market, p.base_symbol, p.quote_symbol)) {
-					return (
-						<TableRow hover
-						          onClick={() => handleClick(exchange, p)}
-						          key={exchange.ID}
-						>
-							<TableCell style={{fontStyle: "italic", color: "green"}}>{exchange.name}</TableCell>
-							<TableCell style={{fontStyle: "italic", color: "green"}} align="right">{`${fInnerBid} - ${fInnerAsk} (${fSpreadPercentage})`}</TableCell>
-							<TableCell style={{fontStyle: "italic", color: "green"}} align="right">{`${fLastTraded}`}</TableCell>
-							<TableCell style={{fontStyle: "italic", color: "green"}} align="right">{`${fCombinedVolume}`}</TableCell>
-						</TableRow>
-					)
-				}
-				if (innerAsk === lowestCurrentAskAcrossExchanges(market, p.base_symbol, p.quote_symbol) && sortedMarketData.length > 1){
-					return (
-						<TableRow hover
-						          onClick={() => handleClick(exchange, p)}
-						          key={exchange.ID}
-						>
-							<TableCell style={{color: "green"}}>{exchange.name}</TableCell>
-							<TableCell style={{color: "green"}} align="right">{`${fInnerBid} - ${fInnerAsk} (${fSpreadPercentage})`}</TableCell>
-							<TableCell style={{color: "green"}} align="right">{`${fLastTraded}`}</TableCell>
-							<TableCell style={{color: "green"}} align="right">{`${fCombinedVolume}`}</TableCell>
-						</TableRow>
-					);
-				} else if (innerBid === highestCurrentBidAcrossExchanges(market, p.base_symbol, p.quote_symbol) && sortedMarketData.length > 1) {
-					return (
-						<TableRow hover
-						          onClick={() => handleClick(exchange, p)}
-						          key={exchange.ID}
-						>
-							<TableCell style={{color: "red"}}>{exchange.name}</TableCell>
-							<TableCell style={{color: "red"}} align="right">{`${fInnerBid} - ${fInnerAsk} (${fSpreadPercentage})`}</TableCell>
-							<TableCell style={{color: "red"}} align="right">{`${fLastTraded}`}</TableCell>
-							<TableCell style={{color: "red"}} align="right">{`${fCombinedVolume}`}</TableCell>
-						</TableRow>
-					)
+
+				const initialVW = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+				const initialVH = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+				const vw = viewport.width || initialVW;
+				const vh = viewport.height || initialVH;
+
+				if (vw < 760) {
+					if (innerAsk === lowestCurrentAskAcrossExchanges(market, p.base_symbol, p.quote_symbol) &&
+						innerBid === highestCurrentBidAcrossExchanges(market, p.base_symbol, p.quote_symbol)) {
+						return (
+							<TableRow hover
+							          onClick={() => handleClick(exchange, p)}
+							          key={exchange.ID}
+							          style={{ height: "4vh" }}
+							>
+								<TableCell style={{fontStyle: "italic", color: "green"}}>{exchange.name}</TableCell>
+								<TableCell style={{fontStyle: "italic", color: "green"}} align="right">{`${fInnerBid} - ${fInnerAsk}`}</TableCell>
+							</TableRow>
+						)
+					}
+					if (innerAsk === lowestCurrentAskAcrossExchanges(market, p.base_symbol, p.quote_symbol) && sortedMarketData.length > 1){
+						return (
+							<TableRow hover
+							          onClick={() => handleClick(exchange, p)}
+							          key={exchange.ID}
+							          style={{ height: "4vh" }}
+							>
+								<TableCell style={{color: "green"}}>{exchange.name}</TableCell>
+								<TableCell style={{color: "green"}} align="right">{`${fInnerBid} - ${fInnerAsk}`}</TableCell>
+							</TableRow>
+						);
+					} else if (innerBid === highestCurrentBidAcrossExchanges(market, p.base_symbol, p.quote_symbol) && sortedMarketData.length > 1) {
+						return (
+							<TableRow hover
+							          onClick={() => handleClick(exchange, p)}
+							          key={exchange.ID}
+							          style={{ height: "4vh" }}
+							>
+								<TableCell style={{color: "red"}}>{exchange.name}</TableCell>
+								<TableCell style={{color: "red"}} align="right">{`${fInnerBid} - ${fInnerAsk}`}</TableCell>
+							</TableRow>
+						)
+					} else {
+						return (
+							<TableRow hover
+							          onClick={() => handleClick(exchange, p)}
+							          key={exchange.ID}
+							          style={{ height: "4vh" }}
+							>
+								<TableCell>{exchange.name}</TableCell>
+								<TableCell align="right">{`${fInnerBid} - ${fInnerAsk}`}</TableCell>
+							</TableRow>
+						);
+					}
 				} else {
-					return (
-						<TableRow hover
-						          onClick={() => handleClick(exchange, p)}
-						          key={exchange.ID}
-						>
-							<TableCell >{exchange.name}</TableCell>
-							<TableCell align="right">{`${fInnerBid} - ${fInnerAsk} (${fSpreadPercentage})`}</TableCell>
-							<TableCell align="right">{`${fLastTraded}`}</TableCell>
-							<TableCell align="right">{`${fCombinedVolume}`}</TableCell>
-						</TableRow>
-					);
+					if (innerAsk === lowestCurrentAskAcrossExchanges(market, p.base_symbol, p.quote_symbol) &&
+						innerBid === highestCurrentBidAcrossExchanges(market, p.base_symbol, p.quote_symbol)) {
+						return (
+							<TableRow hover
+							          onClick={() => handleClick(exchange, p)}
+							          key={exchange.ID}
+							          style={{ height: "4vh" }}
+							>
+								<TableCell style={{fontStyle: "italic", color: "green"}}>{exchange.name}</TableCell>
+								<TableCell style={{fontStyle: "italic", color: "green"}} align="right">{`${fInnerBid} - ${fInnerAsk} (${fSpreadPercentage})`}</TableCell>
+								<TableCell style={{fontStyle: "italic", color: "green"}} align="right">{`${fLastTraded}`}</TableCell>
+								<TableCell style={{fontStyle: "italic", color: "green"}} align="right">{`${fCombinedVolume}`}</TableCell>
+							</TableRow>
+						)
+					}
+					if (innerAsk === lowestCurrentAskAcrossExchanges(market, p.base_symbol, p.quote_symbol) && sortedMarketData.length > 1){
+						return (
+							<TableRow hover
+							          onClick={() => handleClick(exchange, p)}
+							          key={exchange.ID}
+							          style={{ height: "4vh" }}
+							>
+								<TableCell style={{color: "green"}}>{exchange.name}</TableCell>
+								<TableCell style={{color: "green"}} align="right">{`${fInnerBid} - ${fInnerAsk} (${fSpreadPercentage})`}</TableCell>
+								<TableCell style={{color: "green"}} align="right">{`${fLastTraded}`}</TableCell>
+								<TableCell style={{color: "green"}} align="right">{`${fCombinedVolume}`}</TableCell>
+							</TableRow>
+						);
+					} else if (innerBid === highestCurrentBidAcrossExchanges(market, p.base_symbol, p.quote_symbol) && sortedMarketData.length > 1) {
+						return (
+							<TableRow hover
+							          onClick={() => handleClick(exchange, p)}
+							          key={exchange.ID}
+							          style={{ height: "4vh" }}
+							>
+								<TableCell style={{color: "red"}}>{exchange.name}</TableCell>
+								<TableCell style={{color: "red"}} align="right">{`${fInnerBid} - ${fInnerAsk} (${fSpreadPercentage})`}</TableCell>
+								<TableCell style={{color: "red"}} align="right">{`${fLastTraded}`}</TableCell>
+								<TableCell style={{color: "red"}} align="right">{`${fCombinedVolume}`}</TableCell>
+							</TableRow>
+						)
+					} else {
+						return (
+							<TableRow hover
+							          onClick={() => handleClick(exchange, p)}
+							          key={exchange.ID}
+							          style={{ height: "4vh" }}
+							>
+								<TableCell >{exchange.name}</TableCell>
+								<TableCell align="right">{`${fInnerBid} - ${fInnerAsk} (${fSpreadPercentage})`}</TableCell>
+								<TableCell align="right">{`${fLastTraded}`}</TableCell>
+								<TableCell align="right">{`${fCombinedVolume}`}</TableCell>
+							</TableRow>
+						);
+					}
 				}
 			})}
 		</TableBody>
@@ -100,4 +161,5 @@ const handleClick = (exchange, p) => {
 	window.open(URL, "_blank");
 };
 
+const PairBody = connect(({ viewport }) => ({ viewport }), null)(unconnectedPairBody);
 export { PairBody };

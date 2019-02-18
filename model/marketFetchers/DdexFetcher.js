@@ -25,15 +25,13 @@ const initializeWSConnection = async () => {
 			"marketIds": await _.map(((await axios.get("https://api.ddex.io/v3/markets")).data.data.markets), m => m.id),
 		},]
 	});
-	ws.on("open", async () => {
-		ws.send(askForTickers);
-		ws.onmessage = (response) => {
-			const data = JSON.parse(response.data);
-			if(data.type === "ticker") {
-				potentiallyAddToMarket(data);
-			}
-		};
-	});
+	ws.send(askForTickers);
+	ws.onmessage = (response) => {
+		const data = JSON.parse(response.data);
+		if(data.type === "ticker") {
+			potentiallyAddToMarket(data);
+		}
+	};
 };
 
 const potentiallyAddToMarket = (pair) => {

@@ -12,13 +12,23 @@ const formatPrice = (price) => {
 			return 4;
 		}
 	};
-	return (new Intl.NumberFormat("en-US", {
-		style: "currency",
-		currency: "USD",
-		minimumSignificantDigits: sd(price),
-		maximumSignificantDigits: sd(price),
-		useGrouping: "true"
-	}).format(price));
+	if (price < 0.001) {
+		return (new Intl.NumberFormat("en-US", {
+			style: "currency",
+			currency: "USD",
+			maximumFractionDigits: 3,
+			minimumFractionDigits: 3,
+			useGrouping: "true"
+		}).format(price));
+	} else {
+		return (new Intl.NumberFormat("en-US", {
+			style: "currency",
+			currency: "USD",
+			minimumSignificantDigits: sd(price),
+			maximumSignificantDigits: sd(price),
+			useGrouping: "true"
+		}).format(price));
+	}
 };
 
 const formatVolume = (volume) => {

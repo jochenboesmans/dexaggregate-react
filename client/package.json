@@ -8,6 +8,7 @@
 	"dependencies": {
 		"@babel/core": "latest",
 		"@material-ui/core": "latest",
+		"@material-ui/icons": "^3.0.2",
 		"@material-ui/styles": "latest",
 		"@svgr/webpack": "latest",
 		"@types/node": "latest",
@@ -60,6 +61,7 @@
 		"react-dom": "next",
 		"react-redux": "next",
 		"react-router-dom": "next",
+		"react-virtualized": "^9.21.0",
 		"redux": "^4.0.1",
 		"redux-thunk": "latest",
 		"resolve": "latest",

@@ -116,8 +116,11 @@ const factoryABI = [{
 	"type": "function",
 	"gas": 663
 }];
+
 const factoryContract = new web3.eth.Contract(factoryABI, factoryAddress);
-const getExchangeAddress = async (token, factoryContract) => (await factoryContract.methods.getExchange(token.address).call()).out;
+/*const getTokenCount = async (factoryContract) => (await factoryContract.methods.tokenCount.call()).out;
+const getTokenWithId = async (id, factoryContract) => (await factoryContract.methods.getTokenWithId(id).call()).out;*/
+const getExchangeAddress = async (tokenAddress, factoryContract) => (await factoryContract.methods.getExchange(tokenAddress).call()).out;
 
 const tokens = {
 	BAT: {
@@ -143,24 +146,23 @@ const tokens = {
 };
 
 const initialize = async () => {
-	const extendedTokens = await fetchExchangeAddresses();
-	await tryUpdateMarket(extendedTokens);
+	const exchangeAddresses = await fetchExchangeAddresses();
+	await tryUpdateMarket(exchangeAddresses);
 	setInterval(async () => {
-		await tryUpdateMarket(extendedTokens);
+		await tryUpdateMarket(exchangeAddresses);
 	}, 5 * 1000);
 };
 
 const fetchExchangeAddresses = async () => {
-	return await Promise.all(_.map(tokens, async t => ({
-		...t,
-		exchangeAddress: await getExchangeAddress(t, factoryContract)
-	})));
+	return await Promise.all(_.map(tokens, async token => {
+		return await getExchangeAddress(token.address, factoryContract);
+	}));
 };
 
-const tryUpdateMarket = async (extendedTokens) => {
+const tryUpdateMarket = async (exchangeAddresses) => {
 	try {
-		const tickers = await Promise.all(_.map(extendedTokens, async token => {
-			const p = (await axios.get(`https://uniswap-analytics.appspot.com/api/v1/ticker?exchangeAddress=${token.exchangeAddress}`)).data;
+		const tickers = await Promise.all(_.map(exchangeAddresses, async exchangeAddress => {
+			const p = (await axios.get(`https://uniswap-analytics.appspot.com/api/v1/ticker?exchangeAddress=${exchangeAddress}`)).data;
 			if(p.symbol) {
 				return {
 					b: "ETH",

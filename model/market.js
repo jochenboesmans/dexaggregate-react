@@ -18,10 +18,12 @@ const marketFetchers = {
 const fetchExchangeMarkets = () => _.reduce(Object.keys(getExchanges()), (result, exchangeKey) => {
 	const market = marketFetchers[exchangeKey].getMarket();
 	const exchange = getExchanges()[exchangeKey];
-	result[exchangeKey] = {
-		market,
-		exchange
-	};
+	if (Date.now() - marketFetchers[exchangeKey].getTimestamp() < 60 * 60 * 1000) {
+		result[exchangeKey] = {
+			market,
+			exchange
+		};
+	}
 	return result;
 }, {});
 
@@ -64,6 +66,8 @@ const getMarket = () => {
 	const lastUpdate = _.reduce(marketFetchers, (latest, mf, mfKey) => {
 		return mf.getTimestamp() > latest.timestamp ? ({ exchangeID: mfKey, timestamp: mf.getTimestamp() }) : latest;
 	}, { exchangeID: null, timestamp: 0 });
+
+	console.log(lastUpdate);
 
 	return {
 		market: rebaseMarket(market, "DAI"),

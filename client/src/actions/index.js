@@ -1,7 +1,14 @@
 import { defaultDeltaY } from "../reducers/deltaYReducer";
 import { defaultPage } from "../reducers/navigationReducer";
 import { defaultSearchFilter } from "../reducers/searchFilterReducer";
-import { SET_DELTA_Y, SET_MARKET, SET_PAGE, SET_SEARCH_FILTER, UPDATE_TIME } from "./types";
+import {
+	SET_DELTA_Y,
+	SET_MARKET,
+	SET_PAGE,
+	SET_SEARCH_FILTER,
+	UPDATE_TIME,
+	UPDATE_VIEWPORT,
+} from "./types";
 
 /* Action creator functions */
 const setPage = (page) => dispatch => {
@@ -37,4 +44,19 @@ const updateTime = () => dispatch => {
 	dispatch({ type: UPDATE_TIME });
 };
 
-export { setPage, updateMarket, setSearchFilter, setDeltaY, resetState, updateTime };
+const updateViewport = () => dispatch => {
+	const width = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+	const height = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+	console.log("update", width, height);
+	dispatch({ type: UPDATE_VIEWPORT, payload: { width: width, height: height}});
+};
+
+export {
+	setPage,
+	updateMarket,
+	setSearchFilter,
+	setDeltaY,
+	resetState,
+	updateTime,
+	updateViewport
+};
