@@ -66,11 +66,12 @@ const getMarket = () => {
 	const lastUpdate = _.reduce(marketFetchers, (latest, mf, mfKey) => {
 		return mf.getTimestamp() > latest.timestamp ? ({ exchangeID: mfKey, timestamp: mf.getTimestamp() }) : latest;
 	}, { exchangeID: null, timestamp: 0 });
-
 	console.log(lastUpdate);
 
+	const rebasedMarket = rebaseMarket(market, "DAI");
+
 	return {
-		market: rebaseMarket(market, "DAI"),
+		market: rebasedMarket,
 		exchanges: exchangesInMarket,
 		lastUpdate: lastUpdate,
 	};

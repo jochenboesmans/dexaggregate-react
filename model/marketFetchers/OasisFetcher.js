@@ -25,7 +25,7 @@ const initialize = async () => {
 	await tryUpdateMarket();
 	setInterval(async () => {
 		await tryUpdateMarket();
-	}, 5 * 1000);
+	}, 15 * 1000);
 };
 
 const tryUpdateMarket = async () => {

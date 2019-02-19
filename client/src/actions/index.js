@@ -47,7 +47,6 @@ const updateTime = () => dispatch => {
 const updateViewport = () => dispatch => {
 	const width = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
 	const height = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
-	console.log("update", width, height);
 	dispatch({ type: UPDATE_VIEWPORT, payload: { width: width, height: height}});
 };
 
