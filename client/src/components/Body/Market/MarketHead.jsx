@@ -1,11 +1,11 @@
 import React from "react";
-import _ from "lodash";
 import { connect } from "react-redux";
+import _ from "lodash/core";
 
 import TableCell from "@material-ui/core/TableCell/TableCell";
 import TableHead from "@material-ui/core/TableHead/TableHead";
 import TableRow from "@material-ui/core/TableRow/TableRow";
-import Tooltip from "@material-ui/core/Tooltip";
+import Tooltip from "@material-ui/core/Tooltip/Tooltip";
 import Typography from "@material-ui/core/Typography/Typography";
 
 const unconnectedMarketHead = ({ viewport }) => {

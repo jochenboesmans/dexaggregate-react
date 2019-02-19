@@ -8,10 +8,20 @@ let timestamp;
 const getMarket = () => market;
 const getTimestamp = () => timestamp;
 
-const initialize = async () => {
+const fetch = async () => {
 	const fetch = (await axios.get("https://api.ddex.io/v3/markets/tickers")).data.data.tickers;
 	_.forEach(fetch, (pair) => potentiallyAddToMarket(pair));
+};
+
+const initialize = async () => {
+	await fetch();
 	await initializeWSConnection();
+	/* Fallback in case of improper ws API */
+	setInterval(async () => {
+		if (Date.now() - timestamp > 60 * 1000) {
+			await fetch();
+		}
+	}, 5 * 1000);
 };
 
 const initializeWSConnection = async () => {
@@ -27,6 +37,7 @@ const initializeWSConnection = async () => {
 	});
 	ws.send(askForTickers);
 	ws.onmessage = (response) => {
+		console.log(response);
 		const data = JSON.parse(response.data);
 		if(data.type === "ticker") {
 			potentiallyAddToMarket(data);

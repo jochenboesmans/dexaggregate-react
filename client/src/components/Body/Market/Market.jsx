@@ -1,7 +1,3 @@
-
-import IconButton from "@material-ui/core/IconButton";
-import ChevronLeft from "@material-ui/icons/ChevronLeft";
-import ChevronRight from "@material-ui/icons/ChevronRight";
 import React from "react";
 import { connect } from "react-redux";
 
@@ -9,6 +5,9 @@ import Grid from "@material-ui/core/Grid/Grid";
 import Table from "@material-ui/core/Table/Table";
 import TextField from "@material-ui/core/TextField/TextField";
 import Typography from "@material-ui/core/Typography/Typography";
+import IconButton from "@material-ui/core/IconButton/IconButton";
+import ChevronLeft from "@material-ui/icons/ChevronLeft";
+import ChevronRight from "@material-ui/icons/ChevronRight";
 
 import * as actions from "../../../actions";
 import { MarketBody } from "./MarketBody/MarketBody";

@@ -1,5 +1,5 @@
 import React from "react";
-import _ from "lodash";
+import _ from "lodash/core";
 
 import Grid from "@material-ui/core/Grid/Grid";
 import IconButton from "@material-ui/core/IconButton/IconButton";

@@ -1,6 +1,6 @@
-import _ from "lodash";
 import React from "react";
 import { connect } from "react-redux";
+import _ from "lodash/core";
 
 import TableCell from "@material-ui/core/TableCell/TableCell";
 

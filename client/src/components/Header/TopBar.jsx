@@ -1,13 +1,13 @@
-import _ from "lodash";
 import React from "react";
 import { connect } from "react-redux";
+import _ from "lodash/core";
 
 import Tooltip from "@material-ui/core/Tooltip/Tooltip";
 import Typography from "@material-ui/core/Typography/Typography";
-import TableRow from "@material-ui/core/TableRow";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import Table from "@material-ui/core/Table";
+import TableRow from "@material-ui/core/TableRow/TableRow";
+import TableBody from "@material-ui/core/TableBody/TableBody";
+import TableCell from "@material-ui/core/TableCell/TableCell";
+import Table from "@material-ui/core/Table/Table";
 
 import { formatVolume } from "../../util/formatFunctions";
 

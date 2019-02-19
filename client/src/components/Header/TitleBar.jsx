@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { connect } from "react-redux";
 
 import Grid from "@material-ui/core/Grid/Grid";
-import Typography from "@material-ui/core/Typography";
+import Typography from "@material-ui/core/Typography/Typography";
 
 import * as actions from "../../actions";
 
@@ -20,7 +20,7 @@ const unconnectedTitleBar = ({ resetState }) => {
 			<Typography
 				variant="h1"
         align="center"
-        onClick={resetState()}
+        onClick={() => resetState()}
         style={style}
 			>
 				{title}
