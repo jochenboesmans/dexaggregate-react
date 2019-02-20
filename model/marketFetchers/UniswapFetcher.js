@@ -181,7 +181,6 @@ const tryUpdateMarket = async (exchangeAddresses) => {
 			market = newMarket;
 			timestamp = Date.now();
 			setModelNeedsBroadcast(true);
-			console.log("uniswap update");
 		}
 	} catch(error) {
 		console.log(`Error while trying to fetch market from ${getExchanges().UNISWAP.name} API: ${error}`);

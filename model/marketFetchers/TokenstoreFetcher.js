@@ -20,23 +20,24 @@ const tryUpdateMarket = async () => {
 	try {
 		const fetchedMarket = (await axios.get("https://v1-1.api.token.store/ticker")).data;
 		const newMarket = _.reduce(fetchedMarket, (result, p) => {
-			result.push({
-				b: "ETH",
-				q: p.symbol,
-				m: {
-					l: p.last,
-					b: p.ask,
-					a: p.bid,
-					v: p.baseVolume,
-				}
-			});
+			if (p.symbol && p.last && p.ask && p.bid && p.baseVolume) {
+				result.push({
+					b: "ETH",
+					q: p.symbol,
+					m: {
+						l: p.last,
+						b: p.ask,
+						a: p.bid,
+						v: p.baseVolume,
+					}
+				});
+			}
 			return result;
 		}, []);
 		if (newMarket && !_.isEqual(newMarket, market)) {
 			market = newMarket;
 			timestamp = Date.now();
 			setModelNeedsBroadcast(true);
-			console.log("tokenstore update");
 		}
 	} catch(error) {
 		console.log(`Error while trying to fetch market from ${getExchanges().TOKENSTORE.name} API: ${error}`);

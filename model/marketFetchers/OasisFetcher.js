@@ -38,7 +38,6 @@ const tryUpdateMarket = async () => {
 			market = newMarket;
 			timestamp = Date.now();
 			setModelNeedsBroadcast(true);
-			console.log("oasis update");
 		}
 	} catch(error) {
 		console.log(`Error while trying to fetch pairs from ${getExchanges().OASIS.name} API: ${error.message}`);

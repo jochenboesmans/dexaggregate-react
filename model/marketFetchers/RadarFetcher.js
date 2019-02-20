@@ -45,7 +45,6 @@ const updateMarket = (receivedMarket) => {
 		market = newMarket;
 		timestamp = Date.now();
 		setModelNeedsBroadcast(true);
-		console.log("radar update");
 	}
 };
 

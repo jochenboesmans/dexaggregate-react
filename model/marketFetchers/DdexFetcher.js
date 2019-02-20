@@ -37,7 +37,6 @@ const initializeWSConnection = async () => {
 	});
 	ws.send(askForTickers);
 	ws.onmessage = (response) => {
-		console.log(response);
 		const data = JSON.parse(response.data);
 		if(data.type === "ticker") {
 			potentiallyAddToMarket(data);

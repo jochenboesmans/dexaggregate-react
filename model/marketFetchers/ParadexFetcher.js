@@ -48,7 +48,6 @@ const tryUpdateMarket = async () => {
 			market = newMarket;
 			timestamp = Date.now();
 			setModelNeedsBroadcast(true);
-			console.log("paradex update");
 		}
 	} catch(error) {
 		console.log(`Error while trying to fetch market from ${getExchanges().PARADEX.name} API: ${error}`);

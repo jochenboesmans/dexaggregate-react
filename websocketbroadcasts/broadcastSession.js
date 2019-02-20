@@ -15,7 +15,6 @@ const initialize = (server) => {
 			io.emit("marketBroadcast", getMarket());
 			setModelNeedsBroadcast(false);
 		}
-
 	}, 1000);
 };
 
