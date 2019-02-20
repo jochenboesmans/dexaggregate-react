@@ -1,3 +1,4 @@
+import _ from "lodash";
 import React from "react";
 import { connect } from "react-redux";
 
@@ -13,10 +14,10 @@ import * as actions from "../../../actions";
 import { MarketBody } from "./MarketBody/MarketBody";
 import { MarketHead } from "./MarketHead";
 
-const unconnectedMarket = ({ market, deltaY, setSearchFilter, setDeltaY, viewport }) => {
-	if(!market.market) return null;
+const unconnectedMarket = ({ market, deltaY, searchFilter, setSearchFilter, setDeltaY, viewport }) => {
+	if(!market.market) return <div>Loading...</div>;
 
-	const marketSize = Object.keys(market.market).length;
+	const filteredMarket = searchFilter ? _.filter(market.market, p => p.base_symbol.includes(searchFilter.toUpperCase()) || p.quote_symbol.includes(searchFilter.toUpperCase()) || _.find(p.market_data, emd => emd.exchangeID.includes(searchFilter.toUpperCase()))) : market.market;
 
 	const vw = viewport.width || Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
 
@@ -40,7 +41,7 @@ const unconnectedMarket = ({ market, deltaY, setSearchFilter, setDeltaY, viewpor
 	};
 
 	const handleLeftButtonClick = () => { if(deltaY - 10 >= 0) setDeltaY(deltaY - 10) };
-	const handleRightButtonClick = () => { if(deltaY + 10 < marketSize) setDeltaY(deltaY + 10) };
+	const handleRightButtonClick = () => { if(deltaY + 10 < Object.keys(filteredMarket).length) setDeltaY(deltaY + 10) };
 
 	const tableNavigation = () => (
 		<Grid
@@ -60,7 +61,7 @@ const unconnectedMarket = ({ market, deltaY, setSearchFilter, setDeltaY, viewpor
 				<Typography
 					style={{ textAlign: "center" }}
 					variant="caption">
-					Displaying {1 + deltaY} - {Math.min(deltaY + 10, marketSize)}
+					{1 + deltaY} - {Math.min(deltaY + 10, Object.keys(filteredMarket).length)} of {Object.keys(filteredMarket).length}
 				</Typography>
 			</Grid>
 			<Grid item>
@@ -95,7 +96,7 @@ const unconnectedMarket = ({ market, deltaY, setSearchFilter, setDeltaY, viewpor
 					style={{ tableLayout: "fixed" }}>
 					{colGroup}
 					<MarketHead/>
-					<MarketBody/>
+					<MarketBody filteredMarket={filteredMarket} />
 				</Table>
 			</Grid>
 			<Grid item>
@@ -105,6 +106,6 @@ const unconnectedMarket = ({ market, deltaY, setSearchFilter, setDeltaY, viewpor
 	);
 };
 
-const Market = connect(({ market, deltaY, viewport }) => ({ market, deltaY, viewport }), actions)(unconnectedMarket);
+const Market = connect(({ searchFilter, market, deltaY, viewport }) => ({ searchFilter, market, deltaY, viewport }), actions)(unconnectedMarket);
 
 export { Market };

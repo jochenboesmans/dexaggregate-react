@@ -15,13 +15,11 @@ import { MarketPairVolume } from "./MarketPairVolume";
 
 import { MobileMarketPairSpread } from "./MarketPairSpread";
 
-const unconnectedMarketBody = ({ market, searchFilter, deltaY, setDeltaY, setPage, setSearchFilter, viewport }) => {
-	if(!market.market) return <div>Loading...</div>;
+const unconnectedMarketBody = ({ filteredMarket, searchFilter, deltaY, setDeltaY, setPage, setSearchFilter, viewport }) => {
 
 	const initialVW = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
 	const vw = viewport.width || initialVW;
 
-	const filteredMarket = searchFilter ? _.filter(market.market, p => p.base_symbol.includes(searchFilter.toUpperCase()) || p.quote_symbol.includes(searchFilter.toUpperCase()) || _.find(p.market_data, emd => emd.exchangeID.includes(searchFilter.toUpperCase()))) : market.market;
 	const orderedMarket = _.orderBy(filteredMarket, [p => _.reduce(p.market_data, (sum, emd) => sum + emd.volume_dai, 0)], ["desc"]);
 	const slicedMarket = orderedMarket.slice(0 + deltaY, 10 + deltaY);
 
@@ -71,8 +69,7 @@ const unconnectedMarketBody = ({ market, searchFilter, deltaY, setDeltaY, setPag
 	);
 };
 
-const MarketBody = connect(({ market, searchFilter, deltaY, viewport }) => ({
-	market,
+const MarketBody = connect(({ searchFilter, deltaY, viewport }) => ({
 	searchFilter,
 	deltaY,
 	viewport,
