@@ -1,5 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
+import _ from "lodash/core";
 
 import Button from "@material-ui/core/Button/Button";
 import Grid from "@material-ui/core/Grid/Grid";
@@ -16,9 +17,11 @@ const unconnectedPair = ({ market, activePage, setPage, viewport }) => {
 	const initialVW = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
 	const vw = viewport.width || initialVW;
 
-	const { pair } = activePage;
+	const { pair: activePair }  = activePage;
 	const m = market.market;
-	const p = m[pair.base_symbol + "/" + pair.quote_symbol];
+
+	const p = _.find(m, mPair =>
+		mPair.base_symbol === activePair.base_symbol && mPair.quote_symbol === activePair.quote_symbol);
 
 	const colGroup = (vw < 760) ? (
 		<colgroup>

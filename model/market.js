@@ -1,7 +1,7 @@
 const _ = require("lodash");
 
 const { getExchanges } = require("./exchanges");
-const { rebaseMarket } = require("../util (where the magic happens)/rebasing");
+const { rebaseMarket } = require("../util(where_the_magic_happens)/rebasing");
 
 const marketFetchers = {
 	DDEX: require("./marketFetchers/DdexFetcher"),
@@ -71,8 +71,11 @@ const getMarket = () => {
 	}, { exchangeID: null, timestamp: 0 });
 	console.log(lastUpdate);
 
+	const rebasedMarket = rebaseMarket(market, "DAI");
+	const orderedMarket = _.orderBy(rebasedMarket, [p => _.reduce(p.market_data, (sum, emd) => sum + emd.volume_dai, 0)], ["desc"]);
+
 	return {
-		market: rebaseMarket(market, "DAI"),
+		market: orderedMarket,
 		exchanges: exchangesInMarket,
 		lastUpdate: lastUpdate,
 	};

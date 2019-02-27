@@ -41,7 +41,7 @@ const unconnectedTopBar = ({ market, time, viewport }) => {
 
 	const vh = viewport.height || Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
 
-	const colGroup = (vh < 960) ? (
+	const colGroup = (vh < 900) ? (
 		<colgroup>
 			<col style={{ width: "45%" }}/>
 			<col style={{ width: "55%" }}/>
@@ -53,7 +53,7 @@ const unconnectedTopBar = ({ market, time, viewport }) => {
 		</colgroup>
 	);
 
-	const rowsToInclude = (vh < 960) ? [3] : [0, 1, 2, 3];
+	const rowsToInclude = (vh < 900) ? [3] : [0, 1, 2, 3];
 
 	return (
 		<Table
@@ -62,14 +62,14 @@ const unconnectedTopBar = ({ market, time, viewport }) => {
 		>
 			{colGroup}
 			<TableBody>
-				{_.map(rowsToInclude, (ri, i) => {
+				{_.map(rowsToInclude, (ri) => {
 					const rightElement = (rows[ri].tooltipRight) ? (
 						<Tooltip title={rows[ri].tooltipRight} placement="bottom">
 							<Typography variant="caption">{rows[ri].textRight}</Typography>
 						</Tooltip>) : <Typography variant="caption">{rows[ri].textRight}</Typography>;
 
 					return (
-						<TableRow style={{ height: "4vh" }} key={rows[ri]}>
+						<TableRow style={{ height: "4vh" }} key={rows[ri].tooltipLeft}>
 							<TableCell align="right">
 								<Tooltip title={rows[ri].tooltipLeft} placement="bottom">
 									<Typography variant="caption" style={{ fontWeight: "bold" }}>{rows[ri].textLeft}</Typography>

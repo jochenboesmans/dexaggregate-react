@@ -15,13 +15,10 @@ import { MarketPairVolume } from "./MarketPairVolume";
 
 import { MobileMarketPairSpread } from "./MarketPairSpread";
 
-const unconnectedMarketBody = ({ filteredMarket, searchFilter, deltaY, setDeltaY, setPage, setSearchFilter, viewport }) => {
+const unconnectedMarketBody = ({ filteredMarketLength, slicedMarket, searchFilter, deltaY, setDeltaY, setPage, setSearchFilter, viewport }) => {
 
 	const initialVW = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
 	const vw = viewport.width || initialVW;
-
-	const orderedMarket = _.orderBy(filteredMarket, [p => _.reduce(p.market_data, (sum, emd) => sum + emd.volume_dai, 0)], ["desc"]);
-	const slicedMarket = orderedMarket.slice(0 + deltaY, 10 + deltaY);
 
 	const innerContent = (p) => (vw < 760) ? (
 		<>
@@ -40,7 +37,7 @@ const unconnectedMarketBody = ({ filteredMarket, searchFilter, deltaY, setDeltaY
 	const handleWheelEvent = (e) => {
 		if(e.deltaY < 0 && deltaY > 9) {
 			setDeltaY(deltaY - 10);
-		} else if(e.deltaY > 0 && (deltaY < Object.keys(filteredMarket).length - 10)) {
+		} else if(e.deltaY > 0 && (deltaY < filteredMarketLength - 10)) {
 			setDeltaY(deltaY + 10);
 		}
 	};

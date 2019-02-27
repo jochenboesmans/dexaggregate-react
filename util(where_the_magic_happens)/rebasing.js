@@ -112,13 +112,20 @@ const rebaseMarket = (market, marketRebaseSymbol) => {
 		const result = {};
 		Object.keys(p.m).forEach((exchangeID) => {
 			const emd = p.m[exchangeID];
-			result[exchangeID] = ({
-				exchangeID: exchangeID,
-				last_traded_dai: rebaseRate(marketRebaseSymbol, p.b, p.q, emd.l),
-				current_bid_dai: rebaseRate(marketRebaseSymbol, p.b, p.q, emd.b),
-				current_ask_dai: rebaseRate(marketRebaseSymbol, p.b, p.q, emd.a),
-				volume_dai: rebaseRate(marketRebaseSymbol, p.b, p.q, emd.v),
-			})
+
+			const rl = rebaseRate(marketRebaseSymbol, p.b, p.q, emd.l);
+			const rb = rebaseRate(marketRebaseSymbol, p.b, p.q, emd.b);
+			const ra = rebaseRate(marketRebaseSymbol, p.b, p.q, emd.a);
+			const rv = rebaseRate(marketRebaseSymbol, p.b, p.q, emd.v);
+			if (rl && rb && ra && rv) {
+				result[exchangeID] = ({
+					exchangeID: exchangeID,
+					last_traded_dai: rl,
+					current_bid_dai: rb,
+					current_ask_dai: ra,
+					volume_dai: rv,
+				})
+			}
 		});
 		return result;
 	};
@@ -127,33 +134,17 @@ const rebaseMarket = (market, marketRebaseSymbol) => {
 	const rebasedMarket = {};
 	Object.keys(market).forEach((pKey) => {
 		const p = market[pKey];
-		rebasedMarket[pKey] = {
-			base_symbol: p.b,
-			quote_symbol: p.q,
-			market_data: rebaseMarketData(p),
+		const rmd = rebaseMarketData(p);
+		if (Object.keys(rmd).length > 0) {
+			rebasedMarket[pKey] = {
+				base_symbol: p.b,
+				quote_symbol: p.q,
+				market_data: rmd,
+			}
 		}
 	});
 
 	return rebasedMarket;
-	/*return _.reduce(Object.keys(market), (marketResult, pairKey) => {
-		const pair = market[pairKey];
-		rebasedMarket[pairKey] = {
-			base_symbol: pair.b,
-			quote_symbol: pair.q,
-			market_data: _.reduce(Object.keys(pair.m), (result, exchangeID) => {
-				const emd = pair.m[exchangeID];
-				result[exchangeID] = ({
-					exchangeID: exchangeID,
-					last_traded_dai: rebaseRate(marketRebaseSymbol, pair.b, pair.q, emd.l),
-					current_bid_dai: rebaseRate(marketRebaseSymbol, pair.b, pair.q, emd.b),
-					current_ask_dai: rebaseRate(marketRebaseSymbol, pair.b, pair.q, emd.a),
-					volume_dai: rebaseRate(marketRebaseSymbol, pair.b, pair.q, emd.v),
-				});
-				return result;
-			}, {}),
-		};
-		return marketResult;
-	}, {});*/
 };
 
 module.exports = { rebaseMarket };

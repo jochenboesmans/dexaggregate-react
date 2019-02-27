@@ -17,7 +17,10 @@ import { MarketHead } from "./MarketHead";
 const unconnectedMarket = ({ market, deltaY, searchFilter, setSearchFilter, setDeltaY, viewport }) => {
 	if(!market.market) return null;
 
-	const filteredMarket = searchFilter ? _.filter(market.market, p => p.base_symbol.includes(searchFilter.toUpperCase()) || p.quote_symbol.includes(searchFilter.toUpperCase()) || _.find(p.market_data, emd => emd.exchangeID.includes(searchFilter.toUpperCase()))) : market.market;
+	const filteredMarket = searchFilter ? _.filter(market.market, p =>
+		p.base_symbol.includes(searchFilter.toUpperCase()) || p.quote_symbol.includes(searchFilter.toUpperCase())
+		|| _.find(p.market_data, emd => emd.exchangeID.includes(searchFilter.toUpperCase()))) : market.market;
+	const slicedMarket = filteredMarket.slice(0 + deltaY, 10 + deltaY);
 
 	const vw = viewport.width || Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
 
@@ -97,7 +100,7 @@ const unconnectedMarket = ({ market, deltaY, searchFilter, setSearchFilter, setD
 					style={{ tableLayout: "fixed" }}>
 					{colGroup}
 					<MarketHead/>
-					<MarketBody filteredMarket={filteredMarket} />
+					<MarketBody filteredMarketLength={Object.keys(filteredMarket).length} slicedMarket={slicedMarket} />
 				</Table>
 			</Grid>
 			<Grid item>
