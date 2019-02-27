@@ -17,11 +17,11 @@ const initialize = async () => {
 	await fetch();
 	await initializeWSConnection();
 	/* Fallback in case of improper ws API */
-	setInterval(async () => {
+	/*setInterval(async () => {
 		if (Date.now() - timestamp > 60 * 1000) {
 			await fetch();
 		}
-	}, 5 * 1000);
+	}, 5 * 1000);*/
 };
 
 const initializeWSConnection = async () => {
@@ -35,7 +35,7 @@ const initializeWSConnection = async () => {
 			"marketIds": await _.map(((await axios.get("https://api.ddex.io/v3/markets")).data.data.markets), m => m.id),
 		},]
 	});
-	ws.send(askForTickers);
+	setTimeout(() => ws.send(askForTickers),5 * 1000);
 	ws.onmessage = (response) => {
 		const data = JSON.parse(response.data);
 		if(data.type === "ticker") {
