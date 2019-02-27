@@ -15,26 +15,31 @@ const marketFetchers = {
 	OASIS: require("./marketFetchers/OasisFetcher"),
 };
 
-const fetchExchangeMarkets = () => _.reduce(Object.keys(getExchanges()), (result, exchangeKey) => {
-	const market = marketFetchers[exchangeKey].getMarket();
-	const exchange = getExchanges()[exchangeKey];
-	if (Date.now() - marketFetchers[exchangeKey].getTimestamp() < 60 * 60 * 1000) {
-		result[exchangeKey] = {
-			market,
-			exchange
-		};
-	}
+const fetchExchangeMarkets = () => {
+	const maxAge = 60 * 60 * 1000;
+	const result = {};
+	Object.keys(getExchanges()).forEach(exchangeKey => {
+		const market = marketFetchers[exchangeKey].getMarket();
+		const exchange = getExchanges()[exchangeKey];
+		if (Date.now() - marketFetchers[exchangeKey].getTimestamp() < maxAge) {
+			result[exchangeKey] = {
+				market,
+				exchange,
+			}
+		}
+	});
 	return result;
-}, {});
+};
 
 const getMarket = () => {
-	let market = {};
-
 	const exchangeMarkets = fetchExchangeMarkets();
 
-	_.forEach(exchangeMarkets, em => {
+	const market = {};
+	Object.keys(exchangeMarkets).forEach(emKey => {
+		const em = exchangeMarkets[emKey];
 		const { exchange } = em;
-		_.forEach(em.market, emp => {
+		Object.keys(em.market).forEach(empKey => {
+			const emp = em.market[empKey];
 			const ID = emp.b + "/" + emp.q;
 			if(!market[ID]) {
 				market[ID] = {
@@ -53,31 +58,27 @@ const getMarket = () => {
 					exchangeID: exchange.ID
 				};
 			}
-		});
+		})
 	});
 
-	const exchangesInMarket = _.reduce(Object.keys(exchangeMarkets), (result, exchangeID) => {
-		if(exchangeMarkets[exchangeID].market) {
-			result.push(getExchanges()[exchangeID]);
-		}
-		return result;
-	}, []);
+	const exchangesInMarket = [];
+	Object.keys(exchangeMarkets).forEach(exchangeID => {
+		if (exchangeMarkets[exchangeID].market) exchangesInMarket.push(getExchanges()[exchangeID])
+	});
 
 	const lastUpdate = _.reduce(marketFetchers, (latest, mf, mfKey) => {
 		return mf.getTimestamp() > latest.timestamp ? ({ exchangeID: mfKey, timestamp: mf.getTimestamp() }) : latest;
 	}, { exchangeID: null, timestamp: 0 });
 	console.log(lastUpdate);
 
-	const rebasedMarket = rebaseMarket(market, "DAI");
-
 	return {
-		market: rebasedMarket,
+		market: rebaseMarket(market, "DAI"),
 		exchanges: exchangesInMarket,
 		lastUpdate: lastUpdate,
 	};
 };
 
-const initializeFetchers = () => _.forEach(marketFetchers, mf => mf.initialize());
+const initializeFetchers = () => Object.keys(marketFetchers).forEach(mfKey => marketFetchers[mfKey].initialize());
 
 module.exports = {
 	fetchExchangeMarkets,
