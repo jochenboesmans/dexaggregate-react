@@ -15,7 +15,7 @@ import { MarketBody } from "./MarketBody/MarketBody";
 import { MarketHead } from "./MarketHead";
 
 const unconnectedMarket = ({ market, deltaY, searchFilter, setSearchFilter, setDeltaY, viewport }) => {
-	if(!market.market) return <div>Loading...</div>;
+	if(!market.market) return null;
 
 	const filteredMarket = searchFilter ? _.filter(market.market, p => p.base_symbol.includes(searchFilter.toUpperCase()) || p.quote_symbol.includes(searchFilter.toUpperCase()) || _.find(p.market_data, emd => emd.exchangeID.includes(searchFilter.toUpperCase()))) : market.market;
 
@@ -87,6 +87,7 @@ const unconnectedMarket = ({ market, deltaY, searchFilter, setSearchFilter, setD
 					type="search"
 					variant="outlined"
 					onChange={handleSearchChange}
+					value={searchFilter}
 					fullWidth
 				/>
 			</Grid>

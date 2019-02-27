@@ -57,7 +57,6 @@ const unconnectedMarketBody = ({ filteredMarket, searchFilter, deltaY, setDeltaY
 								...pages.PAIR,
 								pair: p
 							});
-							setSearchFilter(null);
 						}}
 						key={`${p.base_symbol}/${p.quote_symbol}`}
 					>
