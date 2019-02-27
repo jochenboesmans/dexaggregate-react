@@ -1,7 +1,7 @@
 const _ = require("lodash");
 
 const { getExchanges } = require("./exchanges");
-const { rebaseMarket } = require("../util/marketFunctions");
+const { rebaseMarket } = require("../util (where the magic happens)/rebasing");
 
 const marketFetchers = {
 	DDEX: require("./marketFetchers/DdexFetcher"),
