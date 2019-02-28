@@ -19,7 +19,7 @@ const pairs = [{
 	base: "MKR",
 	quote: "DAI"
 },];
-const twentyFourHourAverage = (m) => (parseFloat(m.high) + parseFloat(m.low)) / 2;
+const lbaAverage = (m) => (parseFloat(m.price) + parseFloat(m.ask) + parseFloat(m.bid)) / 3;
 
 const initialize = async () => {
 	await tryUpdateMarket();
@@ -53,7 +53,7 @@ const filterMeaningfulValues = (m, pair) => {
 				l: parseFloat(m.last),
 				b: parseFloat(m.bid),
 				a: parseFloat(m.ask),
-				v: parseFloat(m.vol) * twentyFourHourAverage(m),
+				v: parseFloat(m.vol) * lbaAverage(m),
 			}
 		});
 	}
