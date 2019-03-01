@@ -1,5 +1,3 @@
-//import dateFormat from "dateformat";
-
 const formatPrice = (price) => {
 	const sd = (price) => {
 		if (price < 0.01) {
@@ -42,8 +40,6 @@ const formatPercentage = (percentage) => {
 		style: "percent", useGrouping: "true", minimumFractionDigits: 2, maximumFractionDigits: 2
 	}).format(percentage));
 };
-
-//const formatTime = (timestamp) => dateFormat(timestamp, "dddd, mmmm dS, yyyy, h:MM:ss TT");
 
 export {
 	formatPrice, formatVolume, formatPercentage,

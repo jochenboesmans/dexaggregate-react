@@ -1,9 +1,5 @@
 import React, { lazy } from "react";
 import { connect } from "react-redux";
-import { map } from "lodash/core";
-
-import TableBody from "@material-ui/core/TableBody/TableBody";
-import TableRow from "@material-ui/core/TableRow/TableRow";
 
 import * as actions from "../../../../actions";
 import { pages } from "../../../../model/pages";
@@ -14,7 +10,10 @@ const MarketPairLastPrice = lazy(() => import("./MarketPairLastPrice"));
 const MarketPairVolume = lazy(() => import("./MarketPairVolume"));
 const MobileMarketPairSpread = lazy(() => import("./MobileMarketPairSpread"));
 
-const unconnectedMarketBody = ({ filteredMarketLength, slicedMarket, searchFilter, deltaY, setDeltaY, setPage, setSearchFilter, viewport }) => {
+const TableBody = lazy(() => import("@material-ui/core/TableBody/TableBody"));
+const TableRow = lazy(() => import("@material-ui/core/TableRow/TableRow"));
+
+const unconnectedMarketBody = ({ filteredMarketLength, slicedMarket, deltaY, setDeltaY, setPage, viewport }) => {
 
 	const initialVW = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
 	const vw = viewport.width || initialVW;
@@ -43,7 +42,7 @@ const unconnectedMarketBody = ({ filteredMarketLength, slicedMarket, searchFilte
 
 	return (
 		<TableBody onWheel={handleWheelEvent}>
-			{map(slicedMarket, p => {
+			{slicedMarket.map(p => {
 				return (
 					<TableRow
 						style={{ height: "4vh" }}
@@ -64,10 +63,6 @@ const unconnectedMarketBody = ({ filteredMarketLength, slicedMarket, searchFilte
 	);
 };
 
-const MarketBody = connect(({ searchFilter, deltaY, viewport }) => ({
-	searchFilter,
-	deltaY,
-	viewport,
-}), actions)(unconnectedMarketBody);
+const MarketBody = connect(({ deltaY, viewport }) => ({ deltaY, viewport }), actions)(unconnectedMarketBody);
 
 export default MarketBody;

@@ -1,4 +1,5 @@
-import { find, reduce } from "lodash/core";
+import find from "lodash/find";
+import reduce from "lodash/reduce";
 
 const findPair = (market, baseSymbol, quoteSymbol) => {
 	return find(market, p => p.quote_symbol === quoteSymbol && p.base_symbol === baseSymbol);

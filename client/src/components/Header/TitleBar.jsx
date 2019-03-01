@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { lazy, useState } from "react";
 import { connect } from "react-redux";
 
-import Grid from "@material-ui/core/Grid/Grid";
-import Typography from "@material-ui/core/Typography/Typography";
-
 import * as actions from "../../actions";
+
+const Grid = lazy(() => import("@material-ui/core/Grid/Grid"));
+const Typography = lazy(() => import("@material-ui/core/Typography/Typography"));
 
 const unconnectedTitleBar = ({ resetState }) => {
 	const [state, setState] = useState({ hover: false });

@@ -1,8 +1,8 @@
-import React from "react";
+import React, { lazy } from "react";
 import { connect } from "react-redux";
-import { find } from "lodash/core";
+import find from "lodash/find";
 
-import TableCell from "@material-ui/core/TableCell/TableCell";
+const TableCell = lazy(() => import("@material-ui/core/TableCell/TableCell"));
 
 const unconnectedPairExchangeName = ({ emd, market }) => {
 	const exchangeName = find(market.exchanges, e => e.ID === emd.exchangeID).name;

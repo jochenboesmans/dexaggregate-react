@@ -1,12 +1,12 @@
 import React, { lazy } from "react";
 import { connect } from "react-redux";
 
-import Grid from "@material-ui/core/Grid/Grid";
-import MuiThemeProvider from "@material-ui/core/styles/MuiThemeProvider/";
-
 import * as actions from "../actions";
 
 import { theme } from "../themes/App";
+
+const Grid = lazy(() => import("@material-ui/core/Grid/Grid"));
+const MuiThemeProvider = lazy(() => import("@material-ui/core/styles/MuiThemeProvider"));
 
 const BottomBar = lazy(() => import("./Footer/BottomBar"));
 const Header = lazy(() => import("./Header/Header"));

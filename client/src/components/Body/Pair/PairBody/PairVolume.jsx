@@ -1,9 +1,9 @@
-import React from "react";
+import React, { lazy } from "react";
 //import { connect } from "react-redux";
 
-import TableCell from "@material-ui/core/TableCell/TableCell";
-
 import { formatVolume } from "../../../../util/formatFunctions";
+
+const TableCell = lazy(() => import("@material-ui/core/TableCell/TableCell"));
 
 const unconnectedPairVolume = ({ emd }) => {
 	const volume = emd.volume_dai;

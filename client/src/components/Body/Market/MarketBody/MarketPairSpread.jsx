@@ -1,10 +1,10 @@
-import React from "react";
+import React, { lazy } from "react";
 // import { connect } from "react-redux";
-import { reduce } from "lodash/core";
-
-import TableCell from "@material-ui/core/TableCell/TableCell";
+import reduce from "lodash/reduce";
 
 import { formatPercentage, formatPrice } from "../../../../util/formatFunctions";
+
+const TableCell = lazy(() => import("@material-ui/core/TableCell/TableCell"));
 
 const unconnectedMarketPairSpread = ({ p }) => {
 	const innerBid = reduce(p.market_data, (max, emd) => emd.current_bid_dai > max ?  emd.current_bid_dai : max, 0);
@@ -25,5 +25,4 @@ const unconnectedMarketPairSpread = ({ p }) => {
 };
 
 //const MarketPairSpread = connect(null, null)(unconnectedMarketPairSpread);
-
 export default unconnectedMarketPairSpread;

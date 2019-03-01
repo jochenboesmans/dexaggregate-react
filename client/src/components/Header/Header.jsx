@@ -1,6 +1,6 @@
 import React, { lazy } from "react";
 
-import Grid from "@material-ui/core/Grid/Grid";
+const Grid = lazy(() => import("@material-ui/core/Grid/Grid"));
 
 const TitleBar = lazy(() => import("./TitleBar"));
 const TopBar = lazy(() => import("./TopBar"));

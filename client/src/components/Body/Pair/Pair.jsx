@@ -1,13 +1,13 @@
 import React, { lazy } from "react";
 import { connect } from "react-redux";
-import { find } from "lodash/core";
-
-import Button from "@material-ui/core/Button/Button";
-import Grid from "@material-ui/core/Grid/Grid";
-import Table from "@material-ui/core/Table/Table";
+import find from "lodash/find";
 
 import * as actions from "../../../actions";
 import { pages } from "../../../model/pages";
+
+const Button = lazy(() => import("@material-ui/core/Button/Button"));
+const Grid = lazy(() => import("@material-ui/core/Grid/Grid"));
+const Table = lazy(() => import("@material-ui/core/Table/Table"));
 
 const PairButton = lazy(() => import("./PairButton"));
 const PairHead = lazy(() => import("./PairHead"));

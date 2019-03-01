@@ -1,12 +1,12 @@
-import React from "react";
+import React, { lazy, Suspense } from "react";
 import { connect } from "react-redux";
-import { reduce } from "lodash/core";
+import reduce from "lodash/reduce";
 
-import TableCell from "@material-ui/core/TableCell/TableCell";
-import TableHead from "@material-ui/core/TableHead/TableHead";
-import TableRow from "@material-ui/core/TableRow/TableRow";
-import Tooltip from "@material-ui/core/Tooltip/Tooltip";
-import Typography from "@material-ui/core/Typography/Typography";
+const TableCell = lazy(() => import("@material-ui/core/TableCell/TableCell"));
+const TableHead = lazy(() => import("@material-ui/core/TableHead/TableHead"));
+const TableRow = lazy(() => import("@material-ui/core/TableRow/TableRow"));
+const Tooltip = lazy(() => import("@material-ui/core/Tooltip/Tooltip"));
+const Typography = lazy(() => import("@material-ui/core/Typography/Typography"));
 
 const unconnectedMarketHead = ({ viewport }) => {
 	const columns = [{
@@ -40,7 +40,9 @@ const unconnectedMarketHead = ({ viewport }) => {
 						result.push(
 							<TableCell align={column.align} key={column.text}>
 								<Tooltip title={column.tooltip} placement="bottom">
-									<Typography style={{color: "black", fontWeight: "bold"}}>{column.text}</Typography>
+									<Suspense fallback={<div>Loading...</div>}>
+										<Typography style={{color: "black", fontWeight: "bold"}}>{column.text}</Typography>
+									</Suspense>
 								</Tooltip>
 							</TableCell>
 						)

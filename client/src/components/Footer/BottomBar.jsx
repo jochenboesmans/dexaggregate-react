@@ -1,9 +1,9 @@
-import React from "react";
-import { map } from "lodash/core";
+import React, { lazy } from "react";
+import map from "lodash/map";
 
-import Grid from "@material-ui/core/Grid/Grid";
-import IconButton from "@material-ui/core/IconButton/IconButton";
-import SvgIcon from "@material-ui/core/SvgIcon/SvgIcon";
+const Grid = lazy(() => import("@material-ui/core/Grid/Grid"));
+const IconButton = lazy(() => import("@material-ui/core/IconButton/IconButton"));
+const SvgIcon = lazy(() => import("@material-ui/core/SvgIcon/SvgIcon"));
 
 const BottomBar = () => {
 	const icons = [{

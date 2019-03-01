@@ -1,10 +1,10 @@
-import React from "react";
+import React, { lazy } from "react";
 //import { connect } from "react-redux";
-import { reduce } from "lodash/core";
-
-import TableCell from "@material-ui/core/TableCell/TableCell";
+import reduce from "lodash/reduce";
 
 import { formatVolume } from "../../../../util/formatFunctions";
+
+const TableCell = lazy(() => import("@material-ui/core/TableCell/TableCell"));
 
 const unconnectedMarketPairVolume = ({ p }) => {
 	const combinedVolume = reduce(p.market_data, (sum, emd) => sum + emd.volume_dai, 0);

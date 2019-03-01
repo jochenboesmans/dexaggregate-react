@@ -1,16 +1,18 @@
 import React, { lazy } from "react";
 import { connect } from "react-redux";
-import { filter, find } from "lodash/core";
 
-import Grid from "@material-ui/core/Grid/Grid";
-import Table from "@material-ui/core/Table/Table";
-import TextField from "@material-ui/core/TextField/TextField";
-import Typography from "@material-ui/core/Typography/Typography";
-import IconButton from "@material-ui/core/IconButton/IconButton";
-import ChevronLeft from "@material-ui/icons/ChevronLeft";
-import ChevronRight from "@material-ui/icons/ChevronRight";
+import filter from "lodash/filter";
+import find from "lodash/find";
 
 import * as actions from "../../../actions";
+
+const Grid = lazy(() => import("@material-ui/core/Grid/Grid"));
+const Table = lazy(() => import("@material-ui/core/Table/Table"));
+const TextField = lazy(() => import("@material-ui/core/TextField/TextField"));
+const Typography = lazy(() => import("@material-ui/core/Typography/Typography"));
+const IconButton = lazy(() => import("@material-ui/core/IconButton/IconButton"));
+const ChevronLeft = lazy(() => import("@material-ui/icons/ChevronLeft"));
+const ChevronRight = lazy(() => import("@material-ui/icons/ChevronRight"));
 
 const MarketBody = lazy(() => import("./MarketBody/MarketBody"));
 const MarketHead = lazy(() => import("./MarketHead"));

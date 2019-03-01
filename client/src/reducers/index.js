@@ -1,4 +1,5 @@
 import { combineReducers } from "redux";
+
 import { deltaYReducer } from "./deltaYReducer";
 import { marketReducer } from "./marketReducer";
 import { navigationReducer } from "./navigationReducer";

@@ -1,15 +1,18 @@
-import React from "react";
+import React, { lazy, Suspense } from "react";
 import { connect } from "react-redux";
-import { map, reduce, find } from "lodash/core";
 
-import Tooltip from "@material-ui/core/Tooltip/Tooltip";
-import Typography from "@material-ui/core/Typography/Typography";
-import TableRow from "@material-ui/core/TableRow/TableRow";
-import TableBody from "@material-ui/core/TableBody/TableBody";
-import TableCell from "@material-ui/core/TableCell/TableCell";
-import Table from "@material-ui/core/Table/Table";
+import map from "lodash/map";
+import reduce from "lodash/reduce";
+import find from "lodash/find";
 
 import { formatVolume } from "../../util/formatFunctions";
+
+const Tooltip = lazy(() => import("@material-ui/core/Tooltip/Tooltip"));
+const Typography = lazy(() => import("@material-ui/core/Typography/Typography"));
+const TableRow = lazy(() => import("@material-ui/core/TableRow/TableRow"));
+const TableBody = lazy(() => import("@material-ui/core/TableBody/TableBody"));
+const TableCell = lazy(() => import("@material-ui/core/TableCell/TableCell"));
+const Table = lazy(() => import("@material-ui/core/Table/Table"));
 
 const unconnectedTopBar = ({ market, time, viewport }) => {
 	if (!market.market) return <div>Loading...</div>;
@@ -73,7 +76,9 @@ const unconnectedTopBar = ({ market, time, viewport }) => {
 						<TableRow style={{ height: "4vh" }} key={rows[ri].tooltipLeft}>
 							<TableCell align="right">
 								<Tooltip title={rows[ri].tooltipLeft} placement="bottom">
-									<Typography variant="caption" style={{ fontWeight: "bold" }}>{rows[ri].textLeft}</Typography>
+									<Suspense fallback={<div>Loading...</div>}>
+										<Typography variant="caption" style={{ fontWeight: "bold" }}>{rows[ri].textLeft}</Typography>
+									</Suspense>
 								</Tooltip>
 							</TableCell>
 							<TableCell>

@@ -1,8 +1,8 @@
-import React from "react";
-
-import TableCell from "@material-ui/core/TableCell/TableCell";
+import React, { lazy } from "react";
 
 import { formatPrice } from "../../../../util/formatFunctions";
+
+const TableCell = lazy(() => import("@material-ui/core/TableCell/TableCell"));
 
 const determineStyle = (innerAsk, innerBid, lowAsk, highBid) => {
 	if (innerAsk === lowAsk && innerBid === highBid) {
