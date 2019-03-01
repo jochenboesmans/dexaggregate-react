@@ -1,4 +1,4 @@
-import React from "react";
+import React, { lazy } from "react";
 import { connect } from "react-redux";
 
 import Grid from "@material-ui/core/Grid";
@@ -6,11 +6,11 @@ import MuiThemeProvider from "@material-ui/core/styles/MuiThemeProvider";
 
 import * as actions from "../actions";
 
-import { BottomBar } from "./Footer/BottomBar";
-import { Header } from "./Header/Header";
-import { Body } from "./Body/Body";
-
 import { theme } from "../themes/App";
+
+const BottomBar = lazy(() => import("./Footer/BottomBar"));
+const Header = lazy(() => import("./Header/Header"));
+const Body = lazy(() => import("./Body/Body"));
 
 const unconnectedApp = ({ updateTime, updateViewport, viewport }) => {
 	setInterval(() => updateTime(), 100);
@@ -49,4 +49,4 @@ const unconnectedApp = ({ updateTime, updateViewport, viewport }) => {
 };
 
 const App = connect(({ viewport }) => ({ viewport }), actions)(unconnectedApp);
-export { App };
+export default App;

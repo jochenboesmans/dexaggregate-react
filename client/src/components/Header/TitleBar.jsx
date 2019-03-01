@@ -30,4 +30,4 @@ const unconnectedTitleBar = ({ resetState }) => {
 };
 
 const TitleBar = connect(null, actions)(unconnectedTitleBar);
-export { TitleBar };
+export default TitleBar;

@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import _ from "lodash/core";
+import { map, reduce, find } from "lodash/core";
 
 import Tooltip from "@material-ui/core/Tooltip/Tooltip";
 import Typography from "@material-ui/core/Typography/Typography";
@@ -14,12 +14,13 @@ import { formatVolume } from "../../util/formatFunctions";
 const unconnectedTopBar = ({ market, time, viewport }) => {
 	if (!market.market) return <div>Loading...</div>;
 
-	const combinedVolume = formatVolume(_.reduce(market.market, (totalSum, p) => totalSum + _.reduce(p.market_data, (sum, emd) => sum + emd.volume_dai, 0), 0));
+	const combinedVolume = formatVolume(reduce(market.market, (totalSum, p) =>
+		totalSum + reduce(p.market_data, (sum, emd) => sum + emd.volume_dai, 0), 0));
 	const exchangeCount = market.exchanges.length;
-	const exchangeNames = _.map(market.exchanges, exchange => exchange.name).join(", ");
+	const exchangeNames = map(market.exchanges, exchange => exchange.name).join(", ");
 	const marketSize = Object.keys(market.market).length;
 	const secondsSinceUpdate = Math.round((time - market.timestamp) / 1000);
-	const latestUpdateExchange = _.find(market.exchanges, e => e.ID === market.lastUpdateExchangeID).name;
+	const latestUpdateExchange = find(market.exchanges, e => e.ID === market.lastUpdateExchangeID).name;
 	const rows = [{
 		tooltipLeft: `A list of all exchanges from which market data is included.`,
 		textLeft: `Exchanges`,
@@ -62,7 +63,7 @@ const unconnectedTopBar = ({ market, time, viewport }) => {
 		>
 			{colGroup}
 			<TableBody>
-				{_.map(rowsToInclude, (ri) => {
+				{map(rowsToInclude, (ri) => {
 					const rightElement = (rows[ri].tooltipRight) ? (
 						<Tooltip title={rows[ri].tooltipRight} placement="bottom">
 							<Typography variant="caption">{rows[ri].textRight}</Typography>
@@ -88,4 +89,4 @@ const unconnectedTopBar = ({ market, time, viewport }) => {
 
 const TopBar = connect(({ market, time, viewport }) => ({ market, time, viewport }))(unconnectedTopBar);
 
-export { TopBar };
+export default TopBar;

@@ -1,5 +1,5 @@
 import React from "react";
-import { connect } from "react-redux";
+//import { connect } from "react-redux";
 
 import TableCell from "@material-ui/core/TableCell/TableCell";
 
@@ -12,5 +12,5 @@ const unconnectedMarketPairName = ({ p }) => {
 	)
 };
 
-const MarketPairName = connect(null, null)(unconnectedMarketPairName);
-export { MarketPairName };
+//const MarketPairName = connect(null, null)(unconnectedMarketPairName);
+export default unconnectedMarketPairName;

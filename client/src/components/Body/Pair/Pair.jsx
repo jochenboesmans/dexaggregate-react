@@ -1,6 +1,6 @@
-import React from "react";
+import React, { lazy } from "react";
 import { connect } from "react-redux";
-import _ from "lodash/core";
+import { find } from "lodash/core";
 
 import Button from "@material-ui/core/Button/Button";
 import Grid from "@material-ui/core/Grid/Grid";
@@ -9,9 +9,9 @@ import Table from "@material-ui/core/Table/Table";
 import * as actions from "../../../actions";
 import { pages } from "../../../model/pages";
 
-import { PairButton } from "./PairButton";
-import { PairHead } from "./PairHead";
-import { PairBody } from "./PairBody/PairBody";
+const PairButton = lazy(() => import("./PairButton"));
+const PairHead = lazy(() => import("./PairHead"));
+const PairBody = lazy(() => import("./PairBody/PairBody"));
 
 const unconnectedPair = ({ market, activePage, setPage, viewport }) => {
 	const initialVW = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
@@ -20,7 +20,7 @@ const unconnectedPair = ({ market, activePage, setPage, viewport }) => {
 	const { pair: activePair }  = activePage;
 	const m = market.market;
 
-	const p = _.find(m, mPair =>
+	const p = find(m, mPair =>
 		mPair.base_symbol === activePair.base_symbol && mPair.quote_symbol === activePair.quote_symbol);
 
 	const colGroup = (vw < 760) ? (
@@ -77,5 +77,4 @@ const unconnectedPair = ({ market, activePage, setPage, viewport }) => {
 };
 
 const Pair = connect(({ market, activePage, deltaY, viewport }) => ({ market, activePage, deltaY, viewport }), actions)(unconnectedPair);
-
-export { Pair };
+export default Pair;

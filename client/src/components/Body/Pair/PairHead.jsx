@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import _ from "lodash/core";
+import { reduce } from "lodash/core";
 
 import TableCell from "@material-ui/core/TableCell/TableCell";
 import TableHead from "@material-ui/core/TableHead/TableHead";
@@ -35,7 +35,7 @@ const unconnectedPairHead = ({ p, viewport }) => {
 	return (
 		<TableHead>
 			<TableRow style={{ height: "4vh"}}>
-				{_.reduce(columns, (result, column, i) => {
+				{reduce(columns, (result, column, i) => {
 					if (i < columnAmount) {
 						result.push(
 							<TableCell align={column.align} key={column.text}>
@@ -53,4 +53,4 @@ const unconnectedPairHead = ({ p, viewport }) => {
 };
 
 const PairHead = connect(({ viewport }) => ({ viewport }), null)(unconnectedPairHead);
-export { PairHead };
+export default PairHead;

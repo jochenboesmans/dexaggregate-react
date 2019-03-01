@@ -1,5 +1,5 @@
 import React from "react";
-import { connect } from "react-redux";
+//import { connect } from "react-redux";
 
 import TableCell from "@material-ui/core/TableCell/TableCell";
 
@@ -14,5 +14,5 @@ const unconnectedPairLastPrice = ({ emd }) => {
 	)
 };
 
-const PairLastPrice = connect(null, null)(unconnectedPairLastPrice);
-export { PairLastPrice };
+//const PairLastPrice = connect(null, null)(unconnectedPairLastPrice);
+export default unconnectedPairLastPrice;

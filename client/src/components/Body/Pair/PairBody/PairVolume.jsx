@@ -1,5 +1,5 @@
 import React from "react";
-import { connect } from "react-redux";
+//import { connect } from "react-redux";
 
 import TableCell from "@material-ui/core/TableCell/TableCell";
 
@@ -14,5 +14,5 @@ const unconnectedPairVolume = ({ emd }) => {
 	)
 };
 
-const PairVolume = connect(null, null)(unconnectedPairVolume);
-export { PairVolume };
+//const PairVolume = connect(null, null)(unconnectedPairVolume);
+export default unconnectedPairVolume;

@@ -1,6 +1,6 @@
-import _ from "lodash";
-import React from "react";
+import React, { lazy } from "react";
 import { connect } from "react-redux";
+import { filter, find } from "lodash/core";
 
 import Grid from "@material-ui/core/Grid/Grid";
 import Table from "@material-ui/core/Table/Table";
@@ -11,15 +11,16 @@ import ChevronLeft from "@material-ui/icons/ChevronLeft";
 import ChevronRight from "@material-ui/icons/ChevronRight";
 
 import * as actions from "../../../actions";
-import { MarketBody } from "./MarketBody/MarketBody";
-import { MarketHead } from "./MarketHead";
+
+const MarketBody = lazy(() => import("./MarketBody/MarketBody"));
+const MarketHead = lazy(() => import("./MarketHead"));
 
 const unconnectedMarket = ({ market, deltaY, searchFilter, setSearchFilter, setDeltaY, viewport }) => {
 	if(!market.market) return null;
 
-	const filteredMarket = searchFilter ? _.filter(market.market, p =>
+	const filteredMarket = searchFilter ? filter(market.market, p =>
 		p.base_symbol.includes(searchFilter.toUpperCase()) || p.quote_symbol.includes(searchFilter.toUpperCase())
-		|| _.find(p.market_data, emd => emd.exchangeID.includes(searchFilter.toUpperCase()))) : market.market;
+		|| find(p.market_data, emd => emd.exchangeID.includes(searchFilter.toUpperCase()))) : market.market;
 	const slicedMarket = filteredMarket.slice(0 + deltaY, 10 + deltaY);
 
 	const vw = viewport.width || Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
@@ -100,7 +101,10 @@ const unconnectedMarket = ({ market, deltaY, searchFilter, setSearchFilter, setD
 					style={{ tableLayout: "fixed" }}>
 					{colGroup}
 					<MarketHead/>
-					<MarketBody filteredMarketLength={Object.keys(filteredMarket).length} slicedMarket={slicedMarket} />
+					<MarketBody
+						filteredMarketLength={Object.keys(filteredMarket).length}
+						slicedMarket={slicedMarket}
+					/>
 				</Table>
 			</Grid>
 			<Grid item>
@@ -112,4 +116,4 @@ const unconnectedMarket = ({ market, deltaY, searchFilter, setSearchFilter, setD
 
 const Market = connect(({ searchFilter, market, deltaY, viewport }) => ({ searchFilter, market, deltaY, viewport }), actions)(unconnectedMarket);
 
-export { Market };
+export default Market;

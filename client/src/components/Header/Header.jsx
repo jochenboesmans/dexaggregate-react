@@ -1,9 +1,9 @@
-import React from "react";
+import React, { lazy } from "react";
 
 import Grid from "@material-ui/core/Grid/Grid";
 
-import { TitleBar } from "./TitleBar";
-import { TopBar } from "./TopBar";
+const TitleBar = lazy(() => import("./TitleBar"));
+const TopBar = lazy(() => import("./TopBar"));
 
 const Header = () => (
 	<Grid
@@ -19,4 +19,4 @@ const Header = () => (
 	</Grid>
 );
 
-export { Header };
+export default Header;

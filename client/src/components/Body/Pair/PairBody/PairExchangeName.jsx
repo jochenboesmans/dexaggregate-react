@@ -1,11 +1,11 @@
 import React from "react";
 import { connect } from "react-redux";
-import _ from "lodash";
+import { find } from "lodash/core";
 
 import TableCell from "@material-ui/core/TableCell/TableCell";
 
 const unconnectedPairExchangeName = ({ emd, market }) => {
-	const exchangeName = _.find(market.exchanges, e => e.ID === emd.exchangeID).name;
+	const exchangeName = find(market.exchanges, e => e.ID === emd.exchangeID).name;
 	return (
 		<TableCell>
 			{exchangeName}
@@ -14,4 +14,4 @@ const unconnectedPairExchangeName = ({ emd, market }) => {
 };
 
 const PairExchangeName = connect(({ market }) => ({ market }), null)(unconnectedPairExchangeName);
-export { PairExchangeName };
+export default PairExchangeName;

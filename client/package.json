@@ -11,23 +11,20 @@
 	},
 	"dependencies": {
 		"@babel/core": "^7.3.3",
+		"@babel/plugin-syntax-dynamic-import": "^7.2.0",
+		"@babel/preset-env": "^7.3.4",
+		"@babel/preset-react": "^7.0.0",
 		"@material-ui/core": "latest",
 		"@material-ui/icons": "^3.0.2",
 		"@material-ui/styles": "latest",
 		"@svgr/webpack": "latest",
-		"@types/node": "^11.9.4",
+		"@types/node": "^11.9.6",
 		"axios": "^0.18.0",
-		"babel-core": "^6.26.3",
 		"babel-eslint": "^10.0.1",
-		"babel-jest": "latest",
 		"babel-loader": "^8.0.5",
-		"babel-plugin-named-asset-import": "^0.3.0",
-		"babel-preset-react-app": "^7.0.0",
 		"bfj": "latest",
 		"case-sensitive-paths-webpack-plugin": "latest",
-		"chalk": "latest",
 		"concurrently": "latest",
-		"css-loader": "latest",
 		"dateformat": "latest",
 		"dotenv": "^6.2.0",
 		"dotenv-expand": "latest",
@@ -41,7 +38,6 @@
 		"file-loader": "latest",
 		"fork-ts-checker-webpack-plugin-alt": "latest",
 		"fs-extra": "latest",
-		"html-webpack-plugin": "^4.0.0-beta.5",
 		"http-proxy-middleware": "latest",
 		"identity-obj-proxy": "latest",
 		"lodash": "latest",
@@ -51,10 +47,9 @@
 		"pnp-webpack-plugin": "latest",
 		"postcss-flexbugs-fixes": "latest",
 		"postcss-loader": "latest",
-		"postcss-preset-env": "latest",
+		"postcss-preset-env": "^6.6.0",
 		"postcss-safe-parser": "latest",
 		"react": "^16.8.2",
-		"react-app-polyfill": "next",
 		"react-dev-utils": "latest",
 		"react-dom": "^16.8.2",
 		"react-redux": "next",
@@ -68,16 +63,13 @@
 		"style-loader": "latest",
 		"terser-webpack-plugin": "latest",
 		"url-loader": "^1.1.2",
-		"webpack": "^4.29.5",
-		"webpack-dev-server": "latest",
+		"webpack-dev-server": "^3.2.1",
 		"webpack-manifest-plugin": "latest",
-		"workbox-webpack-plugin": "latest"
+		"workbox-webpack-plugin": "^4.0.0"
 	},
 	"scripts": {
-		"analyze": "source-map-explorer build/static/js/2.*",
-		"start": "node scripts/start.js",
-		"build": "node scripts/build.js",
-		"dev": "nodemon index.js"
+		"start": "webpack-dev-server --open --config './config/webpack.config.d.js'",
+		"build": "webpack --config './config/webpack.config.p.js'"
 	},
 	"eslintConfig": {
 		"extends": "react-app"
@@ -88,9 +80,10 @@
 		"not ie <= 11",
 		"not op_mini all"
 	],
-	"babel": {
-		"presets": [
-			"react-app"
-		]
+	"devDependencies": {
+		"clean-webpack-plugin": "^1.0.1",
+		"html-webpack-plugin": "^4.0.0-beta.5",
+		"webpack": "^4.29.6",
+		"webpack-cli": "^3.2.3"
 	}
 }

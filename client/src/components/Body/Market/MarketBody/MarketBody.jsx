@@ -1,6 +1,6 @@
-import React from "react";
+import React, { lazy } from "react";
 import { connect } from "react-redux";
-import _ from "lodash";
+import { map } from "lodash/core";
 
 import TableBody from "@material-ui/core/TableBody/TableBody";
 import TableRow from "@material-ui/core/TableRow/TableRow";
@@ -8,12 +8,11 @@ import TableRow from "@material-ui/core/TableRow/TableRow";
 import * as actions from "../../../../actions";
 import { pages } from "../../../../model/pages";
 
-import { MarketPairName } from "./MarketPairName";
-import { MarketPairSpread } from "./MarketPairSpread";
-import { MarketPairLastPrice } from "./MarketPairLastPrice";
-import { MarketPairVolume } from "./MarketPairVolume";
-
-import { MobileMarketPairSpread } from "./MarketPairSpread";
+const MarketPairName = lazy(() => import("./MarketPairName"));
+const MarketPairSpread = lazy(() => import("./MarketPairSpread"));
+const MarketPairLastPrice = lazy(() => import("./MarketPairLastPrice"));
+const MarketPairVolume = lazy(() => import("./MarketPairVolume"));
+const MobileMarketPairSpread = lazy(() => import("./MobileMarketPairSpread"));
 
 const unconnectedMarketBody = ({ filteredMarketLength, slicedMarket, searchFilter, deltaY, setDeltaY, setPage, setSearchFilter, viewport }) => {
 
@@ -44,7 +43,7 @@ const unconnectedMarketBody = ({ filteredMarketLength, slicedMarket, searchFilte
 
 	return (
 		<TableBody onWheel={handleWheelEvent}>
-			{_.map(slicedMarket, p => {
+			{map(slicedMarket, p => {
 				return (
 					<TableRow
 						style={{ height: "4vh" }}
@@ -71,4 +70,4 @@ const MarketBody = connect(({ searchFilter, deltaY, viewport }) => ({
 	viewport,
 }), actions)(unconnectedMarketBody);
 
-export { MarketBody };
+export default MarketBody;

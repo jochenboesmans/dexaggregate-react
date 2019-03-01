@@ -31,5 +31,4 @@ const unconnectedPairButton = ({ p, setPage }) => {
 };
 
 const PairButton = connect(null, actions)(unconnectedPairButton);
-
-export { PairButton };
+export default PairButton;

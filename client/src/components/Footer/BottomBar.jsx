@@ -1,5 +1,5 @@
 import React from "react";
-import _ from "lodash/core";
+import { map } from "lodash/core";
 
 import Grid from "@material-ui/core/Grid/Grid";
 import IconButton from "@material-ui/core/IconButton/IconButton";
@@ -23,7 +23,7 @@ const BottomBar = () => {
 			justify="center"
 			spacing={8}
 		>
-			{_.map(icons, icon => (
+			{map(icons, icon => (
 				<Grid item key={icon.ariaLabel}>
 					<a href={icon.href} target="_blank" rel="noopener noreferrer">
 						<IconButton aria-label={icon.ariaLabel}>
@@ -38,4 +38,4 @@ const BottomBar = () => {
 	);
 };
 
-export { BottomBar };
+export default BottomBar;
