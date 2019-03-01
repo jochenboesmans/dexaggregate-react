@@ -1,7 +1,8 @@
 import React, { lazy } from "react";
 import { connect } from "react-redux";
 // might be worthwhile to dynamically import since unavailable in lodash/core
-import { orderBy, map } from "lodash";
+import orderBy from "lodash/orderBy";
+import map from "lodash/map";
 
 import TableBody from "@material-ui/core/TableBody/TableBody";
 import TableRow from "@material-ui/core/TableRow/TableRow";

@@ -17,59 +17,32 @@
 		"@material-ui/core": "latest",
 		"@material-ui/icons": "^3.0.2",
 		"@material-ui/styles": "latest",
-		"@svgr/webpack": "latest",
-		"@types/node": "^11.9.6",
-		"axios": "^0.18.0",
 		"babel-eslint": "^10.0.1",
 		"babel-loader": "^8.0.5",
-		"bfj": "latest",
-		"case-sensitive-paths-webpack-plugin": "latest",
-		"concurrently": "latest",
-		"dateformat": "latest",
-		"dotenv": "^6.2.0",
-		"dotenv-expand": "latest",
 		"eslint": "^5.14.1",
 		"eslint-config-react-app": "^3.0.6",
 		"eslint-loader": "latest",
-		"eslint-plugin-flowtype": "^3.4.2",
 		"eslint-plugin-import": "latest",
 		"eslint-plugin-jsx-a11y": "latest",
 		"eslint-plugin-react": "^7.12.4",
+		"eslint-plugin-flowtype": "^3.4.2",
 		"file-loader": "latest",
-		"fork-ts-checker-webpack-plugin-alt": "latest",
-		"fs-extra": "latest",
-		"http-proxy-middleware": "latest",
-		"identity-obj-proxy": "latest",
+		"html-webpack-plugin": "^4.0.0-beta.5",
 		"lodash": "latest",
-		"mini-css-extract-plugin": "latest",
 		"nodemon": "latest",
-		"optimize-css-assets-webpack-plugin": "latest",
-		"pnp-webpack-plugin": "latest",
-		"postcss-flexbugs-fixes": "latest",
-		"postcss-loader": "latest",
-		"postcss-preset-env": "^6.6.0",
-		"postcss-safe-parser": "latest",
 		"react": "^16.8.2",
-		"react-dev-utils": "latest",
 		"react-dom": "^16.8.2",
 		"react-redux": "next",
-		"react-router-dom": "next",
 		"redux": "^4.0.1",
 		"redux-thunk": "latest",
-		"resolve": "latest",
-		"sass-loader": "latest",
 		"socket.io-client": "latest",
-		"source-map-explorer": "^1.7.0",
-		"style-loader": "latest",
-		"terser-webpack-plugin": "latest",
-		"url-loader": "^1.1.2",
-		"webpack-dev-server": "^3.2.1",
-		"webpack-manifest-plugin": "latest",
-		"workbox-webpack-plugin": "^4.0.0"
+		"clean-webpack-plugin": "^1.0.1",
+		"webpack": "^4.29.6",
+		"webpack-cli": "^3.2.3"
 	},
 	"scripts": {
-		"start": "webpack-dev-server --open --config './config/webpack.config.d.js'",
-		"build": "webpack --config './config/webpack.config.p.js'"
+		"start": "webpack-dev-server --open --config './config/webpack.config.dev.js'",
+		"build": "webpack --config './config/webpack.config.prod.js'"
 	},
 	"eslintConfig": {
 		"extends": "react-app"
@@ -81,9 +54,7 @@
 		"not op_mini all"
 	],
 	"devDependencies": {
-		"clean-webpack-plugin": "^1.0.1",
-		"html-webpack-plugin": "^4.0.0-beta.5",
-		"webpack": "^4.29.6",
-		"webpack-cli": "^3.2.3"
+		"webpack-bundle-analyzer": "^3.0.4",
+		"webpack-dev-server": "^3.2.1"
 	}
 }

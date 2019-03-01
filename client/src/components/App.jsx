@@ -1,8 +1,8 @@
 import React, { lazy } from "react";
 import { connect } from "react-redux";
 
-import Grid from "@material-ui/core/Grid";
-import MuiThemeProvider from "@material-ui/core/styles/MuiThemeProvider";
+import Grid from "@material-ui/core/Grid/Grid";
+import MuiThemeProvider from "@material-ui/core/styles/MuiThemeProvider/";
 
 import * as actions from "../actions";
 

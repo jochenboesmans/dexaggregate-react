@@ -1,6 +1,6 @@
 import React from "react";
 
-import TableCell from "@material-ui/core/TableCell";
+import TableCell from "@material-ui/core/TableCell/TableCell";
 
 import { formatPrice } from "../../../../util/formatFunctions";
 
