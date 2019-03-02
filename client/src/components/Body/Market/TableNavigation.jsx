@@ -1,11 +1,15 @@
 import React, { lazy } from "react";
 import { connect } from "react-redux";
 
+import * as actions from "../../../actions";
+
 const Grid = lazy(() => import("@material-ui/core/Grid/Grid"));
 const Typography = lazy(() => import("@material-ui/core/Typography/Typography"));
 const IconButton = lazy(() => import("@material-ui/core/IconButton/IconButton"));
 const ChevronLeft = lazy(() => import("@material-ui/icons/ChevronLeft"));
 const ChevronRight = lazy(() => import("@material-ui/icons/ChevronRight"));
+
+
 
 
 const unconnectedTableNavigation = ({ filteredMarketLength, deltaY, setDeltaY }) => {
@@ -43,5 +47,5 @@ const unconnectedTableNavigation = ({ filteredMarketLength, deltaY, setDeltaY })
     );
 };
 
-const TableNavigation = connect(({ deltaY, setDeltaY }) => ({ deltaY, setDeltaY }))(unconnectedTableNavigation);
+const TableNavigation = connect(({ deltaY }) => ({ deltaY }), actions)(unconnectedTableNavigation);
 export default TableNavigation;
