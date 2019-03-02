@@ -1,8 +1,7 @@
-import find from "lodash/find";
 import reduce from "lodash/reduce";
 
 const findPair = (market, baseSymbol, quoteSymbol) => {
-	return find(market, p => p.quote_symbol === quoteSymbol && p.base_symbol === baseSymbol);
+	return market.find(p => p.quote_symbol === quoteSymbol && p.base_symbol === baseSymbol);
 };
 
 const lowestCurrentAskAcrossExchanges = (market, baseSymbol, quoteSymbol) => {

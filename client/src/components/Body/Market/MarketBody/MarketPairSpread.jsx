@@ -12,11 +12,11 @@ const unconnectedMarketPairSpread = ({ p }) => {
 	const spreadRatioDifference = ((innerAsk / innerBid) - 1) || 0;
 	const arbitrageLimit = -0.01;
 
-	const colorString = spreadRatioDifference <= arbitrageLimit ? "red" : "black";
+	const style = spreadRatioDifference <= arbitrageLimit ? { color: "red" } : {};
 	const spreadString = `${formatPrice(innerBid)} - ${formatPrice(innerAsk)} (${formatPercentage(spreadRatioDifference)})`;
 	return (
 		<TableCell
-			style={{ color: colorString }}
+			style={style}
 			align="right"
 		>
 			{spreadString}

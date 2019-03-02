@@ -1,6 +1,5 @@
 import React, { lazy } from "react";
 import { connect } from "react-redux";
-import find from "lodash/find";
 
 import * as actions from "../../../actions";
 import { pages } from "../../../model/pages";
@@ -20,7 +19,7 @@ const unconnectedPair = ({ market, activePage, setPage, viewport }) => {
 	const { pair: activePair }  = activePage;
 	const m = market.market;
 
-	const p = find(m, mPair =>
+	const p = m.find(mPair =>
 		mPair.base_symbol === activePair.base_symbol && mPair.quote_symbol === activePair.quote_symbol);
 
 	const colGroup = (vw < 760) ? (

@@ -6,7 +6,7 @@ import reduxThunk from "redux-thunk";
 import install from "@material-ui/styles/install";
 
 import { reducer } from "./reducers/index";
-import { subscribeToSocketBroadcasts } from "./websocketclient";
+import { continuouslyUpdateStore } from "./continuouslyUpdateStore";
 
 /* Temporary solution for usage of alpha version of MUI styles */
 install();
@@ -14,7 +14,7 @@ install();
 const App = lazy(() => import("./components/App"));
 
 const store = createStore(reducer, {}, applyMiddleware(reduxThunk));
-subscribeToSocketBroadcasts();
+continuouslyUpdateStore(store.dispatch);
 
 const reduxedApp = (
 	<Provider store={store}>

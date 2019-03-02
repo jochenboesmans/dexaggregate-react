@@ -2,7 +2,6 @@ import React, { lazy } from "react";
 import { connect } from "react-redux";
 
 import orderBy from "lodash/orderBy";
-import map from "lodash/map";
 
 import {
 	highestCurrentBidAcrossExchanges,
@@ -18,7 +17,7 @@ const PairLastPrice = lazy(() => import("./PairLastPrice"));
 const PairVolume = lazy(() => import("./PairVolume"));
 const MobilePairSpread = lazy(() => import("./MobilePairSpread"));
 
-const unconnectedPairBody = ({ p, market, exchanges, viewport }) => {
+const unconnectedPairBody = ({ p, market, viewport }) => {
 	const sortedMarketData = p ? orderBy(p.market_data, [emd => emd.volume_dai], "desc") : null;
 
 	const lowAsk = lowestCurrentAskAcrossExchanges(market, p.base_symbol, p.quote_symbol);
@@ -28,7 +27,7 @@ const unconnectedPairBody = ({ p, market, exchanges, viewport }) => {
 	const vw = viewport.width || initialVW;
 	return (
 		<TableBody>
-			{map(sortedMarketData, emd => {
+			{sortedMarketData.map(emd => {
 				if(vw < 760) {
 					return (
 						<TableRow hover

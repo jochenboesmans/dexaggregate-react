@@ -1,4 +1,4 @@
-import React, { Suspense, lazy } from "react";
+import React, { lazy, Suspense } from "react";
 import { connect } from "react-redux";
 
 const Market = lazy(() => import("./Market/Market"));

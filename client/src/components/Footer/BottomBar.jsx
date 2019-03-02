@@ -1,5 +1,4 @@
 import React, { lazy } from "react";
-import map from "lodash/map";
 
 const Grid = lazy(() => import("@material-ui/core/Grid/Grid"));
 const IconButton = lazy(() => import("@material-ui/core/IconButton/IconButton"));
@@ -23,7 +22,7 @@ const BottomBar = () => {
 			justify="center"
 			spacing={8}
 		>
-			{map(icons, icon => (
+			{icons.map(icon => (
 				<Grid item key={icon.ariaLabel}>
 					<a href={icon.href} target="_blank" rel="noopener noreferrer">
 						<IconButton aria-label={icon.ariaLabel}>

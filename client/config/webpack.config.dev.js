@@ -76,6 +76,7 @@ module.exports = {
 								plugins: [
 									"@babel/plugin-syntax-dynamic-import",
 									"@babel/plugin-transform-async-to-generator",
+									"@babel/plugin-transform-runtime",
 								],
 							},
 							loader: require.resolve("babel-loader"),

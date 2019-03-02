@@ -13,8 +13,10 @@
 		"@babel/core": "^7.3.3",
 		"@babel/plugin-syntax-dynamic-import": "^7.2.0",
 		"@babel/plugin-transform-async-to-generator": "^7.3.4",
+		"@babel/plugin-transform-runtime": "^7.3.4",
 		"@babel/preset-env": "^7.3.4",
 		"@babel/preset-react": "^7.0.0",
+		"@babel/runtime": "^7.3.4",
 		"@material-ui/core": "latest",
 		"@material-ui/icons": "^3.0.2",
 		"@material-ui/styles": "latest",
@@ -30,6 +32,7 @@
 		"eslint-plugin-react": "^7.12.4",
 		"file-loader": "latest",
 		"html-webpack-plugin": "^4.0.0-beta.5",
+		"jss": "^10.0.0-alpha.12",
 		"lodash": "latest",
 		"nodemon": "latest",
 		"react": "^16.8.2",
@@ -38,6 +41,7 @@
 		"redux": "^4.0.1",
 		"redux-thunk": "latest",
 		"socket.io-client": "latest",
+		"terser-webpack-plugin": "^1.2.3",
 		"webpack": "^4.29.6",
 		"webpack-cli": "^3.2.3"
 	},
@@ -55,6 +59,7 @@
 		"not op_mini all"
 	],
 	"devDependencies": {
+		"typescript": "^3.3.3333",
 		"webpack-bundle-analyzer": "^3.0.4",
 		"webpack-dev-server": "^3.2.1"
 	}

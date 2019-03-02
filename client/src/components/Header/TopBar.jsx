@@ -1,9 +1,6 @@
 import React, { lazy, Suspense } from "react";
 import { connect } from "react-redux";
-
-import map from "lodash/map";
 import reduce from "lodash/reduce";
-import find from "lodash/find";
 
 import { formatVolume } from "../../util/formatFunctions";
 
@@ -20,10 +17,10 @@ const unconnectedTopBar = ({ market, time, viewport }) => {
 	const combinedVolume = formatVolume(reduce(market.market, (totalSum, p) =>
 		totalSum + reduce(p.market_data, (sum, emd) => sum + emd.volume_dai, 0), 0));
 	const exchangeCount = market.exchanges.length;
-	const exchangeNames = map(market.exchanges, exchange => exchange.name).join(", ");
-	const marketSize = Object.keys(market.market).length;
+	const exchangeNames = market.exchanges.map(exchange => exchange.name).join(", ");
+	const marketSize = market.market.length;
 	const secondsSinceUpdate = Math.round((time - market.timestamp) / 1000);
-	const latestUpdateExchange = find(market.exchanges, e => e.ID === market.lastUpdateExchangeID).name;
+	const latestUpdateExchange = market.exchanges.find(e => e.ID === market.lastUpdateExchangeID).name;
 	const rows = [{
 		tooltipLeft: `A list of all exchanges from which market data is included.`,
 		textLeft: `Exchanges`,
@@ -58,6 +55,7 @@ const unconnectedTopBar = ({ market, time, viewport }) => {
 	);
 
 	const rowsToInclude = (vh < 900) ? [3] : [0, 1, 2, 3];
+	const slicedRows = rows.slice(rowsToInclude[0], rowsToInclude[rowsToInclude.length - 1] + 1);
 
 	return (
 		<Table
@@ -66,18 +64,18 @@ const unconnectedTopBar = ({ market, time, viewport }) => {
 		>
 			{colGroup}
 			<TableBody>
-				{map(rowsToInclude, (ri) => {
-					const rightElement = (rows[ri].tooltipRight) ? (
-						<Tooltip title={rows[ri].tooltipRight} placement="bottom">
-							<Typography variant="caption">{rows[ri].textRight}</Typography>
-						</Tooltip>) : <Typography variant="caption">{rows[ri].textRight}</Typography>;
+				{slicedRows.map((r) => {
+					const rightElement = (r.tooltipRight) ? (
+						<Tooltip title={r.tooltipRight} placement="bottom">
+							<Typography variant="caption">{r.textRight}</Typography>
+						</Tooltip>) : <Typography variant="caption">{r.textRight}</Typography>;
 
 					return (
-						<TableRow style={{ height: "4vh" }} key={rows[ri].tooltipLeft}>
+						<TableRow style={{ height: "4vh" }} key={r.tooltipLeft}>
 							<TableCell align="right">
-								<Tooltip title={rows[ri].tooltipLeft} placement="bottom">
+								<Tooltip title={r.tooltipLeft} placement="bottom">
 									<Suspense fallback={<div>Loading...</div>}>
-										<Typography variant="caption" style={{ fontWeight: "bold" }}>{rows[ri].textLeft}</Typography>
+										<Typography variant="caption" style={{ fontWeight: "bold" }}>{r.textLeft}</Typography>
 									</Suspense>
 								</Tooltip>
 							</TableCell>

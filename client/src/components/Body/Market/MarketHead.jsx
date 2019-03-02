@@ -1,6 +1,5 @@
 import React, { lazy, Suspense } from "react";
 import { connect } from "react-redux";
-import reduce from "lodash/reduce";
 
 const TableCell = lazy(() => import("@material-ui/core/TableCell/TableCell"));
 const TableHead = lazy(() => import("@material-ui/core/TableHead/TableHead"));
@@ -31,24 +30,20 @@ const unconnectedMarketHead = ({ viewport }) => {
 	const vw = viewport.width || initialVW;
 
 	const columnAmount = (vw < 760) ? 2 : 4;
+	const slicedColumns = columns.slice(0, columnAmount);
 
 	return (
 		<TableHead>
 			<TableRow style={{ height: "4vh" }}>
-				{reduce(columns, (result, column, i) => {
-					if (i < columnAmount) {
-						result.push(
-							<TableCell align={column.align} key={column.text}>
-								<Tooltip title={column.tooltip} placement="bottom">
-									<Suspense fallback={<div>Loading...</div>}>
-										<Typography style={{color: "black", fontWeight: "bold"}}>{column.text}</Typography>
-									</Suspense>
-								</Tooltip>
-							</TableCell>
-						)
-					}
-					return result;
-				}, [])}
+				{slicedColumns.map(column => (
+					<TableCell align={column.align} key={column.text}>
+						<Tooltip title={column.tooltip} placement="bottom">
+							<Suspense fallback={<div>Loading...</div>}>
+								<Typography style={{fontWeight: "bold"}}>{column.text}</Typography>
+							</Suspense>
+						</Tooltip>
+					</TableCell>
+				))}
 			</TableRow>
 		</TableHead>
 	);
