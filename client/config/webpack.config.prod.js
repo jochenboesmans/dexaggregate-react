@@ -3,7 +3,7 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CleanWebpackPlugin = require("clean-webpack-plugin");
-const { BundleAnalyzerPlugin: webpackBundleAnalyzer } = require("webpack-bundle-analyzer");
+//const { BundleAnalyzerPlugin: webpackBundleAnalyzer } = require("webpack-bundle-analyzer");
 const TerserPlugin = require("terser-webpack-plugin");
 
 module.exports = {
@@ -30,7 +30,7 @@ module.exports = {
 			inject: true,
 			template: "./public/index.html",
 		}),
-		new webpackBundleAnalyzer(),
+		//new webpackBundleAnalyzer(),
 	],
 
 	optimization: {

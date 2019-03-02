@@ -3,7 +3,7 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CleanWebpackPlugin = require("clean-webpack-plugin");
-const { BundleAnalyzerPlugin: webpackBundleAnalyzer } = require("webpack-bundle-analyzer");
+//const { BundleAnalyzerPlugin: webpackBundleAnalyzer } = require("webpack-bundle-analyzer");
 const webpack = require("webpack");
 
 module.exports = {
@@ -32,8 +32,7 @@ module.exports = {
 			inject: true,
 			template: "./public/index.html",
 		}),
-		new webpack.HotModuleReplacementPlugin(),
-		new webpackBundleAnalyzer(),
+		//new webpack.HotModuleReplacementPlugin(),
 	],
 	devServer: {
 		hot: true,
