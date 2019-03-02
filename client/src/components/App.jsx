@@ -1,4 +1,4 @@
-import React, { lazy, useState } from "react";
+import React, { lazy } from "react";
 import { connect } from "react-redux";
 
 import { darkTheme, lightTheme } from "../themes/App";
@@ -12,11 +12,10 @@ const BottomBar = lazy(() => import("./Footer/BottomBar"));
 const Header = lazy(() => import("./Header/Header"));
 const Body = lazy(() => import("./Body/Body"));
 
-const unconnectedApp = ({ viewport }) => {
-	const [theme, setTheme] = useState(darkTheme);
-
+const unconnectedApp = ({ viewport, lightBulb }) => {
 	const vw = viewport.width || Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
 	const width = vw > 1300 ? "50vw" : "95vw";
+	const theme = lightBulb === `DARK` ? darkTheme : lightTheme;
 
 	return (
 		<MuiThemeProvider theme={theme}>
@@ -26,29 +25,39 @@ const unconnectedApp = ({ viewport }) => {
 					direction="column"
 					alignItems="center"
 				>
-					<Paper>
-						<Grid
-							container
-							direction="column"
-							style={{ width: `${width}` }}
-							spacing={16}
-						>
-							<Grid item>
-								<Header/>
-							</Grid>
-							<Grid item>
-								<Body/>
-							</Grid>
-							<Grid item>
-								<BottomBar/>
-							</Grid>
+					<Grid
+						container
+						direction="column"
+						style={{ width: `${width}` }}
+						spacing={16}
+					>
+						<Grid item style={{ height: "1vh"}}>
 						</Grid>
-					</Paper>
+						<Paper>
+						<Grid item style={{ height: "1vh"}}>
+						</Grid>
+						<Grid item>
+							<Header/>
+						</Grid>
+						<Grid item style={{ height: "1vh"}}>
+						</Grid>
+						<Grid item>
+							<Body/>
+						</Grid>
+						<Grid item>
+							<BottomBar/>
+						</Grid>
+						<Grid item style={{ height: "1vh"}}>
+						</Grid>
+						</Paper>
+						<Grid item style={{ height: "1vh"}}>
+						</Grid>
+					</Grid>
 				</Grid>
 			</CssBaseline>
 		</MuiThemeProvider>
 	);
 };
 
-const App = connect(({ viewport }) => ({ viewport }))(unconnectedApp);
+const App = connect(({ viewport, lightBulb }) => ({ viewport, lightBulb }))(unconnectedApp);
 export default App;

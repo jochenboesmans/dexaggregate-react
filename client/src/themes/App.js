@@ -23,7 +23,7 @@ const lightTheme = createMuiTheme({
 		primary: purple,
 		background: {
 			paper: "#F9F9F9",
-			default: "#F4F4F4",
+			default: "#F0F0F0",
 		}
 	}
 });
@@ -50,8 +50,8 @@ const darkTheme = createMuiTheme({
 		type: "dark",
 		primary: purple,
 		background: {
-			paper: "#101010",
-			default: "#151515",
+			paper: "#202020",
+			default: "#282828",
 		},
 	}
 });

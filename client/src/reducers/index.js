@@ -6,6 +6,7 @@ import { navigationReducer } from "./navigationReducer";
 import { searchFilterReducer } from "./searchFilterReducer";
 import { timeReducer } from "./timeReducer";
 import { viewportReducer } from "./viewportReducer";
+import { lightBulbReducer } from "./lightBulbReducer";
 
 const reducer = combineReducers({
 	activePage: navigationReducer,
@@ -14,6 +15,7 @@ const reducer = combineReducers({
 	deltaY: deltaYReducer,
 	time: timeReducer,
 	viewport: viewportReducer,
+	lightBulb: lightBulbReducer,
 });
 
 export { reducer };
