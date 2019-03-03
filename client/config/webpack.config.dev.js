@@ -27,7 +27,7 @@ module.exports = {
 		extensions: [".js", ".jsx", ".ts", ".tsx"]
 	},
 	plugins: [
-		new CleanWebpackPlugin(["build"]),
+		new CleanWebpackPlugin(["build/*.*"]),
 		new HtmlWebpackPlugin({
 			inject: true,
 			template: "./public/index.html",
@@ -40,9 +40,9 @@ module.exports = {
 	optimization: {
 		splitChunks: {
 			chunks: "all",
+			name: false,
 		},
 		runtimeChunk: true,
-		usedExports: true,
 	},
 	module: {
 		rules: [

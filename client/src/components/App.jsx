@@ -31,22 +31,30 @@ const unconnectedApp = ({ viewport, lightBulb }) => {
 						style={{ width: `${width}` }}
 						spacing={16}
 					>
-						<Grid item style={{ height: "1vh"}}>
+						<Grid item style={{ height: "2.5vh"}}>
 						</Grid>
 						<Paper>
 						<Grid item style={{ height: "1vh"}}>
 						</Grid>
-						<Grid item>
-							<Header/>
-						</Grid>
-						<Grid item style={{ height: "1vh"}}>
-						</Grid>
-						<Grid item>
-							<Body/>
-						</Grid>
-						<Grid item>
-							<BottomBar/>
-						</Grid>
+							<Grid
+								container
+								direction="column"
+								alignItems="center"
+							>
+								<Grid item style={{ width: "90%" }}>
+									<Header/>
+								</Grid>
+								<Grid item style={{ height: "1.5vh"}}>
+								</Grid>
+								<Grid item style={{ width: "90%" }}>
+									<Body/>
+								</Grid>
+								<Grid item style={{ height: "1.5vh"}}>
+								</Grid>
+								<Grid item style={{ width: "90%" }}>
+									<BottomBar/>
+								</Grid>
+							</Grid>
 						<Grid item style={{ height: "1vh"}}>
 						</Grid>
 						</Paper>

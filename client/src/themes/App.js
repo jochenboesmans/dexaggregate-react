@@ -17,7 +17,7 @@ const lightTheme = createMuiTheme({
 				height: 58,
 				padding: "0 30px",
 			},
-		}
+		},
 	},
 	palette: {
 		primary: purple,
@@ -30,7 +30,7 @@ const lightTheme = createMuiTheme({
 
 const darkTheme = createMuiTheme({
 	typography: {
-		fontFamily: "\"Courier New\"",
+		fontFamily: '"Roboto Mono"',
 		fontSize: 16,
 		useNextVariants: true
 	},
