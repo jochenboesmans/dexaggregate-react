@@ -58,7 +58,15 @@ module.exports = {
 				// "oneOf" will traverse all following loaders until one will
 				// match the requirements. When no loader matches it will fall
 				// back to the "file" loader at the end of the loader list.
-				oneOf: [// Process application JS with Babel.
+				oneOf: [
+					{
+						test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/],
+						loader: require.resolve("url-loader"),
+						options: {
+							limit: 10000,
+							name: "static/media/[name].[hash:8].[ext]",
+						},
+					},
 					{
 						test: /\.(js|mjs|jsx|ts|tsx)$/,
 						exclude: /node_modules/,
