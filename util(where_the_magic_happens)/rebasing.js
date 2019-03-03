@@ -1,4 +1,4 @@
-const _ = require("lodash/core");
+const reduce = require("lodash/reduce");
 
 const rebaseMarket = (market, marketRebaseSymbol) => {
 
@@ -21,7 +21,7 @@ const rebaseMarket = (market, marketRebaseSymbol) => {
 	const emdVolumeMemo = {};
 	const getEMDVolume = (pair) => {
 		if (emdVolumeMemo[pair.b + "/" + pair.q]) return emdVolumeMemo[pair.b + "/" + pair.q];
-		const emdVolume = _.reduce(pair.m, (sum, emd) => sum + emd.v, 0);
+		const emdVolume = reduce(pair.m, (sum, emd) => sum + emd.v, 0);
 		emdVolumeMemo[pair.b + "/" + pair.q] = emdVolume;
 		return emdVolume;
 	};
@@ -98,8 +98,8 @@ const rebaseMarket = (market, marketRebaseSymbol) => {
 		if (vwsaMemo[baseSymbol + "/" + quoteSymbol]) return vwsaMemo[baseSymbol + "/" + quoteSymbol];
 		const pair = market[baseSymbol + "/" + quoteSymbol];
 		const combinedVolume = getEMDVolume(pair);
-		const weightedSumOfCurrentBids = _.reduce(pair.m, (result, emd) => result + (emd.v * emd.b), 0);
-		const weightedSumOfCurrentAsks = _.reduce(pair.m, (result, emd) => result + (emd.v * emd.a), 0);
+		const weightedSumOfCurrentBids = reduce(pair.m, (result, emd) => result + (emd.v * emd.b), 0);
+		const weightedSumOfCurrentAsks = reduce(pair.m, (result, emd) => result + (emd.v * emd.a), 0);
 		const volumeWeightedBidAverage = weightedSumOfCurrentBids / combinedVolume;
 		const volumeWeightedAskAverage = weightedSumOfCurrentAsks / combinedVolume;
 		const vwsa = (volumeWeightedBidAverage + volumeWeightedAskAverage) / 2;

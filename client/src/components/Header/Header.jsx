@@ -1,22 +1,23 @@
-import React from "react";
+import React, { lazy } from "react";
 
-import Grid from "@material-ui/core/Grid/Grid";
+const Grid = lazy(() => import("@material-ui/core/Grid/Grid"));
 
-import { TitleBar } from "./TitleBar";
-import { TopBar } from "./TopBar";
+const TitleBar = lazy(() => import("./TitleBar"));
+const TopBar = lazy(() => import("./TopBar"));
 
 const Header = () => (
 	<Grid
 		container
-    direction="column"
-    justify="center">
-	  <Grid item>
-	    <TitleBar/>
-	  </Grid>
+		direction="column"
+		justify="center"
+	>
+		<Grid item>
+			<TitleBar/>
+		</Grid>
 		<Grid item>
 			<TopBar/>
 		</Grid>
 	</Grid>
 );
 
-export { Header };
+export default Header;

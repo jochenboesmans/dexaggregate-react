@@ -1,7 +1,8 @@
 const socketio = require("socket.io");
 
-const { getMarket } = require("../model/market");
-const { getModelNeedsBroadcast, setModelNeedsBroadcast } = require("./modelNeedsBroadcast");
+const { getMarket } = require("../market/market");
+const { getModelNeedsBroadcast,
+	setModelNeedsBroadcast } = require("./updateNotifier");
 
 const initialize = (server) => {
 	const io = socketio(server);
@@ -15,7 +16,7 @@ const initialize = (server) => {
 			io.emit("marketBroadcast", getMarket());
 			setModelNeedsBroadcast(false);
 		}
-	}, 1000);
+	}, 100);
 };
 
 module.exports = { initialize };

@@ -1,8 +1,8 @@
-const _ = require("lodash");
 const axios = require("axios");
+const isEqual = require("lodash/isEqual");
 
 const { getExchanges } = require("../exchanges");
-const { setModelNeedsBroadcast } = require("../../websocketbroadcasts/modelNeedsBroadcast");
+const { setMarketNeedsUpdate } = require("../updateNotifier");
 
 let market;
 let timestamp;
@@ -26,25 +26,27 @@ const tryUpdateMarket = async () => {
 };
 
 const updateMarket = (receivedMarket) => {
-	const newMarket = _.reduce(receivedMarket, (result, pair) => {
-		if(pair.active && pair.displayName.split("/")[1] && pair.displayName.split("/")[0] && parseFloat(pair.ticker.price) && parseFloat(pair.ticker.bestBid) && parseFloat(pair.ticker.bestAsk) && parseFloat(pair.stats.volume24Hour)) {
-			result.push({
-				b: pair.displayName.split("/")[1],
-				q: pair.displayName.split("/")[0],
+	const newMarket = [];
+	Object.keys(receivedMarket).forEach(pKey => {
+		const p = receivedMarket[pKey];
+		if(p.active && p.displayName.split("/")[1] && p.displayName.split("/")[0] && parseFloat(p.ticker.price)
+			&& parseFloat(p.ticker.bestBid) && parseFloat(p.ticker.bestAsk) && parseFloat(p.stats.volume24Hour)) {
+			newMarket.push({
+				b: p.displayName.split("/")[1],
+				q: p.displayName.split("/")[0],
 				m: {
-					l: parseFloat(pair.ticker.price),
-					b: parseFloat(pair.ticker.bestBid),
-					a: parseFloat(pair.ticker.bestAsk),
-					v: parseFloat(pair.stats.volume24Hour),
+					l: parseFloat(p.ticker.price),
+					b: parseFloat(p.ticker.bestBid),
+					a: parseFloat(p.ticker.bestAsk),
+					v: parseFloat(p.stats.volume24Hour),
 				}
 			});
 		}
-		return result;
-	}, []);
-	if (newMarket && !_.isEqual(newMarket, market)) {
+	});
+	if (newMarket && !isEqual(newMarket, market)) {
 		market = newMarket;
 		timestamp = Date.now();
-		setModelNeedsBroadcast(true);
+		setMarketNeedsUpdate(true);
 	}
 };
 

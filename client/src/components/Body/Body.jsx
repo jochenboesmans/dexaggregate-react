@@ -1,16 +1,21 @@
-import React from "react";
+import React, { lazy, Suspense } from "react";
 import { connect } from "react-redux";
 
-import { Market } from "./Market/Market";
-import { Pair } from "./Pair/Pair";
+const Market = lazy(() => import("./Market/Market"));
+const Pair = lazy(() => import("./Pair/Pair"));
 
-const unconnectedMain = ({ activePage }) => {
+
+const unconnectedBody = ({ activePage }) => {
 	const componentsByPageID = {
 		MARKET: <Market/>,
 		PAIR: <Pair/>,
 	};
-	return componentsByPageID[activePage.ID];
+	return (
+		<Suspense fallback={<div>Loading...</div>}>
+			{componentsByPageID[activePage.ID]}
+		</Suspense>
+	);
 };
 
-const Body = connect(({ activePage }) => ({ activePage }))(unconnectedMain);
-export { Body };
+const Body = connect(({ activePage }) => ({ activePage }))(unconnectedBody);
+export default Body;

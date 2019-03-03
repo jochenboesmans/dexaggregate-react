@@ -1,12 +1,18 @@
 import io from "socket.io-client";
 import { updateMarket } from "../actions";
-import { store } from "../index";
 
-const subscribeToSocketBroadcasts = () => {
+const subscribeToSocketBroadcasts = (dispatch) => {
 	const socket = (process.env.NODE_ENV === "production") ? io() : io("localhost:5000");
 	socket.on("marketBroadcast", receivedMarket => {
-		updateMarket(receivedMarket)(store.dispatch);
+		updateMarket(receivedMarket)(dispatch);
 	});
+	return socket;
 };
 
-export { subscribeToSocketBroadcasts };
+const unsubscribeFromSocketBroadcasts = (dispatch, socket) => {
+	socket.removeAllListeners("marketBroadcast");
+	updateMarket(null)(dispatch);
+
+};
+
+export { subscribeToSocketBroadcasts, unsubscribeFromSocketBroadcasts };

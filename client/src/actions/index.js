@@ -8,6 +8,7 @@ import {
 	SET_SEARCH_FILTER,
 	UPDATE_TIME,
 	UPDATE_VIEWPORT,
+	SWITCH_LIGHT_BULB,
 } from "./types";
 
 /* Action creator functions */
@@ -50,6 +51,10 @@ const updateViewport = () => dispatch => {
 	dispatch({ type: UPDATE_VIEWPORT, payload: { width: width, height: height}});
 };
 
+const switchLightBulb = () => dispatch => {
+	dispatch({ type: SWITCH_LIGHT_BULB })
+};
+
 export {
 	setPage,
 	updateMarket,
@@ -57,5 +62,6 @@ export {
 	setDeltaY,
 	resetState,
 	updateTime,
-	updateViewport
+	updateViewport,
+	switchLightBulb,
 };

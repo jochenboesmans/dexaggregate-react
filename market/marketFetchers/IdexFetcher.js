@@ -1,9 +1,9 @@
-const _ = require("lodash");
 const axios = require("axios");
+const isEqual = require("lodash/isEqual");
 // const WebSocket = require("ws");
 
 const { getExchanges } = require("../exchanges");
-const { setModelNeedsBroadcast } = require("../../websocketbroadcasts/modelNeedsBroadcast");
+const { setMarketNeedsUpdate } = require("../updateNotifier");
 
 let market;
 let timestamp;
@@ -28,26 +28,27 @@ const tryUpdateMarket = async () => {
 };
 
 const updateMarket = (receivedMarket) => {
-	const newMarket = _.reduce(receivedMarket, (result, pair, pairKey) => {
-		if((parseFloat(pair.last) && parseFloat(pair.highestBid) && parseFloat(pair.lowestAsk)
-			&& parseFloat(pair.high) && parseFloat(pair.low) && parseFloat(pair.baseVolume))) {
-			result.push({
-				b: pairKey.split("_")[0],
-				q: pairKey.split("_")[1],
+	const newMarket = [];
+	Object.keys(receivedMarket).forEach(pKey => {
+		const p = receivedMarket[pKey];
+		if((parseFloat(p.last) && parseFloat(p.highestBid) && parseFloat(p.lowestAsk)
+			&& parseFloat(p.high) && parseFloat(p.low) && parseFloat(p.baseVolume))) {
+			newMarket.push({
+				b: pKey.split("_")[0],
+				q: pKey.split("_")[1],
 				m: {
-					l: parseFloat(pair.last),
-					b: parseFloat(pair.highestBid),
-					a: parseFloat(pair.lowestAsk),
-					v: parseFloat(pair.baseVolume)
+					l: parseFloat(p.last),
+					b: parseFloat(p.highestBid),
+					a: parseFloat(p.lowestAsk),
+					v: parseFloat(p.baseVolume),
 				}
 			});
 		}
-		return result;
-	}, []);
-	if (!_.isEqual(newMarket, market)) {
+	});
+	if (newMarket && !isEqual(newMarket, market)) {
 		market = newMarket;
 		timestamp = Date.now();
-		setModelNeedsBroadcast(true);
+		setMarketNeedsUpdate(true);
 	}
 };
 

@@ -1,11 +1,13 @@
-import React from "react";
-import _ from "lodash/core";
+import React, { lazy } from "react";
+import { connect } from "react-redux";
 
-import Grid from "@material-ui/core/Grid/Grid";
-import IconButton from "@material-ui/core/IconButton/IconButton";
-import SvgIcon from "@material-ui/core/SvgIcon/SvgIcon";
+import * as actions from "../../actions";
 
-const BottomBar = () => {
+const Grid = lazy(() => import("@material-ui/core/Grid/Grid"));
+const IconButton = lazy(() => import("@material-ui/core/IconButton/IconButton"));
+const SvgIcon = lazy(() => import("@material-ui/core/SvgIcon/SvgIcon"));
+
+const unconnectedBottomBar = ({ switchLightBulb }) => {
 	const icons = [{
 		href: "https://twitter.com/jochenboesmans",
 		ariaLabel: "Twitter",
@@ -16,26 +18,36 @@ const BottomBar = () => {
 		pathD: "M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"
 	}];
 	return (
-		<Grid
-			container
-			direction="row"
-			alignItems="center"
-			justify="center"
-			spacing={8}
-		>
-			{_.map(icons, icon => (
-				<Grid item key={icon.ariaLabel}>
-					<a href={icon.href} target="_blank" rel="noopener noreferrer">
-						<IconButton aria-label={icon.ariaLabel}>
-							<SvgIcon viewBox="0 0 24 24">
-								<path d={icon.pathD}/>
-							</SvgIcon>
-						</IconButton>
-					</a>
+		<>
+			<Grid
+				container
+				direction="row"
+				alignItems="center"
+				justify="center"
+				spacing={8}
+			>
+				{icons.map(icon => (
+					<Grid item key={icon.ariaLabel}>
+						<a href={icon.href} target="_blank" rel="noopener noreferrer">
+							<IconButton aria-label={icon.ariaLabel}>
+								<SvgIcon viewBox="0 0 24 24">
+									<path d={icon.pathD}/>
+								</SvgIcon>
+							</IconButton>
+						</a>
+					</Grid>
+				))}
+				<Grid item>
+					<IconButton onClick={() => switchLightBulb()} aria-label="lightBulb">
+						<SvgIcon viewBox="0 0 24 24">
+							<path d="M12,6A6,6 0 0,1 18,12C18,14.22 16.79,16.16 15,17.2V19A1,1 0 0,1 14,20H10A1,1 0 0,1 9,19V17.2C7.21,16.16 6,14.22 6,12A6,6 0 0,1 12,6M14,21V22A1,1 0 0,1 13,23H11A1,1 0 0,1 10,22V21H14M20,11H23V13H20V11M1,11H4V13H1V11M13,1V4H11V1H13M4.92,3.5L7.05,5.64L5.63,7.05L3.5,4.93L4.92,3.5M16.95,5.63L19.07,3.5L20.5,4.93L18.37,7.05L16.95,5.63Z"/>
+						</SvgIcon>
+					</IconButton>
 				</Grid>
-			))}
-		</Grid>
+			</Grid>
+		</>
 	);
 };
 
-export { BottomBar };
+const BottomBar = connect(null, actions)(unconnectedBottomBar);
+export default BottomBar;

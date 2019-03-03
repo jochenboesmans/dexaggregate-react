@@ -12,7 +12,7 @@ if(process.env.NODE_ENV === "production") {
 	});
 }
 
-require("./model/market").initializeFetchers();
+require("./market/market").initialize();
 
 require("./routes/exchanges")(app);
 require("./routes/market")(app);

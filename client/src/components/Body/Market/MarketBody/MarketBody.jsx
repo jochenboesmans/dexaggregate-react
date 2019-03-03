@@ -1,21 +1,19 @@
-import React from "react";
+import React, { lazy } from "react";
 import { connect } from "react-redux";
-import _ from "lodash";
-
-import TableBody from "@material-ui/core/TableBody/TableBody";
-import TableRow from "@material-ui/core/TableRow/TableRow";
 
 import * as actions from "../../../../actions";
 import { pages } from "../../../../model/pages";
 
-import { MarketPairName } from "./MarketPairName";
-import { MarketPairSpread } from "./MarketPairSpread";
-import { MarketPairLastPrice } from "./MarketPairLastPrice";
-import { MarketPairVolume } from "./MarketPairVolume";
+const MarketPairName = lazy(() => import("./MarketPairName"));
+const MarketPairSpread = lazy(() => import("./MarketPairSpread"));
+const MarketPairLastPrice = lazy(() => import("./MarketPairLastPrice"));
+const MarketPairVolume = lazy(() => import("./MarketPairVolume"));
+const MobileMarketPairSpread = lazy(() => import("./MobileMarketPairSpread"));
 
-import { MobileMarketPairSpread } from "./MarketPairSpread";
+const TableBody = lazy(() => import("@material-ui/core/TableBody/TableBody"));
+const TableRow = lazy(() => import("@material-ui/core/TableRow/TableRow"));
 
-const unconnectedMarketBody = ({ filteredMarketLength, slicedMarket, searchFilter, deltaY, setDeltaY, setPage, setSearchFilter, viewport }) => {
+const unconnectedMarketBody = ({ filteredMarketLength, slicedMarket, deltaY, setDeltaY, setPage, viewport }) => {
 
 	const initialVW = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
 	const vw = viewport.width || initialVW;
@@ -44,7 +42,7 @@ const unconnectedMarketBody = ({ filteredMarketLength, slicedMarket, searchFilte
 
 	return (
 		<TableBody onWheel={handleWheelEvent}>
-			{_.map(slicedMarket, p => {
+			{slicedMarket.map(p => {
 				return (
 					<TableRow
 						style={{ height: "4vh" }}
@@ -65,10 +63,6 @@ const unconnectedMarketBody = ({ filteredMarketLength, slicedMarket, searchFilte
 	);
 };
 
-const MarketBody = connect(({ searchFilter, deltaY, viewport }) => ({
-	searchFilter,
-	deltaY,
-	viewport,
-}), actions)(unconnectedMarketBody);
+const MarketBody = connect(({ deltaY, viewport }) => ({ deltaY, viewport }), actions)(unconnectedMarketBody);
 
-export { MarketBody };
+export default MarketBody;

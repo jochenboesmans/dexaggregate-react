@@ -1,27 +1,27 @@
-import React, { useState } from "react";
+import React, { lazy, useState } from "react";
 import { connect } from "react-redux";
-
-import Grid from "@material-ui/core/Grid/Grid";
-import Typography from "@material-ui/core/Typography/Typography";
 
 import * as actions from "../../actions";
 
+const Grid = lazy(() => import("@material-ui/core/Grid/Grid"));
+const Typography = lazy(() => import("@material-ui/core/Typography/Typography"));
+
 const unconnectedTitleBar = ({ resetState }) => {
-	const [state, setState] = useState({ hover: false });
-	const style = state.hover ? { cursor: "pointer", color: "grey" } : {};
+	const [hover, setHover] = useState(false);
+	const style = hover ? { cursor: "pointer", color: "grey" } : {};
 	const title = "ΣDEX";
 
 	return (
 		<Grid
 			item
-      onMouseLeave={() => { setState({ hover: false }) }}
-      onMouseEnter={() => { setState({ hover: true}) }}
+			onMouseLeave={() => { setHover(false) }}
+			onMouseEnter={() => { setHover(true) }}
 		>
 			<Typography
 				variant="h1"
-        align="center"
-        onClick={() => resetState()}
-        style={style}
+				align="center"
+				onClick={() => resetState()}
+				style={style}
 			>
 				{title}
 			</Typography>
@@ -30,4 +30,4 @@ const unconnectedTitleBar = ({ resetState }) => {
 };
 
 const TitleBar = connect(null, actions)(unconnectedTitleBar);
-export { TitleBar };
+export default TitleBar;

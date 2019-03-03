@@ -1,25 +1,22 @@
-import _ from "lodash";
-import React from "react";
+import React, { lazy } from "react";
 import { connect } from "react-redux";
 
-import Grid from "@material-ui/core/Grid/Grid";
-import Table from "@material-ui/core/Table/Table";
-import TextField from "@material-ui/core/TextField/TextField";
-import Typography from "@material-ui/core/Typography/Typography";
-import IconButton from "@material-ui/core/IconButton/IconButton";
-import ChevronLeft from "@material-ui/icons/ChevronLeft";
-import ChevronRight from "@material-ui/icons/ChevronRight";
-
 import * as actions from "../../../actions";
-import { MarketBody } from "./MarketBody/MarketBody";
-import { MarketHead } from "./MarketHead";
+
+const Grid = lazy(() => import("@material-ui/core/Grid/Grid"));
+const Table = lazy(() => import("@material-ui/core/Table/Table"));
+const TextField = lazy(() => import("@material-ui/core/TextField/TextField"));
+
+const MarketBody = lazy(() => import("./MarketBody/MarketBody"));
+const MarketHead = lazy(() => import("./MarketHead"));
+const TableNavigation = lazy(() => import("./TableNavigation"));
 
 const unconnectedMarket = ({ market, deltaY, searchFilter, setSearchFilter, setDeltaY, viewport }) => {
 	if(!market.market) return null;
 
-	const filteredMarket = searchFilter ? _.filter(market.market, p =>
+	const filteredMarket = searchFilter ? market.market.filter(p =>
 		p.base_symbol.includes(searchFilter.toUpperCase()) || p.quote_symbol.includes(searchFilter.toUpperCase())
-		|| _.find(p.market_data, emd => emd.exchangeID.includes(searchFilter.toUpperCase()))) : market.market;
+		|| Object.keys(p.market_data).find(exchangeID => exchangeID.includes(searchFilter.toUpperCase()))) : market.market;
 	const slicedMarket = filteredMarket.slice(0 + deltaY, 10 + deltaY);
 
 	const vw = viewport.width || Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
@@ -42,39 +39,6 @@ const unconnectedMarket = ({ market, deltaY, searchFilter, setSearchFilter, setD
 		setSearchFilter((e.target.value).toUpperCase());
 		setDeltaY(0);
 	};
-
-	const handleLeftButtonClick = () => { if(deltaY - 10 >= 0) setDeltaY(deltaY - 10) };
-	const handleRightButtonClick = () => { if(deltaY + 10 < Object.keys(filteredMarket).length) setDeltaY(deltaY + 10) };
-
-	const tableNavigation = () => (
-		<Grid
-			container
-			direction="row"
-			alignItems="center"
-			justify="center"
-			spacing={8}
-		>
-			<Grid item>
-				<IconButton
-					onClick={handleLeftButtonClick}>
-					<ChevronLeft/>
-				</IconButton>
-			</Grid>
-			<Grid item>
-				<Typography
-					style={{ textAlign: "center" }}
-					variant="caption">
-					{1 + deltaY} - {Math.min(deltaY + 10, Object.keys(filteredMarket).length)} of {Object.keys(filteredMarket).length}
-				</Typography>
-			</Grid>
-			<Grid item>
-				<IconButton
-					onClick={handleRightButtonClick}>
-					<ChevronRight/>
-				</IconButton>
-			</Grid>
-		</Grid>
-	);
 
 	return (
 		<Grid
@@ -100,11 +64,16 @@ const unconnectedMarket = ({ market, deltaY, searchFilter, setSearchFilter, setD
 					style={{ tableLayout: "fixed" }}>
 					{colGroup}
 					<MarketHead/>
-					<MarketBody filteredMarketLength={Object.keys(filteredMarket).length} slicedMarket={slicedMarket} />
+					<MarketBody
+						filteredMarketLength={filteredMarket.length}
+						slicedMarket={slicedMarket}
+					/>
 				</Table>
 			</Grid>
 			<Grid item>
-				{tableNavigation()}
+				<TableNavigation
+					filteredMarketLength={filteredMarket.length}
+				/>
 			</Grid>
 		</Grid>
 	);
@@ -112,4 +81,4 @@ const unconnectedMarket = ({ market, deltaY, searchFilter, setSearchFilter, setD
 
 const Market = connect(({ searchFilter, market, deltaY, viewport }) => ({ searchFilter, market, deltaY, viewport }), actions)(unconnectedMarket);
 
-export { Market };
+export default Market;

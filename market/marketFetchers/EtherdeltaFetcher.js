@@ -1,5 +1,4 @@
 /*
-TODO: EtherDelta and ForkDelta currently provide shit websocket APIs that don't update. Not worth including currently.
 const _ = require("lodash");
 
 const { setModelNeedsBroadcast } = require("../../websocketbroadcasts/modelNeedsBroadcast");

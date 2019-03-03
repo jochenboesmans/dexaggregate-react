@@ -1,25 +1,24 @@
-import React from "react";
+import React, { lazy } from "react";
 import { connect } from "react-redux";
-import _ from "lodash";
 
-import TableBody from "@material-ui/core/TableBody/TableBody";
-import TableRow from "@material-ui/core/TableRow/TableRow";
+import orderBy from "lodash/orderBy";
 
 import {
 	highestCurrentBidAcrossExchanges,
 	lowestCurrentAskAcrossExchanges
 } from "../../../../util/marketFunctions";
 
+const TableBody = lazy(() => import("@material-ui/core/TableBody/TableBody"));
+const TableRow = lazy(() => import("@material-ui/core/TableRow/TableRow"));
 
-import { PairExchangeName } from "./PairExchangeName";
-import { PairSpread } from "./PairSpread";
-import { PairLastPrice } from "./PairLastPrice";
-import { PairVolume } from "./PairVolume";
+const PairExchangeName = lazy(() => import("./PairExchangeName"));
+const PairSpread = lazy(() => import("./PairSpread"));
+const PairLastPrice = lazy(() => import("./PairLastPrice"));
+const PairVolume = lazy(() => import("./PairVolume"));
+const MobilePairSpread = lazy(() => import("./MobilePairSpread"));
 
-import { MobilePairSpread } from "./PairSpread";
-
-const unconnectedPairBody = ({ p, market, exchanges, viewport }) => {
-	const sortedMarketData = p ? _.orderBy(p.market_data, [emd => emd.volume_dai], "desc") : null;
+const unconnectedPairBody = ({ p, market, viewport }) => {
+	const sortedMarketData = p ? orderBy(p.market_data, [emd => emd.volume_dai], "desc") : null;
 
 	const lowAsk = lowestCurrentAskAcrossExchanges(market, p.base_symbol, p.quote_symbol);
 	const highBid = highestCurrentBidAcrossExchanges(market, p.base_symbol, p.quote_symbol);
@@ -28,7 +27,7 @@ const unconnectedPairBody = ({ p, market, exchanges, viewport }) => {
 	const vw = viewport.width || initialVW;
 	return (
 		<TableBody>
-			{_.map(sortedMarketData, emd => {
+			{sortedMarketData.map(emd => {
 				if(vw < 760) {
 					return (
 						<TableRow hover
@@ -77,4 +76,4 @@ const handleClick = (exchangeID, p) => {
 };
 
 const PairBody = connect(({ viewport }) => ({ viewport }), null)(unconnectedPairBody);
-export { PairBody };
+export default PairBody;

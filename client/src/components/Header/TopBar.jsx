@@ -1,25 +1,26 @@
-import React from "react";
+import React, { lazy, Suspense } from "react";
 import { connect } from "react-redux";
-import _ from "lodash/core";
-
-import Tooltip from "@material-ui/core/Tooltip/Tooltip";
-import Typography from "@material-ui/core/Typography/Typography";
-import TableRow from "@material-ui/core/TableRow/TableRow";
-import TableBody from "@material-ui/core/TableBody/TableBody";
-import TableCell from "@material-ui/core/TableCell/TableCell";
-import Table from "@material-ui/core/Table/Table";
+import reduce from "lodash/reduce";
 
 import { formatVolume } from "../../util/formatFunctions";
+
+const Tooltip = lazy(() => import("@material-ui/core/Tooltip/Tooltip"));
+const Typography = lazy(() => import("@material-ui/core/Typography/Typography"));
+const TableRow = lazy(() => import("@material-ui/core/TableRow/TableRow"));
+const TableBody = lazy(() => import("@material-ui/core/TableBody/TableBody"));
+const TableCell = lazy(() => import("@material-ui/core/TableCell/TableCell"));
+const Table = lazy(() => import("@material-ui/core/Table/Table"));
 
 const unconnectedTopBar = ({ market, time, viewport }) => {
 	if (!market.market) return <div>Loading...</div>;
 
-	const combinedVolume = formatVolume(_.reduce(market.market, (totalSum, p) => totalSum + _.reduce(p.market_data, (sum, emd) => sum + emd.volume_dai, 0), 0));
+	const combinedVolume = formatVolume(reduce(market.market, (totalSum, p) =>
+		totalSum + reduce(p.market_data, (sum, emd) => sum + emd.volume_dai, 0), 0));
 	const exchangeCount = market.exchanges.length;
-	const exchangeNames = _.map(market.exchanges, exchange => exchange.name).join(", ");
-	const marketSize = Object.keys(market.market).length;
+	const exchangeNames = market.exchanges.map(exchange => exchange.name).join(", ");
+	const marketSize = market.market.length;
 	const secondsSinceUpdate = Math.round((time - market.timestamp) / 1000);
-	const latestUpdateExchange = _.find(market.exchanges, e => e.ID === market.lastUpdateExchangeID).name;
+	const latestUpdateExchange = market.exchanges.find(e => e.ID === market.lastUpdateExchangeID).name;
 	const rows = [{
 		tooltipLeft: `A list of all exchanges from which market data is included.`,
 		textLeft: `Exchanges`,
@@ -54,6 +55,7 @@ const unconnectedTopBar = ({ market, time, viewport }) => {
 	);
 
 	const rowsToInclude = (vh < 900) ? [3] : [0, 1, 2, 3];
+	const slicedRows = rows.slice(rowsToInclude[0], rowsToInclude[rowsToInclude.length - 1] + 1);
 
 	return (
 		<Table
@@ -62,17 +64,19 @@ const unconnectedTopBar = ({ market, time, viewport }) => {
 		>
 			{colGroup}
 			<TableBody>
-				{_.map(rowsToInclude, (ri) => {
-					const rightElement = (rows[ri].tooltipRight) ? (
-						<Tooltip title={rows[ri].tooltipRight} placement="bottom">
-							<Typography variant="caption">{rows[ri].textRight}</Typography>
-						</Tooltip>) : <Typography variant="caption">{rows[ri].textRight}</Typography>;
+				{slicedRows.map((r) => {
+					const rightElement = (r.tooltipRight) ? (
+						<Tooltip title={r.tooltipRight} placement="bottom">
+							<Typography variant="caption">{r.textRight}</Typography>
+						</Tooltip>) : <Typography variant="caption">{r.textRight}</Typography>;
 
 					return (
-						<TableRow style={{ height: "4vh" }} key={rows[ri].tooltipLeft}>
+						<TableRow style={{ height: "4vh" }} key={r.tooltipLeft}>
 							<TableCell align="right">
-								<Tooltip title={rows[ri].tooltipLeft} placement="bottom">
-									<Typography variant="caption" style={{ fontWeight: "bold" }}>{rows[ri].textLeft}</Typography>
+								<Tooltip title={r.tooltipLeft} placement="bottom">
+									<Suspense fallback={<div>Loading...</div>}>
+										<Typography variant="caption" style={{ fontWeight: "bold" }}>{r.textLeft}</Typography>
+									</Suspense>
 								</Tooltip>
 							</TableCell>
 							<TableCell>
@@ -88,4 +92,4 @@ const unconnectedTopBar = ({ market, time, viewport }) => {
 
 const TopBar = connect(({ market, time, viewport }) => ({ market, time, viewport }))(unconnectedTopBar);
 
-export { TopBar };
+export default TopBar;

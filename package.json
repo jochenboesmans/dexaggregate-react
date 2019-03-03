@@ -13,9 +13,7 @@
 	"main": "index.js",
 	"scripts": {
 		"start": "node index.js",
-		"server": "node index.js",
-		"client": "npm run start --prefix client",
-		"dev": "concurrently \"npm run server\" \"npm run client\"",
+		"dev": "concurrently \"npm run start\" \"npm run start --prefix client\"",
 		"heroku-postbuild": "npm install --prefix client && npm run build --prefix client"
 	},
 	"dependencies": {
@@ -27,6 +25,6 @@
 		"socket.io": "latest",
 		"socket.io-client": "^2.2.0",
 		"web3": "^1.0.0-beta.46",
-		"websocket": "latest"
+		"ws": "^6.1.4"
 	}
 }
