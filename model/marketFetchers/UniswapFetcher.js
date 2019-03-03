@@ -1,6 +1,9 @@
-const _ = require("lodash");
 const axios = require("axios");
-const Web3 = require("web3");
+//const Web3 = require("web3");
+
+const isEqual = require("lodash/isEqual");
+/*const map = require("lodash/map");
+const filter = require("lodash/filter");*/
 
 const { getExchanges } = require("../exchanges");
 const { setModelNeedsBroadcast } = require("../../websocketbroadcasts/modelNeedsBroadcast");
@@ -10,7 +13,7 @@ let timestamp;
 const getMarket = () => market;
 const getTimestamp = () => timestamp;
 
-const projectID = `3623107a49ce48a9b3687ec820e8a222`;
+/*const projectID = `3623107a49ce48a9b3687ec820e8a222`;
 const web3 = new Web3(`wss://mainnet.infura.io/ws/v3/${projectID}`);
 const factoryAddress = `0xc0a47dFe034B400B47bDaD5FecDa2621de6c4d95`;
 const factoryABI = [{
@@ -115,56 +118,61 @@ const factoryABI = [{
 	"payable": false,
 	"type": "function",
 	"gas": 663
-}];
-
-const factoryContract = new web3.eth.Contract(factoryABI, factoryAddress);
-/*const getTokenCount = async (factoryContract) => (await factoryContract.methods.tokenCount.call()).out;
-const getTokenWithId = async (id, factoryContract) => (await factoryContract.methods.getTokenWithId(id).call()).out;*/
-const getExchangeAddress = async (tokenAddress, factoryContract) => (await factoryContract.methods.getExchange(tokenAddress).call()).out;
+}];*/
 
 const tokens = {
 	BAT: {
 		symbol: "BAT",
 		address: "0x0d8775f648430679a709e98d2b0cb6250d2887ef",
+		exchangeAddress: "0x2E642b8D59B45a1D8c5aEf716A84FF44ea665914",
 	},
 	DAI: {
 		symbol: "DAI",
 		address: "0x89d24a6b4ccb1b6faa2625fe562bdd9a23260359",
+		exchangeAddress: "0x09cabEC1eAd1c0Ba254B09efb3EE13841712bE14",
 	},
 	MKR: {
 		symbol: "MKR",
 		address: "0x9f8f72aa9304c8b593d555f12ef6589cc3a579a2",
+		exchangeAddress: "0x2C4Bd064b998838076fa341A83d007FC2FA50957",
 	},
 	SPANK: {
 		symbol: "SPANK",
 		address: "0x42d6622dece394b54999fbd73d108123806f6a18",
+		exchangeAddress: "0x4e395304655F0796bc3bc63709DB72173b9DdF98",
 	},
 	ZRX: {
 		symbol: "ZRX",
 		address: "0xe41d2489571d322189246dafa5ebde1f4699f498",
+		exchangeAddress: "0xaE76c84C9262Cdb9abc0C2c8888e62Db8E22A0bF",
 	},
 };
 
+//const factoryContract = new web3.eth.Contract(factoryABI, factoryAddress);
+//const getExchangeAddress = async (tokenAddress, factoryContract) => await factoryContract.methods.getExchange(tokenAddress).call();
+
 const initialize = async () => {
-	const exchangeAddresses = await fetchExchangeAddresses();
-	await tryUpdateMarket(exchangeAddresses);
+	/*await fetchExchangeAddresses();*/
+	await tryUpdateMarket();
 	setInterval(async () => {
-		await tryUpdateMarket(exchangeAddresses);
+		await tryUpdateMarket();
 	}, 5 * 1000);
 };
 
-const fetchExchangeAddresses = async () => {
-	return await Promise.all(_.map(tokens, async token => {
-		return await getExchangeAddress(token.address, factoryContract);
-	}));
-};
+/*const fetchExchangeAddresses = async () => {
+	_.forEach(tokens, async token => {
+		token.exchangeAddress = await getExchangeAddress(token.address, factoryContract);
+		console.log(token);
+	});
+};*/
 
-const tryUpdateMarket = async (exchangeAddresses) => {
+const tryUpdateMarket = async () => {
 	try {
-		const tickers = await Promise.all(_.map(exchangeAddresses, async exchangeAddress => {
-			const p = (await axios.get(`https://uniswap-analytics.appspot.com/api/v1/ticker?exchangeAddress=${exchangeAddress}`)).data;
-			if(p.symbol) {
-				return {
+		const newPairs = await Promise.all(Object.keys(tokens).map(async tKey => {
+			const t = tokens[tKey];
+			const p = (await axios.get(`https://uniswap-analytics.appspot.com/api/v1/ticker?exchangeAddress=${t.exchangeAddress}`)).data;
+			if (p.symbol) {
+				 return {
 					b: "ETH",
 					q: p.symbol,
 					m: {
@@ -176,8 +184,8 @@ const tryUpdateMarket = async (exchangeAddresses) => {
 				};
 			}
 		}));
-		const newMarket = _.filter(tickers, el => el);
-		if (newMarket && !_.isEqual(newMarket, market)) {
+		const newMarket = newPairs.filter(el => el);
+		if (newMarket && !isEqual(newMarket, market)) {
 			market = newMarket;
 			timestamp = Date.now();
 			setModelNeedsBroadcast(true);
