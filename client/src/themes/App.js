@@ -3,7 +3,7 @@ import purple from "@material-ui/core/colors/purple";
 
 const lightTheme = createMuiTheme({
 	typography: {
-		fontFamily: "\"Courier New\"",
+		fontFamily: '"Roboto Mono"',
 		fontSize: 16,
 		useNextVariants: true
 	},
