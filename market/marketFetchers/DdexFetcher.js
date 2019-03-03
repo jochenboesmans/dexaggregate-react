@@ -1,7 +1,9 @@
 const axios = require("axios");
 const WebSocket = require("ws");
 
-const { setModelNeedsBroadcast } = require("../../websocketbroadcasts/modelNeedsBroadcast");
+const { setMarketNeedsUpdate } = require("../updateNotifier");
+
+console.log(setMarketNeedsUpdate);
 
 let market = {};
 let timestamp;
@@ -31,7 +33,6 @@ const initializeWSConnection = async () => {
 	setTimeout(() => ws.send(askForTickers),2.5 * 1000);
 	ws.onmessage = (response) => {
 		const data = JSON.parse(response.data);
-		console.log(data);
 		if(data.type === "ticker") {
 			potentiallyAddToMarket(data);
 		}
@@ -57,7 +58,7 @@ const potentiallyAddToMarket = (pair) => {
 			}
 		};
 		timestamp = Date.now();
-		setModelNeedsBroadcast(true);
+		setMarketNeedsUpdate(true);
 	}
 };
 

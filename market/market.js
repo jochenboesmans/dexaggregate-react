@@ -3,6 +3,8 @@ const reduce = require("lodash/reduce");
 
 const { getExchanges } = require("./exchanges");
 const { rebaseMarket } = require("../util(where_the_magic_happens)/rebasing");
+const { setModelNeedsBroadcast } = require("../websocketbroadcasts/updateNotifier");
+const { getMarketNeedsUpdate, setMarketNeedsUpdate } = require("./updateNotifier");
 
 const marketFetchers = {
 	DDEX: require("./marketFetchers/DdexFetcher"),
@@ -16,8 +18,11 @@ const marketFetchers = {
 	OASIS: require("./marketFetchers/OasisFetcher"),
 };
 
-const fetchExchangeMarkets = () => {
-	const maxAge = 60 * 60 * 1000;
+let assembledMarket;
+const getMarket = () => assembledMarket;
+
+const getExchangeMarkets = () => {
+	const maxAge = 10 * 60 * 1000;
 	const result = {};
 	Object.keys(getExchanges()).forEach(exchangeKey => {
 		const market = marketFetchers[exchangeKey].getMarket();
@@ -32,8 +37,8 @@ const fetchExchangeMarkets = () => {
 	return result;
 };
 
-const getMarket = () => {
-	const exchangeMarkets = fetchExchangeMarkets();
+const assembleMarket = () => {
+	const exchangeMarkets = getExchangeMarkets();
 
 	const market = {};
 	Object.keys(exchangeMarkets).forEach(emKey => {
@@ -76,17 +81,24 @@ const getMarket = () => {
 	const orderedMarket = orderBy(rebasedMarket,
 		[p => reduce(p.market_data, (sum, emd) => sum + emd.volume_dai, 0)], ["desc"]);
 
-	return {
+	assembledMarket = {
 		market: orderedMarket,
 		exchanges: exchangesInMarket,
 		lastUpdate: lastUpdate,
 	};
+	setMarketNeedsUpdate(false);
+	setModelNeedsBroadcast(true);
 };
 
+const initialize = () => {
+	initializeFetchers();
+	setInterval(() => { if (getMarketNeedsUpdate()) assembleMarket() }, 2 * 1000);
+};
 const initializeFetchers = () => Object.keys(marketFetchers).forEach(mfKey => marketFetchers[mfKey].initialize());
 
 module.exports = {
-	fetchExchangeMarkets,
+	getExchangeMarkets,
 	getMarket,
-	initializeFetchers
+	initialize,
+	setMarketNeedsUpdate,
 };

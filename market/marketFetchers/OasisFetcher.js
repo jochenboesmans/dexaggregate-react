@@ -2,7 +2,7 @@ const axios = require("axios");
 const isEqual = require("lodash/isEqual");
 
 const { getExchanges } = require("../exchanges");
-const { setModelNeedsBroadcast } = require("../../websocketbroadcasts/modelNeedsBroadcast");
+const { setMarketNeedsUpdate } = require("../updateNotifier");
 
 let market;
 let timestamp;
@@ -36,7 +36,7 @@ const tryUpdateMarket = async () => {
 		if (newMarket && !isEqual(newMarket, market)) {
 			market = newMarket;
 			timestamp = Date.now();
-			setModelNeedsBroadcast(true);
+			setMarketNeedsUpdate(true);
 		}
 	} catch(error) {
 		console.log(`Error while trying to fetch pairs from ${getExchanges().OASIS.name} API: ${error.message}`);
