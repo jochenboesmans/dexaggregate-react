@@ -1,5 +1,5 @@
-const _ = require("lodash");
 const axios = require("axios");
+const isEqual = require("lodash/isEqual");
 
 const { getExchanges } = require("../exchanges");
 const { setModelNeedsBroadcast } = require("../../websocketbroadcasts/modelNeedsBroadcast");
@@ -19,7 +19,6 @@ const pairs = [{
 	base: "MKR",
 	quote: "DAI"
 },];
-const lbaAverage = (m) => (parseFloat(m.price) + parseFloat(m.ask) + parseFloat(m.bid)) / 3;
 
 const initialize = async () => {
 	await tryUpdateMarket();
@@ -30,11 +29,11 @@ const initialize = async () => {
 
 const tryUpdateMarket = async () => {
 	try {
-		const newMarket = (await Promise.all(_.map(pairs, async (pair) => {
+		const newMarket = await Promise.all(pairs.map(async (pair) => {
 			const m = (await axios.get(`http://api.oasisdex.com/v1/markets/${pair.base}/${pair.quote}`)).data.data;
 			return filterMeaningfulValues(m, pair);
-		})));
-		if (newMarket && !_.isEqual(newMarket, market)) {
+		}));
+		if (newMarket && !isEqual(newMarket, market)) {
 			market = newMarket;
 			timestamp = Date.now();
 			setModelNeedsBroadcast(true);
@@ -45,7 +44,7 @@ const tryUpdateMarket = async () => {
 };
 
 const filterMeaningfulValues = (m, pair) => {
-	if(m && parseFloat(m.price) && parseFloat(m.bid) && parseFloat(m.ask) && parseFloat(m.vol)) {
+	if (m && parseFloat(m.price) && parseFloat(m.bid) && parseFloat(m.ask) && parseFloat(m.vol)) {
 		return ({
 			b: pair.quote,
 			q: pair.base,
@@ -53,7 +52,7 @@ const filterMeaningfulValues = (m, pair) => {
 				l: parseFloat(m.last),
 				b: parseFloat(m.bid),
 				a: parseFloat(m.ask),
-				v: parseFloat(m.vol) * lbaAverage(m),
+				v: parseFloat(m.vol) * parseFloat(m.price),
 			}
 		});
 	}

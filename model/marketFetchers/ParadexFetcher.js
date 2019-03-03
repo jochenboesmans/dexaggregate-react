@@ -1,5 +1,5 @@
 const axios = require("axios");
-const _ = require("lodash");
+const isEqual = require("lodash/isEqual");
 
 const { paradexAPIKey } = require("../../config");
 const { getExchanges } = require("../exchanges");
@@ -21,30 +21,33 @@ const tryUpdateMarket = async () => {
 	const retrieveParadexMarket = async () => (await axios.get("https://api.paradex.io/consumer/v0/markets", { headers: { "API-KEY": paradexAPIKey } })).data;
 	const retrieveParadexOhlcv = async (m) => ((await axios.get(`https://api.paradex.io/consumer/v0/ohlcv?market=${m.symbol}&period=1d&amount=1`, { headers: { "API-KEY": paradexAPIKey } })).data)[0];
 	const retrieveParadexTicker = async (m) => (await axios.get(`https://api.paradex.io/consumer/v0/ticker?market=${m.symbol}`, { headers: { "API-KEY": paradexAPIKey } })).data;
-	const twentyFourHourAverage = (o) => (parseFloat(o.high) + parseFloat(o.low)) / 2;
+	const lbaAverage = (t) => (parseFloat(t.last) + parseFloat(t.ask) + parseFloat(t.bid)) / 3;
 
 	try {
 		const retrievedParadexMarket = await retrieveParadexMarket();
-		const paradexMarket = await Promise.all(_.map(retrievedParadexMarket, async m => {
-			if(m.state === "enabled") {
+		const paradexMarket = await Promise.all(Object.keys(retrievedParadexMarket).map(async mKey => {
+			const m = retrievedParadexMarket[mKey];
+			if (m.state === "enabled") {
 				const o = await retrieveParadexOhlcv(m);
-				const t = await retrieveParadexTicker(m);
-				if(t.last && t.bid && t.ask && o.high && o.low && o.volume) {
-					return {
-						b: m.quoteToken,
-						q: m.baseToken,
-						m: {
-							l: parseFloat(t.last),
-							b: parseFloat(t.bid),
-							a: parseFloat(t.ask),
-							v: parseFloat(o.volume) * twentyFourHourAverage(o)
-						}
-					};
+				if (o.high && o.low && o.volume) {
+					const t = await retrieveParadexTicker(m);
+					if (t.last && t.bid && t.ask) {
+						return {
+							b: m.quoteToken,
+							q: m.baseToken,
+							m: {
+								l: parseFloat(t.last),
+								b: parseFloat(t.bid),
+								a: parseFloat(t.ask),
+								v: parseFloat(o.volume) * lbaAverage(t)
+							}
+						};
+					}
 				}
 			}
 		}));
-		const newMarket = _.filter(paradexMarket, p => p);
-		if (newMarket && !_.isEqual(newMarket, market)) {
+		const newMarket = paradexMarket.filter(p => p);
+		if (newMarket && !isEqual(newMarket, market)) {
 			market = newMarket;
 			timestamp = Date.now();
 			setModelNeedsBroadcast(true);

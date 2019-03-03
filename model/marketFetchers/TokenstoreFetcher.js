@@ -1,5 +1,6 @@
-const _ = require("lodash");
 const axios = require("axios");
+
+const isEqual = require("lodash/isEqual");
 
 const { getExchanges } = require("../exchanges");
 const { setModelNeedsBroadcast } = require("../../websocketbroadcasts/modelNeedsBroadcast");
@@ -19,9 +20,12 @@ const initialize = async () => {
 const tryUpdateMarket = async () => {
 	try {
 		const fetchedMarket = (await axios.get("https://v1-1.api.token.store/ticker")).data;
-		const newMarket = _.reduce(fetchedMarket, (result, p) => {
+
+		const newMarket = [];
+		Object.keys(fetchedMarket).forEach(pKey => {
+			const p = fetchedMarket[pKey];
 			if (p.symbol && p.last && p.ask && p.bid && p.baseVolume) {
-				result.push({
+				newMarket.push({
 					b: "ETH",
 					q: p.symbol,
 					m: {
@@ -32,9 +36,8 @@ const tryUpdateMarket = async () => {
 					}
 				});
 			}
-			return result;
-		}, []);
-		if (newMarket && !_.isEqual(newMarket, market)) {
+		});
+		if (newMarket && !isEqual(newMarket, market)) {
 			market = newMarket;
 			timestamp = Date.now();
 			setModelNeedsBroadcast(true);

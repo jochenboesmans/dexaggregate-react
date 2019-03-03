@@ -1,7 +1,8 @@
 const socketio = require("socket.io");
 
 const { getMarket } = require("../model/market");
-const { getModelNeedsBroadcast, setModelNeedsBroadcast } = require("./modelNeedsBroadcast");
+const { getModelNeedsBroadcast,
+	setModelNeedsBroadcast } = require("./modelNeedsBroadcast");
 
 const initialize = (server) => {
 	const io = socketio(server);

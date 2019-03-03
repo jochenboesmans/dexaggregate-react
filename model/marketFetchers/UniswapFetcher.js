@@ -1,9 +1,6 @@
 const axios = require("axios");
-//const Web3 = require("web3");
 
 const isEqual = require("lodash/isEqual");
-/*const map = require("lodash/map");
-const filter = require("lodash/filter");*/
 
 const { getExchanges } = require("../exchanges");
 const { setModelNeedsBroadcast } = require("../../websocketbroadcasts/modelNeedsBroadcast");
@@ -12,113 +9,6 @@ let market;
 let timestamp;
 const getMarket = () => market;
 const getTimestamp = () => timestamp;
-
-/*const projectID = `3623107a49ce48a9b3687ec820e8a222`;
-const web3 = new Web3(`wss://mainnet.infura.io/ws/v3/${projectID}`);
-const factoryAddress = `0xc0a47dFe034B400B47bDaD5FecDa2621de6c4d95`;
-const factoryABI = [{
-	"name": "NewExchange",
-	"inputs": [{
-		"type": "address",
-		"name": "token",
-		"indexed": true
-	}, {
-		"type": "address",
-		"name": "exchange",
-		"indexed": true
-	}],
-	"anonymous": false,
-	"type": "event"
-}, {
-	"name": "initializeFactory",
-	"outputs": [],
-	"inputs": [{
-		"type": "address",
-		"name": "template"
-	}],
-	"constant": false,
-	"payable": false,
-	"type": "function",
-	"gas": 35725
-}, {
-	"name": "createExchange",
-	"outputs": [{
-		"type": "address",
-		"name": "out"
-	}],
-	"inputs": [{
-		"type": "address",
-		"name": "token"
-	}],
-	"constant": false,
-	"payable": false,
-	"type": "function",
-	"gas": 187911
-}, {
-	"name": "getExchange",
-	"outputs": [{
-		"type": "address",
-		"name": "out"
-	}],
-	"inputs": [{
-		"type": "address",
-		"name": "token"
-	}],
-	"constant": true,
-	"payable": false,
-	"type": "function",
-	"gas": 715
-}, {
-	"name": "getToken",
-	"outputs": [{
-		"type": "address",
-		"name": "out"
-	}],
-	"inputs": [{
-		"type": "address",
-		"name": "exchange"
-	}],
-	"constant": true,
-	"payable": false,
-	"type": "function",
-	"gas": 745
-}, {
-	"name": "getTokenWithId",
-	"outputs": [{
-		"type": "address",
-		"name": "out"
-	}],
-	"inputs": [{
-		"type": "uint256",
-		"name": "token_id"
-	}],
-	"constant": true,
-	"payable": false,
-	"type": "function",
-	"gas": 736
-}, {
-	"name": "exchangeTemplate",
-	"outputs": [{
-		"type": "address",
-		"name": "out"
-	}],
-	"inputs": [],
-	"constant": true,
-	"payable": false,
-	"type": "function",
-	"gas": 633
-}, {
-	"name": "tokenCount",
-	"outputs": [{
-		"type": "uint256",
-		"name": "out"
-	}],
-	"inputs": [],
-	"constant": true,
-	"payable": false,
-	"type": "function",
-	"gas": 663
-}];*/
 
 const tokens = {
 	BAT: {
@@ -148,23 +38,12 @@ const tokens = {
 	},
 };
 
-//const factoryContract = new web3.eth.Contract(factoryABI, factoryAddress);
-//const getExchangeAddress = async (tokenAddress, factoryContract) => await factoryContract.methods.getExchange(tokenAddress).call();
-
 const initialize = async () => {
-	/*await fetchExchangeAddresses();*/
 	await tryUpdateMarket();
 	setInterval(async () => {
 		await tryUpdateMarket();
 	}, 5 * 1000);
 };
-
-/*const fetchExchangeAddresses = async () => {
-	_.forEach(tokens, async token => {
-		token.exchangeAddress = await getExchangeAddress(token.address, factoryContract);
-		console.log(token);
-	});
-};*/
 
 const tryUpdateMarket = async () => {
 	try {

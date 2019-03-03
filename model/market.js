@@ -1,4 +1,5 @@
-const _ = require("lodash");
+const orderBy = require("lodash/orderBy");
+const reduce = require("lodash/reduce");
 
 const { getExchanges } = require("./exchanges");
 const { rebaseMarket } = require("../util(where_the_magic_happens)/rebasing");
@@ -66,13 +67,14 @@ const getMarket = () => {
 		if (exchangeMarkets[exchangeID].market) exchangesInMarket.push(getExchanges()[exchangeID])
 	});
 
-	const lastUpdate = _.reduce(marketFetchers, (latest, mf, mfKey) => {
+	const lastUpdate = reduce(marketFetchers, (latest, mf, mfKey) => {
 		return mf.getTimestamp() > latest.timestamp ? ({ exchangeID: mfKey, timestamp: mf.getTimestamp() }) : latest;
 	}, { exchangeID: null, timestamp: 0 });
 	console.log(lastUpdate);
 
 	const rebasedMarket = rebaseMarket(market, "DAI");
-	const orderedMarket = _.orderBy(rebasedMarket, [p => _.reduce(p.market_data, (sum, emd) => sum + emd.volume_dai, 0)], ["desc"]);
+	const orderedMarket = orderBy(rebasedMarket,
+		[p => reduce(p.market_data, (sum, emd) => sum + emd.volume_dai, 0)], ["desc"]);
 
 	return {
 		market: orderedMarket,
