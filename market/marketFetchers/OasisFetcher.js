@@ -33,7 +33,8 @@ const tryUpdateMarket = async () => {
 			const m = (await axios.get(`http://api.oasisdex.com/v1/markets/${pair.base}/${pair.quote}`)).data.data;
 			return filterMeaningfulValues(m, pair);
 		}));
-		if (newMarket && !isEqual(newMarket, market)) {
+		const filterDefined = newMarket.filter(p => p);
+		if (filterDefined && !isEqual(filterDefined, market)) {
 			market = newMarket;
 			timestamp = Date.now();
 			setMarketNeedsUpdate(true);

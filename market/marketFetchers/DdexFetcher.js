@@ -3,8 +3,6 @@ const WebSocket = require("ws");
 
 const { setMarketNeedsUpdate } = require("../updateNotifier");
 
-console.log(setMarketNeedsUpdate);
-
 let market = {};
 let timestamp;
 const getMarket = () => market;
