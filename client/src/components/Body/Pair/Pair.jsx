@@ -17,10 +17,13 @@ const unconnectedPair = ({ market, activePage, setPage, viewport }) => {
 	const vw = viewport.width || initialVW;
 
 	const { pair: activePair }  = activePage;
+
 	const m = market.market;
 
 	const p = m.find(mPair =>
 		mPair.b === activePair.b && mPair.q === activePair.q);
+
+	console.log(p);
 
 	const colGroup = (vw < 760) ? (
 		<colgroup>

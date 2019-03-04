@@ -31,8 +31,8 @@ const unconnectedPairBody = ({ p, market, viewport }) => {
 				if(vw < 760) {
 					return (
 						<TableRow hover
-						          onClick={() => handleClick(emd.exchangeID, p)}
-						          key={emd.exchangeID}
+						          onClick={() => handleClick(emd.e, p)}
+						          key={emd.e}
 						          style={{ height: "4vh" }}
 						>
 							<PairExchangeName emd={emd}/>
@@ -42,8 +42,8 @@ const unconnectedPairBody = ({ p, market, viewport }) => {
 				} else {
 					return (
 						<TableRow hover
-						          onClick={() => handleClick(emd.exchangeID, p)}
-						          key={emd.exchangeID}
+						          onClick={() => handleClick(emd.e, p)}
+						          key={emd.e}
 						          style={{ height: "4vh" }}
 						>
 							<PairExchangeName emd={emd}/>
