@@ -1,5 +1,5 @@
 {
-	"name": "dexaggregate-backend",
+	"name": "dexaggregate",
 	"version": "0.1.0",
 	"author": "Jochen Boesmans",
 	"email": "jochen.boesmans@gmail.com",
@@ -12,11 +12,44 @@
 	"description": "",
 	"main": "index.js",
 	"scripts": {
+		"start-client": "webpack-dev-server --open --config './client/config/webpack.config.dev.js'",
+		"build-client": "webpack --config './client/config/webpack.config.prod.js'",
 		"start": "node index.js",
-		"dev": "concurrently \"npm run start\" \"npm run start --prefix client\"",
-		"heroku-postbuild": "npm install --prefix client && npm run build --prefix client"
+		"dev": "concurrently \"npm run start\" \"npm run start-client\""
 	},
 	"dependencies": {
+		"@babel/core": "^7.3.3",
+		"@babel/plugin-syntax-dynamic-import": "^7.2.0",
+		"@babel/plugin-transform-async-to-generator": "^7.3.4",
+		"@babel/plugin-transform-runtime": "^7.3.4",
+		"@babel/preset-env": "^7.3.4",
+		"@babel/preset-react": "^7.0.0",
+		"@babel/runtime": "^7.3.4",
+		"@material-ui/core": "latest",
+		"@material-ui/icons": "^3.0.2",
+		"@material-ui/styles": "latest",
+		"babel-eslint": "^10.0.1",
+		"babel-loader": "^8.0.5",
+		"clean-webpack-plugin": "^1.0.1",
+		"eslint": "^5.14.1",
+		"eslint-config-react-app": "^3.0.6",
+		"eslint-loader": "latest",
+		"eslint-plugin-flowtype": "^3.4.2",
+		"eslint-plugin-import": "latest",
+		"eslint-plugin-jsx-a11y": "latest",
+		"eslint-plugin-react": "^7.12.4",
+		"file-loader": "latest",
+		"html-webpack-plugin": "^4.0.0-beta.5",
+		"jss": "^10.0.0-alpha.12",
+		"react": "^16.8.2",
+		"react-dom": "^16.8.2",
+		"react-redux": "next",
+		"redux": "^4.0.1",
+		"redux-thunk": "latest",
+		"socket.io-client": "latest",
+		"url-loader": "^1.1.2",
+		"webpack": "^4.29.6",
+		"webpack-cli": "^3.2.3",
 		"axios": "next",
 		"concurrently": "latest",
 		"dotenv": "^6.2.0",
@@ -24,8 +57,21 @@
 		"lodash": "latest",
 		"nodemon": "^1.18.10",
 		"socket.io": "latest",
-		"socket.io-client": "^2.2.0",
 		"web3": "^1.0.0-beta.46",
 		"ws": "^6.1.4"
+	},
+	"eslintConfig": {
+		"extends": "react-app"
+	},
+	"browserslist": [
+		">0.2%",
+		"not dead",
+		"not ie <= 11",
+		"not op_mini all"
+	],
+	"devDependencies": {
+		"typescript": "^3.3.3333",
+		"webpack-bundle-analyzer": "^3.0.4",
+		"webpack-dev-server": "^3.2.1"
 	}
 }

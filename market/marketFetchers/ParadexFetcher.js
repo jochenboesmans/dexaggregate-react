@@ -1,7 +1,7 @@
 const axios = require("axios");
 const isEqual = require("lodash/isEqual");
 
-const { paradexAPIKey } = require("../../config");
+const paradexAPIKey = process.env.PARADEX_API_KEY;
 const { getExchanges } = require("../exchanges");
 const { setMarketNeedsUpdate } = require("../updateNotifier");
 
