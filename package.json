@@ -19,6 +19,7 @@
 	"dependencies": {
 		"axios": "next",
 		"concurrently": "latest",
+		"dotenv": "^6.2.0",
 		"express": "next",
 		"lodash": "latest",
 		"nodemon": "^1.18.10",
