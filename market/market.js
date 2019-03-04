@@ -79,7 +79,7 @@ const assembleMarket = () => {
 
 	const rebasedMarket = rebaseMarket(market, "DAI");
 	const orderedMarket = orderBy(rebasedMarket,
-		[p => reduce(p.market_data, (sum, emd) => sum + emd.volume_dai, 0)], ["desc"]);
+		[p => reduce(p.m, (sum, emd) => sum + emd.v, 0)], ["desc"]);
 
 	assembledMarket = {
 		market: orderedMarket,
