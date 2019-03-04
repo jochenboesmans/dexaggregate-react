@@ -4,7 +4,7 @@ import React, { lazy } from "react";
 const TableCell = lazy(() => import("@material-ui/core/TableCell/TableCell"));
 
 const unconnectedMarketPairName = ({ p }) => {
-	const pairName = `${p.base_symbol}/${p.quote_symbol}`;
+	const pairName = `${p.b}/${p.q}`;
 	return (
 		<TableCell>
 			{pairName}

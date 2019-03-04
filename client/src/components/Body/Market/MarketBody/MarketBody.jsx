@@ -53,7 +53,7 @@ const unconnectedMarketBody = ({ filteredMarketLength, slicedMarket, deltaY, set
 								pair: p
 							});
 						}}
-						key={`${p.base_symbol}/${p.quote_symbol}`}
+						key={`${p.b}/${p.q}`}
 					>
 						{innerContent(p)}
 					</TableRow>

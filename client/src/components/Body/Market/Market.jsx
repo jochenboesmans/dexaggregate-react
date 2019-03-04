@@ -15,8 +15,8 @@ const unconnectedMarket = ({ market, deltaY, searchFilter, setSearchFilter, setD
 	if(!market.market) return null;
 
 	const filteredMarket = searchFilter ? market.market.filter(p =>
-		p.base_symbol.includes(searchFilter.toUpperCase()) || p.quote_symbol.includes(searchFilter.toUpperCase())
-		|| Object.keys(p.market_data).find(exchangeID => exchangeID.includes(searchFilter.toUpperCase()))) : market.market;
+		p.b.includes(searchFilter.toUpperCase()) || p.q.includes(searchFilter.toUpperCase())
+		|| Object.keys(p.m).find(exchangeID => exchangeID.includes(searchFilter.toUpperCase()))) : market.market;
 	const slicedMarket = filteredMarket.slice(0 + deltaY, 10 + deltaY);
 
 	const vw = viewport.width || Math.max(document.documentElement.clientWidth, window.innerWidth || 0);

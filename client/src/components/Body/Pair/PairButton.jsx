@@ -10,7 +10,7 @@ const Grid = lazy(() => import("@material-ui/core/Grid/Grid"));
 
 const unconnectedPairButton = ({ p, setPage }) => {
 	const [hover, setHover] = useState(false);
-	const innerText = hover ? `Back` : `${p.base_symbol}/${p.quote_symbol}`;
+	const innerText = hover ? `Back` : `${p.b}/${p.q}`;
 	return (
 		<Grid
 			item

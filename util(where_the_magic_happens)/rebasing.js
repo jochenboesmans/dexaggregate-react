@@ -119,11 +119,11 @@ const rebaseMarket = (market, marketRebaseSymbol) => {
 			const rv = rebaseRate(marketRebaseSymbol, p.b, p.q, emd.v);
 			if (rl && rb && ra && rv) {
 				result[exchangeID] = ({
-					exchangeID: exchangeID,
-					last_traded_dai: rl,
-					current_bid_dai: rb,
-					current_ask_dai: ra,
-					volume_dai: rv,
+					e: exchangeID,
+					l: rl,
+					b: rb,
+					a: ra,
+					v: rv,
 				})
 			}
 		});
@@ -137,9 +137,9 @@ const rebaseMarket = (market, marketRebaseSymbol) => {
 		const rmd = rebaseMarketData(p);
 		if (Object.keys(rmd).length > 0) {
 			rebasedMarket[pKey] = {
-				base_symbol: p.b,
-				quote_symbol: p.q,
-				market_data: rmd,
+				b: p.b,
+				q: p.q,
+				m: rmd,
 			}
 		}
 	});

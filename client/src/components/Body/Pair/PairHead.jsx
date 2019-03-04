@@ -9,7 +9,7 @@ const Typography = lazy(() => import("@material-ui/core/Typography/Typography"))
 
 const unconnectedPairHead = ({ p, viewport }) => {
 	const columns = [{
-		tooltip: `An exchange on which ${p.base_symbol}/${p.quote_symbol} is currently trading.`,
+		tooltip: `An exchange on which ${p.b}/${p.q} is currently trading.`,
 		text: `Exchange`,
 		align: `left`,
 	}, {
@@ -17,11 +17,11 @@ const unconnectedPairHead = ({ p, viewport }) => {
 		text: `Spread [DAI]`,
 		align: `right`,
 	}, {
-		tooltip: `The last price for which ${p.quote_symbol} traded for ${p.base_symbol} on a given exchange.`,
+		tooltip: `The last price for which ${p.q} traded for ${p.b} on a given exchange.`,
 		text: `Last Price [DAI]`,
 		align: `right`,
 	}, {
-		tooltip: `The 24-hour volume for ${p.base_symbol}/${p.quote_symbol} on a given exchange.`,
+		tooltip: `The 24-hour volume for ${p.b}/${p.q} on a given exchange.`,
 		text: `Volume (24h) [DAI]`,
 		align: `right`,
 	}];

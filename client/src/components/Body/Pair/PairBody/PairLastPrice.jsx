@@ -6,7 +6,7 @@ import { formatPrice } from "../../../../util/formatFunctions";
 const TableCell = lazy(() => import("@material-ui/core/TableCell/TableCell"));
 
 const unconnectedPairLastPrice = ({ emd }) => {
-	const lastTraded = emd.last_traded_dai;
+	const lastTraded = emd.l;
 	return (
 		<TableCell align="right">
 			{formatPrice(lastTraded)}

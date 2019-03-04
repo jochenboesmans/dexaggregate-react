@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 const TableCell = lazy(() => import("@material-ui/core/TableCell/TableCell"));
 
 const unconnectedPairExchangeName = ({ emd, market }) => {
-	const exchangeName = market.exchanges.find(e => e.ID === emd.exchangeID).name;
+	const exchangeName = market.exchanges.find(ex => ex.ID === emd.e).name;
 	return (
 		<TableCell>
 			{exchangeName}

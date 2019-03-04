@@ -6,7 +6,7 @@ import { formatVolume } from "../../../../util/formatFunctions";
 const TableCell = lazy(() => import("@material-ui/core/TableCell/TableCell"));
 
 const unconnectedPairVolume = ({ emd }) => {
-	const volume = emd.volume_dai;
+	const volume = emd.v;
 	return (
 		<TableCell align="right">
 			{formatVolume(volume)}

@@ -17,8 +17,8 @@ const determineStyle = (innerAsk, innerBid, lowAsk, highBid) => {
 };
 
 const unconnectedMobilePairSpread = ({ emd, lowAsk, highBid }) => {
-	const innerBid = emd.current_bid_dai;
-	const innerAsk = emd.current_ask_dai;
+	const innerBid = emd.b;
+	const innerAsk = emd.a;
 
 	const style = determineStyle(innerAsk, innerBid, lowAsk, highBid);
 	const spreadString = `${formatPrice(innerBid)} - ${formatPrice(innerAsk)}`;

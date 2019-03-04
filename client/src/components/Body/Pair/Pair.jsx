@@ -20,7 +20,7 @@ const unconnectedPair = ({ market, activePage, setPage, viewport }) => {
 	const m = market.market;
 
 	const p = m.find(mPair =>
-		mPair.base_symbol === activePair.base_symbol && mPair.quote_symbol === activePair.quote_symbol);
+		mPair.b === activePair.b && mPair.q === activePair.q);
 
 	const colGroup = (vw < 760) ? (
 		<colgroup>

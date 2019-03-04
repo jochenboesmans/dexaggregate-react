@@ -18,8 +18,8 @@ const determineStyle = (innerAsk, innerBid, lowAsk, highBid) => {
 };
 
 const unconnectedPairSpread = ({ emd, lowAsk, highBid }) => {
-	const innerBid = emd.current_bid_dai;
-	const innerAsk = emd.current_ask_dai;
+	const innerBid = emd.b;
+	const innerAsk = emd.a;
 
 	const spreadRatioDifference = ((innerAsk / innerBid) - 1) || 0;
 

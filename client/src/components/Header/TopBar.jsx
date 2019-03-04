@@ -15,7 +15,7 @@ const unconnectedTopBar = ({ market, time, viewport }) => {
 	if (!market.market) return <div>Loading...</div>;
 
 	const combinedVolume = formatVolume(reduce(market.market, (totalSum, p) =>
-		totalSum + reduce(p.market_data, (sum, emd) => sum + emd.volume_dai, 0), 0));
+		totalSum + reduce(p.m, (sum, emd) => sum + emd.v, 0), 0));
 	const exchangeCount = market.exchanges.length;
 	const exchangeNames = market.exchanges.map(exchange => exchange.name).join(", ");
 	const marketSize = market.market.length;

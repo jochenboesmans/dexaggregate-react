@@ -22,7 +22,7 @@ let assembledMarket;
 const getMarket = () => assembledMarket;
 
 const getExchangeMarkets = () => {
-	const maxAge = 10 * 60 * 1000;
+	const maxAge = 30 * 60 * 1000;
 	const result = {};
 	Object.keys(getExchanges()).forEach(exchangeKey => {
 		const market = marketFetchers[exchangeKey].getMarket();
@@ -46,7 +46,6 @@ const assembleMarket = () => {
 		const { exchange } = em;
 		Object.keys(em.market).forEach(empKey => {
 			const emp = em.market[empKey];
-			if (!emp) console.log(exchange);
 			const ID = emp.b + "/" + emp.q;
 			if(!market[ID]) {
 				market[ID] = {
