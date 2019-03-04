@@ -46,6 +46,7 @@ const assembleMarket = () => {
 		const { exchange } = em;
 		Object.keys(em.market).forEach(empKey => {
 			const emp = em.market[empKey];
+			if (!emp) console.log(exchange);
 			const ID = emp.b + "/" + emp.q;
 			if(!market[ID]) {
 				market[ID] = {

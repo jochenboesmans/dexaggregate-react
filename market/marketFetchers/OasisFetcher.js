@@ -35,7 +35,7 @@ const tryUpdateMarket = async () => {
 		}));
 		const filterDefined = newMarket.filter(p => p);
 		if (filterDefined && !isEqual(filterDefined, market)) {
-			market = newMarket;
+			market = filterDefined;
 			timestamp = Date.now();
 			setMarketNeedsUpdate(true);
 		}
