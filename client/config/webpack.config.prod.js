@@ -19,6 +19,7 @@ module.exports = {
 		path: path.resolve(__dirname, "../build"),
 		publicPath: "/",
 		filename: "static/js/[name].js",
+		chunkFilename: "static/js/[name].bundle.js",
 	},
 	resolve: {
 		extensions: [".js", ".jsx", ".ts", ".tsx"]
@@ -31,7 +32,6 @@ module.exports = {
 		}),
 		//new webpackBundleAnalyzer(),
 	],
-
 	optimization: {
 		splitChunks: {
 			chunks: "all",
@@ -42,25 +42,23 @@ module.exports = {
 	},
 	module: {
 		rules: [
-			// First, run the linter.
-			// It's important to do this before Babel processes the JS.
+			// (1) ESLint
 			{
-				test: /\.(js|mjs|jsx)$/,
+				test: /\.[jtm]sx?$/,
 				enforce: "pre",
-				exclude: /node_modules/,
+				include: path.resolve(__dirname, "../src"),
 				use: [{
+					loader: require.resolve("eslint-loader"),
 					options: {
 						eslintPath: require.resolve("eslint"),
 					},
-					loader: require.resolve("eslint-loader"),
 				},],
-			}, {
-				// "oneOf" will traverse all following loaders until one will
-				// match the requirements. When no loader matches it will fall
-				// back to the "file" loader at the end of the loader list.
+			},
+			// (3) URL Loader | Babel Loader | File Loader
+			{
 				oneOf: [
 					{
-						test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/],
+						test: /\.(bmp|gif|jpe?g|png)$/,
 						loader: require.resolve("url-loader"),
 						options: {
 							limit: 10000,
@@ -68,39 +66,31 @@ module.exports = {
 						},
 					},
 					{
-						test: /\.(js|mjs|jsx|ts|tsx)$/,
-						exclude: /node_modules/,
-						use: [{
-							options: {
-								presets: [
-									"@babel/preset-env",
-									"@babel/preset-react"
-								],
-								plugins: [
-									"@babel/plugin-syntax-dynamic-import",
-									"@babel/plugin-transform-async-to-generator",
-								],
-							},
-							loader: require.resolve("babel-loader"),
-						}],
-					}, // "file" loader makes sure those assets get served by WebpackDevServer.
-					// When you `import` an asset, you get its (virtual) filename.
-					// In production, they would get copied to the `build` folder.
-					// This loader doesn't use a "test" so it will catch all modules
-					// that fall through the other loaders.
+						test: [/\.[jtm]sx?$/],
+						include: path.resolve(__dirname, "../src/"),
+						loader: require.resolve("babel-loader"),
+						options: {
+							presets: [
+								"@babel/preset-env",
+								"@babel/preset-react",
+								"@babel/preset-typescript",
+							],
+							plugins: [
+								"@babel/plugin-syntax-dynamic-import",
+								"@babel/plugin-transform-async-to-generator",
+								"@babel/plugin-transform-runtime",
+							],
+						},
+					},
 					{
-						// Exclude `js` files to keep "css" loader working as it injects
-						// its runtime that would otherwise be processed through "file" loader.
-						// Also exclude `html` and `json` extensions so they get processed
-						// by webpacks internal loaders.
-						exclude: [/\.(js|mjs|jsx|ts|tsx)$/, /\.html$/, /\.json$/],
+						exclude: /\.([jtm]sx?)|(html)|(json)$/,
 						loader: require.resolve("file-loader"),
 						options: {
 							name: "static/media/[name].[hash:8].[ext]",
 						},
-					},],
-			}, // ** STOP ** Are you adding a new loader?
-			// Make sure to add the new loader(s) before the "file" loader.
+					},
+				],
+			},
 		],
 	}
 };
