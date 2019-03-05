@@ -6,8 +6,8 @@
 	"license": "UNLICENSED",
 	"private": true,
 	"engines": {
-		"node": "11.10.0",
-		"npm": "6.8.0"
+		"node": "11.10",
+		"yarn": "1.13.0"
 	},
 	"description": "",
 	"main": "index.js",
@@ -24,10 +24,14 @@
 		"@babel/plugin-transform-runtime": "^7.3.4",
 		"@babel/preset-env": "^7.3.4",
 		"@babel/preset-react": "^7.0.0",
+		"@babel/preset-typescript": "^7.3.3",
 		"@babel/runtime": "^7.3.4",
 		"@material-ui/core": "latest",
 		"@material-ui/icons": "^3.0.2",
 		"@material-ui/styles": "latest",
+		"@types/lodash": "^4.14.122",
+		"@types/material-ui": "^0.21.6",
+		"@types/node": "^11.10.4",
 		"@types/react": "^16.8.6",
 		"@types/react-dom": "^16.8.2",
 		"axios": "next",
@@ -43,12 +47,11 @@
 		"eslint-plugin-import": "latest",
 		"eslint-plugin-jsx-a11y": "latest",
 		"eslint-plugin-react": "^7.12.4",
-		"express": "next",
+		"express": "^4.16.4",
 		"file-loader": "latest",
 		"html-webpack-plugin": "^4.0.0-beta.5",
-		"jss": "^10.0.0-alpha.12",
+		"jss": "^10.0.0-alpha.3",
 		"lodash": "latest",
-		"nodemon": "^1.18.10",
 		"react": "^16.8.2",
 		"react-dom": "^16.8.2",
 		"react-redux": "next",
@@ -56,9 +59,7 @@
 		"redux-thunk": "latest",
 		"socket.io": "latest",
 		"socket.io-client": "latest",
-		"tslint": "^5.13.1",
-		"tslint-loader": "^3.5.4",
-		"tslint-react": "^3.6.0",
+		"typescript": "^3.3.3333",
 		"url-loader": "^1.1.2",
 		"web3": "^1.0.0-beta.46",
 		"webpack": "^4.29.6",
@@ -75,10 +76,7 @@
 		"not op_mini all"
 	],
 	"devDependencies": {
-		"@babel/preset-typescript": "^7.3.3",
-		"awesome-typescript-loader": "^5.2.1",
 		"source-map-loader": "^0.2.4",
-		"typescript": "^3.3.3333",
 		"webpack-bundle-analyzer": "^3.0.4",
 		"webpack-dev-server": "^3.2.1"
 	}

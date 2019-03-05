@@ -2,7 +2,7 @@ import io from "socket.io-client";
 import { updateMarket } from "../actions";
 
 const subscribeToSocketBroadcasts = (dispatch) => {
-	const socket = (process.env.NODE_ENV === "production") ? io() : io("localhost:5000");
+	const socket = (process.env.NODE_ENV === "production") ? io() : io(`localhost:${process.env.SERVER_PORT || 5000}`);
 	socket.on("marketBroadcast", receivedMarket => {
 		updateMarket(receivedMarket)(dispatch);
 	});
