@@ -15,7 +15,7 @@
 		"start-client": "webpack-dev-server --open --config './client/config/webpack.config.dev.js'",
 		"build-client": "webpack --config './client/config/webpack.config.prod.js'",
 		"start": "node index.js",
-		"dev": "concurrently \"npm run start\" \"npm run start-client\""
+		"dev": "concurrently \"yarn run start\" \"yarn run start-client\""
 	},
 	"dependencies": {
 		"@babel/core": "^7.3.3",
