@@ -10,14 +10,16 @@
 		"yarn": "1.13.0"
 	},
 	"description": "",
-	"main": "index.js",
+	"main": "build/index.js",
 	"scripts": {
 		"start-client": "webpack-dev-server --open --config './client/config/webpack.config.dev.js'",
 		"build-client": "webpack --config './client/config/webpack.config.prod.js'",
-		"start": "node index.js",
-		"dev": "concurrently \"yarn run start\" \"yarn run start-client\""
+		"build-server": "npx babel . --out-dir build --ignore node_modules",
+		"start-server": "yarn run build-server && node './build/index.js'",
+		"dev": "concurrently \"yarn run start-server\" \"yarn run start-client\""
 	},
 	"dependencies": {
+		"@babel/cli": "^7.2.3",
 		"@babel/core": "^7.3.3",
 		"@babel/plugin-syntax-dynamic-import": "^7.2.0",
 		"@babel/plugin-transform-async-to-generator": "^7.3.4",
@@ -37,6 +39,7 @@
 		"axios": "next",
 		"babel-eslint": "^10.0.1",
 		"babel-loader": "^8.0.5",
+		"babel-plugin-inline-dotenv": "^1.2.1",
 		"clean-webpack-plugin": "^1.0.1",
 		"concurrently": "latest",
 		"dotenv": "^6.2.0",

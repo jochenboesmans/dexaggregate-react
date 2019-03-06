@@ -2,7 +2,7 @@ const orderBy = require("lodash/orderBy");
 const reduce = require("lodash/reduce");
 
 const { getExchanges } = require("./exchanges");
-const { rebaseMarket } = require("../util(where_the_magic_happens)/rebasing");
+const { rebaseMarket } = require("../util-where_the_magic_happens/rebasing");
 const { setModelNeedsBroadcast } = require("../websocketbroadcasts/updateNotifier");
 const { getMarketNeedsUpdate, setMarketNeedsUpdate } = require("./updateNotifier");
 

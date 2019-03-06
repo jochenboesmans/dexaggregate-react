@@ -25,7 +25,7 @@ module.exports = {
 		extensions: [".js", ".jsx", ".ts", ".tsx"]
 	},
 	plugins: [
-		new CleanWebpackPlugin(["build/*.*"]),
+		new CleanWebpackPlugin(),
 		new HtmlWebpackPlugin({
 			inject: true,
 			template: "./public/index.html",
@@ -70,6 +70,7 @@ module.exports = {
 						include: path.resolve(__dirname, "../src/"),
 						loader: require.resolve("babel-loader"),
 						options: {
+							babelrc: false,
 							presets: [
 								"@babel/preset-env",
 								"@babel/preset-react",

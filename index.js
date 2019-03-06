@@ -1,10 +1,12 @@
-require("dotenv").config();
+import dotenv from "dotenv";
+dotenv.config();
 
 const express = require("express");
 const app = express();
 const server = require("http").createServer(app);
 
-require("./market/market").initialize();
+import { initialize } from "./market/market";
+initialize();
 
 require("./routes")(app);
 

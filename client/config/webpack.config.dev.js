@@ -9,7 +9,7 @@ const webpack = require("webpack");
 module.exports = {
 	mode: "development",
 	/* Source map for development. */
-	// devtool: "inline-source-map",
+	//devtool: "inline-source-map",
 	context: path.resolve(__dirname, "../../client"),
 	entry: [
 		"core-js/modules/es6.promise",
@@ -26,12 +26,13 @@ module.exports = {
 		extensions: [".js", ".jsx", ".ts", ".tsx"]
 	},
 	plugins: [
-		new CleanWebpackPlugin(["build/*.*"]),
+		new CleanWebpackPlugin(),
 		new HtmlWebpackPlugin({
 			inject: true,
 			template: "./public/index.html",
 		}),
-		//new webpack.HotModuleReplacementPlugin(),
+		new webpack.HotModuleReplacementPlugin(),
+		//new webpackBundleAnalyzer(),
 	],
 	devServer: {
 		hot: true,
@@ -85,6 +86,7 @@ module.exports = {
 						include: path.resolve(__dirname, "../src/"),
 						loader: require.resolve("babel-loader"),
 						options: {
+							babelrc: false,
 							presets: [
 								"@babel/preset-env",
 								"@babel/preset-react",

@@ -1,4 +1,5 @@
 import io from "socket.io-client";
+
 import { updateMarket } from "../actions";
 
 const subscribeToSocketBroadcasts = (dispatch) => {
@@ -12,7 +13,6 @@ const subscribeToSocketBroadcasts = (dispatch) => {
 const unsubscribeFromSocketBroadcasts = (dispatch, socket) => {
 	socket.removeAllListeners("marketBroadcast");
 	updateMarket(null)(dispatch);
-
 };
 
 export { subscribeToSocketBroadcasts, unsubscribeFromSocketBroadcasts };
