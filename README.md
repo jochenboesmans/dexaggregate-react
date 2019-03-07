@@ -18,20 +18,35 @@ Filtering the market based on an exchange or a token symbol is possible through 
 
 ## Running Locally
 
+##### Back-end
+
 Running the back-end locally will require you to supply your own Paradex API key through a `PARADEX_API_KEY` environment variable hosted in a `.env` file in the root directory of this project.
-Other than that, you should be able to run the whole project locally through yarn (or npm after creating a package-lock.json).
+Other than that, you should be able to run it locally through yarn (or npm after creating a package-lock.json).
 
-For example, if you just want to run a development version of the application, you can use `yarn run dev`.
-This will run a the back-end and a webpack development server that hosts the front-end concurrently.
+Available scripts are:
+* `build`: runs ESLint and Babel across the code and puts output in `/build`
+* `start`: runs `yarn run build` and executes the outputted code (starting the server)
 
-## API
+You can replace `yarn` with `npm` in `package.json` to use the `start` script with `npm`, or you can just make your own script.
 
-If you wish to access the market and exchanges used by the application, you can do so at the endpoints:
+##### Front-end
+
+Available scripts are:
+* `start`: runs a webpack-dev-server simulating `serve`
+* `build`: runs the production webpack build which it outputs in `/build`
+* `serve`: runs `yarn run build` and runs a node process serving these static files
+
+You can replace `yarn` with `npm` in `package.json` to use the `serve` script with `npm`, or you can just make your own script.
+
+## Back-end API
+
+If you wish to access the market and exchanges used by the application, you can do so at these endpoints on a running back-end instance:
 
 * `/api/market` (whole market)
 * `/api/exchanges` (all exchanges included in the market)
 
 * `/api/market/:exchangeID` (filters market by exchangeID)
+
 
 
 
