@@ -1,24 +1,10 @@
-# config
-/config/dev.js
-
 # dependencies
 /node_modules
-/client/node_modules
-/.pnp
-.pnp.js
-
-# testing
-/coverage
 
 # build
-/client/build
+/build
 
-# misc
-.DS_Store
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
+# dotenv
 .env
 
 # IDE

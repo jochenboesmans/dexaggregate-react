@@ -10,7 +10,7 @@ module.exports = {
 	mode: "development",
 	/* Source map for development. */
 	//devtool: "inline-source-map",
-	context: path.resolve(__dirname, "../../client"),
+	context: path.resolve(__dirname, "../src"),
 	entry: [
 		"core-js/modules/es6.promise",
 		"core-js/modules/es6.array.iterator",
@@ -19,7 +19,7 @@ module.exports = {
 	output: {
 		path: path.resolve(__dirname, "../build"),
 		publicPath: "/",
-		filename: "static/js/[name].bundle.js",
+		filename: "static/js/[name].js",
 		chunkFilename: "static/js/[name].bundle.js",
 	},
 	resolve: {
@@ -29,7 +29,7 @@ module.exports = {
 		new CleanWebpackPlugin(),
 		new HtmlWebpackPlugin({
 			inject: true,
-			template: "./public/index.html",
+			template: path.resolve(__dirname, "../public/index.html"),
 		}),
 		new webpack.HotModuleReplacementPlugin(),
 		//new webpackBundleAnalyzer(),
@@ -83,7 +83,7 @@ module.exports = {
 					},
 					{
 						test: [/\.[jtm]sx?$/],
-						include: path.resolve(__dirname, "../src/"),
+						include: path.resolve(__dirname, "../src"),
 						loader: require.resolve("babel-loader"),
 						options: {
 							babelrc: false,

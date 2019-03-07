@@ -1,5 +1,5 @@
 {
-	"name": "dexaggregate",
+	"name": "dexaggregate-client",
 	"version": "0.1.0",
 	"author": "Jochen Boesmans",
 	"email": "jochen.boesmans@gmail.com",
@@ -9,14 +9,12 @@
 		"node": "11.10",
 		"yarn": "1.13.0"
 	},
-	"description": "",
+	"description": "React front-end displaying the market aggregate.",
 	"main": "build/index.js",
 	"scripts": {
-		"start-client": "webpack-dev-server --open --config './client/config/webpack.config.dev.js'",
-		"build-client": "webpack --config './client/config/webpack.config.prod.js'",
-		"build-server": "npx babel . --out-dir build --ignore node_modules",
-		"start-server": "yarn run build-server && node './build/index.js'",
-		"dev": "concurrently \"yarn run start-server\" \"yarn run start-client\""
+		"start": "webpack-dev-server --open --config './config/webpack.config.dev.js'",
+		"build": "webpack --config './config/webpack.config.prod.js'",
+		"serve": "yarn run build && node server"
 	},
 	"dependencies": {
 		"@babel/cli": "^7.2.3",
@@ -36,13 +34,9 @@
 		"@types/node": "^11.10.4",
 		"@types/react": "^16.8.6",
 		"@types/react-dom": "^16.8.2",
-		"axios": "next",
 		"babel-eslint": "^10.0.1",
 		"babel-loader": "^8.0.5",
-		"babel-plugin-inline-dotenv": "^1.2.1",
 		"clean-webpack-plugin": "^1.0.1",
-		"concurrently": "latest",
-		"dotenv": "^6.2.0",
 		"eslint": "^5.14.1",
 		"eslint-config-react-app": "^3.0.6",
 		"eslint-loader": "latest",
@@ -66,8 +60,7 @@
 		"url-loader": "^1.1.2",
 		"web3": "^1.0.0-beta.46",
 		"webpack": "^4.29.6",
-		"webpack-cli": "^3.2.3",
-		"ws": "^6.1.4"
+		"webpack-cli": "^3.2.3"
 	},
 	"eslintConfig": {
 		"extends": "react-app"

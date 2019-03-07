@@ -9,7 +9,7 @@ module.exports = {
 	mode: "production",
 	/* Source map with quick build speed for production. */
 	//devtool: "source-map",
-	context: path.resolve(__dirname, "../../client"),
+	context: path.resolve(__dirname, "../src"),
 	entry: [
 		"core-js/modules/es6.promise",
 		"core-js/modules/es6.array.iterator",
@@ -28,7 +28,7 @@ module.exports = {
 		new CleanWebpackPlugin(),
 		new HtmlWebpackPlugin({
 			inject: true,
-			template: "./public/index.html",
+			template: path.resolve(__dirname, "../public/index.html"),
 		}),
 		//new webpackBundleAnalyzer(),
 	],
@@ -67,7 +67,7 @@ module.exports = {
 					},
 					{
 						test: [/\.[jtm]sx?$/],
-						include: path.resolve(__dirname, "../src/"),
+						include: path.resolve(__dirname, "../src"),
 						loader: require.resolve("babel-loader"),
 						options: {
 							babelrc: false,

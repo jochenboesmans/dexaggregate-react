@@ -5,7 +5,7 @@ import { applyMiddleware, createStore } from "redux";
 import reduxThunk from "redux-thunk";
 import install from "@material-ui/styles/install";
 
-import { reducer } from "./reducers/index";
+import { reducer } from "./reducers";
 import { continuouslyUpdateStore } from "./continuouslyUpdateStore";
 
 /* Temporary solution for usage of alpha version of MUI styles */
