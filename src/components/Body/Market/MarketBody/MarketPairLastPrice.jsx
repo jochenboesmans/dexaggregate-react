@@ -1,12 +1,12 @@
 import React, { lazy } from "react";
-//import { connect } from "react-redux";
 import reduce from "lodash/reduce";
 
-import { formatPrice } from "../../../../util/formatFunctions";
+import { formatPrice } from "../../../../util/format";
 
 const TableCell = lazy(() => import("@material-ui/core/TableCell/TableCell"));
+const Typography = lazy(() => import("@material-ui/core/Typography/Typography"));
 
-const unconnectedMarketPairLastPrice = ({ p }) => {
+const MarketPairLastPrice = ({ p }) => {
 	const combinedVolume = reduce(p.m, (sum, emd) => sum + emd.v, 0);
 	const weightedSumLastTraded = reduce(p.m, (sum, emd) => sum + (emd.v * emd.l), 0);
 	const volumeWeightedLastTraded = (weightedSumLastTraded / combinedVolume) || 0;
@@ -14,10 +14,11 @@ const unconnectedMarketPairLastPrice = ({ p }) => {
 
 	return (
 		<TableCell align="right">
-			{pairLastPrice}
+			<Typography>
+				{pairLastPrice}
+			</Typography>
 		</TableCell>
 	)
 };
 
-//const MarketPairLastPrice = connect(null, null)(unconnectedMarketPairLastPrice);
-export default unconnectedMarketPairLastPrice;
+export default MarketPairLastPrice;

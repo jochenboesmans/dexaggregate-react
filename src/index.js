@@ -1,7 +1,7 @@
 import React from "react";
 import { render } from "react-dom";
 
-/* No lazy initialization here because App is always loaded. */
-import App from "./components/App";
+/* No lazy initialization here because component is always loaded. */
+import GlobalContextProvider from "./components/GlobalContextProvider";
 
-render(<App/>, document.getElementById(`root`));
+render(<GlobalContextProvider/>, document.getElementById(`root`));

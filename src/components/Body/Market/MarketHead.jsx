@@ -1,5 +1,6 @@
-import React, { lazy, Suspense } from "react";
-import { connect } from "react-redux";
+import React, { lazy, Suspense, useContext } from "react";
+
+import { ViewportStateContext } from "../../../contexts/contexts";
 
 const TableCell = lazy(() => import("@material-ui/core/TableCell/TableCell"));
 const TableHead = lazy(() => import("@material-ui/core/TableHead/TableHead"));
@@ -7,7 +8,7 @@ const TableRow = lazy(() => import("@material-ui/core/TableRow/TableRow"));
 const Tooltip = lazy(() => import("@material-ui/core/Tooltip/Tooltip"));
 const Typography = lazy(() => import("@material-ui/core/Typography/Typography"));
 
-const unconnectedMarketHead = ({ viewport }) => {
+const MarketHead = () => {
 	const columns = [{
 		tooltip: `A market pair is defined by a base token and quote token. A ratio between a base token and quote token indicates how much of the quote token is needed to purchase one unit of the base token. These rates are rebased to DAI on ΣDEX for ease of interpretation. `,
 		text: `Base/Quote`,
@@ -26,8 +27,7 @@ const unconnectedMarketHead = ({ viewport }) => {
 		align: `right`,
 	}];
 
-	const initialVW = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
-	const vw = viewport.width || initialVW;
+	const { width: vw } = useContext(ViewportStateContext);
 
 	const columnAmount = (vw < 760) ? 2 : 4;
 	const slicedColumns = columns.slice(0, columnAmount);
@@ -49,5 +49,4 @@ const unconnectedMarketHead = ({ viewport }) => {
 	);
 };
 
-const MarketHead = connect(({ viewport }) => ({ viewport }), null)(unconnectedMarketHead);
 export default MarketHead;

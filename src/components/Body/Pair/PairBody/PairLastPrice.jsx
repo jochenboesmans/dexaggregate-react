@@ -1,18 +1,19 @@
 import React, { lazy } from "react";
-//import { connect } from "react-redux";
 
-import { formatPrice } from "../../../../util/formatFunctions";
+import { formatPrice } from "../../../../util/format";
 
 const TableCell = lazy(() => import("@material-ui/core/TableCell/TableCell"));
+const Typography = lazy(() => import("@material-ui/core/Typography/Typography"));
 
-const unconnectedPairLastPrice = ({ emd }) => {
-	const lastTraded = emd.l;
+const PairLastPrice = ({ emd }) => {
+	const lastPrice = formatPrice(emd.l);
 	return (
 		<TableCell align="right">
-			{formatPrice(lastTraded)}
+			<Typography>
+				{lastPrice}
+			</Typography>
 		</TableCell>
 	)
 };
 
-//const PairLastPrice = connect(null, null)(unconnectedPairLastPrice);
-export default unconnectedPairLastPrice;
+export default PairLastPrice;

@@ -1,14 +1,13 @@
-import React, { useState, lazy } from "react";
-import { connect } from "react-redux";
+import React, { useState, lazy, useContext } from "react";
 
-import * as actions from "../../../actions";
-
-import { pages } from "../../../model/pages";
+import { ActivePageDispatchContext } from "../../../contexts/contexts";
 
 const Button = lazy(() => import("@material-ui/core/Button/Button"));
 const Grid = lazy(() => import("@material-ui/core/Grid/Grid"));
 
-const unconnectedPairButton = ({ p, setPage }) => {
+const PairButton = ({ p }) => {
+	const activePageDispatch = useContext(ActivePageDispatchContext);
+
 	const [hover, setHover] = useState(false);
 	const innerText = hover ? `Back` : `${p.b}/${p.q}`;
 	return (
@@ -19,7 +18,11 @@ const unconnectedPairButton = ({ p, setPage }) => {
 		>
 			<Button
 				fullWidth
-				onClick={() => { setPage(pages.MARKET) }}
+				onClick={() => {
+					activePageDispatch({
+						type: `RESET`
+					})
+				}}
 				style={{ fontSize: 24, fontWeight: "bold" }}
 			>
 			{innerText}
@@ -28,5 +31,4 @@ const unconnectedPairButton = ({ p, setPage }) => {
 	)
 };
 
-const PairButton = connect(null, actions)(unconnectedPairButton);
 export default PairButton;

@@ -1,21 +1,26 @@
-import React, { lazy, Suspense } from "react";
-import { connect } from "react-redux";
+import React, { lazy, Suspense, useReducer } from "react";
+
+import { ActivePageDispatchContext, ActivePageStateContext } from "../../contexts/contexts";
+import { activePageReducer } from "../../reducers/reducers";
 
 const Market = lazy(() => import("./Market/Market"));
 const Pair = lazy(() => import("./Pair/Pair"));
 
-
-const unconnectedBody = ({ activePage }) => {
+const Body = () => {
+	const [activePageState, activePageDispatch] = useReducer(activePageReducer, { ID: `MARKET`, pair: null });
 	const componentsByPageID = {
 		MARKET: <Market/>,
 		PAIR: <Pair/>,
 	};
 	return (
-		<Suspense fallback={<div>Loading...</div>}>
-			{componentsByPageID[activePage.ID]}
-		</Suspense>
+		<ActivePageDispatchContext.Provider value={activePageDispatch}>
+			<ActivePageStateContext.Provider value={activePageState}>
+				<Suspense fallback={<div>Loading...</div>}>
+					{componentsByPageID[activePageState]}
+				</Suspense>
+			</ActivePageStateContext.Provider>
+		</ActivePageDispatchContext.Provider>
 	);
 };
 
-const Body = connect(({ activePage }) => ({ activePage }))(unconnectedBody);
 export default Body;

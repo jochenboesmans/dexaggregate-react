@@ -1,8 +1,11 @@
 import React, { lazy, Suspense, useContext } from "react";
-
 import reduce from "lodash/reduce";
 
-import { formatVolume } from "../../util/formatFunctions";
+import { MarketStateContext } from "../../contexts/contexts";
+import { TimeStateContext } from "../../contexts/contexts";
+import { ViewportStateContext } from "../../contexts/contexts";
+
+import { formatVolume } from "../../util/format";
 
 const Tooltip = lazy(() => import("@material-ui/core/Tooltip/Tooltip"));
 const Typography = lazy(() => import("@material-ui/core/Typography/Typography"));
@@ -11,8 +14,10 @@ const TableBody = lazy(() => import("@material-ui/core/TableBody/TableBody"));
 const TableCell = lazy(() => import("@material-ui/core/TableCell/TableCell"));
 const Table = lazy(() => import("@material-ui/core/Table/Table"));
 
-const TopBar = () => {
-	const { market, time, viewport } = useContext(StateContext);
+const MarketInfo = () => {
+	const market = useContext(MarketStateContext);
+	const time = useContext(TimeStateContext);
+	const { height: vh } = useContext(ViewportStateContext);
 
 	if (!market.market) return <div>Loading...</div>;
 
@@ -41,8 +46,6 @@ const TopBar = () => {
 		textLeft: `Latest Update`,
 		textRight: `${latestUpdateExchange}, ${secondsSinceUpdate} seconds ago`
 	},];
-
-	const vh = viewport.height || Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
 
 	const colGroup = (vh < 900) ? (
 		<colgroup>
@@ -75,11 +78,16 @@ const TopBar = () => {
 					return (
 						<TableRow style={{ height: "4vh" }} key={r.tooltipLeft}>
 							<TableCell align="right">
-								<Tooltip title={r.tooltipLeft} placement="bottom">
-									<Suspense fallback={<div>Loading...</div>}>
-										<Typography variant="caption" style={{ fontWeight: "bold" }}>{r.textLeft}</Typography>
-									</Suspense>
-								</Tooltip>
+								<Suspense fallback={<div>Loading...</div>}>
+									<Tooltip title={r.tooltipLeft} placement="bottom">
+										<Typography
+											variant="caption"
+											style={{ fontWeight: "bold" }}
+										>
+											{r.textLeft}
+										</Typography>
+									</Tooltip>
+								</Suspense>
 							</TableCell>
 							<TableCell>
 								{rightElement}
@@ -93,4 +101,4 @@ const TopBar = () => {
 };
 
 //const TopBar = connect(({ market, time, viewport }) => ({ market, time, viewport }))(unconnectedTopBar);
-export default TopBar;
+export default MarketInfo;

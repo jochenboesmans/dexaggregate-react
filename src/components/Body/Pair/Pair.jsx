@@ -1,8 +1,8 @@
-import React, { lazy } from "react";
-import { connect } from "react-redux";
+import React, { lazy, useContext } from "react";
 
-import * as actions from "../../../actions";
-import { pages } from "../../../model/pages";
+import { ViewportStateContext } from "../../../contexts/contexts";
+import { ActivePageDispatchContext, ActivePageStateContext } from "../../../contexts/contexts";
+import { MarketStateContext } from "../../../contexts/contexts";
 
 const Button = lazy(() => import("@material-ui/core/Button/Button"));
 const Grid = lazy(() => import("@material-ui/core/Grid/Grid"));
@@ -12,13 +12,11 @@ const PairButton = lazy(() => import("./PairButton"));
 const PairHead = lazy(() => import("./PairHead"));
 const PairBody = lazy(() => import("./PairBody/PairBody"));
 
-const unconnectedPair = ({ market, activePage, setPage, viewport }) => {
-	const initialVW = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
-	const vw = viewport.width || initialVW;
-
-	const { pair: activePair }  = activePage;
-
-	const m = market.market;
+const Pair = () => {
+	const { width: vw } = useContext(ViewportStateContext);
+	const { market: m, exchanges } = useContext(MarketStateContext);
+	const { pair: activePair }  = useContext(ActivePageStateContext);
+	const activePageDispatch = useContext(ActivePageDispatchContext);
 
 	const p = m.find(mPair =>
 		mPair.b === activePair.b && mPair.q === activePair.q);
@@ -48,7 +46,7 @@ const unconnectedPair = ({ market, activePage, setPage, viewport }) => {
 					style={{ tableLayout: "fixed" }}>
 					{colGroup}
 					<PairHead p={p}/>
-					<PairBody p={p} market={m} exchanges={market.exchanges}/>
+					<PairBody p={p} market={m} exchanges={exchanges}/>
 				</Table>
 			</Grid>
 		</>
@@ -56,9 +54,7 @@ const unconnectedPair = ({ market, activePage, setPage, viewport }) => {
 		<Grid item>
 			<Button
 				fullWidth
-		    onClick={() => {
-		      setPage(pages.MARKET)
-		    }}
+		    onClick={ () => activePageDispatch({ type: `RESET` }) }
 		    style={{ fontSize: "24px" }}
 			>
 				Back
@@ -77,5 +73,4 @@ const unconnectedPair = ({ market, activePage, setPage, viewport }) => {
 	);
 };
 
-const Pair = connect(({ market, activePage, deltaY, viewport }) => ({ market, activePage, deltaY, viewport }), actions)(unconnectedPair);
 export default Pair;

@@ -1,7 +1,7 @@
-import React, { lazy } from "react";
-import { connect } from "react-redux";
+import React, { lazy, useReducer, useContext } from "react";
 
-import * as actions from "../../../actions";
+import { ViewportStateContext, MarketStateContext } from "../../../contexts/contexts";
+import { marketPageReducer, searchFilterReducer } from "../../../reducers/reducers";
 
 const Grid = lazy(() => import("@material-ui/core/Grid/Grid"));
 const Table = lazy(() => import("@material-ui/core/Table/Table"));
@@ -11,17 +11,25 @@ const MarketBody = lazy(() => import("./MarketBody/MarketBody"));
 const MarketHead = lazy(() => import("./MarketHead"));
 const TableNavigation = lazy(() => import("./TableNavigation"));
 
-const unconnectedMarket = ({ market, deltaY, searchFilter, setSearchFilter, setDeltaY, viewport }) => {
-	if(!market.market) return null;
+const Market = () => {
+	const [marketPage, marketPageDispatch] = useReducer(marketPageReducer, 0);
+	const [searchFilter, searchFilterDispatch] = useReducer(searchFilterReducer, ``);
+
+	const market = useContext(MarketStateContext);
+	const viewport = useContext(ViewportStateContext);
+
+	if (!market.market) return null;
+
+	const ENTRIES_PER_PAGE = 10;
+	const startIndex = marketPage * ENTRIES_PER_PAGE;
+	const endIndex = startIndex + ENTRIES_PER_PAGE;
 
 	const filteredMarket = searchFilter ? market.market.filter(p =>
 		p.b.includes(searchFilter.toUpperCase()) || p.q.includes(searchFilter.toUpperCase())
 		|| Object.keys(p.m).find(exchangeID => exchangeID.includes(searchFilter.toUpperCase()))) : market.market;
-	const slicedMarket = filteredMarket.slice(0 + deltaY, 10 + deltaY);
+	const slicedMarket = filteredMarket.slice(startIndex, endIndex);
 
-	const vw = viewport.width || Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
-
-	const colGroup = (vw < 760) ? (
+	const colGroup = (viewport.width < 760) ? (
 		<colgroup>
 			<col style={{ width: "20%" }}/>
 			<col style={{ width: "80%" }}/>
@@ -36,49 +44,61 @@ const unconnectedMarket = ({ market, deltaY, searchFilter, setSearchFilter, setD
 	);
 
 	const handleSearchChange = (e) => {
-		setSearchFilter((e.target.value).toUpperCase());
-		setDeltaY(0);
+		marketPageDispatch({ type: `RESET` });
+		searchFilterDispatch({ type: `SET`, payload: e.target.value });
 	};
 
 	return (
-		<Grid
-			container
-			direction="column"
-			spacing={8}
-		>
-			<Grid item>
-				<TextField
-					className="root"
-					id="token-search"
-					label="Search Token/Exchange"
-					type="search"
-					variant="outlined"
-					onChange={handleSearchChange}
-					value={searchFilter}
-					fullWidth
-				/>
-			</Grid>
-			<Grid item>
-				<Table
-					padding="dense"
-					style={{ tableLayout: "fixed" }}>
-					{colGroup}
-					<MarketHead/>
-					<MarketBody
-						filteredMarketLength={filteredMarket.length}
-						slicedMarket={slicedMarket}
-					/>
-				</Table>
-			</Grid>
-			<Grid item>
-				<TableNavigation
-					filteredMarketLength={filteredMarket.length}
-				/>
-			</Grid>
-		</Grid>
+		<MarketPageDispatchContext.Provider value={marketPageDispatch}>
+			<MarketPageStateContext.Provider value={marketPage}>
+				<SearchFilterDispatchContext.Provider value={searchFilterDispatch}>
+					<SearchFilterStateContext.Provider value={searchFilter}>
+						<Grid
+							container
+							direction="column"
+							spacing={8}
+						>
+							<Grid item>
+								<TextField
+									className="root"
+									id="token-search"
+									label="Search Token/Exchange"
+									type="search"
+									variant="outlined"
+									onChange={handleSearchChange}
+									value={searchFilter}
+									fullWidth
+								/>
+							</Grid>
+							<Grid item>
+								<Table
+									padding="dense"
+									style={{ tableLayout: "fixed" }}>
+									{colGroup}
+									<MarketHead/>
+									<MarketBody
+										filteredMarketLength={filteredMarket.length}
+										slicedMarket={slicedMarket}
+									/>
+								</Table>
+							</Grid>
+							<Grid item>
+								<TableNavigation
+									entriesPerPage={ENTRIES_PER_PAGE}
+									filteredMarketLength={filteredMarket.length}/>
+							</Grid>
+						</Grid>
+					</SearchFilterStateContext.Provider>
+				</SearchFilterDispatchContext.Provider>
+			</MarketPageStateContext.Provider>
+		</MarketPageDispatchContext.Provider>
 	);
 };
 
-const Market = connect(({ searchFilter, market, deltaY, viewport }) => ({ searchFilter, market, deltaY, viewport }), actions)(unconnectedMarket);
-
 export default Market;
+export {
+	MarketPageDispatchContext,
+	MarketPageStateContext,
+	SearchFilterDispatchContext,
+	SearchFilterStateContext,
+}

@@ -1,8 +1,8 @@
-import React, { lazy } from "react";
-import { connect } from "react-redux";
+import React, { lazy, useContext } from "react";
 
-import * as actions from "../../../../actions";
-import { pages } from "../../../../model/pages";
+import { ActivePageDispatchContext } from "../../../../contexts/contexts";
+import { MarketPageDispatchContext, MarketPageStateContext } from "../../../../contexts/contexts";
+import { ViewportStateContext } from "../../../../contexts/contexts";
 
 const MarketPairName = lazy(() => import("./MarketPairName"));
 const MarketPairSpread = lazy(() => import("./MarketPairSpread"));
@@ -13,30 +13,31 @@ const MobileMarketPairSpread = lazy(() => import("./MobileMarketPairSpread"));
 const TableBody = lazy(() => import("@material-ui/core/TableBody/TableBody"));
 const TableRow = lazy(() => import("@material-ui/core/TableRow/TableRow"));
 
-const unconnectedMarketBody = ({ filteredMarketLength, slicedMarket, deltaY, setDeltaY, setPage, viewport }) => {
-
-	const initialVW = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
-	const vw = viewport.width || initialVW;
+const MarketBody = ({ entriesPerPage, filteredMarketLength, slicedMarket }) => {
+	const { width: vw } = useContext(ViewportStateContext);
+	const marketPage = useContext(MarketPageStateContext);
+	const marketPageDispatch = useContext(MarketPageDispatchContext);
+	const activePageDispatch = useContext(ActivePageDispatchContext);
 
 	const innerContent = (p) => (vw < 760) ? (
 		<>
-			<MarketPairName p={p} />
-			<MobileMarketPairSpread p={p} />
+			<MarketPairName p={p}/>
+			<MobileMarketPairSpread p={p}/>
 		</>
 	) : (
 		<>
-			<MarketPairName p={p} />
-			<MarketPairSpread p={p} />
-			<MarketPairLastPrice p={p} />
-			<MarketPairVolume p={p} />
+			<MarketPairName p={p}/>
+			<MarketPairSpread p={p}/>
+			<MarketPairLastPrice p={p}/>
+			<MarketPairVolume p={p}/>
 		</>
 	);
 
 	const handleWheelEvent = (e) => {
-		if(e.deltaY < 0 && deltaY > 9) {
-			setDeltaY(deltaY - 10);
-		} else if(e.deltaY > 0 && (deltaY < filteredMarketLength - 10)) {
-			setDeltaY(deltaY + 10);
+		if (e.deltaY < 0 && marketPage > 0) {
+			marketPageDispatch({ type: `DECREMENT` });
+		} else if (e.deltaY > 0 && (marketPage * entriesPerPage) + entriesPerPage < filteredMarketLength) {
+			marketPageDispatch({ type: `INCREMENT` });
 		}
 	};
 
@@ -47,12 +48,7 @@ const unconnectedMarketBody = ({ filteredMarketLength, slicedMarket, deltaY, set
 					<TableRow
 						style={{ height: "4vh" }}
 						hover
-						onClick={() => {
-							setPage({
-								...pages.PAIR,
-								pair: p
-							});
-						}}
+						onClick={() => activePageDispatch({ type: `SET`, payload: { ID: `PAIR`, pair: p } })}
 						key={`${p.b}/${p.q}`}
 					>
 						{innerContent(p)}
@@ -62,7 +58,5 @@ const unconnectedMarketBody = ({ filteredMarketLength, slicedMarket, deltaY, set
 		</TableBody>
 	);
 };
-
-const MarketBody = connect(({ deltaY, viewport }) => ({ deltaY, viewport }), actions)(unconnectedMarketBody);
 
 export default MarketBody;

@@ -1,18 +1,19 @@
 import React, { lazy } from "react";
-//import { connect } from "react-redux";
 
-import { formatVolume } from "../../../../util/formatFunctions";
+import { formatVolume } from "../../../../util/format";
 
 const TableCell = lazy(() => import("@material-ui/core/TableCell/TableCell"));
+const Typography = lazy(() => import("@material-ui/core/Typography/Typography"));
 
 const unconnectedPairVolume = ({ emd }) => {
-	const volume = emd.v;
+	const volume = formatVolume(emd.v);
 	return (
 		<TableCell align="right">
-			{formatVolume(volume)}
+			<Typography>
+				{volume}
+			</Typography>
 		</TableCell>
 	)
 };
 
-//const PairVolume = connect(null, null)(unconnectedPairVolume);
 export default unconnectedPairVolume;

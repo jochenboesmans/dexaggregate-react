@@ -1,24 +1,26 @@
 import React, { lazy, useState, useContext } from "react";
-import { connect } from "react-redux";
 
-import { DispatchContext } from "../../index";
-
-import { defaultDeltaY } from "src/reducers/deltaYReducer";
-import { defaultPage } from "src/reducers/navigationReducer";
-import { defaultSearchFilter } from "src/reducers/searchFilterReducer";
-import { SET_DELTA_Y, SET_PAGE, SET_SEARCH_FILTER } from "src/actions/types";
-
-import * as actions from "../../actions";
+import { ActivePageDispatchContext } from "../../contexts/contexts";
+import { MarketPageDispatchContext, SearchFilterDispatchContext } from "../../contexts/contexts";
 
 const Grid = lazy(() => import("@material-ui/core/Grid/Grid"));
 const Typography = lazy(() => import("@material-ui/core/Typography/Typography"));
 
 const TitleBar = () => {
 	const [hover, setHover] = useState(false);
-	const dispatch = useContext(DispatchContext);
+
+	const activePageDispatch = useContext(ActivePageDispatchContext);
+	const marketPageDispatch = useContext(MarketPageDispatchContext);
+	const searchFilterDispatch = useContext(SearchFilterDispatchContext);
 
 	const style = hover ? { cursor: "pointer", color: "grey" } : {};
-	const title = "ΣDEX";
+	const title = `ΣDEX`;
+
+	const handleClick = () => {
+		activePageDispatch({ type: `RESET` });
+		searchFilterDispatch({ type: `RESET` });
+		marketPageDispatch({ type: `RESET` });
+	};
 
 	return (
 		<Grid
@@ -29,7 +31,7 @@ const TitleBar = () => {
 			<Typography
 				variant="h1"
 				align="center"
-				onClick={() => dispatch({ type: "RESET" })}
+				onClick={handleClick}
 				style={style}
 			>
 				{title}
@@ -38,5 +40,4 @@ const TitleBar = () => {
 	)
 };
 
-//const TitleBar = connect(null, actions)(unconnectedTitleBar);
 export default TitleBar;

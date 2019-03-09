@@ -1,15 +1,16 @@
 import React, { lazy } from "react";
-//import { connect } from "react-redux";
 
 const TableCell = lazy(() => import("@material-ui/core/TableCell/TableCell"));
+const Typography = lazy(() => import("@material-ui/core/Typography/Typography"));
 
 const unconnectedPairExchangeName = ({ exchangeName }) => {
 	return (
 		<TableCell>
-			{exchangeName}
+			<Typography>
+				{exchangeName}
+			</Typography>
 		</TableCell>
 	)
 };
 
-//const PairExchangeName = connect(({ market }) => ({ market }), null)(unconnectedPairExchangeName);
 export default unconnectedPairExchangeName;

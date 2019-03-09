@@ -1,38 +1,35 @@
 import React, { lazy } from "react";
 
-import { formatPrice } from "../../../../util/formatFunctions";
+import { formatPrice } from "../../../../util/format";
 
 const TableCell = lazy(() => import("@material-ui/core/TableCell/TableCell"));
+const Typography = lazy(() => import("@material-ui/core/Typography/Typography"));
 
-const determineStyle = (innerAsk, innerBid, lowAsk, highBid) => {
-	if (innerAsk === lowAsk && innerBid === highBid) {
-		return { fontStyle: "italic", color: "green" };
-	} else if (innerAsk === lowAsk) {
-		return { color: "green" };
-	} else if (innerBid === highBid) {
-		return { color: "red" };
-	} else {
-		return { };
-	}
-};
-
-const unconnectedMobilePairSpread = ({ emd, mostCompetitivePrices }) => {
+const MobilePairSpread = ({ emd, mostCompetitivePrices }) => {
 	const { lowAsk, highBid } = mostCompetitivePrices;
+	const { b: innerBid, a: innerAsk } = emd;
 
-	const innerBid = emd.b;
-	const innerAsk = emd.a;
+	const style = (() => {
+		if (innerAsk === lowAsk && innerBid === highBid) {
+			return { fontStyle: "italic", color: "green" };
+		} else if (innerAsk === lowAsk) {
+			return { color: "green" };
+		} else if (innerBid === highBid) {
+			return { color: "red" };
+		} else {
+			return { };
+		}
+	})();
 
-	const style = determineStyle(innerAsk, innerBid, lowAsk, highBid);
 	const spreadString = `${formatPrice(innerBid)} - ${formatPrice(innerAsk)}`;
 
 	return (
-		<TableCell
-			style={style}
-			align="right"
-		>
-			{spreadString}
+		<TableCell align="right">
+			<Typography style={style}>
+				{spreadString}
+			</Typography>
 		</TableCell>
 	);
 };
 
-export default unconnectedMobilePairSpread;
+export default MobilePairSpread;
