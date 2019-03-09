@@ -1,5 +1,5 @@
-import React, { lazy, Suspense } from "react";
-import { connect } from "react-redux";
+import React, { lazy, Suspense, useContext } from "react";
+
 import reduce from "lodash/reduce";
 
 import { formatVolume } from "../../util/formatFunctions";
@@ -11,7 +11,9 @@ const TableBody = lazy(() => import("@material-ui/core/TableBody/TableBody"));
 const TableCell = lazy(() => import("@material-ui/core/TableCell/TableCell"));
 const Table = lazy(() => import("@material-ui/core/Table/Table"));
 
-const unconnectedTopBar = ({ market, time, viewport }) => {
+const TopBar = () => {
+	const { market, time, viewport } = useContext(StateContext);
+
 	if (!market.market) return <div>Loading...</div>;
 
 	const combinedVolume = formatVolume(reduce(market.market, (totalSum, p) =>
@@ -90,6 +92,5 @@ const unconnectedTopBar = ({ market, time, viewport }) => {
 	)
 };
 
-const TopBar = connect(({ market, time, viewport }) => ({ market, time, viewport }))(unconnectedTopBar);
-
+//const TopBar = connect(({ market, time, viewport }) => ({ market, time, viewport }))(unconnectedTopBar);
 export default TopBar;

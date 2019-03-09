@@ -13,7 +13,7 @@ module.exports = {
 	entry: [
 		"core-js/modules/es6.promise",
 		"core-js/modules/es6.array.iterator",
-		path.resolve(__dirname, "../src/index.js"),
+		path.resolve(__dirname, "../src"),
 	],
 	output: {
 		path: path.resolve(__dirname, "../build"),

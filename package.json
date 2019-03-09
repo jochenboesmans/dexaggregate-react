@@ -38,10 +38,11 @@
 		"babel-loader": "^8.0.5",
 		"clean-webpack-plugin": "^1.0.1",
 		"eslint": "^5.14.1",
+		"eslint-config-airbnb": "^17.1.0",
 		"eslint-config-react-app": "^3.0.6",
 		"eslint-loader": "latest",
 		"eslint-plugin-flowtype": "^3.4.2",
-		"eslint-plugin-import": "latest",
+		"eslint-plugin-import": "^2.16.0",
 		"eslint-plugin-jsx-a11y": "latest",
 		"eslint-plugin-react": "^7.12.4",
 		"express": "^4.16.4",
@@ -63,7 +64,7 @@
 		"webpack-cli": "^3.2.3"
 	},
 	"eslintConfig": {
-		"extends": "react-app"
+		"extends": "react"
 	},
 	"browserslist": [
 		">0.2%",

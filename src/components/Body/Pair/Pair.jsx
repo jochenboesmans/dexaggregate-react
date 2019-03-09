@@ -23,8 +23,6 @@ const unconnectedPair = ({ market, activePage, setPage, viewport }) => {
 	const p = m.find(mPair =>
 		mPair.b === activePair.b && mPair.q === activePair.q);
 
-	console.log(p);
-
 	const colGroup = (vw < 760) ? (
 		<colgroup>
 			<col style={{ width: "20%" }}/>
@@ -56,11 +54,12 @@ const unconnectedPair = ({ market, activePage, setPage, viewport }) => {
 		</>
 	) : (
 		<Grid item>
-			<Button fullWidth
-		            onClick={() => {
-			            setPage(pages.MARKET)
-		            }}
-		            style={{ fontSize: "24px" }}
+			<Button
+				fullWidth
+		    onClick={() => {
+		      setPage(pages.MARKET)
+		    }}
+		    style={{ fontSize: "24px" }}
 			>
 				Back
 			</Button>

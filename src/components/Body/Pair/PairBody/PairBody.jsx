@@ -1,12 +1,9 @@
-import React, { lazy } from "react";
+import React, { lazy, useReducer } from "react";
 import { connect } from "react-redux";
+import { viewportReducer as reducer } from "../../../../reducers/viewportReducer"
 
 import orderBy from "lodash/orderBy";
-
-import {
-	highestCurrentBidAcrossExchanges,
-	lowestCurrentAskAcrossExchanges
-} from "../../../../util/marketFunctions";
+import reduce from "lodash/reduce";
 
 const TableBody = lazy(() => import("@material-ui/core/TableBody/TableBody"));
 const TableRow = lazy(() => import("@material-ui/core/TableRow/TableRow"));
@@ -20,34 +17,40 @@ const MobilePairSpread = lazy(() => import("./MobilePairSpread"));
 const unconnectedPairBody = ({ p, market, viewport }) => {
 	const sortedMarketData = p ? orderBy(p.m, [emd => emd.v], "desc") : null;
 
-	const lowAsk = lowestCurrentAskAcrossExchanges(market, p.b, p.q);
-	const highBid = highestCurrentBidAcrossExchanges(market, p.b, p.q);
-
+	const [viewport] = useReducer(reducer, {width: 0, height: 0});
 	const initialVW = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
 	const vw = viewport.width || initialVW;
+
 	return (
 		<TableBody>
 			{sortedMarketData.map(emd => {
-				if(vw < 760) {
+				const mostCompetitivePrices = {
+					lowAsk: reduce(p.m, (min, emd) => emd.a < min ? emd.a : min, Number.MAX_VALUE),
+					highBid : reduce(p.m, (max, emd) => emd.b > max ? emd.b : max, 0),
+				};
+
+				if (vw < 760) {
 					return (
-						<TableRow hover
-						          onClick={() => handleClick(emd.e, p)}
-						          key={emd.e}
-						          style={{ height: "4vh" }}
+						<TableRow
+							hover
+		          onClick={() => handleClick(emd.e, p)}
+		          key={emd.e}
+		          style={{ height: "4vh" }}
 						>
-							<PairExchangeName emd={emd}/>
-							<MobilePairSpread emd={emd} lowAsk={lowAsk} highBid={highBid}/>
+							<PairExchangeName exchangeName={market.exchanges[emd.e].name}/>
+							<MobilePairSpread emd={emd} mostCompetitivePrice={mostCompetitivePrices}/>
 						</TableRow>
 					);
 				} else {
 					return (
-						<TableRow hover
-						          onClick={() => handleClick(emd.e, p)}
-						          key={emd.e}
-						          style={{ height: "4vh" }}
+						<TableRow
+							hover
+							onClick={() => handleClick(emd.e, p)}
+							key={emd.e}
+							style={{ height: "4vh" }}
 						>
-							<PairExchangeName emd={emd}/>
-							<PairSpread emd={emd} lowAsk={lowAsk} highBid={highBid} />
+							<PairExchangeName exchangeName={market.exchanges[emd.e].name}/>
+							<PairSpread emd={emd} mostCompetitivePrices={mostCompetitivePrices}/>
 							<PairLastPrice emd={emd}/>
 							<PairVolume emd={emd}/>
 						</TableRow>

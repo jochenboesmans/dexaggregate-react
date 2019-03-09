@@ -6,10 +6,10 @@ const defaultMarket = {
 
 const marketReducer = (state = defaultMarket, action) => {
 	switch(action.type) {
-		case SET_MARKET:
-			return action.payload || defaultMarket;
-		default:
-			return state;
+	case SET_MARKET:
+		return action.payload || defaultMarket;
+	default:
+		return state;
 	}
 };
 

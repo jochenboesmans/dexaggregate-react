@@ -17,7 +17,9 @@ const determineStyle = (innerAsk, innerBid, lowAsk, highBid) => {
 	}
 };
 
-const unconnectedPairSpread = ({ emd, lowAsk, highBid }) => {
+const unconnectedPairSpread = ({ emd, mostCompetitivePrices }) => {
+	const { lowAsk, highBid } = mostCompetitivePrices;
+
 	const innerBid = emd.b;
 	const innerAsk = emd.a;
 
@@ -36,5 +38,5 @@ const unconnectedPairSpread = ({ emd, lowAsk, highBid }) => {
 	);
 };
 
-//const PairSpread = connect(null, null)(unconnectedPairSpread);
+//const PairSpread = connect(({ market }) => ({ market }), null)(unconnectedPairSpread);
 export default unconnectedPairSpread;

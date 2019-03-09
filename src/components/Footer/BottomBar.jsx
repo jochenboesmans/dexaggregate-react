@@ -1,5 +1,7 @@
-import React, { lazy } from "react";
+import React, { lazy, useContext } from "react";
 import { connect } from "react-redux";
+
+import { lightBulbReducer } from "../../reducers/lightBulbReducer";
 
 import * as actions from "../../actions";
 
@@ -8,6 +10,7 @@ const IconButton = lazy(() => import("@material-ui/core/IconButton/IconButton"))
 const SvgIcon = lazy(() => import("@material-ui/core/SvgIcon/SvgIcon"));
 
 const unconnectedBottomBar = ({ switchLightBulb }) => {
+	const lightBulbDispatch = useContext(lightBulbReducer);
 	const icons = [{
 		href: "https://twitter.com/jochenboesmans",
 		ariaLabel: "Twitter",

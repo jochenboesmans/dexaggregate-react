@@ -13,10 +13,10 @@ const switchLight = {
 
 const lightBulbReducer = (state = defaultState, action) => {
 	switch(action.type) {
-		case SWITCH_LIGHT_BULB:
-			return switchLight[state];
-		default:
-			return state;
+	case SWITCH_LIGHT_BULB:
+		return switchLight[state];
+	default:
+		return state;
 	}
 };
 

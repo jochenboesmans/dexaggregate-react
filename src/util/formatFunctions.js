@@ -11,33 +11,33 @@ const formatPrice = (price) => {
 		}
 	};
 	if (price < 0.001) {
-		return (new Intl.NumberFormat("en-US", {
-			style: "currency",
-			currency: "USD",
+		return (new Intl.NumberFormat(`en-US`, {
+			style: `currency`,
+			currency: `USD`,
 			maximumFractionDigits: 3,
 			minimumFractionDigits: 3,
-			useGrouping: "true"
+			useGrouping: `true`
 		}).format(price));
 	} else {
-		return (new Intl.NumberFormat("en-US", {
-			style: "currency",
-			currency: "USD",
+		return (new Intl.NumberFormat(`en-US`, {
+			style: `currency`,
+			currency: `USD`,
 			minimumSignificantDigits: sd(price),
 			maximumSignificantDigits: sd(price),
-			useGrouping: "true"
+			useGrouping: `true`
 		}).format(price));
 	}
 };
 
 const formatVolume = (volume) => {
-	return (new Intl.NumberFormat("en-US", {
-		style: "currency", currency: "USD", useGrouping: "true"
+	return (new Intl.NumberFormat(`en-US`, {
+		style: `currency`, currency: `USD`, useGrouping: `true`
 	}).format(volume));
 };
 
 const formatPercentage = (percentage) => {
-	return (new Intl.NumberFormat("en-US", {
-		style: "percent", useGrouping: "true", minimumFractionDigits: 2, maximumFractionDigits: 2
+	return (new Intl.NumberFormat(`en-US`, {
+		style: `percent`, useGrouping: `true`, minimumFractionDigits: 2, maximumFractionDigits: 2
 	}).format(percentage));
 };
 

@@ -16,7 +16,9 @@ const determineStyle = (innerAsk, innerBid, lowAsk, highBid) => {
 	}
 };
 
-const unconnectedMobilePairSpread = ({ emd, lowAsk, highBid }) => {
+const unconnectedMobilePairSpread = ({ emd, mostCompetitivePrices }) => {
+	const { lowAsk, highBid } = mostCompetitivePrices;
+
 	const innerBid = emd.b;
 	const innerAsk = emd.a;
 

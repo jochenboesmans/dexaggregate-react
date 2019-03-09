@@ -52,7 +52,7 @@ const updateViewport = () => dispatch => {
 };
 
 const switchLightBulb = () => dispatch => {
-	dispatch({ type: SWITCH_LIGHT_BULB })
+	dispatch({ type: SWITCH_LIGHT_BULB });
 };
 
 export {
