@@ -1,16 +1,19 @@
 import React, { lazy, useContext } from "react";
 
-import { ViewportStateContext } from "../../../contexts/contexts";
-import { ActivePageDispatchContext, ActivePageStateContext } from "../../../contexts/contexts";
-import { MarketStateContext } from "../../../contexts/contexts";
+import {
+	ViewportStateContext,
+	ActivePageStateContext,
+	ActivePageDispatchContext,
+	MarketStateContext,
+} from "../../../state/contexts/contexts";
 
-const Button = lazy(() => import("@material-ui/core/Button/Button"));
-const Grid = lazy(() => import("@material-ui/core/Grid/Grid"));
-const Table = lazy(() => import("@material-ui/core/Table/Table"));
+const Button = lazy(() => import(`@material-ui/core/Button/Button`));
+const Grid = lazy(() => import(`@material-ui/core/Grid/Grid`));
+const Table = lazy(() => import(`@material-ui/core/Table/Table`));
 
-const PairButton = lazy(() => import("./PairButton"));
-const PairHead = lazy(() => import("./PairHead"));
-const PairBody = lazy(() => import("./PairBody/PairBody"));
+const PairButton = lazy(() => import(`./PairButton`));
+const PairHead = lazy(() => import(`./PairHead`));
+const PairBody = lazy(() => import(`./PairBody/PairBody`));
 
 const Pair = () => {
 	const { width: vw } = useContext(ViewportStateContext);
@@ -23,15 +26,15 @@ const Pair = () => {
 
 	const colGroup = (vw < 760) ? (
 		<colgroup>
-			<col style={{ width: "20%" }}/>
-			<col style={{ width: "80%" }}/>
+			<col style={{ width: `20%` }}/>
+			<col style={{ width: `80%` }}/>
 		</colgroup>
 	) : (
 		<colgroup>
-			<col style={{ width: "15%" }}/>
-			<col style={{ width: "40%" }}/>
-			<col style={{ width: "20%" }}/>
-			<col style={{ width: "25%" }}/>
+			<col style={{ width: `15%` }}/>
+			<col style={{ width: `40%` }}/>
+			<col style={{ width: `20%` }}/>
+			<col style={{ width: `25%` }}/>
 		</colgroup>
 	);
 
@@ -43,7 +46,7 @@ const Pair = () => {
 			<Grid item>
 				<Table
 					padding="dense"
-					style={{ tableLayout: "fixed" }}>
+					style={{ tableLayout: `fixed` }}>
 					{colGroup}
 					<PairHead p={p}/>
 					<PairBody p={p} market={m} exchanges={exchanges}/>
@@ -54,8 +57,8 @@ const Pair = () => {
 		<Grid item>
 			<Button
 				fullWidth
-		    onClick={ () => activePageDispatch({ type: `RESET` }) }
-		    style={{ fontSize: "24px" }}
+		    onClick={() => activePageDispatch({ type: `RESET` })}
+		    style={{ fontSize: `24px` }}
 			>
 				Back
 			</Button>

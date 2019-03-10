@@ -55,6 +55,7 @@ module.exports = {
 				use: [{
 					loader: require.resolve("eslint-loader"),
 					options: {
+						fix: true,
 						eslintPath: require.resolve("eslint"),
 					},
 				},],

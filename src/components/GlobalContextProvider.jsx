@@ -1,26 +1,20 @@
-import React, { lazy, useEffect, useReducer } from "react";
-
-import { subscribeToSocketBroadcasts, unsubscribeFromSocketBroadcasts } from "../websocketclient";
+import React, { lazy, useReducer, Suspense } from "react";
 
 import {
-	lightBulbReducer,
-	viewportReducer,
-	marketReducer,
-	timeReducer,
-} from "../reducers/reducers";
+	lightBulbReducer, viewportReducer, marketReducer, timeReducer, activePageReducer, marketPageReducer, searchFilterReducer,
+} from "../state/reducers/reducers";
 
 import {
-	LightBulbDispatchContext,
-	LightBulbStateContext,
-	ViewportDispatchContext,
-	ViewportStateContext,
-	MarketDispatchContext,
-	MarketStateContext,
-	TimeStateContext,
-	TimeDispatchContext,
-} from "../contexts/contexts";
+	LightBulbDispatchContext, LightBulbStateContext,
+	ViewportDispatchContext, ViewportStateContext,
+	TimeStateContext, TimeDispatchContext,
+	MarketStateContext, MarketDispatchContext,
+	ActivePageStateContext, ActivePageDispatchContext,
+	MarketPageStateContext, MarketPageDispatchContext,
+	SearchFilterDispatchContext, SearchFilterStateContext,
+} from "../state/contexts/contexts";
 
-const GlobalStyleProvider = lazy(() => import("./GlobalStyleProvider"));
+const GlobalStyleProvider = lazy(() => import(`./GlobalStyleProvider`));
 
 const GlobalContextProvider = () => {
 	const initialViewport = {
@@ -32,21 +26,9 @@ const GlobalContextProvider = () => {
 	const [viewport, viewportDispatch] = useReducer(viewportReducer, initialViewport);
 	const [marketState, marketDispatch] = useReducer(marketReducer, null);
 	const [timeState, timeDispatch] = useReducer(timeReducer, Date.now());
-
-	useEffect(() => {
-		window.onresize = () => viewportDispatch({ type: `UPDATE` });
-	}, []);
-
-	/* Subscribes to market on component mount and unsubscribes on unmount. */
-	useEffect(() => {
-		subscribeToSocketBroadcasts(marketDispatch);
-		return () => unsubscribeFromSocketBroadcasts();
-	}, []);
-
-	/* Updates time managed by reducer. */
-	useEffect(() => {
-		setInterval(() => timeDispatch({ type: `UPDATE` }), 100);
-	});
+	const [activePageState, activePageDispatch] = useReducer(activePageReducer, { ID: `MARKET`, pair: null });
+	const [marketPage, marketPageDispatch] = useReducer(marketPageReducer, 0);
+	const [searchFilter, searchFilterDispatch] = useReducer(searchFilterReducer, ``);
 
 	return (
 		<LightBulbDispatchContext.Provider value={lightBulbDispatch}>
@@ -57,7 +39,21 @@ const GlobalContextProvider = () => {
 							<MarketStateContext.Provider value={marketState}>
 								<TimeDispatchContext.Provider value={timeDispatch}>
 									<TimeStateContext.Provider value={timeState}>
-										<GlobalStyleProvider/>
+										<ActivePageDispatchContext.Provider value={activePageDispatch}>
+											<ActivePageStateContext.Provider value={activePageState}>
+												<MarketPageDispatchContext.Provider value={marketPageDispatch}>
+													<MarketPageStateContext.Provider value={marketPage}>
+														<SearchFilterDispatchContext.Provider value={searchFilterDispatch}>
+															<SearchFilterStateContext.Provider value={searchFilter}>
+																<Suspense fallback={<div>Loading GlobalStyleProvider...</div>}>
+																	<GlobalStyleProvider/>
+																</Suspense>
+															</SearchFilterStateContext.Provider>
+														</SearchFilterDispatchContext.Provider>
+													</MarketPageStateContext.Provider>
+												</MarketPageDispatchContext.Provider>
+											</ActivePageStateContext.Provider>
+										</ActivePageDispatchContext.Provider>
 									</TimeStateContext.Provider>
 								</TimeDispatchContext.Provider>
 							</MarketStateContext.Provider>

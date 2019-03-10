@@ -1,25 +1,20 @@
-import React, { lazy, Suspense, useReducer } from "react";
+import React, { lazy, Suspense, useContext } from "react";
 
-import { ActivePageDispatchContext, ActivePageStateContext } from "../../contexts/contexts";
-import { activePageReducer } from "../../reducers/reducers";
+import { ActivePageStateContext } from "../../state/contexts/contexts";
 
-const Market = lazy(() => import("./Market/Market"));
-const Pair = lazy(() => import("./Pair/Pair"));
+const Market = lazy(() => import(`./Market/Market`));
+const Pair = lazy(() => import(`./Pair/Pair`));
 
 const Body = () => {
-	const [activePageState, activePageDispatch] = useReducer(activePageReducer, { ID: `MARKET`, pair: null });
+	const activePageState = useContext(ActivePageStateContext);
 	const componentsByPageID = {
 		MARKET: <Market/>,
 		PAIR: <Pair/>,
 	};
 	return (
-		<ActivePageDispatchContext.Provider value={activePageDispatch}>
-			<ActivePageStateContext.Provider value={activePageState}>
-				<Suspense fallback={<div>Loading...</div>}>
-					{componentsByPageID[activePageState]}
-				</Suspense>
-			</ActivePageStateContext.Provider>
-		</ActivePageDispatchContext.Provider>
+		<Suspense fallback={<div>Loading...</div>}>
+			{componentsByPageID[activePageState.ID]}
+		</Suspense>
 	);
 };
 

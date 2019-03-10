@@ -1,12 +1,12 @@
 import React, { lazy, Suspense, useContext } from "react";
 
-import { ViewportStateContext } from "../../../contexts/contexts";
+import { ViewportStateContext } from "../../../state/contexts/contexts";
 
-const TableCell = lazy(() => import("@material-ui/core/TableCell/TableCell"));
-const TableHead = lazy(() => import("@material-ui/core/TableHead/TableHead"));
-const TableRow = lazy(() => import("@material-ui/core/TableRow/TableRow"));
-const Tooltip = lazy(() => import("@material-ui/core/Tooltip/Tooltip"));
-const Typography = lazy(() => import("@material-ui/core/Typography/Typography"));
+const TableCell = lazy(() => import(`@material-ui/core/TableCell/TableCell`));
+const TableHead = lazy(() => import(`@material-ui/core/TableHead/TableHead`));
+const TableRow = lazy(() => import(`@material-ui/core/TableRow/TableRow`));
+const Tooltip = lazy(() => import(`@material-ui/core/Tooltip/Tooltip`));
+const Typography = lazy(() => import(`@material-ui/core/Typography/Typography`));
 
 const PairHead = ({ p }) => {
 	const columns = [{
@@ -34,19 +34,19 @@ const PairHead = ({ p }) => {
 
 	return (
 		<TableHead>
-			<TableRow style={{ height: "4vh"}}>
+			<TableRow style={{ height: `4vh`}}>
 				{slicedColumns.map(column => (
 					<TableCell align={column.align} key={column.text}>
-						<Suspense fallback={<div>Loading...</div>}>
-							<Tooltip title={column.tooltip} placement="bottom">
-								<Typography style={{ fontWeight: "bold" }}>{column.text}</Typography>
-							</Tooltip>
-						</Suspense>
+						<Tooltip title={column.tooltip} placement="bottom">
+							<Suspense fallback={<div>Loading...</div>}>
+								<Typography style={{ fontWeight: `bold` }}>{column.text}</Typography>
+							</Suspense>
+						</Tooltip>
 					</TableCell>
 				))}
 			</TableRow>
 		</TableHead>
-	)
+	);
 };
 
 export default PairHead;

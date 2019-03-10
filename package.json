@@ -38,8 +38,6 @@
 		"babel-loader": "^8.0.5",
 		"clean-webpack-plugin": "^1.0.1",
 		"eslint": "^5.14.1",
-		"eslint-config-airbnb": "^17.1.0",
-		"eslint-config-react-app": "^3.0.6",
 		"eslint-loader": "latest",
 		"eslint-plugin-flowtype": "^3.4.2",
 		"eslint-plugin-import": "^2.16.0",
@@ -50,11 +48,8 @@
 		"html-webpack-plugin": "^4.0.0-beta.5",
 		"jss": "^10.0.0-alpha.3",
 		"lodash": "latest",
-		"react": "^16.8.2",
-		"react-dom": "^16.8.2",
-		"react-redux": "next",
-		"redux": "^4.0.1",
-		"redux-thunk": "latest",
+		"react": "next",
+		"react-dom": "next",
 		"socket.io": "latest",
 		"socket.io-client": "latest",
 		"typescript": "^3.3.3333",
@@ -62,9 +57,6 @@
 		"web3": "^1.0.0-beta.46",
 		"webpack": "^4.29.6",
 		"webpack-cli": "^3.2.3"
-	},
-	"eslintConfig": {
-		"extends": "react"
 	},
 	"browserslist": [
 		">0.2%",

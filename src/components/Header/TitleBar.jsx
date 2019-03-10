@@ -1,10 +1,13 @@
 import React, { lazy, useState, useContext } from "react";
 
-import { ActivePageDispatchContext } from "../../contexts/contexts";
-import { MarketPageDispatchContext, SearchFilterDispatchContext } from "../../contexts/contexts";
+import {
+	MarketPageDispatchContext,
+	SearchFilterDispatchContext,
+	ActivePageDispatchContext,
+} from "../../state/contexts/contexts";
 
-const Grid = lazy(() => import("@material-ui/core/Grid/Grid"));
-const Typography = lazy(() => import("@material-ui/core/Typography/Typography"));
+const Grid = lazy(() => import(`@material-ui/core/Grid/Grid`));
+const Typography = lazy(() => import(`@material-ui/core/Typography/Typography`));
 
 const TitleBar = () => {
 	const [hover, setHover] = useState(false);
@@ -13,7 +16,7 @@ const TitleBar = () => {
 	const marketPageDispatch = useContext(MarketPageDispatchContext);
 	const searchFilterDispatch = useContext(SearchFilterDispatchContext);
 
-	const style = hover ? { cursor: "pointer", color: "grey" } : {};
+	const style = hover ? { cursor: `pointer`, color: `grey` } : {};
 	const title = `ΣDEX`;
 
 	const handleClick = () => {
@@ -25,8 +28,8 @@ const TitleBar = () => {
 	return (
 		<Grid
 			item
-			onMouseLeave={() => { setHover(false) }}
-			onMouseEnter={() => { setHover(true) }}
+			onMouseLeave={() => { setHover(false); }}
+			onMouseEnter={() => { setHover(true); }}
 		>
 			<Typography
 				variant="h1"
@@ -37,7 +40,7 @@ const TitleBar = () => {
 				{title}
 			</Typography>
 		</Grid>
-	)
+	);
 };
 
 export default TitleBar;

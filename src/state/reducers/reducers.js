@@ -2,7 +2,7 @@ const lightBulbReducer = (state, action) => {
 	if (action.type === `SWITCH`) {
 		return !state;
 	} else {
-		throw new Error();
+		throw new Error(`Incorrect action.type`);
 	}
 };
 
@@ -13,7 +13,7 @@ const viewportReducer = (state, action) => {
 			height: Math.max(document.documentElement.clientHeight, window.innerHeight || 0),
 		};
 	} else {
-		throw new Error();
+		throw new Error(`Incorrect action.type`);
 	}
 };
 
@@ -21,7 +21,7 @@ const marketReducer = (state, action) => {
 	if (action.type === `SET`) {
 		return action.payload;
 	} else {
-		throw new Error();
+		throw new Error(`Incorrect action.type`);
 	}
 };
 
@@ -29,7 +29,7 @@ const timeReducer = (state, action) => {
 	if (action.type === `UPDATE`) {
 		return Date.now();
 	} else {
-		throw new Error();
+		throw new Error(`Incorrect action.type`);
 	}
 };
 
@@ -41,7 +41,7 @@ const marketPageReducer = (state, action) => {
 	} else if (action.type === `RESET`) {
 		return 0;
 	} else {
-		throw new Error();
+		throw new Error(`Incorrect action.type`);
 	}
 };
 
@@ -51,7 +51,7 @@ const searchFilterReducer = (state, action) => {
 	} else if (action.type === `RESET`) {
 		return ``;
 	} else {
-		throw new Error();
+		throw new Error(`Incorrect action.type`);
 	}
 };
 
@@ -63,7 +63,7 @@ const activePageReducer = (state, action) => {
 	} else if (action.type === `RESET`) {
 		return defaultPage;
 	} else {
-		throw new Error();
+		throw new Error(`Incorrect action.type`);
 	}
 };
 
@@ -75,4 +75,4 @@ export {
 	marketPageReducer,
 	searchFilterReducer,
 	activePageReducer,
-}
+};

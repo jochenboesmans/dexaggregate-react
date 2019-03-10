@@ -1,17 +1,20 @@
 import React, { lazy, useContext } from "react";
 
-import { ActivePageDispatchContext } from "../../../../contexts/contexts";
-import { MarketPageDispatchContext, MarketPageStateContext } from "../../../../contexts/contexts";
-import { ViewportStateContext } from "../../../../contexts/contexts";
+import {
+	ActivePageDispatchContext,
+	MarketPageDispatchContext,
+	MarketPageStateContext,
+	ViewportStateContext,
+} from "../../../../state/contexts/contexts";
 
-const MarketPairName = lazy(() => import("./MarketPairName"));
-const MarketPairSpread = lazy(() => import("./MarketPairSpread"));
-const MarketPairLastPrice = lazy(() => import("./MarketPairLastPrice"));
-const MarketPairVolume = lazy(() => import("./MarketPairVolume"));
-const MobileMarketPairSpread = lazy(() => import("./MobileMarketPairSpread"));
+const MarketPairName = lazy(() => import(`./MarketPairName`));
+const MarketPairSpread = lazy(() => import(`./MarketPairSpread`));
+const MarketPairLastPrice = lazy(() => import(`./MarketPairLastPrice`));
+const MarketPairVolume = lazy(() => import(`./MarketPairVolume`));
+const MobileMarketPairSpread = lazy(() => import(`./MobileMarketPairSpread`));
 
-const TableBody = lazy(() => import("@material-ui/core/TableBody/TableBody"));
-const TableRow = lazy(() => import("@material-ui/core/TableRow/TableRow"));
+const TableBody = lazy(() => import(`@material-ui/core/TableBody/TableBody`));
+const TableRow = lazy(() => import(`@material-ui/core/TableRow/TableRow`));
 
 const MarketBody = ({ entriesPerPage, filteredMarketLength, slicedMarket }) => {
 	const { width: vw } = useContext(ViewportStateContext);
@@ -46,7 +49,7 @@ const MarketBody = ({ entriesPerPage, filteredMarketLength, slicedMarket }) => {
 			{slicedMarket.map(p => {
 				return (
 					<TableRow
-						style={{ height: "4vh" }}
+						style={{ height: `4vh` }}
 						hover
 						onClick={() => activePageDispatch({ type: `SET`, payload: { ID: `PAIR`, pair: p } })}
 						key={`${p.b}/${p.q}`}

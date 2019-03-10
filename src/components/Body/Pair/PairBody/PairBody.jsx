@@ -3,27 +3,26 @@ import React, { lazy, useContext } from "react";
 import orderBy from "lodash/orderBy";
 import reduce from "lodash/reduce";
 
-import { ViewportStateContext } from "../../../../contexts/contexts";
-import { MarketStateContext } from "../../../../contexts/contexts";
+import { ViewportStateContext, MarketStateContext } from "../../../../state/contexts/contexts";
 
-const TableBody = lazy(() => import("@material-ui/core/TableBody/TableBody"));
-const TableRow = lazy(() => import("@material-ui/core/TableRow/TableRow"));
+const TableBody = lazy(() => import(`@material-ui/core/TableBody/TableBody`));
+const TableRow = lazy(() => import(`@material-ui/core/TableRow/TableRow`));
 
-const PairExchangeName = lazy(() => import("./PairExchangeName"));
-const PairSpread = lazy(() => import("./PairSpread"));
-const PairLastPrice = lazy(() => import("./PairLastPrice"));
-const PairVolume = lazy(() => import("./PairVolume"));
-const MobilePairSpread = lazy(() => import("./MobilePairSpread"));
+const PairExchangeName = lazy(() => import(`./PairExchangeName`));
+const PairSpread = lazy(() => import(`./PairSpread`));
+const PairLastPrice = lazy(() => import(`./PairLastPrice`));
+const PairVolume = lazy(() => import(`./PairVolume`));
+const MobilePairSpread = lazy(() => import(`./MobilePairSpread`));
 
 const PairBody = ({ p }) => {
-	const sortedMarketData = p ? orderBy(p.m, [emd => emd.v], "desc") : null;
+	const sortedMarketData = p ? orderBy(p.m, [emd => emd.v], `desc`) : null;
 
 	const { width: vw } = useContext(ViewportStateContext);
 	const { exchanges } = useContext(MarketStateContext);
 
 	const handleClick = (exchangeID, p) => {
 		const URL = exchangeURL[exchangeID](p);
-		window.open(URL, "_blank");
+		window.open(URL, `_blank`);
 	};
 
 	const exchangeURL = {
@@ -52,7 +51,7 @@ const PairBody = ({ p }) => {
 							hover
 		          onClick={() => handleClick(emd.e, p)}
 		          key={emd.e}
-		          style={{ height: "4vh" }}
+		          style={{ height: `4vh` }}
 						>
 							<PairExchangeName exchangeName={exchanges[emd.e].name}/>
 							<MobilePairSpread emd={emd} mostCompetitivePrice={mostCompetitivePrices}/>
@@ -64,18 +63,18 @@ const PairBody = ({ p }) => {
 							hover
 							onClick={() => handleClick(emd.e, p)}
 							key={emd.e}
-							style={{ height: "4vh" }}
+							style={{ height: `4vh` }}
 						>
 							<PairExchangeName exchangeName={exchanges[emd.e].name}/>
 							<PairSpread emd={emd} mostCompetitivePrices={mostCompetitivePrices}/>
 							<PairLastPrice emd={emd}/>
 							<PairVolume emd={emd}/>
 						</TableRow>
-					)
+					);
 				}
 			})}
 		</TableBody>
-	)
+	);
 };
 
 export default PairBody;

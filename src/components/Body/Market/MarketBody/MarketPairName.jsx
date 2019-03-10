@@ -1,7 +1,7 @@
 import React, { lazy } from "react";
 
-const TableCell = lazy(() => import("@material-ui/core/TableCell/TableCell"));
-const Typography = lazy(() => import("@material-ui/core/Typography/Typography"));
+const TableCell = lazy(() => import(`@material-ui/core/TableCell/TableCell`));
+const Typography = lazy(() => import(`@material-ui/core/Typography/Typography`));
 
 const MarketPairName = ({ p }) => {
 	const pairName = `${p.b}/${p.q}`;
@@ -11,7 +11,7 @@ const MarketPairName = ({ p }) => {
 				{pairName}
 			</Typography>
 		</TableCell>
-	)
+	);
 };
 
 export default MarketPairName;

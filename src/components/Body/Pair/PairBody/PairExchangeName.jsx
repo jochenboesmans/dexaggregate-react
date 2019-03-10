@@ -1,7 +1,7 @@
 import React, { lazy } from "react";
 
-const TableCell = lazy(() => import("@material-ui/core/TableCell/TableCell"));
-const Typography = lazy(() => import("@material-ui/core/Typography/Typography"));
+const TableCell = lazy(() => import(`@material-ui/core/TableCell/TableCell`));
+const Typography = lazy(() => import(`@material-ui/core/Typography/Typography`));
 
 const unconnectedPairExchangeName = ({ exchangeName }) => {
 	return (
@@ -10,7 +10,7 @@ const unconnectedPairExchangeName = ({ exchangeName }) => {
 				{exchangeName}
 			</Typography>
 		</TableCell>
-	)
+	);
 };
 
 export default unconnectedPairExchangeName;

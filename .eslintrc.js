@@ -3,7 +3,11 @@ module.exports = {
 		"browser": true,
 		"es6": true
 	},
-	"extends": "eslint:recommended",
+	"extends": [
+		"eslint:recommended",
+		"plugin:jsx-a11y/recommended",
+		"plugin:import/warnings",
+	],
 	"globals": {
 		"Atomics": "readonly",
 		"SharedArrayBuffer": "readonly"
@@ -19,7 +23,8 @@ module.exports = {
 	},
 	"plugins": [
 		"react",
-		"import"
+		"import",
+		"jsx-a11y"
 	],
 	"rules": {
 		"indent": [
@@ -38,8 +43,9 @@ module.exports = {
 			"warn",
 			"always"
 		],
-		"no-undef": "warn",
-		"no-unused-vars": "warn",
-		"no-mixed-spaces-and-tabs": "warn"
+		"no-undef": "off",
+		"no-unused-vars": "off",
+		"no-mixed-spaces-and-tabs": "off",
+		"no-console": "warn",
 	}
 };

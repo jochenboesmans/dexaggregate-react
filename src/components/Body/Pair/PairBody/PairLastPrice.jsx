@@ -2,8 +2,8 @@ import React, { lazy } from "react";
 
 import { formatPrice } from "../../../../util/format";
 
-const TableCell = lazy(() => import("@material-ui/core/TableCell/TableCell"));
-const Typography = lazy(() => import("@material-ui/core/Typography/Typography"));
+const TableCell = lazy(() => import(`@material-ui/core/TableCell/TableCell`));
+const Typography = lazy(() => import(`@material-ui/core/Typography/Typography`));
 
 const PairLastPrice = ({ emd }) => {
 	const lastPrice = formatPrice(emd.l);
@@ -13,7 +13,7 @@ const PairLastPrice = ({ emd }) => {
 				{lastPrice}
 			</Typography>
 		</TableCell>
-	)
+	);
 };
 
 export default PairLastPrice;

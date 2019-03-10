@@ -3,8 +3,8 @@ import reduce from "lodash/reduce";
 
 import { formatPrice } from "../../../../util/format";
 
-const TableCell = lazy(() => import("@material-ui/core/TableCell/TableCell"));
-const Typography = lazy(() => import("@material-ui/core/Typography/Typography"));
+const TableCell = lazy(() => import(`@material-ui/core/TableCell/TableCell`));
+const Typography = lazy(() => import(`@material-ui/core/Typography/Typography`));
 
 const MobileMarketPairSpread = ({ p }) => {
 	const innerBid = reduce(p.m, (max, emd) => emd.b > max ?  emd.b : max, 0);
@@ -12,7 +12,7 @@ const MobileMarketPairSpread = ({ p }) => {
 	const spreadRatioDifference = ((innerAsk / innerBid) - 1) || 0;
 	const arbitrageLimit = -0.01;
 
-	const style = spreadRatioDifference <= arbitrageLimit ? { color: "red" } : {};
+	const style = spreadRatioDifference <= arbitrageLimit ? { color: `red` } : {};
 	const spreadString = `${formatPrice(innerBid)} - ${formatPrice(innerAsk)}`;
 	return (
 		<TableCell align="right">
@@ -20,7 +20,7 @@ const MobileMarketPairSpread = ({ p }) => {
 				{spreadString}
 			</Typography>
 		</TableCell>
-	)
+	);
 };
 
 export default MobileMarketPairSpread;

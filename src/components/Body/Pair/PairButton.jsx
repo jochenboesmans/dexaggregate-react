@@ -1,9 +1,9 @@
 import React, { useState, lazy, useContext } from "react";
 
-import { ActivePageDispatchContext } from "../../../contexts/contexts";
+import { ActivePageDispatchContext } from "../../../state/contexts/contexts";
 
-const Button = lazy(() => import("@material-ui/core/Button/Button"));
-const Grid = lazy(() => import("@material-ui/core/Grid/Grid"));
+const Button = lazy(() => import(`@material-ui/core/Button/Button`));
+const Grid = lazy(() => import(`@material-ui/core/Grid/Grid`));
 
 const PairButton = ({ p }) => {
 	const activePageDispatch = useContext(ActivePageDispatchContext);
@@ -13,22 +13,22 @@ const PairButton = ({ p }) => {
 	return (
 		<Grid
 			item
-			onMouseLeave={() => { setHover(false) }}
-			onMouseEnter={() => { setHover(true) }}
+			onMouseLeave={() => { setHover(false); }}
+			onMouseEnter={() => { setHover(true); }}
 		>
 			<Button
 				fullWidth
 				onClick={() => {
 					activePageDispatch({
 						type: `RESET`
-					})
+					});
 				}}
-				style={{ fontSize: 24, fontWeight: "bold" }}
+				style={{ fontSize: 24, fontWeight: `bold` }}
 			>
-			{innerText}
+				{innerText}
 			</Button>
 		</Grid>
-	)
+	);
 };
 
 export default PairButton;
