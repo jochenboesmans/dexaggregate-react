@@ -4,7 +4,7 @@ import reduce from "lodash/reduce";
 import TableCell from "@material-ui/core/TableCell/TableCell";
 import Typography from "@material-ui/core/Typography/Typography";
 
-import { formatPrice } from "../../../../util/format";
+import { formatPrice } from "src/util/format";
 
 const MarketPairLastPrice = ({ p }) => {
 	const combinedVolume = reduce(p.m, (sum, emd) => sum + emd.v, 0);

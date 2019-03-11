@@ -10,11 +10,11 @@ import {
 	ViewportStateContext,
 } from "../../../../state/contexts/contexts";
 
-const MarketPairName = lazy(() => import(`./MarketPairName`));
-const MarketPairSpread = lazy(() => import(`./MarketPairSpread`));
-const MarketPairLastPrice = lazy(() => import(`./MarketPairLastPrice`));
-const MarketPairVolume = lazy(() => import(`./MarketPairVolume`));
-const MobileMarketPairSpread = lazy(() => import(`./MobileMarketPairSpread`));
+const MarketPairName = lazy(() => import(`./Common/MarketPairName`));
+const MarketPairSpread = lazy(() => import(`./Regular/RegularMarketPairSpread`));
+const MarketPairLastPrice = lazy(() => import(`./Regular/MarketPairLastPrice`));
+const MarketPairVolume = lazy(() => import(`./Regular/MarketPairVolume`));
+const MobileMarketPairSpread = lazy(() => import(`./Mobile/MobileMarketPairSpread`));
 
 const MarketBody = ({ entriesPerPage, filteredMarketLength, slicedMarket }) => {
 	const { width: vw } = useContext(ViewportStateContext);
