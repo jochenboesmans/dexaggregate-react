@@ -1,2 +1,0 @@
-(window.webpackJsonp=window.webpackJsonp||[]).push([[40],{537:function(n,e,t){"use strict";t.r(e);var r=t(0),u=t.n(r),a=t(60),c=t(235),i=t.n(c),l=Object(r.lazy)(function(){return t.e(0).then(t.t.bind(null,221,7))}),o=Object(a.b)(function(n){return{market:n.market}},null)(function(n){var e=n.emd,t=n.market,r=i()(t.exchanges,function(n){return n.ID===e.exchangeID}).name;return u.a.createElement(l,null,r)});e.default=o}}]);
-//# sourceMappingURL=40.ca85e8be62dbdb5a93d4.js.map
