@@ -1,4 +1,5 @@
 import React from "react";
+import { object } from "prop-types";
 import reduce from "lodash/reduce";
 
 import TableCell from "@material-ui/core/TableCell/TableCell";
@@ -21,6 +22,10 @@ const MobileMarketPairSpread = ({ p }) => {
 			</Typography>
 		</TableCell>
 	);
+};
+
+MobileMarketPairSpread.propTypes = {
+	p: object.isRequired,
 };
 
 export default MobileMarketPairSpread;

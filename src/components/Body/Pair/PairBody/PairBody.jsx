@@ -1,4 +1,5 @@
 import React, { lazy, useContext } from "react";
+import { object } from "prop-types";
 
 import orderBy from "lodash/orderBy";
 import reduce from "lodash/reduce";
@@ -8,33 +9,33 @@ import TableRow from "@material-ui/core/TableRow/TableRow";
 
 import { ViewportStateContext, MarketStateContext } from "../../../../state/contexts/contexts";
 
-const PairExchangeName = lazy(() => import(`./PairExchangeName`));
-const PairSpread = lazy(() => import(`./PairSpread`));
-const PairLastPrice = lazy(() => import(`./PairLastPrice`));
-const PairVolume = lazy(() => import(`./PairVolume`));
-const MobilePairSpread = lazy(() => import(`./MobilePairSpread`));
+import MobilePairBody from "./Mobile/MobilePairBody";
+import RegularPairBody from "./Regular/RegularPairBody";
+
+const PairExchangeName = lazy(() => import(`./Common/PairExchangeName`));
+const MobilePairSpread = lazy(() => import(`./Mobile/MobilePairSpread`));
 
 const PairBody = ({ p }) => {
-	const sortedMarketData = p ? orderBy(p.m, [emd => emd.v], `desc`) : null;
-
 	const { width: vw } = useContext(ViewportStateContext);
 	const { exchanges } = useContext(MarketStateContext);
 
+	const sortedMarketData = p ? orderBy(p.m, [emd => emd.v], `desc`) : null;
+
 	const handleClick = (exchangeID, p) => {
+		const exchangeURL = {
+			"KYBER": (p) => `https://kyberswap.com/swap/${p.b}_${p.q}`,
+			"OASIS": (p) => `https://eth2dai.com/`,
+			"PARADEX": (p) => `https://paradex.io/market/${p.q}-${p.b}`,
+			"DDEX": (p) => `https://ddex.io/trade/${p.b}-${p.q}`,
+			"IDEX": (p) => `https://idex.market/${p.b}/${p.q}`,
+			"RADAR": (p) => `https://app.radarrelay.com/${p.q}/${p.b}`,
+			"UNISWAP": (p) => `https://uniswap.exchange/swap`,
+			"TOKENSTORE": (p) => `https://token.store/trade/${p.q}`,
+			"ETHERDELTA": (p) => `https://etherdelta.com/#${p.q}-${p.b}`
+		};
+
 		const URL = exchangeURL[exchangeID](p);
 		window.open(URL, `_blank`);
-	};
-
-	const exchangeURL = {
-		"KYBER": (p) => `https://kyberswap.com/swap/${p.b}_${p.q}`,
-		"OASIS": (p) => `https://eth2dai.com/`,
-		"PARADEX": (p) => `https://paradex.io/market/${p.q}-${p.b}`,
-		"DDEX": (p) => `https://ddex.io/trade/${p.b}-${p.q}`,
-		"IDEX": (p) => `https://idex.market/${p.b}/${p.q}`,
-		"RADAR": (p) => `https://app.radarrelay.com/${p.q}/${p.b}`,
-		"UNISWAP": (p) => `https://uniswap.exchange/swap`,
-		"TOKENSTORE": (p) => `https://token.store/trade/${p.q}`,
-		"ETHERDELTA": (p) => `https://etherdelta.com/#${p.q}-${p.b}`
 	};
 
 	return (
@@ -45,36 +46,26 @@ const PairBody = ({ p }) => {
 					highBid : reduce(p.m, (max, emd) => emd.b > max ? emd.b : max, 0),
 				};
 
-				if (vw < 760) {
-					return (
-						<TableRow
-							hover
-		          onClick={() => handleClick(emd.e, p)}
-		          key={emd.e}
-		          style={{ height: `4vh` }}
-						>
-							<PairExchangeName exchangeName={exchanges[emd.e].name}/>
-							<MobilePairSpread emd={emd} mostCompetitivePrice={mostCompetitivePrices}/>
-						</TableRow>
-					);
-				} else {
-					return (
-						<TableRow
-							hover
-							onClick={() => handleClick(emd.e, p)}
-							key={emd.e}
-							style={{ height: `4vh` }}
-						>
-							<PairExchangeName exchangeName={exchanges[emd.e].name}/>
-							<PairSpread emd={emd} mostCompetitivePrices={mostCompetitivePrices}/>
-							<PairLastPrice emd={emd}/>
-							<PairVolume emd={emd}/>
-						</TableRow>
-					);
-				}
+				const innerContent = (vw < 760) ? <MobilePairBody emd={emd} exchanges={exchanges} mostCompetitivePrices={mostCompetitivePrices}/> :
+					<RegularPairBody emd={emd} exchanges={exchanges} mostCompetitivePrices={mostCompetitivePrices}/>;
+
+				return (
+					<TableRow
+						hover
+	          onClick={() => handleClick(emd.e, p)}
+	          key={emd.e}
+	          style={{ height: `4vh` }}
+					>
+						{innerContent}
+					</TableRow>
+				);
 			})}
 		</TableBody>
 	);
+};
+
+PairBody.propTypes = {
+	p: object.isRequired,
 };
 
 export default PairBody;

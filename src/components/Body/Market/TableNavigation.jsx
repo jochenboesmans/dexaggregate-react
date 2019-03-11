@@ -1,4 +1,4 @@
-import React, { lazy, useContext } from "react";
+import React, { useContext } from "react";
 
 import Grid from "@material-ui/core/Grid/Grid";
 import IconButton from "@material-ui/core/IconButton/IconButton";
@@ -12,8 +12,12 @@ const TableNavigation = ({ entriesPerPage, filteredMarketLength }) => {
 	const marketPage = useContext(MarketPageStateContext);
 	const marketPageDispatch = useContext(MarketPageDispatchContext);
 
-	const handleLeftButtonClick = () => { if (marketPage > 0) marketPageDispatch({ type: `DECREMENT` }); };
-	const handleRightButtonClick = () => { if ((marketPage * entriesPerPage) + entriesPerPage < filteredMarketLength) marketPageDispatch({ type: `INCREMENT` }); };
+	const handleLeftButtonClick = () => {
+		if (marketPage > 0) marketPageDispatch({ type: `DECREMENT` });
+	};
+	const handleRightButtonClick = () => {
+		if ((marketPage * entriesPerPage) + entriesPerPage < filteredMarketLength) marketPageDispatch({ type: `INCREMENT` });
+	};
 
 	const start = (filteredMarketLength === 0) ? 0 : 1 + (marketPage * entriesPerPage);
 	const end = Math.min((marketPage * entriesPerPage) + entriesPerPage, filteredMarketLength);

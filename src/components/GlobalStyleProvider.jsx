@@ -25,6 +25,8 @@ const GlobalStyleProvider = () => {
 	const viewportDispatch = useContext(ViewportDispatchContext);
 	const marketDispatch = useContext(MarketDispatchContext);
 	const timeDispatch = useContext(TimeDispatchContext);
+	const lightBulb = useContext(LightBulbStateContext);
+	const { width: vw } = useContext(ViewportStateContext);
 
 	useEffect(() => {
 		window.onresize = () => viewportDispatch({ type: `UPDATE` });
@@ -43,10 +45,9 @@ const GlobalStyleProvider = () => {
 		return () => window.clearInterval(timer);
 	}, []);
 
-	const lightBulb = useContext(LightBulbStateContext);
+
 	const theme = lightBulb ? lightTheme : darkTheme;
-	const { width: vw } = useContext(ViewportStateContext);
-	const width = vw > 1300 ? `50vw` : `95vw`;
+	const mainGridWidth = vw > 1300 ? `50vw` : `95vw`;
 
 	return (
 		<MuiThemeProvider theme={theme}>
@@ -59,7 +60,7 @@ const GlobalStyleProvider = () => {
 					<Grid
 						container
 						direction="column"
-						style={{ width: `${width}` }}
+						style={{ width: `${mainGridWidth}` }}
 						spacing={16}
 					>
 						<Grid item style={{ height: `2.5vh`}}>

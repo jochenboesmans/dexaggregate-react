@@ -1,11 +1,11 @@
 import React from "react";
+import { object } from "prop-types";
 import reduce from "lodash/reduce";
 
 import TableCell from "@material-ui/core/TableCell/TableCell";
 import Typography from "@material-ui/core/Typography/Typography";
 
 import { formatPercentage, formatPrice } from "../../../../../util/format";
-
 
 const RegularMarketPairSpread = ({ p }) => {
 	const innerBid = reduce(p.m, (max, emd) => emd.b > max ?  emd.b : max, 0);
@@ -22,6 +22,10 @@ const RegularMarketPairSpread = ({ p }) => {
 			</Typography>
 		</TableCell>
 	);
+};
+
+RegularMarketPairSpread.propTypes = {
+	p: object.isRequired,
 };
 
 export default RegularMarketPairSpread;

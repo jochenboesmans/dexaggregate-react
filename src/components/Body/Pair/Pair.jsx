@@ -24,17 +24,10 @@ const Pair = () => {
 	const p = m.find(mPair =>
 		mPair.b === activePair.b && mPair.q === activePair.q);
 
-	const colGroup = (vw < 760) ? (
+	const colWidths = (vw < 760) ? [`20%`, `80%`] : [`15%`, `40%`, `20%`, `25%`];
+	const colGroup = (
 		<colgroup>
-			<col style={{ width: `20%` }}/>
-			<col style={{ width: `80%` }}/>
-		</colgroup>
-	) : (
-		<colgroup>
-			<col style={{ width: `15%` }}/>
-			<col style={{ width: `40%` }}/>
-			<col style={{ width: `20%` }}/>
-			<col style={{ width: `25%` }}/>
+			{colWidths.map((cw, i) => <col key={i} style={{ width: cw }}/>)}
 		</colgroup>
 	);
 

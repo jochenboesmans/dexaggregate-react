@@ -1,4 +1,5 @@
 import React, { lazy, useContext } from "react";
+import { number, array } from "prop-types";
 
 import TableBody from "@material-ui/core/TableBody/TableBody";
 import TableRow from "@material-ui/core/TableRow/TableRow";
@@ -10,11 +11,8 @@ import {
 	ViewportStateContext,
 } from "../../../../state/contexts/contexts";
 
-const MarketPairName = lazy(() => import(`./Common/MarketPairName`));
-const MarketPairSpread = lazy(() => import(`./Regular/RegularMarketPairSpread`));
-const MarketPairLastPrice = lazy(() => import(`./Regular/MarketPairLastPrice`));
-const MarketPairVolume = lazy(() => import(`./Regular/MarketPairVolume`));
-const MobileMarketPairSpread = lazy(() => import(`./Mobile/MobileMarketPairSpread`));
+const RegularMarketBody = lazy(() => import(`./Regular/RegularMarketBody`));
+const MobileMarketBody = lazy(() => import(`./Mobile/MobileMarketBody`));
 
 const MarketBody = ({ entriesPerPage, filteredMarketLength, slicedMarket }) => {
 	const { width: vw } = useContext(ViewportStateContext);
@@ -22,22 +20,9 @@ const MarketBody = ({ entriesPerPage, filteredMarketLength, slicedMarket }) => {
 	const marketPageDispatch = useContext(MarketPageDispatchContext);
 	const activePageDispatch = useContext(ActivePageDispatchContext);
 
-	const innerContent = (p) => (vw < 760) ? (
-		<>
-			<MarketPairName p={p}/>
-			<MobileMarketPairSpread p={p}/>
-		</>
-	) : (
-		<>
-			<MarketPairName p={p}/>
-			<MarketPairSpread p={p}/>
-			<MarketPairLastPrice p={p}/>
-			<MarketPairVolume p={p}/>
-		</>
-	);
+	const innerContent = (p) => (vw < 760) ? <MobileMarketBody p={p}/> : <RegularMarketBody p={p}/>;
 
 	const handleWheelEvent = (e) => {
-		console.log(entriesPerPage);
 		if (e.deltaY < 0 && marketPage > 0) {
 			marketPageDispatch({ type: `DECREMENT` });
 		} else if (e.deltaY > 0 && (marketPage * entriesPerPage) + entriesPerPage < filteredMarketLength) {
@@ -61,6 +46,12 @@ const MarketBody = ({ entriesPerPage, filteredMarketLength, slicedMarket }) => {
 			})}
 		</TableBody>
 	);
+};
+
+MarketBody.propTypes = {
+	entriesPerPage: number.isRequired,
+	filteredMarketLength: number.isRequired,
+	slicedMarket: array.isRequired,
 };
 
 export default MarketBody;

@@ -19,13 +19,13 @@ const TableNavigation = lazy(() => import(`./TableNavigation`));
 
 const Market = () => {
 	const market = useContext(MarketStateContext);
-	if (!market.market) return null;
-
-	const viewport = useContext(ViewportStateContext);
+	const { width: vw } = useContext(ViewportStateContext);
 	const marketPage = useContext(MarketPageStateContext);
 	const marketPageDispatch = useContext(MarketPageDispatchContext);
 	const searchFilter = useContext(SearchFilterStateContext);
 	const searchFilterDispatch = useContext(SearchFilterDispatchContext);
+
+	if (!market || !market.market) return null;
 
 	const ENTRIES_PER_PAGE = 10;
 	const startIndex = marketPage * ENTRIES_PER_PAGE;
@@ -36,17 +36,10 @@ const Market = () => {
 		|| Object.keys(p.m).find(exchangeID => exchangeID.includes(searchFilter.toUpperCase()))) : market.market;
 	const slicedMarket = filteredMarket.slice(startIndex, endIndex);
 
-	const colGroup = (viewport.width < 760) ? (
+	const colWidths = (vw < 760) ? [`20%`, `80%`] : [`15%`, `40%`, `20%`, `25%`];
+	const colGroup = (
 		<colgroup>
-			<col style={{ width: `20%` }}/>
-			<col style={{ width: `80%` }}/>
-		</colgroup>
-	) : (
-		<colgroup>
-			<col style={{ width: `15%` }}/>
-			<col style={{ width: `40%` }}/>
-			<col style={{ width: `20%` }}/>
-			<col style={{ width: `25%` }}/>
+			{colWidths.map((cw, i) => <col key={i} style={{ width: cw }}/>)}
 		</colgroup>
 	);
 
@@ -89,7 +82,8 @@ const Market = () => {
 			<Grid item>
 				<TableNavigation
 					entriesPerPage={ENTRIES_PER_PAGE}
-					filteredMarketLength={filteredMarket.length}/>
+					filteredMarketLength={filteredMarket.length}
+				/>
 			</Grid>
 		</Grid>
 	);

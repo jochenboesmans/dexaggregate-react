@@ -1,4 +1,4 @@
-import React, { lazy, useState, useContext } from "react";
+import React, { useState, useContext } from "react";
 
 import Grid from "@material-ui/core/Grid/Grid";
 import Typography from "@material-ui/core/Typography/Typography";
@@ -19,6 +19,7 @@ const TitleBar = () => {
 	const style = hover ? { cursor: `pointer`, color: `grey` } : {};
 	const title = `ΣDEX`;
 
+	/* Resets user session. */
 	const handleClick = () => {
 		activePageDispatch({ type: `RESET` });
 		searchFilterDispatch({ type: `RESET` });
