@@ -37,6 +37,7 @@ const MarketBody = ({ entriesPerPage, filteredMarketLength, slicedMarket }) => {
 	);
 
 	const handleWheelEvent = (e) => {
+		console.log(entriesPerPage);
 		if (e.deltaY < 0 && marketPage > 0) {
 			marketPageDispatch({ type: `DECREMENT` });
 		} else if (e.deltaY > 0 && (marketPage * entriesPerPage) + entriesPerPage < filteredMarketLength) {

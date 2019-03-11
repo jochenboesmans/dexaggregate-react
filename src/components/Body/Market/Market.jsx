@@ -81,6 +81,7 @@ const Market = () => {
 					{colGroup}
 					<MarketHead/>
 					<MarketBody
+						entriesPerPage={ENTRIES_PER_PAGE}
 						filteredMarketLength={filteredMarket.length}
 						slicedMarket={slicedMarket}
 					/>
