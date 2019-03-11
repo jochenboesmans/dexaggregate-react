@@ -1,12 +1,12 @@
 import React, { lazy, useContext } from "react";
 
-import { MarketPageDispatchContext, MarketPageStateContext } from "../../../state/contexts/contexts";
+import Grid from "@material-ui/core/Grid/Grid";
+import IconButton from "@material-ui/core/IconButton/IconButton";
+import ChevronLeft from "@material-ui/icons/ChevronLeft";
+import ChevronRight from "@material-ui/icons/ChevronRight";
+import Typography from "@material-ui/core/Typography/Typography";
 
-const Grid = lazy(() => import(`@material-ui/core/Grid/Grid`));
-const Typography = lazy(() => import(`@material-ui/core/Typography/Typography`));
-const IconButton = lazy(() => import(`@material-ui/core/IconButton/IconButton`));
-const ChevronLeft = lazy(() => import(`@material-ui/icons/ChevronLeft`));
-const ChevronRight = lazy(() => import(`@material-ui/icons/ChevronRight`));
+import { MarketPageDispatchContext, MarketPageStateContext } from "../../../state/contexts/contexts";
 
 const TableNavigation = ({ entriesPerPage, filteredMarketLength }) => {
 	const marketPage = useContext(MarketPageStateContext);

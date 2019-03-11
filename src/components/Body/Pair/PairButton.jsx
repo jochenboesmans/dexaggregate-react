@@ -1,9 +1,9 @@
 import React, { useState, lazy, useContext } from "react";
 
-import { ActivePageDispatchContext } from "../../../state/contexts/contexts";
+import Button from "@material-ui/core/Button/Button";
+import Grid from "@material-ui/core/Grid/Grid";
 
-const Button = lazy(() => import(`@material-ui/core/Button/Button`));
-const Grid = lazy(() => import(`@material-ui/core/Grid/Grid`));
+import { ActivePageDispatchContext } from "../../../state/contexts/contexts";
 
 const PairButton = ({ p }) => {
 	const activePageDispatch = useContext(ActivePageDispatchContext);

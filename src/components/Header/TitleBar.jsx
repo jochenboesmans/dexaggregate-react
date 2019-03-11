@@ -1,13 +1,13 @@
 import React, { lazy, useState, useContext } from "react";
 
+import Grid from "@material-ui/core/Grid/Grid";
+import Typography from "@material-ui/core/Typography/Typography";
+
 import {
 	MarketPageDispatchContext,
 	SearchFilterDispatchContext,
 	ActivePageDispatchContext,
 } from "../../state/contexts/contexts";
-
-const Grid = lazy(() => import(`@material-ui/core/Grid/Grid`));
-const Typography = lazy(() => import(`@material-ui/core/Typography/Typography`));
 
 const TitleBar = () => {
 	const [hover, setHover] = useState(false);

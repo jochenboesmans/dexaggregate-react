@@ -3,10 +3,10 @@ import React, { lazy, useContext } from "react";
 import orderBy from "lodash/orderBy";
 import reduce from "lodash/reduce";
 
-import { ViewportStateContext, MarketStateContext } from "../../../../state/contexts/contexts";
+import TableBody from "@material-ui/core/TableBody/TableBody";
+import TableRow from "@material-ui/core/TableRow/TableRow";
 
-const TableBody = lazy(() => import(`@material-ui/core/TableBody/TableBody`));
-const TableRow = lazy(() => import(`@material-ui/core/TableRow/TableRow`));
+import { ViewportStateContext, MarketStateContext } from "../../../../state/contexts/contexts";
 
 const PairExchangeName = lazy(() => import(`./PairExchangeName`));
 const PairSpread = lazy(() => import(`./PairSpread`));

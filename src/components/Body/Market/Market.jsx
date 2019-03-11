@@ -1,4 +1,8 @@
-import React, { lazy, useReducer, useContext } from "react";
+import React, { lazy, useContext } from "react";
+
+import Grid from "@material-ui/core/Grid/Grid";
+import Table from "@material-ui/core/Table/Table";
+import TextField from "@material-ui/core/TextField/TextField";
 
 import {
 	ViewportStateContext,
@@ -8,11 +12,6 @@ import {
 	SearchFilterStateContext,
 	SearchFilterDispatchContext,
 } from "../../../state/contexts/contexts";
-import { marketPageReducer, searchFilterReducer } from "../../../state/reducers/reducers";
-
-const Grid = lazy(() => import(`@material-ui/core/Grid/Grid`));
-const Table = lazy(() => import(`@material-ui/core/Table/Table`));
-const TextField = lazy(() => import(`@material-ui/core/TextField/TextField`));
 
 const MarketBody = lazy(() => import(`./MarketBody/MarketBody`));
 const MarketHead = lazy(() => import(`./MarketHead`));

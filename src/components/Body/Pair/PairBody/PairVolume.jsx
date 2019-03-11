@@ -1,9 +1,9 @@
-import React, { lazy } from "react";
+import React from "react";
+
+import TableCell from "@material-ui/core/TableCell/TableCell";
+import Typography from "@material-ui/core/Typography/Typography";
 
 import { formatVolume } from "../../../../util/format";
-
-const TableCell = lazy(() => import(`@material-ui/core/TableCell/TableCell`));
-const Typography = lazy(() => import(`@material-ui/core/Typography/Typography`));
 
 const unconnectedPairVolume = ({ emd }) => {
 	const volume = formatVolume(emd.v);

@@ -1,12 +1,12 @@
-import React, { lazy, Suspense, useContext } from "react";
+import React, { useContext } from "react";
+
+import TableCell from "@material-ui/core/TableCell/TableCell";
+import TableHead from "@material-ui/core/TableHead/TableHead";
+import TableRow from "@material-ui/core/TableRow/TableRow";
+import Tooltip from "@material-ui/core/Tooltip/Tooltip";
+import Typography from "@material-ui/core/Typography/Typography";
 
 import { ViewportStateContext } from "../../../state/contexts/contexts";
-
-const TableCell = lazy(() => import(`@material-ui/core/TableCell/TableCell`));
-const TableHead = lazy(() => import(`@material-ui/core/TableHead/TableHead`));
-const TableRow = lazy(() => import(`@material-ui/core/TableRow/TableRow`));
-const Tooltip = lazy(() => import(`@material-ui/core/Tooltip/Tooltip`));
-const Typography = lazy(() => import(`@material-ui/core/Typography/Typography`));
 
 const MarketHead = () => {
 	const columns = [{
@@ -38,9 +38,7 @@ const MarketHead = () => {
 				{slicedColumns.map(column => (
 					<TableCell align={column.align} key={column.text}>
 						<Tooltip title={column.tooltip} placement="bottom">
-							<Suspense fallback={<div>Loading...</div>}>
-								<Typography style={{fontWeight: `bold`}}>{column.text}</Typography>
-							</Suspense>
+							<Typography style={{fontWeight: `bold`}}>{column.text}</Typography>
 						</Tooltip>
 					</TableCell>
 				))}

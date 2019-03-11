@@ -1,5 +1,12 @@
-import React, { lazy, Suspense, useContext } from "react";
+import React, { useContext } from "react";
 import reduce from "lodash/reduce";
+
+import Tooltip from "@material-ui/core/Tooltip/Tooltip";
+import Typography from "@material-ui/core/Typography/Typography";
+import TableRow from "@material-ui/core/TableRow/TableRow";
+import TableBody from "@material-ui/core/TableBody/TableBody";
+import TableCell from "@material-ui/core/TableCell/TableCell";
+import Table from "@material-ui/core/Table/Table";
 
 import {
 	MarketStateContext,
@@ -8,13 +15,6 @@ import {
 } from "../../state/contexts/contexts";
 
 import { formatVolume } from "../../util/format";
-
-const Tooltip = lazy(() => import(`@material-ui/core/Tooltip/Tooltip`));
-const Typography = lazy(() => import(`@material-ui/core/Typography/Typography`));
-const TableRow = lazy(() => import(`@material-ui/core/TableRow/TableRow`));
-const TableBody = lazy(() => import(`@material-ui/core/TableBody/TableBody`));
-const TableCell = lazy(() => import(`@material-ui/core/TableCell/TableCell`));
-const Table = lazy(() => import(`@material-ui/core/Table/Table`));
 
 const MarketInfo = () => {
 	const market = useContext(MarketStateContext);
@@ -80,16 +80,14 @@ const MarketInfo = () => {
 					return (
 						<TableRow style={{ height: `4vh` }} key={r.tooltipLeft}>
 							<TableCell align="right">
-								<Suspense fallback={<div>Loading...</div>}>
-									<Tooltip title={r.tooltipLeft} placement="bottom">
-										<Typography
-											variant="caption"
-											style={{ fontWeight: `bold` }}
-										>
-											{r.textLeft}
-										</Typography>
-									</Tooltip>
-								</Suspense>
+								<Tooltip title={r.tooltipLeft} placement="bottom">
+									<Typography
+										variant="caption"
+										style={{ fontWeight: `bold` }}
+									>
+										{r.textLeft}
+									</Typography>
+								</Tooltip>
 							</TableCell>
 							<TableCell>
 								{rightElement}

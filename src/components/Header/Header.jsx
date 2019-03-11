@@ -1,6 +1,6 @@
 import React, { lazy } from "react";
 
-const Grid = lazy(() => import(`@material-ui/core/Grid/Grid`));
+import Grid from "@material-ui/core/Grid/Grid";
 
 const TitleBar = lazy(() => import(`./TitleBar`));
 const MarketInfo = lazy(() => import(`./MarketInfo`));

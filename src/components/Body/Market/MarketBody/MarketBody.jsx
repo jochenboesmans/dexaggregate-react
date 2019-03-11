@@ -1,5 +1,8 @@
 import React, { lazy, useContext } from "react";
 
+import TableBody from "@material-ui/core/TableBody/TableBody";
+import TableRow from "@material-ui/core/TableRow/TableRow";
+
 import {
 	ActivePageDispatchContext,
 	MarketPageDispatchContext,
@@ -12,9 +15,6 @@ const MarketPairSpread = lazy(() => import(`./MarketPairSpread`));
 const MarketPairLastPrice = lazy(() => import(`./MarketPairLastPrice`));
 const MarketPairVolume = lazy(() => import(`./MarketPairVolume`));
 const MobileMarketPairSpread = lazy(() => import(`./MobileMarketPairSpread`));
-
-const TableBody = lazy(() => import(`@material-ui/core/TableBody/TableBody`));
-const TableRow = lazy(() => import(`@material-ui/core/TableRow/TableRow`));
 
 const MarketBody = ({ entriesPerPage, filteredMarketLength, slicedMarket }) => {
 	const { width: vw } = useContext(ViewportStateContext);

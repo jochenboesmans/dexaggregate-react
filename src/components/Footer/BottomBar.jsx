@@ -1,10 +1,10 @@
-import React, { lazy, useContext } from "react";
+import React, { useContext } from "react";
+
+import Grid from "@material-ui/core/Grid/Grid";
+import IconButton from "@material-ui/core/IconButton/IconButton";
+import SvgIcon from "@material-ui/core/SvgIcon/SvgIcon";
 
 import { LightBulbDispatchContext } from "../../state/contexts/contexts";
-
-const Grid = lazy(() => import(`@material-ui/core/Grid/Grid`));
-const IconButton = lazy(() => import(`@material-ui/core/IconButton/IconButton`));
-const SvgIcon = lazy(() => import(`@material-ui/core/SvgIcon/SvgIcon`));
 
 const BottomBar = () => {
 	const icons = [{

@@ -1,5 +1,10 @@
 import React, { lazy, useContext, useEffect } from "react";
 
+import Grid from "@material-ui/core/Grid/Grid";
+import MuiThemeProvider from "@material-ui/core/styles/MuiThemeProvider";
+import Paper from "@material-ui/core/Paper/Paper";
+import CssBaseline from "@material-ui/core/CssBaseline";
+
 import { subscribeToSocketBroadcasts, unsubscribeFromSocketBroadcasts } from "../websocketclient";
 
 import { darkTheme, lightTheme } from "../themes/App";
@@ -11,11 +16,6 @@ import {
 	TimeDispatchContext,
 	MarketDispatchContext,
 } from "../state/contexts/contexts";
-
-const Grid = lazy(() => import(`@material-ui/core/Grid/Grid`));
-const MuiThemeProvider = lazy(() => import(`@material-ui/core/styles/MuiThemeProvider`));
-const Paper = lazy(() => import(`@material-ui/core/Paper/Paper`));
-const CssBaseline = lazy(() => import(`@material-ui/core/CssBaseline`));
 
 const BottomBar = lazy(() => import(`./Footer/BottomBar`));
 const Header = lazy(() => import(`./Header/Header`));

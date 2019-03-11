@@ -1,7 +1,7 @@
-import React, { lazy } from "react";
+import React from "react";
 
-const TableCell = lazy(() => import(`@material-ui/core/TableCell/TableCell`));
-const Typography = lazy(() => import(`@material-ui/core/Typography/Typography`));
+import TableCell from "@material-ui/core/TableCell/TableCell";
+import Typography from "@material-ui/core/Typography/Typography";
 
 const unconnectedPairExchangeName = ({ exchangeName }) => {
 	return (

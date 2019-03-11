@@ -1,10 +1,10 @@
-import React, { lazy } from "react";
+import React from "react";
 import reduce from "lodash/reduce";
 
-import { formatPrice } from "../../../../util/format";
+import TableCell from "@material-ui/core/TableCell/TableCell";
+import Typography from "@material-ui/core/Typography/Typography";
 
-const TableCell = lazy(() => import(`@material-ui/core/TableCell/TableCell`));
-const Typography = lazy(() => import(`@material-ui/core/Typography/Typography`));
+import { formatPrice } from "../../../../util/format";
 
 const MobileMarketPairSpread = ({ p }) => {
 	const innerBid = reduce(p.m, (max, emd) => emd.b > max ?  emd.b : max, 0);

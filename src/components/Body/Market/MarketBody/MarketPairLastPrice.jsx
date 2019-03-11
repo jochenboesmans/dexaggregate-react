@@ -1,10 +1,10 @@
-import React, { lazy } from "react";
+import React from "react";
 import reduce from "lodash/reduce";
 
-import { formatPrice } from "../../../../util/format";
+import TableCell from "@material-ui/core/TableCell/TableCell";
+import Typography from "@material-ui/core/Typography/Typography";
 
-const TableCell = lazy(() => import(`@material-ui/core/TableCell/TableCell`));
-const Typography = lazy(() => import(`@material-ui/core/Typography/Typography`));
+import { formatPrice } from "../../../../util/format";
 
 const MarketPairLastPrice = ({ p }) => {
 	const combinedVolume = reduce(p.m, (sum, emd) => sum + emd.v, 0);
