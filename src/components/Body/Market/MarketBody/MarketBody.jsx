@@ -38,7 +38,7 @@ const MarketBody = ({ entriesPerPage, filteredMarketLength, slicedMarket }) => {
 						style={{ height: `4vh` }}
 						hover
 						onClick={() => activePageDispatch({ type: `SET`, payload: { ID: `PAIR`, pair: p } })}
-						key={`${p.b}/${p.q}`}
+						key={`${p.baseSymbol}/${p.quoteSymbol}`}
 					>
 						{innerContent(p)}
 					</TableRow>

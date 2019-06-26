@@ -1,18 +1,72 @@
-import io from "socket.io-client";
+import ApolloClient, { gql } from "apollo-boost";
 
-let socket;
+const client = new ApolloClient({
+	uri: `http://dexaggregate.com/graphql`
+});
 
-const subscribeToSocketBroadcasts = (dispatch) => {
-	socket = (process.env.NODE_ENV === `production`) ? io() : io(`localhost:${process.env.SERVER_PORT || 5000}`);
-	socket.on(`marketBroadcast`, receivedMarket => {
-		dispatch({ type: `SET`, payload: receivedMarket });
-	});
+const daiRebasedMarket = gql`
+  {
+    rebasedMarket (rebaseAddress: "0x89d24a6b4ccb1b6faa2625fe562bdd9a23260359") {
+      baseAddress
+      pairs {
+        baseSymbol,
+        quoteSymbol,
+        marketData {
+          exchange,
+          lastPrice,
+          currentAsk,
+          currentBid,
+          baseVolume
+        }
+      }
+    }
+  }
+`;
+
+const exchanges = gql`
+	{ 
+		exchanges 
+	}
+`;
+
+const lastUpdate = gql`
+	{ 
+		lastUpdate {
+			pair {
+			  baseSymbol,
+			  quoteSymbol,
+			  marketData {
+				baseVolume,
+				currentAsk,
+				currentBid,
+				exchange,
+				lastPrice,
+				timestamp
+			  }
+			}
+			utcTime
+		  }
+	}
+`;
+
+const subscribeToSocketBroadcasts = async (dispatch) => {
+	let market = (await client.query({
+		query: daiRebasedMarket
+	})).data.rebasedMarket.pairs;
+
+	/*let exchanges = (await client.query({
+		query: exchanges
+	})).data.exchanges;
+
+	let lastUpdate = (await client.query({
+		query: lastUpdate
+	})).data.lastUpdate;*/
+
+	dispatch({ type: `SET`, payload: { market }});
 };
 
 const unsubscribeFromSocketBroadcasts = (dispatch) => {
-	socket.removeAllListeners(`marketBroadcast`);
-	socket = null;
-	dispatch({ type: `SET`, payload: null });
+
 };
 
 export { subscribeToSocketBroadcasts, unsubscribeFromSocketBroadcasts };

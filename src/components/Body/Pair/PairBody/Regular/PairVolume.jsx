@@ -7,7 +7,7 @@ import Typography from "@material-ui/core/Typography/Typography";
 import { formatVolume } from "../../../../../util/format";
 
 const PairVolume = ({ emd }) => {
-	const volume = formatVolume(emd.v);
+	const volume = formatVolume(emd.baseVolume);
 	return (
 		<TableCell align="right">
 			<Typography>

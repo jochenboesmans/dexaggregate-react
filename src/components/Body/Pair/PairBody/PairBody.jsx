@@ -19,19 +19,19 @@ const PairBody = ({ p }) => {
 	const { width: vw } = useContext(ViewportStateContext);
 	const { exchanges } = useContext(MarketStateContext);
 
-	const sortedMarketData = p ? orderBy(p.m, [emd => emd.v], `desc`) : null;
+	const sortedMarketData = p ? orderBy(p.marketData, [emd => emd.baseVolume], `desc`) : null;
 
 	const handleClick = (exchangeID, p) => {
 		const exchangeURL = {
-			"KYBER": (p) => `https://kyberswap.com/swap/${p.b}_${p.q}`,
+			"KYBER": (p) => `https://kyberswap.com/swap/${p.baseSymbol}_${p.quoteSymbol}`,
 			"OASIS": (p) => `https://eth2dai.com/`,
-			"PARADEX": (p) => `https://paradex.io/market/${p.q}-${p.b}`,
-			"DDEX": (p) => `https://ddex.io/trade/${p.b}-${p.q}`,
-			"IDEX": (p) => `https://idex.market/${p.b}/${p.q}`,
-			"RADAR": (p) => `https://app.radarrelay.com/${p.q}/${p.b}`,
+			"PARADEX": (p) => `https://paradex.io/market/${p.quoteSymbol}-${p.baseSymbol}`,
+			"DDEX": (p) => `https://ddex.io/trade/${p.baseSymbol}-${p.quoteSymbol}`,
+			"IDEX": (p) => `https://idex.market/${p.baseSymbol}/${p.quoteSymbol}`,
+			"RADAR": (p) => `https://app.radarrelay.com/${p.quoteSymbol}/${p.baseSymbol}`,
 			"UNISWAP": (p) => `https://uniswap.exchange/swap`,
-			"TOKENSTORE": (p) => `https://token.store/trade/${p.q}`,
-			"ETHERDELTA": (p) => `https://etherdelta.com/#${p.q}-${p.b}`
+			"TOKENSTORE": (p) => `https://token.store/trade/${p.quoteSymbol}`,
+			"ETHERDELTA": (p) => `https://etherdelta.com/#${p.quoteSymbol}-${p.baseSymbol}`
 		};
 
 		const URL = exchangeURL[exchangeID](p);
@@ -42,8 +42,8 @@ const PairBody = ({ p }) => {
 		<TableBody>
 			{sortedMarketData.map(emd => {
 				const mostCompetitivePrices = {
-					lowAsk: reduce(p.m, (min, emd) => emd.a < min ? emd.a : min, Number.MAX_VALUE),
-					highBid : reduce(p.m, (max, emd) => emd.b > max ? emd.b : max, 0),
+					lowAsk: reduce(p.marketData, (min, emd) => emd.currentAsk < min ? emd.currentAsk : min, Number.MAX_VALUE),
+					highBid : reduce(p.marketData, (max, emd) => emd.currentBid > max ? emd.currentBid : max, 0),
 				};
 
 				const innerContent = (vw < 760) ? <MobilePairBody emd={emd} exchanges={exchanges} mostCompetitivePrices={mostCompetitivePrices}/> :
@@ -52,8 +52,8 @@ const PairBody = ({ p }) => {
 				return (
 					<TableRow
 						hover
-	          onClick={() => handleClick(emd.e, p)}
-	          key={emd.e}
+	          onClick={() => handleClick(emd.exchange, p)}
+	          key={emd.exchange}
 	          style={{ height: `4vh` }}
 					>
 						{innerContent}

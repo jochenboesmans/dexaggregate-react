@@ -14,24 +14,24 @@ const PairHead = ({ p }) => {
 
 	const columns = {
 		EXCHANGE: {
-			tooltip: `An exchange on which ${p.b}/${p.q} is currently trading.`,
+			tooltip: `An exchange on which ${p.baseSymbol}/${p.quoteSymbol} is currently trading.`,
 			text: `Exchange`,
 			align: `left`,
 		},
 		SPREAD: {
-			tooltip: `The difference between the highest current bid ratio and the lowest current ask ratio for ${p.b}/${p.q}. \
-			The exchange with the most competitive price for buying/selling ${p.q} for ${p.b} is highlighted in green/red respectively. \
-			Italic, green text indicates this exchange offers the most competitive prices for both buying and selling ${p.q} for ${p.b}.`,
+			tooltip: `The difference between the highest current bid ratio and the lowest current ask ratio for ${p.baseSymbol}/${p.quoteSymbol}. \
+			The exchange with the most competitive price for buying/selling ${p.quoteSymbol} for ${p.baseSymbol} is highlighted in green/red respectively. \
+			Italic, green text indicates this exchange offers the most competitive prices for both buying and selling ${p.quoteSymbol} for ${p.baseSymbol}.`,
 			text: `Spread [DAI]`,
 			align: `right`,
 		},
 		LAST_PRICE: {
-			tooltip: `The last price for which ${p.q} traded for ${p.b} on a given exchange.`,
+			tooltip: `The last price for which ${p.quoteSymbol} traded for ${p.baseSymbol} on a given exchange.`,
 			text: `Last Price [DAI]`,
 			align: `right`,
 		},
 		VOLUME: {
-			tooltip: `The 24-hour volume for ${p.b}/${p.q} on a given exchange.`,
+			tooltip: `The 24-hour volume for ${p.baseSymbol}/${p.quoteSymbol} on a given exchange.`,
 			text: `Volume (24h) [DAI]`,
 			align: `right`,
 		},

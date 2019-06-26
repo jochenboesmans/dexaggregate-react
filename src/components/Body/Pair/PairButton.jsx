@@ -10,7 +10,7 @@ const PairButton = ({ p }) => {
 	const activePageDispatch = useContext(ActivePageDispatchContext);
 	const [hover, setHover] = useState(false);
 
-	const innerText = hover ? `Back` : `${p.b}/${p.q}`;
+	const innerText = hover ? `Back` : `${p.baseSymbol}/${p.quoteSymbol}`;
 	return (
 		<Grid
 			item

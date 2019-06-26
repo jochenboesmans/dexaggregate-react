@@ -8,7 +8,7 @@ import Typography from "@material-ui/core/Typography/Typography";
 import { formatVolume } from "../../../../../util/format";
 
 const MarketPairVolume = ({ p }) => {
-	const combinedVolume = reduce(p.m, (sum, emd) => sum + emd.v, 0);
+	const combinedVolume = reduce(p.marketData, (sum, emd) => sum + emd.baseVolume, 0);
 
 	const pairVolume = `${formatVolume(combinedVolume)}`;
 	return (

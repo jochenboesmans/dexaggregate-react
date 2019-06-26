@@ -17,12 +17,12 @@ const PairBody = lazy(() => import(`./PairBody/PairBody`));
 
 const Pair = () => {
 	const { width: vw } = useContext(ViewportStateContext);
-	const { market: m, exchanges } = useContext(MarketStateContext);
+	const { market: m/*, exchanges*/ } = useContext(MarketStateContext);
 	const { pair: activePair }  = useContext(ActivePageStateContext);
 	const activePageDispatch = useContext(ActivePageDispatchContext);
 
 	const p = m.find(mPair =>
-		mPair.b === activePair.b && mPair.q === activePair.q);
+		mPair.baseSymbol === activePair.baseSymbol && mPair.quoteSymbol === activePair.quoteSymbol);
 
 	const colWidths = (vw < 760) ? [`20%`, `80%`] : [`15%`, `40%`, `20%`, `25%`];
 	const colGroup = (
@@ -42,7 +42,7 @@ const Pair = () => {
 					style={{ tableLayout: `fixed` }}>
 					{colGroup}
 					<PairHead p={p}/>
-					<PairBody p={p} market={m} exchanges={exchanges}/>
+					<PairBody p={p} market={m}/>
 				</Table>
 			</Grid>
 		</>

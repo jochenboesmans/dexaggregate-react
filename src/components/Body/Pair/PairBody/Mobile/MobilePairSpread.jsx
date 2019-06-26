@@ -8,7 +8,7 @@ import { formatPrice } from "../../../../../util/format";
 
 const MobilePairSpread = ({ emd, mostCompetitivePrices }) => {
 	const { lowAsk, highBid } = mostCompetitivePrices;
-	const { b: innerBid, a: innerAsk } = emd;
+	const { currentBid: innerBid, currentAsk: innerAsk } = emd;
 
 	const style = (() => {
 		if (innerAsk === lowAsk && innerBid === highBid) {

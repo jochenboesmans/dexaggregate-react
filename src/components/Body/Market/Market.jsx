@@ -32,8 +32,8 @@ const Market = () => {
 	const endIndex = startIndex + ENTRIES_PER_PAGE;
 
 	const filteredMarket = searchFilter !== `` ? market.market.filter(p =>
-		p.b.includes(searchFilter.toUpperCase()) || p.q.includes(searchFilter.toUpperCase())
-		|| Object.keys(p.m).find(exchangeID => exchangeID.includes(searchFilter.toUpperCase()))) : market.market;
+		p.baseSymbol.includes(searchFilter.toUpperCase()) || p.quoteSymbol.includes(searchFilter.toUpperCase())
+		|| p.marketData.includes(emd => emd.exchange.includes(searchFilter.toUpperCase()))) : market.market;
 	const slicedMarket = filteredMarket.slice(startIndex, endIndex);
 
 	const colWidths = (vw < 760) ? [`20%`, `80%`] : [`15%`, `40%`, `20%`, `25%`];

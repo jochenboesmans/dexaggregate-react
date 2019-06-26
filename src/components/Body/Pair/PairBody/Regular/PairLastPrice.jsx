@@ -7,7 +7,7 @@ import Typography from "@material-ui/core/Typography/Typography";
 import { formatPrice } from "../../../../../util/format";
 
 const PairLastPrice = ({ emd }) => {
-	const lastPrice = formatPrice(emd.l);
+	const lastPrice = formatPrice(emd.lastPrice);
 	return (
 		<TableCell align="right">
 			<Typography>

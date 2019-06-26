@@ -5,7 +5,7 @@ import TableCell from "@material-ui/core/TableCell/TableCell";
 import Typography from "@material-ui/core/Typography/Typography";
 
 const MarketPairName = ({ p }) => {
-	const pairName = `${p.b}/${p.q}`;
+	const pairName = `${p.baseSymbol}/${p.quoteSymbol}`;
 	return (
 		<TableCell>
 			<Typography>

@@ -24,20 +24,20 @@ const MarketInfo = () => {
 	if (!market) return <div>Loading MarketInfo...</div>;
 
 	const combinedVolume = formatVolume(reduce(market.market, (totalSum, p) =>
-		totalSum + reduce(p.m, (sum, emd) => sum + emd.v, 0), 0));
-	const exchangeCount = Object.keys(market.exchanges).length;
-	const exchangeNames = Object.values(market.exchanges).map(exchange => exchange.name).join(`, `);
+		totalSum + reduce(p.marketData, (sum, emd) => sum + emd.baseVolume, 0), 0));
+	/*const exchangeCount = Object.keys(market.exchanges).length;
+	const exchangeNames = Object.values(market.exchanges).map(exchange => exchange.name).join(`, `);*/
 	const marketSize = market.market.length;
-	const secondsSinceUpdate = Math.floor((time - market.lastUpdate.timestamp) / 1000);
-	const latestUpdateExchange = market.exchanges[market.lastUpdate.exchangeID].name;
+	/*const secondsSinceUpdate = Math.floor((time - market.lastUpdate.timestamp) / 1000);
+	const latestUpdateExchange = market.exchanges[market.lastUpdate.exchangeID].name;*/
 
 	const rows = {
-		EXCHANGES: {
+		/*EXCHANGES: {
 			tooltipLeft: `A list of all exchanges from which market data is included.`,
 			textLeft: `Exchanges`,
 			textRight: exchangeCount,
 			tooltipRight: exchangeNames,
-		},
+		},*/
 		COMBINED_VOLUME: {
 			tooltipLeft: `The sum of volumes of all market pairs across all exchanges.`,
 			textLeft: `Combined Volume (24h) [DAI]`,
@@ -48,11 +48,11 @@ const MarketInfo = () => {
 			textLeft: `Pairs`,
 			textRight: marketSize
 		},
-		LATEST_UPDATE: {
+		/*LATEST_UPDATE: {
 			tooltipLeft: `The exchange of and the time since the last update to the market data.`,
 			textLeft: `Latest Update`,
 			textRight: `${latestUpdateExchange}, ${secondsSinceUpdate} seconds ago`
-		},
+		},*/
 	};
 
 	const colWidths = (vh < 900) ? [`45%`, `55%`] : [`50%`, `50%`];
@@ -62,7 +62,7 @@ const MarketInfo = () => {
 		</colgroup>
 	);
 
-	const rowsToInclude = (vh < 900) ? [rows.LATEST_UPDATE] : Object.values(rows);
+	const rowsToInclude = /*(vh < 900) ? [rows.LATEST_UPDATE] :*/ Object.values(rows);
 
 	return (
 		<Table
