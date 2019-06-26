@@ -6,7 +6,7 @@ const MobilePairSpread = lazy(() => import(`./MobilePairSpread`));
 
 const MobilePairBody = ({ exchanges, emd, mostCompetitivePrices }) => (
 	<Suspense fallback={<div>Loading MobilePairBody...</div>}>
-		{/*<PairExchangeName exchangeName={exchanges[emd.exchange].name}/>*/}
+		<PairExchangeName exchangeName={emd.exchange}/>
 		<MobilePairSpread emd={emd} mostCompetitivePrice={mostCompetitivePrices}/>
 	</Suspense>
 );

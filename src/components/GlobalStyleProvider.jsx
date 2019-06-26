@@ -63,10 +63,10 @@ const GlobalStyleProvider = () => {
 						style={{ width: `${mainGridWidth}` }}
 						spacing={16}
 					>
-						<Grid item style={{ height: `2.5vh`}}>
+						<Grid item style={{ height: `1vh`}}>
 						</Grid>
 						<Paper>
-							<Grid item style={{ height: `1vh`}}>
+							<Grid item style={{ height: `0.5vh`}}>
 							</Grid>
 							<Grid item>
 								<Grid
@@ -77,19 +77,19 @@ const GlobalStyleProvider = () => {
 									<Grid item style={{ width: `90%` }}>
 										<Header/>
 									</Grid>
-									<Grid item style={{ height: `1.5vh`}}>
+									<Grid item style={{ height: `0.5vh`}}>
 									</Grid>
 									<Grid item style={{ width: `90%` }}>
 										<Body/>
 									</Grid>
-									<Grid item style={{ height: `1.5vh`}}>
+									<Grid item style={{ height: `0.5vh`}}>
 									</Grid>
 									<Grid item style={{ width: `90%` }}>
 										<BottomBar/>
 									</Grid>
 								</Grid>
 							</Grid>
-							<Grid item style={{ height: `1vh`}}>
+							<Grid item style={{ height: `0.5vh`}}>
 							</Grid>
 						</Paper>
 						<Grid item style={{ height: `1vh`}}>

@@ -52,7 +52,7 @@ const Market = () => {
 		<Grid
 			container
 			direction="column"
-			spacing={8}
+			spacing={0}
 		>
 			<Grid item>
 				<TextField
@@ -68,7 +68,7 @@ const Market = () => {
 			</Grid>
 			<Grid item>
 				<Table
-					padding="dense"
+					padding="checkbox"
 					style={{ tableLayout: `fixed` }}>
 					{colGroup}
 					<MarketHead/>

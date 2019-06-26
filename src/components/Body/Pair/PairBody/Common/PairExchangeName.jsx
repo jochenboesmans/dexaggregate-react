@@ -8,7 +8,7 @@ const PairExchangeName = ({ exchangeName }) => {
 	return (
 		<TableCell>
 			<Typography>
-				{exchangeName}
+				{exchangeName.toUpperCase()}
 			</Typography>
 		</TableCell>
 	);

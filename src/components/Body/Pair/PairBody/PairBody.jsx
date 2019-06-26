@@ -21,20 +21,19 @@ const PairBody = ({ p }) => {
 
 	const sortedMarketData = p ? orderBy(p.marketData, [emd => emd.baseVolume], `desc`) : null;
 
-	const handleClick = (exchangeID, p) => {
+	const handleClick = (exchange, p) => {
 		const exchangeURL = {
-			"KYBER": (p) => `https://kyberswap.com/swap/${p.baseSymbol}_${p.quoteSymbol}`,
-			"OASIS": (p) => `https://eth2dai.com/`,
-			"PARADEX": (p) => `https://paradex.io/market/${p.quoteSymbol}-${p.baseSymbol}`,
-			"DDEX": (p) => `https://ddex.io/trade/${p.baseSymbol}-${p.quoteSymbol}`,
-			"IDEX": (p) => `https://idex.market/${p.baseSymbol}/${p.quoteSymbol}`,
-			"RADAR": (p) => `https://app.radarrelay.com/${p.quoteSymbol}/${p.baseSymbol}`,
-			"UNISWAP": (p) => `https://uniswap.exchange/swap`,
-			"TOKENSTORE": (p) => `https://token.store/trade/${p.quoteSymbol}`,
-			"ETHERDELTA": (p) => `https://etherdelta.com/#${p.quoteSymbol}-${p.baseSymbol}`
+			"kyber": (p) => `https://kyberswap.com/swap/${p.baseSymbol}_${p.quoteSymbol}`,
+			"oasis": (p) => `https://eth2dai.com/`,
+			"paradex": (p) => `https://paradex.io/market/${p.quoteSymbol}-${p.baseSymbol}`,
+			"ddex": (p) => `https://ddex.io/trade/${p.baseSymbol}-${p.quoteSymbol}`,
+			"idex": (p) => `https://idex.market/${p.baseSymbol}/${p.quoteSymbol}`,
+			"radar": (p) => `https://app.radarrelay.com/${p.quoteSymbol}/${p.baseSymbol}`,
+			"uniswap": (p) => `https://uniswap.exchange/swap`,
+			"tokenstore": (p) => `https://token.store/trade/${p.quoteSymbol}`,
 		};
 
-		const URL = exchangeURL[exchangeID](p);
+		const URL = exchangeURL[exchange](p);
 		window.open(URL, `_blank`);
 	};
 
@@ -52,9 +51,9 @@ const PairBody = ({ p }) => {
 				return (
 					<TableRow
 						hover
-	          onClick={() => handleClick(emd.exchange, p)}
-	          key={emd.exchange}
-	          style={{ height: `4vh` }}
+						onClick={() => handleClick(emd.exchange, p)}
+						key={emd.exchange}
+						style={{ height: `4vh` }}
 					>
 						{innerContent}
 					</TableRow>

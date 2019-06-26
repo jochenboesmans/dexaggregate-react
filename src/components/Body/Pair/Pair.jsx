@@ -38,7 +38,7 @@ const Pair = () => {
 			</Grid>
 			<Grid item>
 				<Table
-					padding="dense"
+					padding="checkbox"
 					style={{ tableLayout: `fixed` }}>
 					{colGroup}
 					<PairHead p={p}/>
@@ -62,7 +62,7 @@ const Pair = () => {
 		<Grid
 			container
 			direction="column"
-			spacing={8}
+			spacing={0}
 		>
 			{innerContent}
 		</Grid>

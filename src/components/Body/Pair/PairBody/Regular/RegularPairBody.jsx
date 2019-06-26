@@ -10,7 +10,7 @@ const PairLastPrice = lazy(() => import(`./PairLastPrice`));
 
 const RegularPairBody = ({ exchanges, emd, mostCompetitivePrices }) => (
 	<Suspense fallback={<TableCell>Loading RegularPairBody...</TableCell>}>
-		{/*<PairExchangeName exchangeName={exchanges[emd.exchange].name}/>*/}
+		<PairExchangeName exchangeName={emd.exchange}/>
 		<PairSpread emd={emd} mostCompetitivePrices={mostCompetitivePrices}/>
 		<PairLastPrice emd={emd}/>
 		<PairVolume emd={emd}/>
