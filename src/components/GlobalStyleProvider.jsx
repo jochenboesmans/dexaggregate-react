@@ -5,7 +5,7 @@ import MuiThemeProvider from "@material-ui/core/styles/MuiThemeProvider";
 import Paper from "@material-ui/core/Paper/Paper";
 import CssBaseline from "@material-ui/core/CssBaseline";
 
-import { subscribeToSocketBroadcasts, unsubscribeFromSocketBroadcasts } from "../websocketclient";
+import { subscribeToMarket, unsubscribeFromMarket } from "../marketclient";
 
 import { darkTheme, lightTheme } from "../themes/App";
 
@@ -35,8 +35,8 @@ const GlobalStyleProvider = () => {
 
 	/* Subscribes to market on component mount and unsubscribes on unmount. */
 	useEffect(() => {
-		subscribeToSocketBroadcasts(marketDispatch);
-		return () => unsubscribeFromSocketBroadcasts(marketDispatch);
+		subscribeToMarket(marketDispatch);
+		return () => unsubscribeFromMarket(marketDispatch);
 	}, []);
 
 	/* Updates time managed by reducer. */
@@ -61,7 +61,7 @@ const GlobalStyleProvider = () => {
 						container
 						direction="column"
 						style={{ width: `${mainGridWidth}` }}
-						spacing={16}
+						spacing={0}
 					>
 						<Grid item style={{ height: `1vh`}}>
 						</Grid>

@@ -1,5 +1,5 @@
 import React, { lazy, Suspense } from "react";
-import { object } from "prop-types";
+import { object, array } from "prop-types";
 
 import TableCell from "@material-ui/core/TableCell/TableCell";
 
@@ -18,7 +18,7 @@ const RegularPairBody = ({ exchanges, emd, mostCompetitivePrices }) => (
 );
 
 RegularPairBody.propTypes = {
-	exchanges: object.isRequired,
+	exchanges: array.isRequired,
 	emd: object.isRequired,
 	mostCompetitivePrices: object.isRequired,
 };

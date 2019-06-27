@@ -17,7 +17,7 @@ const PairHead = ({ p }) => {
 			tooltip: `An exchange on which ${p.baseSymbol}/${p.quoteSymbol} is currently trading.`,
 			text: `Exchange`,
 			align: `left`,
-			key: `VOLUME`,
+			key: `EXCHANGE`,
 		},
 		SPREAD: {
 			tooltip: `The difference between the highest current bid ratio and the lowest current ask ratio for ${p.baseSymbol}/${p.quoteSymbol}. \
@@ -25,13 +25,13 @@ const PairHead = ({ p }) => {
 			Italic, green text indicates this exchange offers the most competitive prices for both buying and selling ${p.quoteSymbol} for ${p.baseSymbol}.`,
 			text: `Spread [DAI]`,
 			align: `right`,
-			key: `VOLUME`,
+			key: `SPREAD`,
 		},
 		LAST_PRICE: {
 			tooltip: `The last price for which ${p.quoteSymbol} traded for ${p.baseSymbol} on a given exchange.`,
 			text: `Last Price [DAI]`,
 			align: `right`,
-			key: `VOLUME`,
+			key: `LAST_PRICE`,
 		},
 		VOLUME: {
 			tooltip: `The 24-hour volume for ${p.baseSymbol}/${p.quoteSymbol} on a given exchange.`,
