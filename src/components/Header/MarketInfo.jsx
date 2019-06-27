@@ -25,19 +25,19 @@ const MarketInfo = () => {
 
 	const combinedVolume = formatVolume(reduce(market.market, (totalSum, p) =>
 		totalSum + reduce(p.marketData, (sum, emd) => sum + emd.baseVolume, 0), 0));
-	/*const exchangeCount = Object.keys(market.exchanges).length;
-	const exchangeNames = Object.values(market.exchanges).map(exchange => exchange.name).join(`, `);*/
+	const exchangeCount = market.exchanges.length;
+	/*const exchangeNames = Object.values(market.exchanges).map(exchange => exchange.name).join(`, `);*/
 	const marketSize = market.market.length;
-	/*const secondsSinceUpdate = Math.floor((time - market.lastUpdate.timestamp) / 1000);
-	const latestUpdateExchange = market.exchanges[market.lastUpdate.exchangeID].name;*/
+	const secondsSinceUpdate = market.lastUpdate ? Math.floor((time - market.lastUpdate.timestamp) / 1000) : `N/A`;
+	const latestUpdatePair = market.lastUpdate ? `${market.lastUpdate.pair.baseSymbol}/${market.lastUpdate.pair.quoteSymbol}` : `N/A`;
 
 	const rows = {
-		/*EXCHANGES: {
+		EXCHANGES: {
 			tooltipLeft: `A list of all exchanges from which market data is included.`,
 			textLeft: `Exchanges`,
 			textRight: exchangeCount,
-			tooltipRight: exchangeNames,
-		},*/
+			//tooltipRight: exchangeNames,
+		},
 		COMBINED_VOLUME: {
 			tooltipLeft: `The sum of volumes of all market pairs across all exchanges.`,
 			textLeft: `Combined Volume (24h) [DAI]`,
@@ -48,25 +48,25 @@ const MarketInfo = () => {
 			textLeft: `Pairs`,
 			textRight: marketSize
 		},
-		/*LATEST_UPDATE: {
-			tooltipLeft: `The exchange of and the time since the last update to the market data.`,
+		LATEST_UPDATE: {
+			tooltipLeft: `The pair that last got updated and the time since the last update to the market data.`,
 			textLeft: `Latest Update`,
-			textRight: `${latestUpdateExchange}, ${secondsSinceUpdate} seconds ago`
-		},*/
+			textRight: `${latestUpdatePair}, ${secondsSinceUpdate} seconds ago`
+		},
 	};
 
-	const colWidths = (vh < 900) ? [`45%`, `55%`] : [`50%`, `50%`];
+	const colWidths = [`47.5%`, `5%`, `47.5%`];
 	const colGroup = (
 		<colgroup>
 			{colWidths.map((cw, i) => <col key={i} style={{ width: cw }}/>)}
 		</colgroup>
 	);
 
-	const rowsToInclude = /*(vh < 900) ? [rows.LATEST_UPDATE] :*/ Object.values(rows);
+	const rowsToInclude = (vh < 900) ? [rows.LATEST_UPDATE] : Object.values(rows);
 
 	return (
 		<Table
-			padding="dense"
+			padding="checkbox"
 			style={{ tableLayout: `fixed` }}
 		>
 			{colGroup}
@@ -90,6 +90,8 @@ const MarketInfo = () => {
 								</Tooltip>
 							</TableCell>
 							<TableCell>
+							</TableCell>
+							<TableCell align="left">
 								{rightElement}
 							</TableCell>
 						</TableRow>

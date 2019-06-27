@@ -22,9 +22,13 @@ const GlobalContextProvider = () => {
 		height: Math.max(document.documentElement.clientHeight, window.innerHeight || 0),
 	};
 
+	const initialMarket = {
+		market: [], exchanges: [], lastUpdate: null,
+	};
+
 	const [lightBulb, lightBulbDispatch] = useReducer(lightBulbReducer, false);
 	const [viewport, viewportDispatch] = useReducer(viewportReducer, initialViewport);
-	const [marketState, marketDispatch] = useReducer(marketReducer, null);
+	const [marketState, marketDispatch] = useReducer(marketReducer, initialMarket);
 	const [timeState, timeDispatch] = useReducer(timeReducer, Date.now());
 	const [activePageState, activePageDispatch] = useReducer(activePageReducer, { ID: `MARKET`, pair: null });
 	const [marketPage, marketPageDispatch] = useReducer(marketPageReducer, 0);

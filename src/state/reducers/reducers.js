@@ -17,9 +17,25 @@ const viewportReducer = (state, action) => {
 	}
 };
 
-const marketReducer = (state, action) => {
-	if (action.type === `SET`) {
-		return action.payload;
+const marketReducer = ({market: m, exchanges: e, lastUpdate: l}, action) => {
+	if (action.type === `SET_MARKET`) {
+		return {
+			market: action.payload,
+			exchanges: e,
+			lastUpdate: l,
+		};
+	} else if (action.type === `SET_EXCHANGES`) {
+		return {
+			market: m,
+			exchanges: action.payload,
+			lastUpdate: l,
+		};
+	} else if (action.type === `SET_LAST_UPDATE`) {
+		return {
+			market: m,
+			exchanges: e,
+			lastUpdate: action.payload,
+		};
 	} else {
 		throw new Error(`Incorrect action.type`);
 	}
