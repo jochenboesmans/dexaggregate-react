@@ -9,21 +9,21 @@ import {
 	ActivePageDispatchContext,
 } from "../../state/contexts/contexts";
 
-const TitleBar: FC = () => {
+const Title: FC = () => {
 	const [hover, setHover] = useState(false);
 
 	const activePageDispatch = useContext(ActivePageDispatchContext);
 	const marketPageDispatch = useContext(MarketPageDispatchContext);
 	const searchFilterDispatch = useContext(SearchFilterDispatchContext);
 
-	const style = hover ? { cursor: `pointer`, color: `grey` } : {};
-	const title = `ΣDEX`;
+	const style = hover ? { cursor: "pointer", color: "grey" } : {};
+	const title = "ΣDEX";
 
 	/* Resets user session. */
 	const handleClick = () => {
-		activePageDispatch({ type: `RESET` });
-		searchFilterDispatch({ type: `RESET` });
-		marketPageDispatch({ type: `RESET` });
+		activePageDispatch({ type: "RESET" });
+		searchFilterDispatch({ type: "RESET" });
+		marketPageDispatch({ type: "RESET" });
 	};
 
 	return (
@@ -44,4 +44,4 @@ const TitleBar: FC = () => {
 	);
 };
 
-export default TitleBar;
+export default Title;

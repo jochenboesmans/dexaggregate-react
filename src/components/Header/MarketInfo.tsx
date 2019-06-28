@@ -17,41 +17,45 @@ import {
 import { formatVolume } from "../../util/format";
 
 const MarketInfo: FC = () => {
-	const market = useContext(MarketStateContext);
+	const marketState = useContext(MarketStateContext);
+	if (!marketState) return <div>We're trying to fetch the market...</div>;
+	const { exchanges, lastUpdate, market } = marketState;
 	const time = useContext(TimeStateContext);
 	const { height: vh } = useContext(ViewportStateContext);
 
-	if (!market) return <div>Loading MarketInfo...</div>;
-
-	const combinedVolume = formatVolume(reduce(market.market, (totalSum, p) =>
-		totalSum + reduce(p.marketData, (sum, emd) => sum + emd.baseVolume, 0), 0));
-	const exchangeCount = market.exchanges.length;
-	/*const exchangeNames = Object.values(market.exchanges).map(exchange => exchange.name).join(`, `);*/
-	const marketSize = market.market.length;
-	const secondsSinceUpdate = market.lastUpdate ? Math.floor((time - market.lastUpdate.timestamp) / 1000) : `N/A`;
-	const latestUpdatePair = market.lastUpdate ? `${market.lastUpdate.pair.baseSymbol}/${market.lastUpdate.pair.quoteSymbol}` : `N/A`;
+	const combinedVolume = reduce(market, (totalSum, p) =>
+		totalSum + reduce(p.marketData, (sum, emd) => sum + emd.baseVolume, 0), 0);
+	const fCombinedVolume = formatVolume(combinedVolume);
+	const exchangeCount = exchanges.length;
+	const exchangeNames = exchanges.map(e => e.toUpperCase()).join(`, `);
+	const marketSize = market.length;
+	const secondsSinceUpdate = lastUpdate ? Math.floor((time - lastUpdate.timestamp) / 1000) : `N/A`;
+	const latestUpdatePair = lastUpdate ? `${lastUpdate.pair.baseSymbol}/${lastUpdate.pair.quoteSymbol}` : `N/A`;
 
 	const rows = {
 		EXCHANGES: {
 			tooltipLeft: `A list of all exchanges from which market data is included.`,
 			textLeft: `Exchanges`,
 			textRight: exchangeCount,
-			//tooltipRight: exchangeNames,
+			tooltipRight: exchangeNames,
 		},
 		COMBINED_VOLUME: {
 			tooltipLeft: `The sum of volumes of all market pairs across all exchanges.`,
 			textLeft: `Combined Volume (24h) [DAI]`,
-			textRight: combinedVolume,
+			textRight: fCombinedVolume,
+			tooltipRight: null,
 		},
 		PAIRS: {
 			tooltipLeft: `The total amount of market pairs being listed.`,
 			textLeft: `Pairs`,
-			textRight: marketSize
+			textRight: marketSize,
+			tooltipRight: null,
 		},
 		LATEST_UPDATE: {
 			tooltipLeft: `The pair that last got updated and the time since the last update to the market data.`,
 			textLeft: `Latest Update`,
-			textRight: `${latestUpdatePair}, ${secondsSinceUpdate} seconds ago`
+			textRight: `${latestUpdatePair}, ${secondsSinceUpdate} seconds ago`,
+			tooltipRight: null,
 		},
 	};
 
@@ -72,23 +76,20 @@ const MarketInfo: FC = () => {
 			{colGroup}
 			<TableBody>
 				{rowsToInclude.map((r) => {
-					/*const rightElement = (r.tooltipRight) ? (
+					const leftElement = (r.tooltipLeft) ? (
+						<Tooltip title={r.tooltipLeft} placement="bottom">
+							<Typography variant="caption" style={{ fontWeight: "bold" }}>{r.textLeft}</Typography>
+						</Tooltip>) : <Typography variant="caption">{r.textLeft}</Typography>;
+
+					const rightElement = (r.tooltipRight) ? (
 						<Tooltip title={r.tooltipRight} placement="bottom">
 							<Typography variant="caption">{r.textRight}</Typography>
-						</Tooltip>) : <Typography variant="caption">{r.textRight}</Typography>;*/
-					const rightElement = <Typography variant="caption">{r.textRight}</Typography>;
+						</Tooltip>) : <Typography variant="caption">{r.textRight}</Typography>;
 
 					return (
 						<TableRow style={{ height: `4vh` }} key={r.tooltipLeft}>
 							<TableCell align="right">
-								<Tooltip title={r.tooltipLeft} placement="bottom">
-									<Typography
-										variant="caption"
-										style={{ fontWeight: `bold` }}
-									>
-										{r.textLeft}
-									</Typography>
-								</Tooltip>
+								{leftElement}
 							</TableCell>
 							<TableCell>
 							</TableCell>

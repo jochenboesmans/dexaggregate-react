@@ -6,7 +6,7 @@ import SvgIcon from "@material-ui/core/SvgIcon/SvgIcon";
 
 import { LightBulbDispatchContext } from "../../state/contexts/contexts";
 
-const BottomBar: FC = () => {
+const Footer: FC = () => {
 	const lightBulbDispatch = useContext(LightBulbDispatchContext);
 
 	const linkIcons = {
@@ -60,4 +60,4 @@ const BottomBar: FC = () => {
 	);
 };
 
-export default BottomBar;
+export default Footer;

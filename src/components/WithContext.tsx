@@ -1,4 +1,4 @@
-import React, { lazy, useReducer, FC, Suspense } from "react";
+import React, {useReducer, FC} from "react";
 
 import {
 	lightBulbReducer, viewportReducer, marketReducer, timeReducer, activePageReducer, marketPageReducer, searchFilterReducer,
@@ -14,25 +14,23 @@ import {
 	SearchFilterDispatchContext, SearchFilterStateContext,
 } from "../state/contexts/contexts";
 
-const GlobalStyleProvider = lazy(() => import(`./GlobalStyleProvider`));
+import WithDynamicContext from "./WithDynamicContext";
 
-const GlobalContextProvider: FC = () => {
+const WithContext: FC = () => {
 	const initialViewport = {
 		width: Math.max(document.documentElement.clientWidth, window.innerWidth || 0),
 		height: Math.max(document.documentElement.clientHeight, window.innerHeight || 0),
 	};
 
-	const initialMarket = {
-		market: [], exchanges: [], lastUpdate: null,
-	};
+	const initialMarket = { market: [], exchanges: [], lastUpdate: null };
 
 	const [lightBulb, lightBulbDispatch] = useReducer(lightBulbReducer, false);
 	const [viewport, viewportDispatch] = useReducer(viewportReducer, initialViewport);
 	const [marketState, marketDispatch] = useReducer(marketReducer, initialMarket);
 	const [timeState, timeDispatch] = useReducer(timeReducer, Date.now());
-	const [activePageState, activePageDispatch] = useReducer(activePageReducer, { ID: `MARKET`, pair: null });
+	const [activePageState, activePageDispatch] = useReducer(activePageReducer, { ID: "MARKET", pair: null });
 	const [marketPage, marketPageDispatch] = useReducer(marketPageReducer, 0);
-	const [searchFilter, searchFilterDispatch] = useReducer(searchFilterReducer, ``);
+	const [searchFilter, searchFilterDispatch] = useReducer(searchFilterReducer, "");
 
 	return (
 		<LightBulbDispatchContext.Provider value={lightBulbDispatch}>
@@ -49,9 +47,7 @@ const GlobalContextProvider: FC = () => {
 													<MarketPageStateContext.Provider value={marketPage}>
 														<SearchFilterDispatchContext.Provider value={searchFilterDispatch}>
 															<SearchFilterStateContext.Provider value={searchFilter}>
-																<Suspense fallback={<div>Loading GlobalStyleProvider...</div>}>
-																	<GlobalStyleProvider/>
-																</Suspense>
+																<WithDynamicContext/>
 															</SearchFilterStateContext.Provider>
 														</SearchFilterDispatchContext.Provider>
 													</MarketPageStateContext.Provider>
@@ -69,4 +65,4 @@ const GlobalContextProvider: FC = () => {
 	);
 };
 
-export default GlobalContextProvider;
+export default WithContext;
