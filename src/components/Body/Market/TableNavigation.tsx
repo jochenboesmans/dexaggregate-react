@@ -33,7 +33,7 @@ const TableNavigation: FC<PropsType> = ({ entriesPerPage, filteredMarketLength }
 			direction="row"
 			alignItems="center"
 			justify="center"
-			spacing={4}
+			spacing={2}
 		>
 			<Grid item>
 				<IconButton onClick={handleLeftButtonClick}>
