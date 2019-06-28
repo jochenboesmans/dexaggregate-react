@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, FC } from "react";
 
 import Grid from "@material-ui/core/Grid/Grid";
 import IconButton from "@material-ui/core/IconButton/IconButton";
@@ -8,7 +8,12 @@ import Typography from "@material-ui/core/Typography/Typography";
 
 import { MarketPageDispatchContext, MarketPageStateContext } from "../../../state/contexts/contexts";
 
-const TableNavigation = ({ entriesPerPage, filteredMarketLength }) => {
+interface PropsType {
+	entriesPerPage: number,
+	filteredMarketLength: number
+}
+
+const TableNavigation: FC<PropsType> = ({ entriesPerPage, filteredMarketLength }) => {
 	const marketPage = useContext(MarketPageStateContext);
 	const marketPageDispatch = useContext(MarketPageDispatchContext);
 
@@ -36,10 +41,7 @@ const TableNavigation = ({ entriesPerPage, filteredMarketLength }) => {
 				</IconButton>
 			</Grid>
 			<Grid item>
-				<Typography
-					style={{ textAlign: `center` }}
-					variant="caption"
-				>
+				<Typography style={{ textAlign: `center` }} variant="caption">
 					{start} - {end} of {filteredMarketLength}
 				</Typography>
 			</Grid>

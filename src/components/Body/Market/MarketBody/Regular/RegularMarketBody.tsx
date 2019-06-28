@@ -1,5 +1,4 @@
-import React, { lazy, Suspense } from "react";
-import { object } from "prop-types";
+import React, { lazy, Suspense, FC } from "react";
 
 import TableCell from "@material-ui/core/TableCell/TableCell";
 
@@ -8,7 +7,11 @@ const MarketPairSpread = lazy(() => import(`./RegularMarketPairSpread`));
 const MarketPairLastPrice = lazy(() => import(`./MarketPairLastPrice`));
 const MarketPairVolume = lazy(() => import(`./MarketPairVolume`));
 
-const RegularMarketBody = ({ p }) => (
+interface PropsType {
+	p: any
+}
+
+const RegularMarketBody: FC<PropsType> = ({ p }) => (
 	<Suspense fallback={<TableCell>Loading RegularMarketBody...</TableCell>}>
 		<MarketPairName p={p}/>
 		<MarketPairSpread p={p}/>
@@ -16,9 +19,5 @@ const RegularMarketBody = ({ p }) => (
 		<MarketPairVolume p={p}/>
 	</Suspense>
 );
-
-RegularMarketBody.propTypes = {
-	p: object.isRequired,
-};
 
 export default RegularMarketBody;

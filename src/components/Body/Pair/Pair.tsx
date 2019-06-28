@@ -1,4 +1,4 @@
-import React, { lazy, useContext } from "react";
+import React, { lazy, useContext, FC } from "react";
 
 import Button from "@material-ui/core/Button/Button";
 import Grid from "@material-ui/core/Grid/Grid";
@@ -15,7 +15,7 @@ const PairButton = lazy(() => import(`./PairButton`));
 const PairHead = lazy(() => import(`./PairHead`));
 const PairBody = lazy(() => import(`./PairBody/PairBody`));
 
-const Pair = () => {
+const Pair: FC = () => {
 	const { width: vw } = useContext(ViewportStateContext);
 	const { market: m/*, exchanges*/ } = useContext(MarketStateContext);
 	const { pair: activePair }  = useContext(ActivePageStateContext);
@@ -37,12 +37,10 @@ const Pair = () => {
 				<PairButton p={p}/>
 			</Grid>
 			<Grid item>
-				<Table
-					padding="checkbox"
-					style={{ tableLayout: `fixed` }}>
+				<Table padding="checkbox" style={{ tableLayout: `fixed` }}>
 					{colGroup}
 					<PairHead p={p}/>
-					<PairBody p={p} market={m}/>
+					<PairBody p={p}/>
 				</Table>
 			</Grid>
 		</>
@@ -59,11 +57,7 @@ const Pair = () => {
 	);
 
 	return (
-		<Grid
-			container
-			direction="column"
-			spacing={0}
-		>
+		<Grid container direction="column" spacing={0}>
 			{innerContent}
 		</Grid>
 	);

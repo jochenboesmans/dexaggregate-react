@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, FC } from "react";
 
 import TableCell from "@material-ui/core/TableCell/TableCell";
 import TableHead from "@material-ui/core/TableHead/TableHead";
@@ -8,10 +8,23 @@ import Typography from "@material-ui/core/Typography/Typography";
 
 import { ViewportStateContext } from "../../../state/contexts/contexts";
 
-const MarketHead = () => {
+interface columnType {
+	tooltip: string,
+	text: string,
+	align: "inherit" | "left" | "center" | "right" | "justify",
+	key: string,
+}
+interface columnsType {
+	BASE_QUOTE: columnType,
+	SPREAD: columnType,
+	LAST_PRICE: columnType,
+	VOLUME: columnType,
+}
+
+const MarketHead: FC = () => {
 	const { width: vw } = useContext(ViewportStateContext);
 
-	const columns = {
+	const columns: columnsType = {
 		BASE_QUOTE: {
 			tooltip: `A market pair is defined by a base token and quote token. A ratio between a base token and quote token indicates how much of the quote token is needed to purchase one unit of the base token. These rates are rebased to DAI on ΣDEX for ease of interpretation. `,
 			text: `Base/Quote`,

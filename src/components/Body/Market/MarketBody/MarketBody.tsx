@@ -1,5 +1,4 @@
-import React, { lazy, useContext } from "react";
-import { number, array } from "prop-types";
+import React, { lazy, useContext, FC } from "react";
 
 import TableBody from "@material-ui/core/TableBody/TableBody";
 import TableRow from "@material-ui/core/TableRow/TableRow";
@@ -14,7 +13,14 @@ import {
 const RegularMarketBody = lazy(() => import(`./Regular/RegularMarketBody`));
 const MobileMarketBody = lazy(() => import(`./Mobile/MobileMarketBody`));
 
-const MarketBody = ({ entriesPerPage, filteredMarketLength, slicedMarket }) => {
+interface PropsType {
+	entriesPerPage: number,
+	filteredMarketLength: number,
+	// TODO: Replace with Array<Pair> or Market
+	slicedMarket: Array<any>
+}
+
+const MarketBody: FC<PropsType> = ({ entriesPerPage, filteredMarketLength, slicedMarket }) => {
 	const { width: vw } = useContext(ViewportStateContext);
 	const marketPage = useContext(MarketPageStateContext);
 	const marketPageDispatch = useContext(MarketPageDispatchContext);
@@ -46,12 +52,6 @@ const MarketBody = ({ entriesPerPage, filteredMarketLength, slicedMarket }) => {
 			})}
 		</TableBody>
 	);
-};
-
-MarketBody.propTypes = {
-	entriesPerPage: number.isRequired,
-	filteredMarketLength: number.isRequired,
-	slicedMarket: array.isRequired,
 };
 
 export default MarketBody;

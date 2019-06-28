@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, FC } from "react";
 import reduce from "lodash/reduce";
 
 import Tooltip from "@material-ui/core/Tooltip/Tooltip";
@@ -16,7 +16,7 @@ import {
 
 import { formatVolume } from "../../util/format";
 
-const MarketInfo = () => {
+const MarketInfo: FC = () => {
 	const market = useContext(MarketStateContext);
 	const time = useContext(TimeStateContext);
 	const { height: vh } = useContext(ViewportStateContext);
@@ -72,10 +72,11 @@ const MarketInfo = () => {
 			{colGroup}
 			<TableBody>
 				{rowsToInclude.map((r) => {
-					const rightElement = (r.tooltipRight) ? (
+					/*const rightElement = (r.tooltipRight) ? (
 						<Tooltip title={r.tooltipRight} placement="bottom">
 							<Typography variant="caption">{r.textRight}</Typography>
-						</Tooltip>) : <Typography variant="caption">{r.textRight}</Typography>;
+						</Tooltip>) : <Typography variant="caption">{r.textRight}</Typography>;*/
+					const rightElement = <Typography variant="caption">{r.textRight}</Typography>;
 
 					return (
 						<TableRow style={{ height: `4vh` }} key={r.tooltipLeft}>

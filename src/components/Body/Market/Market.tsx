@@ -1,4 +1,4 @@
-import React, { lazy, useContext } from "react";
+import React, { lazy, useContext, FC } from "react";
 
 import Grid from "@material-ui/core/Grid/Grid";
 import Table from "@material-ui/core/Table/Table";
@@ -17,7 +17,7 @@ const MarketBody = lazy(() => import(`./MarketBody/MarketBody`));
 const MarketHead = lazy(() => import(`./MarketHead`));
 const TableNavigation = lazy(() => import(`./TableNavigation`));
 
-const Market = () => {
+const Market: FC = () => {
 	const market = useContext(MarketStateContext);
 	const { width: vw } = useContext(ViewportStateContext);
 	const marketPage = useContext(MarketPageStateContext);

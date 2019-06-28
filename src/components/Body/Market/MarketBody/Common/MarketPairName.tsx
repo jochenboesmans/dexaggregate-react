@@ -1,10 +1,14 @@
-import React from "react";
+import React, { FC } from "react";
 import { object } from "prop-types";
 
 import TableCell from "@material-ui/core/TableCell/TableCell";
 import Typography from "@material-ui/core/Typography/Typography";
 
-const MarketPairName = ({ p }) => {
+interface PropsType {
+	p: any
+}
+
+const MarketPairName: FC<PropsType> = ({ p }) => {
 	const pairName = `${p.baseSymbol}/${p.quoteSymbol}`;
 	return (
 		<TableCell>
@@ -13,10 +17,6 @@ const MarketPairName = ({ p }) => {
 			</Typography>
 		</TableCell>
 	);
-};
-
-MarketPairName.propTypes = {
-	p: object.isRequired,
 };
 
 export default MarketPairName;

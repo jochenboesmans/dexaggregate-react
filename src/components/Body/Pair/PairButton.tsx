@@ -1,12 +1,15 @@
-import React, { useState, useContext } from "react";
-import { object } from "prop-types";
+import React, { useState, useContext, FC } from "react";
 
 import Button from "@material-ui/core/Button/Button";
 import Grid from "@material-ui/core/Grid/Grid";
 
 import { ActivePageDispatchContext } from "../../../state/contexts/contexts";
 
-const PairButton = ({ p }) => {
+interface PropsType {
+	p: any
+}
+
+const PairButton: FC<PropsType> = ({ p }) => {
 	const activePageDispatch = useContext(ActivePageDispatchContext);
 	const [hover, setHover] = useState(false);
 
@@ -28,10 +31,6 @@ const PairButton = ({ p }) => {
 			</Button>
 		</Grid>
 	);
-};
-
-PairButton.propTypes = {
-	p: object.isRequired,
 };
 
 export default PairButton;

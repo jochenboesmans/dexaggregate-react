@@ -22,7 +22,7 @@ module.exports = {
 		chunkFilename: "static/js/[name].bundle.js",
 	},
 	resolve: {
-		extensions: [".js", ".jsx", ".ts", ".tsx"]
+		extensions: [".ts", ".tsx", ".js", ".jsx"]
 	},
 	plugins: [
 		new CleanWebpackPlugin(),
@@ -54,7 +54,7 @@ module.exports = {
 					},
 				},],
 			},
-			// (3) URL Loader | Babel Loader | File Loader
+			// (2) URL Loader | Babel Loader | File Loader
 			{
 				oneOf: [
 					{
@@ -69,19 +69,6 @@ module.exports = {
 						test: [/\.[jtm]sx?$/],
 						include: path.resolve(__dirname, "../src"),
 						loader: require.resolve("babel-loader"),
-						options: {
-							babelrc: false,
-							presets: [
-								"@babel/preset-env",
-								"@babel/preset-react",
-								"@babel/preset-typescript",
-							],
-							plugins: [
-								"@babel/plugin-syntax-dynamic-import",
-								"@babel/plugin-transform-async-to-generator",
-								"@babel/plugin-transform-runtime",
-							],
-						},
 					},
 					{
 						exclude: /\.([jtm]sx?)|(html)|(json)$/,

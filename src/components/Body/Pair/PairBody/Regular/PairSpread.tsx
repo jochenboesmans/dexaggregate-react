@@ -1,12 +1,16 @@
-import React from "react";
-import { object } from "prop-types";
+import React, { FC } from "react";
 
 import TableCell from "@material-ui/core/TableCell/TableCell";
 import Typography from "@material-ui/core/Typography/Typography";
 
-import { formatPrice } from "../../../../../util/format";
+import { formatPercentage, formatPrice } from "../../../../../util/format";
 
-const MobilePairSpread = ({ emd, mostCompetitivePrices }) => {
+interface PropsType {
+	emd: any,
+	mostCompetitivePrices: any,
+}
+
+const PairSpread: FC<PropsType> = ({ emd, mostCompetitivePrices }) => {
 	const { lowAsk, highBid } = mostCompetitivePrices;
 	const { currentBid: innerBid, currentAsk: innerAsk } = emd;
 
@@ -22,7 +26,8 @@ const MobilePairSpread = ({ emd, mostCompetitivePrices }) => {
 		}
 	})();
 
-	const spreadString = `${formatPrice(innerBid)} - ${formatPrice(innerAsk)}`;
+	const spreadRatioDifference = ((innerAsk / innerBid) - 1) || 0;
+	const spreadString = `${formatPrice(innerBid)} - ${formatPrice(innerAsk)} (${formatPercentage(spreadRatioDifference)})`;
 
 	return (
 		<TableCell align="right">
@@ -33,9 +38,4 @@ const MobilePairSpread = ({ emd, mostCompetitivePrices }) => {
 	);
 };
 
-MobilePairSpread.propTypes = {
-	emd: object.isRequired,
-	mostCompetitivePrices: object.isRequired,
-};
-
-export default MobilePairSpread;
+export default PairSpread;

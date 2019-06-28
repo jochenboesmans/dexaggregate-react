@@ -1,4 +1,4 @@
-import React, { lazy, useContext, useEffect } from "react";
+import React, { lazy, useContext, useEffect, FC } from "react";
 
 import Grid from "@material-ui/core/Grid/Grid";
 import MuiThemeProvider from "@material-ui/core/styles/MuiThemeProvider";
@@ -21,7 +21,7 @@ const BottomBar = lazy(() => import(`./Footer/BottomBar`));
 const Header = lazy(() => import(`./Header/Header`));
 const Body = lazy(() => import(`./Body/Body`));
 
-const GlobalStyleProvider = () => {
+const GlobalStyleProvider: FC = () => {
 	const viewportDispatch = useContext(ViewportDispatchContext);
 	const marketDispatch = useContext(MarketDispatchContext);
 	const timeDispatch = useContext(TimeDispatchContext);

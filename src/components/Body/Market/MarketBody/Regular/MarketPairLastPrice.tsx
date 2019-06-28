@@ -1,5 +1,4 @@
-import React from "react";
-import { object } from "prop-types";
+import React, { FC } from "react";
 import reduce from "lodash/reduce";
 
 import TableCell from "@material-ui/core/TableCell/TableCell";
@@ -7,7 +6,11 @@ import Typography from "@material-ui/core/Typography/Typography";
 
 import { formatPrice } from "../../../../../util/format";
 
-const MarketPairLastPrice = ({ p }) => {
+interface PropsType {
+	p: any
+}
+
+const MarketPairLastPrice: FC<PropsType> = ({ p }) => {
 	const combinedVolume = reduce(p.marketData, (sum, emd) => sum + emd.baseVolume, 0);
 	const weightedSumLastTraded = reduce(p.marketData, (sum, emd) => sum + (emd.baseVolume * emd.lastPrice), 0);
 	const volumeWeightedLastTraded = (weightedSumLastTraded / combinedVolume) || 0;
@@ -20,10 +23,6 @@ const MarketPairLastPrice = ({ p }) => {
 			</Typography>
 		</TableCell>
 	);
-};
-
-MarketPairLastPrice.propTypes = {
-	p: object.isRequired,
 };
 
 export default MarketPairLastPrice;

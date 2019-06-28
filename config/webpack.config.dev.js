@@ -14,7 +14,7 @@ module.exports = {
 	entry: [
 		"core-js/modules/es6.promise",
 		"core-js/modules/es6.array.iterator",
-		path.resolve(__dirname, "../src/index.js"),
+		path.resolve(__dirname, "../src/index.ts"),
 	],
 	output: {
 		path: path.resolve(__dirname, "../build"),
@@ -23,7 +23,7 @@ module.exports = {
 		chunkFilename: "static/js/[name].bundle.js",
 	},
 	resolve: {
-		extensions: [".js", ".jsx", ".ts", ".tsx"]
+		extensions: [".ts", ".tsx", ".js", ".jsx"]
 	},
 	plugins: [
 		new CleanWebpackPlugin(),
@@ -49,7 +49,7 @@ module.exports = {
 		rules: [
 			// (1) ESLint
 			{
-				test: /\.[jtm]sx?$/,
+				test: /\.[tjm]sx?$/,
 				enforce: "pre",
 				include: path.resolve(__dirname, "../src"),
 				use: [{
@@ -60,18 +60,7 @@ module.exports = {
 					},
 				},],
 			},
-			/*// (2) TS Loader
-			{
-				test: /\.tsx?$/,
-				enforce: "pre",
-				include: path.resolve(__dirname, "../src"),
-				use: [{
-					loader: require.resolve("awesome-typescript-loader"),
-					options: {
-					},
-				},],
-			},*/
-			// (3) URL Loader | Babel Loader | File Loader
+			// (2) URL Loader | Babel Loader | File Loader
 			{
 				oneOf: [
 					{
@@ -83,25 +72,12 @@ module.exports = {
 						},
 					},
 					{
-						test: [/\.[jtm]sx?$/],
+						test: [/\.[tjm]sx?$/],
 						include: path.resolve(__dirname, "../src"),
 						loader: require.resolve("babel-loader"),
-						options: {
-							babelrc: false,
-							presets: [
-								"@babel/preset-env",
-								`@babel/preset-react`,
-								"@babel/preset-typescript",
-							],
-							plugins: [
-								"@babel/plugin-syntax-dynamic-import",
-								"@babel/plugin-transform-async-to-generator",
-								"@babel/plugin-transform-runtime",
-							],
-						},
 					},
 					{
-						exclude: /\.([jtm]sx?)|(html)|(json)$/,
+						exclude: /\.([tjm]sx?)|(html)|(json)$/,
 						loader: require.resolve("file-loader"),
 						options: {
 							name: "static/media/[name].[hash:8].[ext]",

@@ -1,5 +1,4 @@
-import React from "react";
-import { object } from "prop-types";
+import React, { FC } from "react";
 import reduce from "lodash/reduce";
 
 import TableCell from "@material-ui/core/TableCell/TableCell";
@@ -7,7 +6,11 @@ import Typography from "@material-ui/core/Typography/Typography";
 
 import { formatPercentage, formatPrice } from "../../../../../util/format";
 
-const RegularMarketPairSpread = ({ p }) => {
+interface PropsType {
+	p: any
+}
+
+const RegularMarketPairSpread: FC<PropsType> = ({ p }) => {
 	const innerBid = reduce(p.marketData, (max, emd) => emd.currentBid > max ?  emd.currentBid : max, 0);
 	const innerAsk = reduce(p.marketData, (min, emd) => emd.currentAsk < min ? emd.currentAsk : min, Number.MAX_VALUE);
 	const spreadRatioDifference = ((innerAsk / innerBid) - 1) || 0;
@@ -22,10 +25,6 @@ const RegularMarketPairSpread = ({ p }) => {
 			</Typography>
 		</TableCell>
 	);
-};
-
-RegularMarketPairSpread.propTypes = {
-	p: object.isRequired,
 };
 
 export default RegularMarketPairSpread;

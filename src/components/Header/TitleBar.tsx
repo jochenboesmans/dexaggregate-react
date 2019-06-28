@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, FC } from "react";
 
 import Grid from "@material-ui/core/Grid/Grid";
 import Typography from "@material-ui/core/Typography/Typography";
@@ -9,7 +9,7 @@ import {
 	ActivePageDispatchContext,
 } from "../../state/contexts/contexts";
 
-const TitleBar = () => {
+const TitleBar: FC = () => {
 	const [hover, setHover] = useState(false);
 
 	const activePageDispatch = useContext(ActivePageDispatchContext);

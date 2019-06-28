@@ -1,4 +1,4 @@
-import React, { lazy, useReducer, Suspense } from "react";
+import React, { lazy, useReducer, FC, Suspense } from "react";
 
 import {
 	lightBulbReducer, viewportReducer, marketReducer, timeReducer, activePageReducer, marketPageReducer, searchFilterReducer,
@@ -16,7 +16,7 @@ import {
 
 const GlobalStyleProvider = lazy(() => import(`./GlobalStyleProvider`));
 
-const GlobalContextProvider = () => {
+const GlobalContextProvider: FC = () => {
 	const initialViewport = {
 		width: Math.max(document.documentElement.clientWidth, window.innerWidth || 0),
 		height: Math.max(document.documentElement.clientHeight, window.innerHeight || 0),

@@ -1,18 +1,17 @@
-import React, { lazy, Suspense } from "react";
-import { object } from "prop-types";
+import React, { lazy, Suspense, FC } from "react";
 
 const MarketPairName = lazy(() => import(`../Common/MarketPairName`));
 const MobileMarketPairSpread = lazy(() => import(`./MobileMarketPairSpread`));
 
-const MobileMarketBody = ({ p }) => (
+interface PropsType {
+	p: any
+}
+
+const MobileMarketBody: FC<PropsType> = ({ p }) => (
 	<Suspense fallback={<div>Loading MobileMarketBody...</div>}>
 		<MarketPairName p={p}/>
 		<MobileMarketPairSpread p={p}/>
 	</Suspense>
 );
-
-MobileMarketBody.propTypes = {
-	p: object.isRequired,
-};
 
 export default MobileMarketBody;

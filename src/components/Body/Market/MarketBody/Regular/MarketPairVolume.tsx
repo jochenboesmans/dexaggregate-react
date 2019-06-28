@@ -1,5 +1,4 @@
-import React from "react";
-import { object }from "prop-types";
+import React, { FC } from "react";
 import reduce from "lodash/reduce";
 
 import TableCell from "@material-ui/core/TableCell/TableCell";
@@ -7,7 +6,11 @@ import Typography from "@material-ui/core/Typography/Typography";
 
 import { formatVolume } from "../../../../../util/format";
 
-const MarketPairVolume = ({ p }) => {
+interface PropsType {
+	p: any
+}
+
+const MarketPairVolume: FC<PropsType> = ({ p }) => {
 	const combinedVolume = reduce(p.marketData, (sum, emd) => sum + emd.baseVolume, 0);
 
 	const pairVolume = `${formatVolume(combinedVolume)}`;
@@ -18,10 +21,6 @@ const MarketPairVolume = ({ p }) => {
 			</Typography>
 		</TableCell>
 	);
-};
-
-MarketPairVolume.propTypes = {
-	p: object.isRequired,
 };
 
 export default MarketPairVolume;

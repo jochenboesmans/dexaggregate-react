@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, FC } from "react";
 import { object } from "prop-types";
 
 import TableCell from "@material-ui/core/TableCell/TableCell";
@@ -9,10 +9,27 @@ import Typography from "@material-ui/core/Typography/Typography";
 
 import { ViewportStateContext } from "../../../state/contexts/contexts";
 
-const PairHead = ({ p }) => {
+interface PropsType {
+	p: any
+}
+
+interface columnType {
+	tooltip: string,
+	text: string,
+	align: "inherit" | "left" | "center" | "right" | "justify",
+	key: string,
+}
+interface columnsType {
+	EXCHANGE: columnType,
+	SPREAD: columnType,
+	LAST_PRICE: columnType,
+	VOLUME: columnType,
+}
+
+const PairHead: FC<PropsType> = ({ p }) => {
 	const { width: vw } = useContext(ViewportStateContext);
 
-	const columns = {
+	const columns: columnsType = {
 		EXCHANGE: {
 			tooltip: `An exchange on which ${p.baseSymbol}/${p.quoteSymbol} is currently trading.`,
 			text: `Exchange`,
@@ -57,10 +74,6 @@ const PairHead = ({ p }) => {
 			</TableRow>
 		</TableHead>
 	);
-};
-
-PairHead.propTypes = {
-	p: object.isRequired,
 };
 
 export default PairHead;

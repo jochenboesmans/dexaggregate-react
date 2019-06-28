@@ -1,12 +1,15 @@
-import React from "react";
-import { object } from "prop-types";
+import React, { FC } from "react";
 
 import TableCell from "@material-ui/core/TableCell/TableCell";
 import Typography from "@material-ui/core/Typography/Typography";
 
 import { formatPrice } from "../../../../../util/format";
 
-const PairLastPrice = ({ emd }) => {
+interface PropsType {
+	emd: any
+}
+
+const PairLastPrice: FC<PropsType> = ({ emd }) => {
 	const lastPrice = formatPrice(emd.lastPrice);
 	return (
 		<TableCell align="right">
@@ -15,10 +18,6 @@ const PairLastPrice = ({ emd }) => {
 			</Typography>
 		</TableCell>
 	);
-};
-
-PairLastPrice.propTypes = {
-	emd: object.isRequired,
 };
 
 export default PairLastPrice;

@@ -1,5 +1,4 @@
-import React, { lazy, useContext } from "react";
-import { object } from "prop-types";
+import React, { lazy, useContext, FC } from "react";
 
 import orderBy from "lodash/orderBy";
 import reduce from "lodash/reduce";
@@ -9,13 +8,14 @@ import TableRow from "@material-ui/core/TableRow/TableRow";
 
 import { ViewportStateContext, MarketStateContext } from "../../../../state/contexts/contexts";
 
-import MobilePairBody from "./Mobile/MobilePairBody";
-import RegularPairBody from "./Regular/RegularPairBody";
+const MobilePairBody = lazy(() => import(`./Mobile/MobilePairBody`));
+const RegularPairBody = lazy(() => import(`./Regular/RegularPairBody`));
 
-const PairExchangeName = lazy(() => import(`./Common/PairExchangeName`));
-const MobilePairSpread = lazy(() => import(`./Mobile/MobilePairSpread`));
+interface PropsType {
+	p: any
+}
 
-const PairBody = ({ p }) => {
+const PairBody: FC<PropsType> = ({ p }) => {
 	const { width: vw } = useContext(ViewportStateContext);
 	const { exchanges } = useContext(MarketStateContext);
 
@@ -61,10 +61,6 @@ const PairBody = ({ p }) => {
 			})}
 		</TableBody>
 	);
-};
-
-PairBody.propTypes = {
-	p: object.isRequired,
 };
 
 export default PairBody;
