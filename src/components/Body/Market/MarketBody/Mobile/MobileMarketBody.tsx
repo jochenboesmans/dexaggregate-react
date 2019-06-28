@@ -8,10 +8,10 @@ interface PropsType {
 }
 
 const MobileMarketBody: FC<PropsType> = ({ p }) => (
-	<Suspense fallback={<div>Loading MobileMarketBody...</div>}>
+	<>
 		<MarketPairName p={p}/>
 		<MobileMarketPairSpread p={p}/>
-	</Suspense>
+	</>
 );
 
 export default MobileMarketBody;

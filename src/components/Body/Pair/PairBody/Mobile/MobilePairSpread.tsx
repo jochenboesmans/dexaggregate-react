@@ -5,12 +5,9 @@ import Typography from "@material-ui/core/Typography/Typography";
 
 import { formatPrice } from "../../../../../util/format";
 
-interface PropsType {
-	emd: any,
-	mostCompetitivePrices: any,
-}
+import { PropsType as MPBPropsType } from "./MobilePairBody";
 
-const MobilePairSpread: FC<PropsType> = ({ emd, mostCompetitivePrices }) => {
+const MobilePairSpread: FC<MPBPropsType> = ({ emd, mostCompetitivePrices }) => {
 	const { lowAsk, highBid } = mostCompetitivePrices;
 	const { currentBid: innerBid, currentAsk: innerAsk } = emd;
 
