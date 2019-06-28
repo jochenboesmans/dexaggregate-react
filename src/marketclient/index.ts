@@ -6,18 +6,22 @@ const absintheSocket = withAbsintheSocket.create(
 	new PhoenixSocket(`ws://dexaggregate.com/socket`)
 );
 
-const httpURL = `http://dexaggregate.com/graphql`;
+const httpURL: string = `http://dexaggregate.com/graphql`;
 
-const queryHTTPEndpoint = async (query) => await axios.request({
+const queryHTTPEndpoint = async (query: string) => await axios.request({
 	url: httpURL,
 	method: `POST`,
-	headers: { 'Content-Type': `application/json`},
+	headers: { "Content-Type": `application/json`},
 	data: JSON.stringify({ query: query })
 });
 
-/* operation should be "subscription" | "query" */
-const daiRebasedMarket = (operation) => `
-	${operation} daiRebasedMarket {
+type Operation = "subscription" | "query";
+type Field = "daiRebasedMarket" | "exchanges" | "lastUpdate"
+
+const queryString = (operation: Operation, field: Field) => `${operation} ${restOfQuery[field]}`;
+
+const restOfQuery = {
+	"daiRebasedMarket": `daiRebasedMarket {
 		rebasedMarket (rebaseAddress: "0x89d24a6b4ccb1b6faa2625fe562bdd9a23260359") {
 			baseAddress
 			pairs {
@@ -32,19 +36,11 @@ const daiRebasedMarket = (operation) => `
 				}
 			}
 		}
-	}
-`;
-
-/* operation should be "subscription" | "query" */
-const exchanges = (operation) => `
-	${operation} exchanges {
+	}`,
+	"exchanges": `exchanges {
 		exchanges
-	}
-`;
-
-/* operation should be "subscription" | "query" */
-const lastUpdate = (operation) => `
-	${operation} lastUpdate {
+	}`,
+	"lastUpdate": `lastUpdate {
 		lastUpdate {
 			utcTime
 			timestamp
@@ -61,36 +57,36 @@ const lastUpdate = (operation) => `
 				}
 			}
 		}
-	}
-`;
+	}`
+};
 
 const subscribeToMarket = async (dispatch) => {
-	const initialMarket = await queryHTTPEndpoint(daiRebasedMarket(`query`));
+	const initialMarket = await queryHTTPEndpoint(queryString("query", "daiRebasedMarket"));
 	dispatch({type: `SET_MARKET`, payload: initialMarket.data.data.rebasedMarket.pairs});
 	const marketNotifier = withAbsintheSocket.send(absintheSocket, {
-		operation: daiRebasedMarket(`subscription`)
+		operation: queryString("subscription", "daiRebasedMarket")
 	});
 	withAbsintheSocket.observe(absintheSocket, marketNotifier, {
 		onResult: data => dispatch({type: `SET_MARKET`, payload: data.data.rebasedMarket.pairs})
 	});
 
-	const initialExchanges = await queryHTTPEndpoint(exchanges(`query`));
+	const initialExchanges = await queryHTTPEndpoint(queryString("query", "exchanges"));
 	dispatch({type: `SET_EXCHANGES`, payload: initialExchanges.data.data.exchanges});
 	const exchangesNotifier = withAbsintheSocket.send(absintheSocket, {
-		operation: exchanges(`subscription`)
+		operation: queryString("subscription", "exchanges")
 	});
 	withAbsintheSocket.observe(absintheSocket, exchangesNotifier, {
 		onResult: data => dispatch({type: `SET_EXCHANGES`, payload: data.data.exchanges})
 	});
 
-	const initialLastUpdate = await queryHTTPEndpoint(lastUpdate(`query`));
+	const initialLastUpdate = await queryHTTPEndpoint(queryString("query", "lastUpdate"));
 	const adaptedInitialLastUpdate = {
 		pair: initialLastUpdate.data.data.lastUpdate.pair,
 		timestamp: Date.now()
 	};
 	dispatch({type: `SET_LAST_UPDATE`, payload: adaptedInitialLastUpdate});
 	const lastUpdateNotifier = withAbsintheSocket.send(absintheSocket, {
-		operation: lastUpdate(`subscription`)
+		operation: queryString("subscription", "lastUpdate")
 	});
 	withAbsintheSocket.observe(absintheSocket, lastUpdateNotifier, {
 		onResult: data => {

@@ -1,11 +1,10 @@
-import { createMuiTheme } from "@material-ui/core/styles";
+import { createMuiTheme, Theme } from "@material-ui/core/styles";
 import purple from "@material-ui/core/colors/purple";
 
-const lightTheme = createMuiTheme({
+const lightTheme: Theme = createMuiTheme({
 	typography: {
 		fontFamily: `"Roboto Mono"`,
 		fontSize: 16,
-		useNextVariants: true
 	},
 	overrides: {
 		MuiButton: {
@@ -28,11 +27,10 @@ const lightTheme = createMuiTheme({
 	}
 });
 
-const darkTheme = createMuiTheme({
+const darkTheme: Theme = createMuiTheme({
 	typography: {
 		fontFamily: `"Roboto Mono"`,
 		fontSize: 16,
-		useNextVariants: true
 	},
 	overrides: {
 		MuiButton: {

@@ -38,7 +38,11 @@ module.exports = {
 		],
 		"quotes": [
 			"warn",
-			"backtick"
+			"double",
+			{
+				"avoidEscape": true,
+				"allowTemplateLiterals": true
+			}
 		],
 		"semi": [
 			"warn",
