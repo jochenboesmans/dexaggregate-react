@@ -21,7 +21,7 @@ const WithGrid: FC = () => {
 				<Paper>
 					<Grid item style={{ height: `${spacerVH.SMALL}` }}></Grid>
 					<Grid item>
-						<Grid container direction="column" alignItems="center" spacing={2}>
+						<Grid container direction="column" alignItems="center" spacing={1}>
 							<Grid item style={{ width: `${relItemWidth}` }}>
 								<Suspense fallback={<div>Loading Header...</div>}>
 									<Header/>

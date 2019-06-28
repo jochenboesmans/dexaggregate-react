@@ -26,7 +26,7 @@ const MarketHead: FC = () => {
 
 	const columns: columnsType = {
 		BASE_QUOTE: {
-			tooltip: `A market pair is defined by a base token and quote token. A ratio between a base token and quote token indicates how much of the quote token is needed to purchase one unit of the base token. These rates are rebased to DAI on ΣDEX for ease of interpretation. `,
+			tooltip: `A market pair is defined by a base token and quote token. A ratio between a base token and quote token indicates how much of the quote token is needed to purchase one unit of the base token. These rates are rebased to DAI on ΣDEX for ease of interpretation.`,
 			text: `Base/Quote`,
 			align: `left`,
 			key: `BASE_QUOTE`,
@@ -56,11 +56,11 @@ const MarketHead: FC = () => {
 
 	return (
 		<TableHead>
-			<TableRow style={{ height: `4vh` }}>
+			<TableRow style={{ height: "4vh" }}>
 				{selectedColumns.map(column => (
 					<TableCell align={column.align} key={column.key} variant="head">
 						<Tooltip title={column.tooltip} placement="bottom">
-							<Typography style={{fontWeight: `bold`}}>{column.text}</Typography>
+							<Typography style={{fontWeight: "bold"}}>{column.text}</Typography>
 						</Tooltip>
 					</TableCell>
 				))}

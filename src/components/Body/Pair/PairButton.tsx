@@ -13,7 +13,7 @@ const PairButton: FC<PropsType> = ({ p }) => {
 	const activePageDispatch = useContext(ActivePageDispatchContext);
 	const [hover, setHover] = useState(false);
 
-	const innerText = hover ? `Back` : `${p.baseSymbol}/${p.quoteSymbol}`;
+	const innerText = hover ? "Back" : `${p.baseSymbol}/${p.quoteSymbol}`;
 	return (
 		<Grid
 			item
@@ -23,9 +23,9 @@ const PairButton: FC<PropsType> = ({ p }) => {
 			<Button
 				fullWidth
 				onClick={() => {
-					activePageDispatch({ type: `RESET` });
+					activePageDispatch({ type: "RESET" });
 				}}
-				style={{ fontSize: 24, fontWeight: `bold` }}
+				style={{ fontSize: 24, fontWeight: "bold" }}
 			>
 				{innerText}
 			</Button>

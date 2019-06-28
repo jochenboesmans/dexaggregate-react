@@ -13,30 +13,35 @@ import {
 	SearchFilterDispatchContext,
 } from "../../../state/contexts/contexts";
 
-const MarketBody = lazy(() => import(`./MarketBody/MarketBody`));
-const MarketHead = lazy(() => import(`./MarketHead`));
-const TableNavigation = lazy(() => import(`./TableNavigation`));
+const MarketBody = lazy(() => import("./MarketBody/MarketBody"));
+const MarketHead = lazy(() => import("./MarketHead"));
+const TableNavigation = lazy(() => import("./TableNavigation"));
 
 const Market: FC = () => {
-	const market = useContext(MarketStateContext);
+	const marketState = useContext(MarketStateContext);
+	if (!marketState) return null;
+	const { market } = marketState;
+
 	const { width: vw } = useContext(ViewportStateContext);
 	const marketPage = useContext(MarketPageStateContext);
 	const marketPageDispatch = useContext(MarketPageDispatchContext);
 	const searchFilter = useContext(SearchFilterStateContext);
 	const searchFilterDispatch = useContext(SearchFilterDispatchContext);
 
-	if (!market || !market.market) return null;
+	//if (!market || !market.market) return null;
 
 	const ENTRIES_PER_PAGE = 10;
 	const startIndex = marketPage * ENTRIES_PER_PAGE;
 	const endIndex = startIndex + ENTRIES_PER_PAGE;
 
-	const filteredMarket = searchFilter !== `` ? market.market.filter(p =>
-		p.baseSymbol.includes(searchFilter.toUpperCase()) || p.quoteSymbol.includes(searchFilter.toUpperCase())
-		|| p.marketData.includes(emd => emd.exchange.includes(searchFilter.toUpperCase()))) : market.market;
+	const marketFilter = (p) => p.baseSymbol.includes(searchFilter.toUpperCase())
+		|| p.quoteSymbol.includes(searchFilter.toUpperCase())
+		|| p.marketData.some(emd => emd.exchange.toUpperCase().includes(searchFilter.toUpperCase()));
+
+	const filteredMarket = searchFilter !== "" ? market.filter(p => marketFilter(p)) : market;
 	const slicedMarket = filteredMarket.slice(startIndex, endIndex);
 
-	const colWidths = (vw < 760) ? [`20%`, `80%`] : [`15%`, `40%`, `20%`, `25%`];
+	const colWidths = (vw < 760) ? ["20%", "80%"] : ["15%", "40%", "20%", "25%"];
 	const colGroup = (
 		<colgroup>
 			{colWidths.map((cw, i) => <col key={i} style={{ width: cw }}/>)}
@@ -44,16 +49,12 @@ const Market: FC = () => {
 	);
 
 	const handleSearchChange = (e) => {
-		marketPageDispatch({ type: `RESET` });
-		searchFilterDispatch({ type: `SET`, payload: e.target.value });
+		marketPageDispatch({ type: "RESET" });
+		searchFilterDispatch({ type: "SET", payload: e.target.value });
 	};
 
 	return (
-		<Grid
-			container
-			direction="column"
-			spacing={0}
-		>
+		<Grid container direction="column" spacing={1}>
 			<Grid item>
 				<TextField
 					className="root"
@@ -67,9 +68,7 @@ const Market: FC = () => {
 				/>
 			</Grid>
 			<Grid item>
-				<Table
-					padding="checkbox"
-					style={{ tableLayout: `fixed` }}>
+				<Table padding="checkbox" style={{ tableLayout: "fixed" }}>
 					{colGroup}
 					<MarketHead/>
 					<MarketBody

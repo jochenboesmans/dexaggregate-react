@@ -10,8 +10,8 @@ import {
 	ViewportStateContext,
 } from "../../../../state/contexts/contexts";
 
-const RegularMarketBody = lazy(() => import(`./Regular/RegularMarketBody`));
-const MobileMarketBody = lazy(() => import(`./Mobile/MobileMarketBody`));
+const RegularMarketBody = lazy(() => import("./Regular/RegularMarketBody"));
+const MobileMarketBody = lazy(() => import("./Mobile/MobileMarketBody"));
 
 interface PropsType {
 	entriesPerPage: number,
@@ -41,9 +41,9 @@ const MarketBody: FC<PropsType> = ({ entriesPerPage, filteredMarketLength, slice
 			{slicedMarket.map(p => {
 				return (
 					<TableRow
-						style={{ height: `4vh` }}
+						style={{ height: "4vh" }}
 						hover
-						onClick={() => activePageDispatch({ type: `SET`, payload: { ID: `PAIR`, pair: p } })}
+						onClick={() => activePageDispatch({ type: "SET", payload: { ID: "PAIR", pair: p } })}
 						key={`${p.baseSymbol}/${p.quoteSymbol}`}
 					>
 						{innerContent(p)}

@@ -17,7 +17,7 @@ const PairBody = lazy(() => import(`./PairBody/PairBody`));
 
 const Pair: FC = () => {
 	const { width: vw } = useContext(ViewportStateContext);
-	const { market: m/*, exchanges*/ } = useContext(MarketStateContext);
+	const { market: m } = useContext(MarketStateContext);
 	const { pair: activePair }  = useContext(ActivePageStateContext);
 	const activePageDispatch = useContext(ActivePageDispatchContext);
 
@@ -57,7 +57,7 @@ const Pair: FC = () => {
 	);
 
 	return (
-		<Grid container direction="column" spacing={0}>
+		<Grid container direction="column" spacing={1}>
 			{innerContent}
 		</Grid>
 	);

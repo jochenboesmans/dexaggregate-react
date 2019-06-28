@@ -18,10 +18,10 @@ const TableNavigation: FC<PropsType> = ({ entriesPerPage, filteredMarketLength }
 	const marketPageDispatch = useContext(MarketPageDispatchContext);
 
 	const handleLeftButtonClick = () => {
-		if (marketPage > 0) marketPageDispatch({ type: `DECREMENT` });
+		if (marketPage > 0) marketPageDispatch({ type: "DECREMENT" });
 	};
 	const handleRightButtonClick = () => {
-		if ((marketPage * entriesPerPage) + entriesPerPage < filteredMarketLength) marketPageDispatch({ type: `INCREMENT` });
+		if ((marketPage * entriesPerPage) + entriesPerPage < filteredMarketLength) marketPageDispatch({ type: "INCREMENT" });
 	};
 
 	const start = (filteredMarketLength === 0) ? 0 : 1 + (marketPage * entriesPerPage);
@@ -33,7 +33,7 @@ const TableNavigation: FC<PropsType> = ({ entriesPerPage, filteredMarketLength }
 			direction="row"
 			alignItems="center"
 			justify="center"
-			spacing={8}
+			spacing={4}
 		>
 			<Grid item>
 				<IconButton onClick={handleLeftButtonClick}>
@@ -41,7 +41,7 @@ const TableNavigation: FC<PropsType> = ({ entriesPerPage, filteredMarketLength }
 				</IconButton>
 			</Grid>
 			<Grid item>
-				<Typography style={{ textAlign: `center` }} variant="caption">
+				<Typography style={{ textAlign: "center" }}>
 					{start} - {end} of {filteredMarketLength}
 				</Typography>
 			</Grid>
