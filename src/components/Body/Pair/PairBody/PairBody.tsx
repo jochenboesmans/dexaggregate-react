@@ -45,7 +45,7 @@ const PairBody: FC<PropsType> = ({ p }) => {
 					highBid : reduce(p.marketData, (max, emd) => emd.currentBid > max ? emd.currentBid : max, 0),
 				};
 
-				const innerContent = (vw < 760) ? <MobilePairBody emd={emd} exchanges={exchanges} mostCompetitivePrices={mostCompetitivePrices}/> :
+				const innerContent = (vw < 760) ? <MobilePairBody emd={emd} mostCompetitivePrices={mostCompetitivePrices}/> :
 					<RegularPairBody emd={emd} exchanges={exchanges} mostCompetitivePrices={mostCompetitivePrices}/>;
 
 				return (
