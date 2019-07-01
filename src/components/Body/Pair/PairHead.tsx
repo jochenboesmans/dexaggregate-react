@@ -1,5 +1,4 @@
 import React, { useContext, FC } from "react";
-import { object } from "prop-types";
 
 import TableCell from "@material-ui/core/TableCell/TableCell";
 import TableHead from "@material-ui/core/TableHead/TableHead";

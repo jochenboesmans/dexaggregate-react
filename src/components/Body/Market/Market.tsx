@@ -28,8 +28,6 @@ const Market: FC = () => {
 	const searchFilter = useContext(SearchFilterStateContext);
 	const searchFilterDispatch = useContext(SearchFilterDispatchContext);
 
-	//if (!market || !market.market) return null;
-
 	const ENTRIES_PER_PAGE = 10;
 	const startIndex = marketPage * ENTRIES_PER_PAGE;
 	const endIndex = startIndex + ENTRIES_PER_PAGE;

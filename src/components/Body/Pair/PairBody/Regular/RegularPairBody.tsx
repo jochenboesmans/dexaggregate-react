@@ -12,7 +12,7 @@ interface PropsType {
 	emd: any,
 	mostCompetitivePrices: any,
 }
-const RegularPairBody: FC<PropsType> = ({ exchanges, emd, mostCompetitivePrices }) => (
+const RegularPairBody: FC<PropsType> = ({ emd, mostCompetitivePrices }) => (
 	<Suspense fallback={<TableCell>Loading RegularPairBody...</TableCell>}>
 		<PairExchangeName exchangeName={emd.exchange}/>
 		<PairSpread emd={emd} mostCompetitivePrices={mostCompetitivePrices}/>

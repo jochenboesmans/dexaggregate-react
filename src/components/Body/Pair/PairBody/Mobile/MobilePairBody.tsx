@@ -1,4 +1,4 @@
-import React, { lazy, Suspense, FC } from "react";
+import React, { lazy, FC } from "react";
 
 const PairExchangeName = lazy(() => import(`../Common/PairExchangeName`));
 const MobilePairSpread = lazy(() => import(`./MobilePairSpread`));

@@ -1,4 +1,4 @@
-import React, { lazy, Suspense, FC } from "react";
+import React, { lazy, FC } from "react";
 
 const MarketPairName = lazy(() => import(`../Common/MarketPairName`));
 const MobileMarketPairSpread = lazy(() => import(`./MobileMarketPairSpread`));

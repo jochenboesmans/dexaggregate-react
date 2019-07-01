@@ -4,7 +4,7 @@ const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CleanWebpackPlugin = require("clean-webpack-plugin");
 //const { BundleAnalyzerPlugin: webpackBundleAnalyzer } = require("webpack-bundle-analyzer");
-const webpack = require("webpack");
+const { HotModuleReplacementPlugin: webpackHotModuleReplacementPlugin } = require("webpack");
 
 module.exports = {
 	mode: "development",
@@ -31,7 +31,7 @@ module.exports = {
 			inject: true,
 			template: path.resolve(__dirname, "../public/index.html"),
 		}),
-		new webpack.HotModuleReplacementPlugin(),
+		new webpackHotModuleReplacementPlugin(),
 		//new webpackBundleAnalyzer(),
 	],
 	devServer: {

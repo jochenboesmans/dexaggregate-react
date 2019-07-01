@@ -1,4 +1,4 @@
-import React, { lazy, useContext, FC } from "react";
+import React, { useContext, FC } from "react";
 
 import MuiThemeProvider from "@material-ui/core/styles/MuiThemeProvider";
 import CssBaseline from "@material-ui/core/CssBaseline";

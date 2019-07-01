@@ -1,4 +1,4 @@
-import React, {FC, lazy, useContext, useEffect, Suspense} from "react";
+import React, {FC, useContext, useEffect} from "react";
 
 import { MarketDispatchContext, TimeDispatchContext, ViewportDispatchContext } from "../state/contexts/contexts";
 import { subscribeToMarket, unsubscribeFromMarket } from "../marketclient";
