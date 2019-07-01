@@ -13,6 +13,8 @@ import {
 	SearchFilterDispatchContext,
 } from "../../../state/contexts/contexts";
 
+import { Pair } from "../../../types/market";
+
 const MarketBody = lazy(() => import("./MarketBody/MarketBody"));
 const MarketHead = lazy(() => import("./MarketHead"));
 const TableNavigation = lazy(() => import("./TableNavigation"));
@@ -36,8 +38,8 @@ const Market: FC = () => {
 		|| p.quoteSymbol.includes(searchFilter.toUpperCase())
 		|| p.marketData.some(emd => emd.exchange.toUpperCase().includes(searchFilter.toUpperCase()));
 
-	const filteredMarket = searchFilter !== "" ? market.filter(p => marketFilter(p)) : market;
-	const slicedMarket = filteredMarket.slice(startIndex, endIndex);
+	const filteredMarket: Array<Pair> = searchFilter !== "" ? market.filter(p => marketFilter(p)) : market;
+	const slicedMarket: Array<Pair> = filteredMarket.slice(startIndex, endIndex);
 
 	const colWidths = (vw < 760) ? ["20%", "80%"] : ["15%", "40%", "20%", "25%"];
 	const colGroup = (

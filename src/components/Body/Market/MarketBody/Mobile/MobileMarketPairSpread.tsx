@@ -5,19 +5,19 @@ import TableCell from "@material-ui/core/TableCell/TableCell";
 import Typography from "@material-ui/core/Typography/Typography";
 
 import { formatPrice } from "../../../../../util/format";
+import { Pair } from "../../../../../types/market";
+import { innerBid, innerAsk } from "../../../../../util/aggregate";
 
-interface PropsType {
-	p: any
-}
+interface PropsType { p: Pair }
 
 const MobileMarketPairSpread: FC<PropsType> = ({ p }) => {
-	const innerBid = reduce(p.marketData, (max, emd) => emd.currentBid > max ?  emd.currentBid : max, 0);
-	const innerAsk = reduce(p.marketData, (min, emd) => emd.currentAsk < min ? emd.currentAsk : min, Number.MAX_VALUE);
-	const spreadRatioDifference = ((innerAsk / innerBid) - 1) || 0;
+	const ib: number = innerBid(p);
+	const ia: number = innerAsk(p);
+	const spreadRatioDifference = ((ia / ib) - 1) || 0;
 	const arbitrageLimit = -0.01;
 
-	const style = spreadRatioDifference <= arbitrageLimit ? { color: `red` } : {};
-	const spreadString = `${formatPrice(innerBid)} - ${formatPrice(innerAsk)}`;
+	const style = spreadRatioDifference <= arbitrageLimit ? { color: "red" } : {};
+	const spreadString = `${formatPrice(ib)} - ${formatPrice(ia)}`;
 	return (
 		<TableCell align="right">
 			<Typography style={style}>

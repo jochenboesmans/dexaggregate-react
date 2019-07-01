@@ -10,14 +10,15 @@ import {
 	ViewportStateContext,
 } from "../../../../state/contexts/contexts";
 
+import { Pair } from "../../../../types/market";
+
 const RegularMarketBody = lazy(() => import("./Regular/RegularMarketBody"));
 const MobileMarketBody = lazy(() => import("./Mobile/MobileMarketBody"));
 
 interface PropsType {
 	entriesPerPage: number,
 	filteredMarketLength: number,
-	// TODO: Replace with Array<Pair> or Market
-	slicedMarket: Array<any>
+	slicedMarket: Array<Pair>
 }
 
 const MarketBody: FC<PropsType> = ({ entriesPerPage, filteredMarketLength, slicedMarket }) => {
