@@ -32,7 +32,8 @@ const restOfQuery = {
 					lastPrice,
 					currentAsk,
 					currentBid,
-					baseVolume
+					baseVolume,
+					timestamp
 				}
 			}
 		}
