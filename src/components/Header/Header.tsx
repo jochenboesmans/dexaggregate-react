@@ -3,8 +3,8 @@ import React, { Suspense, FC, lazy } from "react";
 import Grid from "@material-ui/core/Grid/Grid";
 
 const subComponents = {
-	Title: lazy(() => import(`./Title`)),
-	MarketInfo: lazy(() => import(`./MarketInfo`))
+	Title: lazy(() => import("./Title")),
+	MarketInfo: lazy(() => import("./MarketInfo"))
 };
 
 const Header: FC = () => (

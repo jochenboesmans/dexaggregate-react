@@ -4,10 +4,14 @@ import TableCell from "@material-ui/core/TableCell/TableCell";
 import Typography from "@material-ui/core/Typography/Typography";
 
 import { formatPercentage, formatPrice } from "../../../../../util/format";
+import { ExchangeMarketData } from "../../../../../types/market";
 
 interface PropsType {
-	emd: any,
-	mostCompetitivePrices: any,
+	emd: ExchangeMarketData,
+	mostCompetitivePrices: {
+		lowAsk: number,
+		highBid: number
+	},
 }
 
 const PairSpread: FC<PropsType> = ({ emd, mostCompetitivePrices }) => {
@@ -16,11 +20,11 @@ const PairSpread: FC<PropsType> = ({ emd, mostCompetitivePrices }) => {
 
 	const style = (() => {
 		if (innerAsk === lowAsk && innerBid === highBid) {
-			return { fontStyle: `italic`, color: `green` };
+			return { fontStyle: "italic", color: "green" };
 		} else if (innerAsk === lowAsk) {
-			return { color: `green` };
+			return { color: "green" };
 		} else if (innerBid === highBid) {
-			return { color: `red` };
+			return { color: "red" };
 		} else {
 			return { };
 		}

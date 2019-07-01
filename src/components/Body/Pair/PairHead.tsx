@@ -7,10 +7,9 @@ import Tooltip from "@material-ui/core/Tooltip/Tooltip";
 import Typography from "@material-ui/core/Typography/Typography";
 
 import { ViewportStateContext } from "../../../state/contexts/contexts";
+import { Pair } from "../../../types/market";
 
-interface PropsType {
-	p: any
-}
+interface PropsType { p: Pair }
 
 interface columnType {
 	tooltip: string,
@@ -62,11 +61,11 @@ const PairHead: FC<PropsType> = ({ p }) => {
 
 	return (
 		<TableHead>
-			<TableRow style={{ height: `4vh`}}>
+			<TableRow style={{ height: "4vh"}}>
 				{selectedColumns.map(column => (
 					<TableCell align={column.align} key={column.key} variant="head">
 						<Tooltip title={column.tooltip} placement="bottom">
-							<Typography style={{ fontWeight: `bold` }}>{column.text}</Typography>
+							<Typography style={{ fontWeight: "bold" }}>{column.text}</Typography>
 						</Tooltip>
 					</TableCell>
 				))}

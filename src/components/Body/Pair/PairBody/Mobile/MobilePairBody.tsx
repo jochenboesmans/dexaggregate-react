@@ -1,11 +1,16 @@
 import React, { lazy, FC } from "react";
 
+import { ExchangeMarketData } from "../../../../../types/market";
+
 const PairExchangeName = lazy(() => import(`../Common/PairExchangeName`));
 const MobilePairSpread = lazy(() => import(`./MobilePairSpread`));
 
-export interface PropsType {
-	emd: any,
-	mostCompetitivePrices: any,
+interface PropsType {
+	emd: ExchangeMarketData,
+	mostCompetitivePrices: {
+		lowAsk: number,
+		highBid: number
+	},
 }
 
 const MobilePairBody: FC<PropsType> = ({ emd, mostCompetitivePrices }) => (

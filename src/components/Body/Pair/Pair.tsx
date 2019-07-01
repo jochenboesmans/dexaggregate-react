@@ -11,6 +11,8 @@ import {
 	MarketStateContext,
 } from "../../../state/contexts/contexts";
 
+import { Pair as PairType } from "../../../types/market";
+
 const PairButton = lazy(() => import(`./PairButton`));
 const PairHead = lazy(() => import(`./PairHead`));
 const PairBody = lazy(() => import(`./PairBody/PairBody`));
@@ -21,7 +23,7 @@ const Pair: FC = () => {
 	const { pair: activePair }  = useContext(ActivePageStateContext);
 	const activePageDispatch = useContext(ActivePageDispatchContext);
 
-	const p = m.find(mPair =>
+	const p: PairType = m.find(mPair =>
 		mPair.baseSymbol === activePair.baseSymbol && mPair.quoteSymbol === activePair.quoteSymbol);
 
 	const colWidths = (vw < 760) ? [`20%`, `80%`] : [`15%`, `40%`, `20%`, `25%`];
@@ -37,7 +39,7 @@ const Pair: FC = () => {
 				<PairButton p={p}/>
 			</Grid>
 			<Grid item>
-				<Table padding="checkbox" style={{ tableLayout: `fixed` }}>
+				<Table padding="checkbox" style={{ tableLayout: "fixed" }}>
 					{colGroup}
 					<PairHead p={p}/>
 					<PairBody p={p}/>
@@ -48,8 +50,8 @@ const Pair: FC = () => {
 		<Grid item>
 			<Button
 				fullWidth
-		    onClick={() => activePageDispatch({ type: `RESET` })}
-		    style={{ fontSize: `24px` }}
+		    onClick={() => activePageDispatch({ type: "RESET" })}
+		    style={{ fontSize: "24px" }}
 			>
 				Back
 			</Button>

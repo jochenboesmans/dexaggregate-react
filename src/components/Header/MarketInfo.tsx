@@ -23,14 +23,14 @@ const MarketInfo: FC = () => {
 	const time = useContext(TimeStateContext);
 	const { height: vh } = useContext(ViewportStateContext);
 
-	const combinedVolume = reduce(market, (totalSum, p) =>
+	const combinedVolume: number = reduce(market, (totalSum, p) =>
 		totalSum + reduce(p.marketData, (sum, emd) => sum + emd.baseVolume, 0), 0);
 	const fCombinedVolume = formatVolume(combinedVolume);
 	const exchangeCount = exchanges.length;
-	const exchangeNames = exchanges.map(e => e.toUpperCase()).join(`, `);
+	const exchangeNames: string = exchanges.map(e => e.toUpperCase()).join(`, `);
 	const marketSize = market.length;
-	const secondsSinceUpdate = lastUpdate ? Math.floor((time - lastUpdate.timestamp) / 1000) : `N/A`;
-	const latestUpdatePair = lastUpdate ? `${lastUpdate.pair.baseSymbol}/${lastUpdate.pair.quoteSymbol}` : `N/A`;
+	const secondsSinceUpdate: string | number = lastUpdate ? Math.floor((time - lastUpdate.timestamp) / 1000) : "N/A";
+	const latestUpdatePair: string = lastUpdate ? `${lastUpdate.pair.baseSymbol}/${lastUpdate.pair.quoteSymbol}` : "N/A";
 
 	const rows = {
 		EXCHANGES: {
@@ -59,7 +59,7 @@ const MarketInfo: FC = () => {
 		},
 	};
 
-	const colWidths = [`47.5%`, `5%`, `47.5%`];
+	const colWidths = ["47.5%", "5%", "47.5%"];
 	const colGroup = (
 		<colgroup>
 			{colWidths.map((cw, i) => <col key={i} style={{ width: cw }}/>)}

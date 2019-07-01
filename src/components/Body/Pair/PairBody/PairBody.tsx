@@ -1,25 +1,24 @@
 import React, { lazy, useContext, FC } from "react";
 
 import orderBy from "lodash/orderBy";
-import reduce from "lodash/reduce";
 
 import TableBody from "@material-ui/core/TableBody/TableBody";
 import TableRow from "@material-ui/core/TableRow/TableRow";
 
 import { ViewportStateContext, MarketStateContext } from "../../../../state/contexts/contexts";
+import { ExchangeMarketData, Pair } from "../../../../types/market";
+import { innerAsk, innerBid } from "../../../../util/aggregate";
 
 const MobilePairBody = lazy(() => import(`./Mobile/MobilePairBody`));
 const RegularPairBody = lazy(() => import(`./Regular/RegularPairBody`));
 
-interface PropsType {
-	p: any
-}
+interface PropsType { p: Pair }
 
 const PairBody: FC<PropsType> = ({ p }) => {
 	const { width: vw } = useContext(ViewportStateContext);
 	const { exchanges } = useContext(MarketStateContext);
 
-	const sortedMarketData = p ? orderBy(p.marketData, [emd => emd.baseVolume], `desc`) : null;
+	const sortedMarketData: Array<ExchangeMarketData> = p ? orderBy(p.marketData, [emd => emd.baseVolume], "desc") : null;
 
 	const handleClick = (exchange, p) => {
 		const exchangeURL = {
@@ -40,10 +39,7 @@ const PairBody: FC<PropsType> = ({ p }) => {
 	return (
 		<TableBody>
 			{sortedMarketData.map(emd => {
-				const mostCompetitivePrices = {
-					lowAsk: reduce(p.marketData, (min, emd) => emd.currentAsk < min ? emd.currentAsk : min, Number.MAX_VALUE),
-					highBid : reduce(p.marketData, (max, emd) => emd.currentBid > max ? emd.currentBid : max, 0),
-				};
+				const mostCompetitivePrices = { lowAsk: innerAsk(p), highBid : innerBid(p)};
 
 				const innerContent = (vw < 760) ? <MobilePairBody emd={emd} mostCompetitivePrices={mostCompetitivePrices}/> :
 					<RegularPairBody emd={emd} exchanges={exchanges} mostCompetitivePrices={mostCompetitivePrices}/>;
@@ -53,7 +49,7 @@ const PairBody: FC<PropsType> = ({ p }) => {
 						hover
 						onClick={() => handleClick(emd.exchange, p)}
 						key={emd.exchange}
-						style={{ height: `4vh` }}
+						style={{ height: "4vh" }}
 					>
 						{innerContent}
 					</TableRow>

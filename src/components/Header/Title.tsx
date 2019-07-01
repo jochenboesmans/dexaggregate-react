@@ -29,8 +29,8 @@ const Title: FC = () => {
 	return (
 		<Grid
 			item
-			onMouseLeave={() => { setHover(false); }}
-			onMouseEnter={() => { setHover(true); }}
+			onMouseLeave={() => setHover(false) }
+			onMouseEnter={() => setHover(true) }
 		>
 			<Typography
 				variant="h1"

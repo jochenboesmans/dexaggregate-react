@@ -4,10 +4,9 @@ import Button from "@material-ui/core/Button/Button";
 import Grid from "@material-ui/core/Grid/Grid";
 
 import { ActivePageDispatchContext } from "../../../state/contexts/contexts";
+import { Pair } from "../../../types/market";
 
-interface PropsType {
-	p: any
-}
+interface PropsType { p: Pair }
 
 const PairButton: FC<PropsType> = ({ p }) => {
 	const activePageDispatch = useContext(ActivePageDispatchContext);
