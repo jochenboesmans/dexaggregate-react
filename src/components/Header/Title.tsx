@@ -6,7 +6,7 @@ import Typography from "@material-ui/core/Typography/Typography";
 import {
 	MarketPageDispatchContext,
 	SearchFilterDispatchContext,
-	ActivePageDispatchContext,
+	ActivePageDispatchContext, CurrenciesPageDispatchContext,
 } from "../../state/contexts/contexts";
 
 const Title: FC = () => {
@@ -15,15 +15,17 @@ const Title: FC = () => {
 	const activePageDispatch = useContext(ActivePageDispatchContext);
 	const marketPageDispatch = useContext(MarketPageDispatchContext);
 	const searchFilterDispatch = useContext(SearchFilterDispatchContext);
+	const currenciesPageDispatch = useContext(CurrenciesPageDispatchContext);
 
 	const style = hover ? { cursor: "pointer", color: "grey" } : {};
 	const title = "ΣDEX";
 
 	/* Resets user session. */
 	const handleClick = () => {
-		activePageDispatch({ type: "RESET" });
-		searchFilterDispatch({ type: "RESET" });
-		marketPageDispatch({ type: "RESET" });
+		activePageDispatch({type: "RESET"});
+		searchFilterDispatch({type: "RESET"});
+		marketPageDispatch({type: "RESET"});
+		currenciesPageDispatch({type: "RESET"});
 	};
 
 	return (
