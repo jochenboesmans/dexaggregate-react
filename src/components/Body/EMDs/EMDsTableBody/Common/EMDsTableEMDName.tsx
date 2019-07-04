@@ -1,11 +1,11 @@
-import React, { FC } from "react";
+import React, {FC} from "react";
 
 import TableCell from "@material-ui/core/TableCell/TableCell";
 import Typography from "@material-ui/core/Typography/Typography";
 
-interface PropsType { exchangeName: string }
+interface PropsType {exchangeName: string}
 
-const PairExchangeName: FC<PropsType> = ({ exchangeName }) => (
+const EMDsTableEMDName: FC<PropsType> = ({exchangeName}) => (
 	<TableCell>
 		<Typography>
 			{exchangeName.toUpperCase()}
@@ -13,4 +13,4 @@ const PairExchangeName: FC<PropsType> = ({ exchangeName }) => (
 	</TableCell>
 );
 
-export default PairExchangeName;
+export default EMDsTableEMDName;

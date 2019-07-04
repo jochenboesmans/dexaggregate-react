@@ -1,10 +1,10 @@
-import React, { FC } from "react";
+import React, {FC} from "react";
 
 import TableCell from "@material-ui/core/TableCell/TableCell";
 import Typography from "@material-ui/core/Typography/Typography";
 
-import { formatPrice } from "../../../../../util/format";
-import { ExchangeMarketData } from "../../../../../types/market";
+import {formatPercentage, formatPrice} from "../../../../../util/format";
+import {ExchangeMarketData} from "../../../../../types/market";
 
 interface PropsType {
 	emd: ExchangeMarketData,
@@ -13,9 +13,9 @@ interface PropsType {
 		highBid: number
 	},
 }
-const MobilePairSpread: FC<PropsType> = ({ emd, mostCompetitivePrices }) => {
-	const { lowAsk, highBid } = mostCompetitivePrices;
-	const { currentBid: innerBid, currentAsk: innerAsk } = emd;
+const EMDsTableRegularEMDSpread: FC<PropsType> = ({emd, mostCompetitivePrices}) => {
+	const {lowAsk, highBid} = mostCompetitivePrices;
+	const {currentBid: innerBid, currentAsk: innerAsk} = emd;
 
 	const style = (() => {
 		if (innerAsk === lowAsk && innerBid === highBid) {
@@ -29,7 +29,8 @@ const MobilePairSpread: FC<PropsType> = ({ emd, mostCompetitivePrices }) => {
 		}
 	})();
 
-	const spreadString = `${formatPrice(innerBid)} - ${formatPrice(innerAsk)}`;
+	const spreadRatioDifference = ((innerAsk / innerBid) - 1) || 0;
+	const spreadString = `${formatPrice(innerBid)} - ${formatPrice(innerAsk)} (${formatPercentage(spreadRatioDifference)})`;
 
 	return (
 		<TableCell align="right">
@@ -40,4 +41,4 @@ const MobilePairSpread: FC<PropsType> = ({ emd, mostCompetitivePrices }) => {
 	);
 };
 
-export default MobilePairSpread;
+export default EMDsTableRegularEMDSpread;

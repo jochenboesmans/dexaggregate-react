@@ -2,7 +2,7 @@ import reduce from "lodash/reduce";
 import maxBy from "lodash/maxBy";
 import orderBy from "lodash/orderBy";
 
-import {Pair} from "../types/market";
+import {Currency, Pair} from "../types/market";
 
 /* Aggregation functions reducing exchange market data to general market data. */
 
@@ -17,7 +17,8 @@ const lastPrice: (p: Pair) => number =
 const lastTimestamp: (p: Pair) => number =
 	p => (maxBy(p.marketData, emd => emd.timestamp)).timestamp;
 
-const currenciesMarketData: (m: Array<Pair>) => any =
+/* Retrieve a list of currencies with aggregated market data from pairs. */
+const currenciesFromPairs: (m: Array<Pair>) => Array<Currency> =
 	m => {
 		const aggregateAsObject = reduce(m, (acc, p) => {
 			const c = acc[p.quoteSymbol];
@@ -60,5 +61,5 @@ export {
 	baseVolume,
 	lastPrice,
 	lastTimestamp,
-	currenciesMarketData
+	currenciesFromPairs
 };

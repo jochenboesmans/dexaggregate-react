@@ -1,4 +1,4 @@
-import React, { lazy, useContext, FC } from "react";
+import React, {lazy, useContext, FC} from "react";
 
 import Grid from "@material-ui/core/Grid/Grid";
 import Table from "@material-ui/core/Table/Table";
@@ -13,8 +13,8 @@ import {
 	CurrenciesPageDispatchContext,
 } from "../../../state/contexts/contexts";
 
-import {Pair} from "../../../types/market";
-import {currenciesMarketData} from "../../../util/aggregate";
+import {Currency, Pair} from "../../../types/market";
+import {currenciesFromPairs} from "../../../util/aggregate";
 
 const CurrenciesTableBody = lazy(() => import("./CurrenciesTableBody/CurrenciesTableBody"));
 const CurrenciesTableHead = lazy(() => import("./CurrenciesTableHead"));
@@ -40,12 +40,10 @@ const Currencies: FC = () => {
 		|| p.marketData.some(emd => emd.exchange.toUpperCase().includes(searchFilter.toUpperCase()));
 
 	const filteredMarket: Array<Pair> = searchFilter !== "" ? market.filter(p => marketFilter(p)) : market;
+	const filteredCurrencies: Array<Currency> = currenciesFromPairs(filteredMarket);
+	const slicedCurrencies: Array<Currency> = filteredCurrencies.slice(startIndex, endIndex);
 
-	const filteredCurrencies = currenciesMarketData(filteredMarket);
-
-	const slicedCurrencies: Array<Pair> = filteredCurrencies.slice(startIndex, endIndex);
-
-	const colWidths = (vw < 760) ? ["20%", "80%"] : ["15%", "40%", "20%", "25%"];
+	const colWidths = (vw < 760) ? ["20%", "80%"] : ["10%", "45%", "20%", "25%"];
 	const colGroup = (
 		<colgroup>
 			{colWidths.map((cw, i) => <col key={i} style={{ width: cw }}/>)}

@@ -43,7 +43,7 @@ const Pairs: FC = () => {
 	const filteredByCurrency: Array<Pair> = filteredMarket.filter(p => p.quoteSymbol === currency);
 	const slicedMarket: Array<Pair> = filteredByCurrency.slice(startIndex, endIndex);
 
-	const colWidths = (vw < 760) ? ["20%", "80%"] : ["15%", "40%", "20%", "25%"];
+	const colWidths = (vw < 760) ? ["20%", "80%"] : ["10%", "45%", "20%", "25%"];
 	const colGroup = (
 		<colgroup>
 			{colWidths.map((cw, i) => <col key={i} style={{ width: cw }}/>)}

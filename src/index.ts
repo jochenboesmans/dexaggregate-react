@@ -1,5 +1,5 @@
-import { createElement } from "react";
-import { render } from "react-dom";
+import {createElement} from "react";
+import {render} from "react-dom";
 
 import WithContext from "./components/WithContext";
 

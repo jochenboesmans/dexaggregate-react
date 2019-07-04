@@ -1,8 +1,3 @@
-type RebasedMarket = {
-	baseAddress: string,
-	pairs: [Pair]
-}
-
 type Pair = {
 	baseSymbol: string,
 	quoteSymbol: string,
@@ -26,4 +21,13 @@ type LastUpdate = {
 	pair: Pair
 }
 
-export { RebasedMarket, Pair, ExchangeMarketData, Exchanges, LastUpdate };
+type Currency = {
+	quoteSymbol: string,
+	lastPrice: number,
+	currentAsk: number,
+	currentBid: number,
+	baseVolume: number,
+	timestamp: number
+}
+
+export { Pair, ExchangeMarketData, Exchanges, LastUpdate, Currency };

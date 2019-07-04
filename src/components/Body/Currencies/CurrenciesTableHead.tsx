@@ -29,17 +29,17 @@ const CurrenciesTableHead: FC = () => {
 			key: "TOKEN",
 		},
 		SPREAD: {
-			text: "Spread [DAI]",
+			text: "Spread",
 			align: "right",
 			key: "SPREAD",
 		},
 		LAST_PRICE: {
-			text: "Last Price [DAI]",
+			text: "Last Price",
 			align: "right",
 			key: "LAST_PRICE",
 		},
 		VOLUME: {
-			text: "Volume (24h) [DAI]",
+			text: "Volume (24h)",
 			align: "right",
 			key: "VOLUME",
 		},

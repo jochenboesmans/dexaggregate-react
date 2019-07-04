@@ -5,7 +5,7 @@ import TableHead from "@material-ui/core/TableHead/TableHead";
 import TableRow from "@material-ui/core/TableRow/TableRow";
 import Typography from "@material-ui/core/Typography/Typography";
 
-import { ViewportStateContext } from "../../../state/contexts/contexts";
+import {ViewportStateContext} from "../../../state/contexts/contexts";
 
 interface columnType {
 	text: string,
@@ -13,20 +13,20 @@ interface columnType {
 	key: string,
 }
 interface columnsType {
-	BASE_QUOTE: columnType,
+	EXCHANGE: columnType,
 	SPREAD: columnType,
 	LAST_PRICE: columnType,
 	VOLUME: columnType,
 }
 
-const PairsTableHead: FC = () => {
+const EMDsTableHead: FC = () => {
 	const { width: vw } = useContext(ViewportStateContext);
 
 	const columns: columnsType = {
-		BASE_QUOTE: {
-			text: "Base/Quote",
+		EXCHANGE: {
+			text: "Exchange",
 			align: "left",
-			key: "BASE_QUOTE",
+			key: "EXCHANGE"
 		},
 		SPREAD: {
 			text: "Spread",
@@ -42,15 +42,15 @@ const PairsTableHead: FC = () => {
 			text: "Volume (24h)",
 			align: "right",
 			key: "VOLUME"
-		}
+		},
 	};
 
-	const selectedColumns = (vw < 760) ? [columns.BASE_QUOTE, columns.SPREAD] :
-		[columns.BASE_QUOTE, columns.SPREAD, columns.LAST_PRICE, columns.VOLUME];
+	const selectedColumns = (vw < 760) ? [columns.EXCHANGE, columns.SPREAD] :
+		[columns.EXCHANGE, columns.SPREAD, columns.LAST_PRICE, columns.VOLUME];
 
 	return (
 		<TableHead>
-			<TableRow style={{ height: "4vh" }}>
+			<TableRow style={{height: "4vh"}}>
 				{selectedColumns.map(column => (
 					<TableCell align={column.align} key={column.key} variant="head">
 						<Typography style={{fontWeight: "bold"}}>{column.text}</Typography>
@@ -61,4 +61,4 @@ const PairsTableHead: FC = () => {
 	);
 };
 
-export default PairsTableHead;
+export default EMDsTableHead;
