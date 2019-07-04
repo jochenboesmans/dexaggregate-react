@@ -1,4 +1,4 @@
-import React, { lazy, useContext, FC } from "react";
+import React, {lazy, useContext, FC} from "react";
 
 import TableBody from "@material-ui/core/TableBody/TableBody";
 import TableRow from "@material-ui/core/TableRow/TableRow";
@@ -10,10 +10,10 @@ import {
 	ViewportStateContext,
 } from "../../../../state/contexts/contexts";
 
-import { Pair } from "../../../../types/market";
+import {Pair} from "../../../../types/market";
 
-const RegularMarketBody = lazy(() => import("./Regular/RegularMarketBody"));
-const MobileMarketBody = lazy(() => import("./Mobile/MobileMarketBody"));
+const PairsTableRegularPairBody = lazy(() => import("./Regular/PairsTableRegularPairBody"));
+const PairsTableMobilePairBody = lazy(() => import("./Mobile/PairsTableMobilePairBody"));
 
 interface PropsType {
 	entriesPerPage: number,
@@ -21,19 +21,20 @@ interface PropsType {
 	slicedMarket: Array<Pair>
 }
 
-const MarketBody: FC<PropsType> = ({ entriesPerPage, filteredMarketLength, slicedMarket }) => {
+const PairsTableBody: FC<PropsType> = ({entriesPerPage, filteredMarketLength, slicedMarket}) => {
 	const { width: vw } = useContext(ViewportStateContext);
 	const marketPage = useContext(MarketPageStateContext);
 	const marketPageDispatch = useContext(MarketPageDispatchContext);
 	const activePageDispatch = useContext(ActivePageDispatchContext);
 
-	const innerContent = (p) => (vw < 760) ? <MobileMarketBody p={p}/> : <RegularMarketBody p={p}/>;
+	const innerContent = (pair) => (vw < 760) ?
+		<PairsTableMobilePairBody pair={pair}/> : <PairsTableRegularPairBody pair={pair}/>;
 
 	const handleWheelEvent = (e) => {
 		if (e.deltaY < 0 && marketPage > 0) {
-			marketPageDispatch({ type: `DECREMENT` });
+			marketPageDispatch({ type: "DECREMENT" });
 		} else if (e.deltaY > 0 && (marketPage * entriesPerPage) + entriesPerPage < filteredMarketLength) {
-			marketPageDispatch({ type: `INCREMENT` });
+			marketPageDispatch({ type: "INCREMENT" });
 		}
 	};
 
@@ -44,7 +45,7 @@ const MarketBody: FC<PropsType> = ({ entriesPerPage, filteredMarketLength, slice
 					<TableRow
 						style={{ height: "4vh" }}
 						hover
-						onClick={() => activePageDispatch({ type: "SET", payload: { ID: "PAIR", pair: p } })}
+						onClick={() => activePageDispatch({type: "SET_PAIR", payload: p})}
 						key={`${p.baseSymbol}/${p.quoteSymbol}`}
 					>
 						{innerContent(p)}
@@ -55,4 +56,4 @@ const MarketBody: FC<PropsType> = ({ entriesPerPage, filteredMarketLength, slice
 	);
 };
 
-export default MarketBody;
+export default PairsTableBody;

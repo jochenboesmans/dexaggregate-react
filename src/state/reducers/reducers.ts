@@ -25,7 +25,7 @@ export const viewportReducer: ViewportReducer = (state, action) => {
 	}
 };
 
-export type MarketState = { market: Array<Pair>, exchanges: Exchanges, lastUpdate: LastUpdate };
+export type MarketState = { market: Array<Pair> | [], exchanges: Exchanges | [], lastUpdate: LastUpdate | null };
 export type MarketAction =
 	{type: "SET_MARKET", payload: Array<Pair>} |
 	{type: "SET_EXCHANGES", payload: Exchanges} |
@@ -82,6 +82,21 @@ export const marketPageReducer: MarketPageReducer = (state, action) => {
 	}
 };
 
+export type CurrenciesPageState = number;
+export type CurrenciesPageAction =
+	{type: "INCREMENT"} |
+	{type: "DECREMENT"} |
+	{type: "RESET"}
+type CurrenciesPageReducer = (state: CurrenciesPageState, action: CurrenciesPageAction) => MarketPageState;
+export const currenciesPageReducer: CurrenciesPageReducer = (state, action) => {
+	switch (action.type) {
+		case "INCREMENT": return state + 1;
+		case "DECREMENT": return state - 1;
+		case "RESET": return 0;
+		default: throw new Error("Incorrect action.type");
+	}
+};
+
 export type SearchFilterState = string;
 export type SearchFilterAction =
 	{type: "SET", payload: string} |
@@ -95,15 +110,27 @@ export const searchFilterReducer: SearchFilterReducer = (state, action) => {
 	}
 };
 
-export type ActivePageState = { ID: string, pair: Pair | null}
+type PageID = "CURRENCIES" | "PAIRS" | "EMD";
+export type ActivePageState = {ID: PageID, currency: string | null, pair: Pair | null}
 export type ActivePageAction =
-	{type: "SET", payload: ActivePageState} |
+	{type: "SET_ID", payload: PageID} |
+	{type: "SET_CURRENCY", payload: string} |
+	{type: "SET_PAIR", payload: Pair} |
 	{type: "RESET"}
 type ActivePageReducer = (state: ActivePageState, action: ActivePageAction) => ActivePageState;
 export const activePageReducer: ActivePageReducer = (state, action) => {
-	const defaultPage = { ID: "MARKET", pair: null };
+	const defaultPage: ActivePageState = {ID: "CURRENCIES", currency: null, pair: null};
 	switch (action.type) {
-		case "SET": return action.payload;
+		case "SET_CURRENCY": return {
+			currency: action.payload,
+			ID: "PAIRS",
+			pair: null
+		};
+		case "SET_PAIR": return {
+			currency: state.currency,
+			ID: "EMD",
+			pair: action.payload,
+		};
 		case "RESET": return defaultPage;
 		default: throw new Error("Incorrect action.type");
 	}

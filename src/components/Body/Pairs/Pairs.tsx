@@ -10,16 +10,16 @@ import {
 	MarketPageStateContext,
 	MarketPageDispatchContext,
 	SearchFilterStateContext,
-	SearchFilterDispatchContext,
+	SearchFilterDispatchContext, ActivePageStateContext,
 } from "../../../state/contexts/contexts";
 
 import { Pair } from "../../../types/market";
 
-const MarketBody = lazy(() => import("./MarketBody/MarketBody"));
-const MarketHead = lazy(() => import("./MarketHead"));
-const TableNavigation = lazy(() => import("./TableNavigation"));
+const PairsTableBody = lazy(() => import("./PairsTableBody/PairsTableBody"));
+const PairsTableHead = lazy(() => import("./PairsTableHead"));
+const PairsTableNavigation = lazy(() => import("./PairsTableNavigation"));
 
-const Market: FC = () => {
+const Pairs: FC = () => {
 	const marketState = useContext(MarketStateContext);
 	if (!marketState) return null;
 	const { market } = marketState;
@@ -29,6 +29,7 @@ const Market: FC = () => {
 	const marketPageDispatch = useContext(MarketPageDispatchContext);
 	const searchFilter = useContext(SearchFilterStateContext);
 	const searchFilterDispatch = useContext(SearchFilterDispatchContext);
+	const {currency} = useContext(ActivePageStateContext);
 
 	const ENTRIES_PER_PAGE = 10;
 	const startIndex = marketPage * ENTRIES_PER_PAGE;
@@ -39,7 +40,8 @@ const Market: FC = () => {
 		|| p.marketData.some(emd => emd.exchange.toUpperCase().includes(searchFilter.toUpperCase()));
 
 	const filteredMarket: Array<Pair> = searchFilter !== "" ? market.filter(p => marketFilter(p)) : market;
-	const slicedMarket: Array<Pair> = filteredMarket.slice(startIndex, endIndex);
+	const filteredByCurrency: Array<Pair> = filteredMarket.filter(p => p.quoteSymbol === currency);
+	const slicedMarket: Array<Pair> = filteredByCurrency.slice(startIndex, endIndex);
 
 	const colWidths = (vw < 760) ? ["20%", "80%"] : ["15%", "40%", "20%", "25%"];
 	const colGroup = (
@@ -70,22 +72,22 @@ const Market: FC = () => {
 			<Grid item>
 				<Table padding="checkbox" style={{ tableLayout: "fixed" }}>
 					{colGroup}
-					<MarketHead/>
-					<MarketBody
+					<PairsTableHead/>
+					<PairsTableBody
 						entriesPerPage={ENTRIES_PER_PAGE}
-						filteredMarketLength={filteredMarket.length}
+						filteredMarketLength={filteredByCurrency.length}
 						slicedMarket={slicedMarket}
 					/>
 				</Table>
 			</Grid>
 			<Grid item>
-				<TableNavigation
+				<PairsTableNavigation
 					entriesPerPage={ENTRIES_PER_PAGE}
-					filteredMarketLength={filteredMarket.length}
+					filteredMarketLength={filteredByCurrency.length}
 				/>
 			</Grid>
 		</Grid>
 	);
 };
 
-export default Market;
+export default Pairs;

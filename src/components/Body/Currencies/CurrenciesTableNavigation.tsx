@@ -6,26 +6,26 @@ import ChevronLeft from "@material-ui/icons/ChevronLeft";
 import ChevronRight from "@material-ui/icons/ChevronRight";
 import Typography from "@material-ui/core/Typography/Typography";
 
-import { MarketPageDispatchContext, MarketPageStateContext } from "../../../state/contexts/contexts";
+import { CurrenciesPageDispatchContext, CurrenciesPageStateContext } from "../../../state/contexts/contexts";
 
 interface PropsType {
 	entriesPerPage: number,
-	filteredMarketLength: number
+	filteredCurrenciesLength: number
 }
 
-const TableNavigation: FC<PropsType> = ({ entriesPerPage, filteredMarketLength }) => {
-	const marketPage = useContext(MarketPageStateContext);
-	const marketPageDispatch = useContext(MarketPageDispatchContext);
+const CurrenciesTableNavigation: FC<PropsType> = ({ entriesPerPage, filteredCurrenciesLength }) => {
+	const currenciesPage = useContext(CurrenciesPageStateContext);
+	const currenciesPageDispatch = useContext(CurrenciesPageDispatchContext);
 
 	const handleLeftButtonClick = () => {
-		if (marketPage > 0) marketPageDispatch({ type: "DECREMENT" });
+		if (currenciesPage > 0) currenciesPageDispatch({ type: "DECREMENT" });
 	};
 	const handleRightButtonClick = () => {
-		if ((marketPage * entriesPerPage) + entriesPerPage < filteredMarketLength) marketPageDispatch({ type: "INCREMENT" });
+		if ((currenciesPage * entriesPerPage) + entriesPerPage < filteredCurrenciesLength) currenciesPageDispatch({ type: "INCREMENT" });
 	};
 
-	const start = (filteredMarketLength === 0) ? 0 : 1 + (marketPage * entriesPerPage);
-	const end = Math.min((marketPage * entriesPerPage) + entriesPerPage, filteredMarketLength);
+	const start = (filteredCurrenciesLength === 0) ? 0 : 1 + (currenciesPage * entriesPerPage);
+	const end = Math.min((currenciesPage * entriesPerPage) + entriesPerPage, filteredCurrenciesLength);
 
 	return (
 		<Grid
@@ -42,7 +42,7 @@ const TableNavigation: FC<PropsType> = ({ entriesPerPage, filteredMarketLength }
 			</Grid>
 			<Grid item>
 				<Typography style={{ textAlign: "center" }}>
-					{start} - {end} of {filteredMarketLength}
+					{start} - {end} of {filteredCurrenciesLength}
 				</Typography>
 			</Grid>
 			<Grid item>
@@ -54,4 +54,4 @@ const TableNavigation: FC<PropsType> = ({ entriesPerPage, filteredMarketLength }
 	);
 };
 
-export default TableNavigation;
+export default CurrenciesTableNavigation;

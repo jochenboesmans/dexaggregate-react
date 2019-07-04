@@ -21,6 +21,9 @@ const SearchFilterStateContext = createContext(null);
 const ActivePageDispatchContext = createContext(null);
 const ActivePageStateContext = createContext(null);
 
+const CurrenciesPageDispatchContext = createContext(null);
+const CurrenciesPageStateContext = createContext(null);
+
 export {
 	LightBulbStateContext,
 	LightBulbDispatchContext,
@@ -36,4 +39,6 @@ export {
 	SearchFilterStateContext,
 	ActivePageStateContext,
 	ActivePageDispatchContext,
+	CurrenciesPageDispatchContext,
+	CurrenciesPageStateContext,
 };

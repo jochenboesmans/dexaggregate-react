@@ -21,7 +21,7 @@ interface columnsType {
 	VOLUME: columnType,
 }
 
-const MarketHead: FC = () => {
+const PairsTableHead: FC = () => {
 	const { width: vw } = useContext(ViewportStateContext);
 
 	const columns: columnsType = {
@@ -69,4 +69,4 @@ const MarketHead: FC = () => {
 	);
 };
 
-export default MarketHead;
+export default PairsTableHead;

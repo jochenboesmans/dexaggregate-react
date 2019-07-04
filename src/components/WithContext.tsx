@@ -2,6 +2,7 @@ import React, {useReducer, FC} from "react";
 
 import {
 	lightBulbReducer, viewportReducer, marketReducer, timeReducer, activePageReducer, marketPageReducer, searchFilterReducer,
+	currenciesPageReducer,
 } from "../state/reducers/reducers";
 
 import {
@@ -12,6 +13,7 @@ import {
 	ActivePageStateContext, ActivePageDispatchContext,
 	MarketPageStateContext, MarketPageDispatchContext,
 	SearchFilterDispatchContext, SearchFilterStateContext,
+	CurrenciesPageStateContext, CurrenciesPageDispatchContext,
 } from "../state/contexts/contexts";
 
 import WithDynamicContext from "./WithDynamicContext";
@@ -24,19 +26,20 @@ const WithContext: FC = () => {
 
 	const initialMarket = { market: [], exchanges: [], lastUpdate: null };
 
-	const [lightBulb, lightBulbDispatch] = useReducer(lightBulbReducer, false);
-	const [viewport, viewportDispatch] = useReducer(viewportReducer, initialViewport);
+	const [lightBulbState, lightBulbDispatch] = useReducer(lightBulbReducer, false);
+	const [viewportState, viewportDispatch] = useReducer(viewportReducer, initialViewport);
 	const [marketState, marketDispatch] = useReducer(marketReducer, initialMarket);
 	const [timeState, timeDispatch] = useReducer(timeReducer, Date.now());
-	const [activePageState, activePageDispatch] = useReducer(activePageReducer, { ID: "MARKET", pair: null });
-	const [marketPage, marketPageDispatch] = useReducer(marketPageReducer, 0);
-	const [searchFilter, searchFilterDispatch] = useReducer(searchFilterReducer, "");
+	const [activePageState, activePageDispatch] = useReducer(activePageReducer, { ID: "CURRENCIES", currency: null, pair: null });
+	const [marketPageState, marketPageDispatch] = useReducer(marketPageReducer, 0);
+	const [searchFilterState, searchFilterDispatch] = useReducer(searchFilterReducer, "");
+	const [currenciesPageState, currenciesPageDispatch] = useReducer(currenciesPageReducer, 0);
 
 	return (
 		<LightBulbDispatchContext.Provider value={lightBulbDispatch}>
-			<LightBulbStateContext.Provider value={lightBulb}>
+			<LightBulbStateContext.Provider value={lightBulbState}>
 				<ViewportDispatchContext.Provider value={viewportDispatch}>
-					<ViewportStateContext.Provider value={viewport}>
+					<ViewportStateContext.Provider value={viewportState}>
 						<MarketDispatchContext.Provider value={marketDispatch}>
 							<MarketStateContext.Provider value={marketState}>
 								<TimeDispatchContext.Provider value={timeDispatch}>
@@ -44,12 +47,16 @@ const WithContext: FC = () => {
 										<ActivePageDispatchContext.Provider value={activePageDispatch}>
 											<ActivePageStateContext.Provider value={activePageState}>
 												<MarketPageDispatchContext.Provider value={marketPageDispatch}>
-													<MarketPageStateContext.Provider value={marketPage}>
-														<SearchFilterDispatchContext.Provider value={searchFilterDispatch}>
-															<SearchFilterStateContext.Provider value={searchFilter}>
-																<WithDynamicContext/>
-															</SearchFilterStateContext.Provider>
-														</SearchFilterDispatchContext.Provider>
+													<MarketPageStateContext.Provider value={marketPageState}>
+														<CurrenciesPageDispatchContext.Provider value={currenciesPageDispatch}>
+															<CurrenciesPageStateContext.Provider value={currenciesPageState}>
+																<SearchFilterDispatchContext.Provider value={searchFilterDispatch}>
+																	<SearchFilterStateContext.Provider value={searchFilterState}>
+																		<WithDynamicContext/>
+																	</SearchFilterStateContext.Provider>
+																</SearchFilterDispatchContext.Provider>
+															</CurrenciesPageStateContext.Provider>
+														</CurrenciesPageDispatchContext.Provider>
 													</MarketPageStateContext.Provider>
 												</MarketPageDispatchContext.Provider>
 											</ActivePageStateContext.Provider>
