@@ -29,7 +29,7 @@ const MarketInfo: FC = () => {
 	const exchangeCount = exchanges.length;
 	const exchangeNames: string = exchanges.map(e => e.toUpperCase()).join(`, `);
 	const marketSize = market.length;
-	const secondsSinceUpdate: string | number = lastUpdate ? Math.floor((time - lastUpdate.timestamp) / 1000) : "N/A";
+	const secondsSinceUpdate: string | number = lastUpdate ? Math.round((time - lastUpdate.timestamp) / 1000) : "N/A";
 	const latestUpdatePair: string = lastUpdate ? `${lastUpdate.pair.baseSymbol}/${lastUpdate.pair.quoteSymbol}` : "N/A";
 
 	const rows = {
